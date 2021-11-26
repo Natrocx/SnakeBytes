@@ -1,10 +1,10 @@
-package de.dhbwmannheim.snakebytes.ECS;
+package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import java.util.BitSet;
 
 public class Entity {
-    final int id;
-    BitSet signature;
+    public final int id;
+    public BitSet signature;
     private static int numEntities = 0;
 
     Entity() {

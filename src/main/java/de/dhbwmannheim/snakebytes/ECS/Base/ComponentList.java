@@ -1,4 +1,4 @@
-package de.dhbwmannheim.snakebytes.ECS;
+package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import java.util.List;
 import java.util.Map;

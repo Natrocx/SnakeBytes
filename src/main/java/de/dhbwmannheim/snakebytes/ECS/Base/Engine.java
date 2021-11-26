@@ -1,4 +1,4 @@
-package de.dhbwmannheim.snakebytes.ECS;
+package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import java.util.ArrayList;
 import java.util.List;

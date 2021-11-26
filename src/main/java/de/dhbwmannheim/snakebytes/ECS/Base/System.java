@@ -1,6 +1,5 @@
-package de.dhbwmannheim.snakebytes.ECS;
+package de.dhbwmannheim.snakebytes.ECS.Base;
 
-import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Set;
