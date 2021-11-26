@@ -14,15 +14,15 @@ public class ComponentList<T extends Component> {
         return componentListIndices.get(entity);
     }
 
-    void insertComponent(Entity entity, T component) {
+    public void insertComponent(Entity entity, T component) {
         var index = getEntitiesComponentIndex(entity);
     }
 
-    T getComponent(Entity entity) {
+    public T getComponent(Entity entity) {
         return components.get(getEntitiesComponentIndex(entity));
     }
 
-    void removeComponent(Entity entity) {
+    public void removeComponent(Entity entity) {
         components.remove(getEntitiesComponentIndex(entity));
         componentListIndices.remove(entity);
     }
