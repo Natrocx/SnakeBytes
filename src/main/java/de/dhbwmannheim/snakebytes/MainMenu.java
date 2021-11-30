@@ -77,9 +77,7 @@ public class MainMenu extends Application {
         root.getChildren().addAll(title,vbox);
 
         return root;
-
     }
-
 
     private static class Title extends StackPane{
         public Title(String name) {
@@ -113,7 +111,6 @@ public class MainMenu extends Application {
         }
 
     }
-
 
     private static class MenuItem extends StackPane{
         public MenuItem(String name) {
@@ -153,7 +150,6 @@ public class MainMenu extends Application {
             setOnMouseReleased(event -> {
                 bg.setFill(gradient);
             });
-
         }
     }
 }
