@@ -53,7 +53,9 @@ public class MainM extends Application {
         primaryStage.show();
     }
     @FXML
-    private void NavigateButton(){
+    private void NavigateButton(String name){
+        System.out.println("ButttonClicked"+name);
+
 
     }
 
