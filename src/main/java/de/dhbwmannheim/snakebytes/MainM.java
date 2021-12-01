@@ -1,4 +1,6 @@
 package de.dhbwmannheim.snakebytes;
+//Code by Kai Schwab
+//Grafiken by Robert Sedelmeier
 
 
 import java.io.IOException;
@@ -10,6 +12,8 @@ import java.nio.file.Paths;
 import javafx.application.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.print.PageLayout;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.stage.*;
@@ -31,22 +35,31 @@ import javafx.scene.text.*;
 
 
 
-public class MainMenu extends Application {
+public class MainM extends Application {
+
+    private Stage stage;
 
     public static void main(String[] args) {
         launch();
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Scene scene = new Scene(createContent(),Color.LIGHTBLUE);
+    public void start(Stage primaryStage) {
+        this.stage =primaryStage;
+        Scene MainMenu = new Scene(createContentMainM(),Color.LIGHTBLUE);
         //primaryStage.getIcons().add(new Image(Start.class.getResourceAsStream("logo.jpg")));
         primaryStage.setTitle("SNAKE BYTES");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(MainMenu);
         primaryStage.show();
     }
+    @FXML
+    private void NavigateButton(){
 
-    private Parent createContent() {
+    }
+
+    //MainMenu
+
+    private Parent createContentMainM() {
         Pane root = new Pane();
 
         root.setPrefSize(1050, 600);
@@ -71,6 +84,7 @@ public class MainMenu extends Application {
                 new MenuItem("Settings"),
                 new MenuItem("Impressum"));
         vbox.setTranslateX((root.getPrefWidth()/2)-200);
+        System.out.println();
         vbox.setTranslateY(280);
         vbox.createSeperator();
 
@@ -151,5 +165,15 @@ public class MainMenu extends Application {
                 bg.setFill(gradient);
             });
         }
+    }
+
+    //CharacterSelectScreen
+
+    private Parent createContentCharM() {
+        Pane root = new Pane();
+
+        root.setPrefSize(1050, 600);
+
+        return root;
     }
 }
