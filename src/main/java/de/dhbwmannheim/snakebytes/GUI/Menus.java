@@ -1,29 +1,13 @@
-package de.dhbwmannheim.snakebytes;
-//Code by Kai Schwab
-//Grafiken by Robert Sedelmeier
+package de.dhbwmannheim.snakebytes.GUI;
 
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import javafx.application.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.print.PageLayout;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.stage.*;
-import javafx.geometry.*;
-import javafx.scene.*;
+import de.dhbwmannheim.snakebytes.HelloApplication;
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -31,71 +15,81 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.*;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-
-public class MainM extends Application {
-
-    private Stage stage;
+public class Menus extends Application {
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) {
-        this.stage =primaryStage;
-        Scene MainMenu = new Scene(createContentMainM(),Color.LIGHTBLUE);
-        //primaryStage.getIcons().add(new Image(Start.class.getResourceAsStream("logo.jpg")));
+    public void start(Stage primaryStage) throws FileNotFoundException {
         primaryStage.setTitle("SNAKE BYTES");
+        Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+
+        primaryStage.show();
+        primaryStage.setScene(MainMenu);
+        primaryStage.setMaxHeight(900);
+        primaryStage.setMaxWidth(1350);
+        primaryStage.setMinHeight(900);
+        primaryStage.setMinWidth(1350);
+        primaryStage.setHeight(900);
+        primaryStage.setWidth(1350);
+
         primaryStage.setScene(MainMenu);
         primaryStage.show();
     }
-    @FXML
-    private void NavigateButton(String name){
-        System.out.println("ButttonClicked"+name);
 
+    //Main Menu
 
-    }
-
-    //MainMenu
-
-    private Parent createContentMainM() {
+    private Parent createTitleContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
-        root.setPrefSize(1050, 600);
+        root.setPrefSize(1350, 900);
 
-        try(InputStream is = Files.newInputStream(Paths.get("grafik/background.jpg"))){
+        try (InputStream is = Files.newInputStream(Paths.get("grafik/background.jpg"))) {
             ImageView img = new ImageView(new Image(is));
-            img.setFitWidth(1050);
-            img.setFitHeight(600);
+            img.setFitWidth(1350);
+            img.setFitHeight(900);
             root.getChildren().add(img);
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("Couldn't load image");
         }
 
-        Title title = new Title ("S N A K E   B Y T E S");
+        Title title = new Title("S N A K E   B Y T E S");
         title.setTranslateY(100);
-        title.setTranslateX((root.getPrefWidth()/2)-360);
+        title.setTranslateX((root.getPrefWidth() / 2) - 360);
 
 
         MenuBox vbox = new MenuBox(
-                new MenuItem("Start Game"),
-                new MenuItem("Settings"),
-                new MenuItem("Impressum"));
-        vbox.setTranslateX((root.getPrefWidth()/2)-200);
-        System.out.println();
+                new MenuItem("Start Game", primaryStage),
+                new MenuItem("Settings", primaryStage),
+                new MenuItem("Impressum", primaryStage));
+        vbox.setTranslateX((root.getPrefWidth() / 2) - 200);
         vbox.setTranslateY(280);
         vbox.createSeperator();
 
-        root.getChildren().addAll(title,vbox);
+        root.getChildren().addAll(title, vbox);
 
         return root;
     }
 
-    private static class Title extends StackPane{
+    Parent createCharakterContent(Stage primaryStage) throws FileNotFoundException {
+        Pane root = new Pane();
+
+        root.setPrefSize(1350, 900);
+        return root;
+    }
+
+    private static class Title extends StackPane {
         public Title(String name) {
             Rectangle bg = new Rectangle(720, 80);
             bg.setStroke(Color.DARKRED);
@@ -111,7 +105,7 @@ public class MainM extends Application {
         }
     }
 
-    private static class MenuBox extends VBox{
+    private static class MenuBox extends VBox {
         public MenuBox(MenuItem...items) {
             getChildren().add(createSeperator());
 
@@ -128,8 +122,10 @@ public class MainM extends Application {
 
     }
 
-    private static class MenuItem extends StackPane{
-        public MenuItem(String name) {
+    public class MenuItem extends StackPane{
+
+
+        public MenuItem(String name, Stage primaryStage) {
             LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop[] {
                     new Stop(0, Color.YELLOW),
                     new Stop(0.1, Color.RED),
@@ -160,6 +156,15 @@ public class MainM extends Application {
             });
             setOnMousePressed(event -> {
                 bg.setFill(Color.DARKGOLDENROD);
+                Scene scene = null;
+                try {
+                    scene = new Scene(createCharakterContent(primaryStage),Color.DARKBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene);
 
             });
 
@@ -169,13 +174,4 @@ public class MainM extends Application {
         }
     }
 
-    //CharacterSelectScreen
-
-    private Parent createContentCharM() {
-        Pane root = new Pane();
-
-        root.setPrefSize(1050, 600);
-
-        return root;
-    }
 }

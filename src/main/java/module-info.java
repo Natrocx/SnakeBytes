@@ -6,4 +6,6 @@ module de.dhbwmannheim.snakebytes {
 
     opens de.dhbwmannheim.snakebytes to javafx.fxml;
     exports de.dhbwmannheim.snakebytes;
+    exports de.dhbwmannheim.snakebytes.GUI;
+    opens de.dhbwmannheim.snakebytes.GUI to javafx.fxml;
 }
