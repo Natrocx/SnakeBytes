@@ -13,4 +13,5 @@ public class CharacterStateComponent extends Component {
     public String playerName;
     public boolean[] jumping = new boolean[2]; //because only double jumping is allowed
 
+
 }

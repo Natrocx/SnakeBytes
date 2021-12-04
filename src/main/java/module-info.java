@@ -3,6 +3,7 @@ module de.dhbwmannheim.snakebytes {
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
+    requires json.simple;
 
     opens de.dhbwmannheim.snakebytes to javafx.fxml;
     exports de.dhbwmannheim.snakebytes;

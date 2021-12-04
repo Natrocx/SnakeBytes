@@ -12,6 +12,16 @@ import de.dhbwmannheim.snakebytes.ECS.MotionComponent;
 import de.dhbwmannheim.snakebytes.ECS.PositionComponent;
 import javafx.scene.input.KeyEvent;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -20,14 +30,24 @@ public class InputSystem extends System {
 
     ComponentList<MotionComponent> motion;
     ComponentList<CharacterStateComponent> characterState;
-
     List<Entity> entities;
 
-    //the following code is based upon: https://gamedevelopment.tutsplus.com/tutorials/introduction-to-javafx-for-game-development--cms-23835
-    ArrayList<String> input = new ArrayList<String>();
+    //je entity die entsprechende json auslesen
+    JSONParser jsonParser = new JSONParser();
+
+    FileReader reader = new FileReader("src/main/java/de/dhbwmannheim/snakebytes/ECS/Systems/keySettings.json");
+    //Read JSON file
+    Object obj = jsonParser.parse(reader);
+    String[] player1 = new String[5];
+
+
+    ArrayList<String> player1Input = new ArrayList<String>();
+    ArrayList<String> player2Input = new ArrayList<String>();
+
     public void keyPressed(KeyEvent keyEvent){
         //!!!! es gilt noch zu überprüfen, ob keyEvent unter KeySettings überhaupt entsprechend gesetzt wurde
         String code = keyEvent.getCode().toString();
+
 
     }
 
@@ -43,7 +63,7 @@ public class InputSystem extends System {
                 motionComponent.velocity.y = 0.001; //jump
             }
             if (characterStateComponent.attackCooldown==0){ //if no attack cooldown
-                if (input[-1]==...)
+                //if (input[-1]==...)
                 motionComponent.velocity.x = 0.001;
                 motionComponent.velocity.y = 0.001;
             }
