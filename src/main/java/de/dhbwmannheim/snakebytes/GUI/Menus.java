@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -73,9 +74,8 @@ public class Menus extends Application {
                 new MenuItem("Start Game", primaryStage),
                 new MenuItem("Settings", primaryStage),
                 new MenuItem("Impressum", primaryStage));
-        vbox.setTranslateX((root.getPrefWidth() / 2) - 200);
+        vbox.setTranslateX((root.getPrefWidth() / 2) - 300);
         vbox.setTranslateY(280);
-        vbox.createSeperator();
 
         root.getChildren().addAll(title, vbox);
 
@@ -86,6 +86,22 @@ public class Menus extends Application {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
+        //title
+        Title2 title = new Title2("Choose your Character");
+        title.setTranslateY(75);
+        title.setTranslateX((root.getPrefWidth() / 2) - 200);
+        //Side Menu1
+        SideMenu1 sideMenu1 = new SideMenu1(primaryStage);
+
+        sideMenu1.setTranslateX(20);
+        sideMenu1.setTranslateY(300);
+
+        //Player Select
+
+        //Side Menu2
+
+        root.getChildren().addAll(title,sideMenu1);
+
         return root;
     }
 
@@ -116,7 +132,7 @@ public class Menus extends Application {
 
         private HBox createSeperator() {
             HBox sep = new HBox();
-            sep.setPrefSize(200,30);
+            sep.setPrefSize(300,69);
             return sep;
         }
 
@@ -134,7 +150,8 @@ public class Menus extends Application {
 
             });
 
-            Rectangle bg = new Rectangle(400,50);
+            Rectangle bg = new Rectangle(600,60);
+            bg.setStroke(Color.BLACK);
             bg.setFill(Color.DARKRED);
             bg.setOpacity(0.7);
 
@@ -157,20 +174,173 @@ public class Menus extends Application {
             setOnMousePressed(event -> {
                 bg.setFill(Color.DARKGOLDENROD);
                 Scene scene = null;
-                try {
-                    scene = new Scene(createCharakterContent(primaryStage),Color.DARKBLUE);
-                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                if (name == "Start Game") {
+                    try {
+                        scene = new Scene(createCharakterContent(primaryStage), Color.LIGHTBLUE);
+                        primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                        primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    primaryStage.setScene(scene);
                 }
-                primaryStage.setScene(scene);
 
             });
 
             setOnMouseReleased(event -> {
                 bg.setFill(gradient);
             });
+        }
+    }
+    // Charakter Menu
+
+    private static class Title2 extends StackPane {
+        public Title2(String name) {
+
+            Text text = new Text(name);
+            text.setFill(Color.DARKRED);
+            text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 42));
+
+            setAlignment(Pos.CENTER);
+            getChildren().addAll(text);
+        }
+    }
+    private class SideMenu1 extends VBox{
+        public SideMenu1( Stage primaryStage){
+            SideMenuItem left1 = new SideMenuItem("Tunier", primaryStage);
+            SideMenuValueSelect left2 = new SideMenuValueSelect("Runden",3, primaryStage);
+            getChildren().addAll(left1,createSeperator(),left2);
+
+        }
+
+        private HBox createSeperator() {
+            HBox sep = new HBox();
+            sep.setPrefSize(300,90);
+            return sep;
+        }
+    }
+
+    private static class CharakterSelect extends StackPane {
+        public CharakterSelect(){
+
+        }
+    }
+
+    public class SideMenuItem extends StackPane {
+
+        public SideMenuItem(String name, Stage primaryStage) {
+            LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop[]{
+                    new Stop(0, Color.YELLOW),
+                    new Stop(0.1, Color.RED),
+                    new Stop(0.9, Color.RED),
+                    new Stop(1, Color.DARKBLUE)
+
+            });
+
+            Rectangle bg = new Rectangle(200, 60);
+            bg.setStroke(Color.BLACK);
+            bg.setStrokeWidth(2);
+            bg.setFill(Color.DARKRED);
+            bg.setOpacity(0.7);
+
+            Text text = new Text(name);
+            text.setFill(Color.DARKGREY);
+            text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
+
+            setAlignment(Pos.CENTER);
+            getChildren().addAll(bg, text);
+            setOnMouseEntered(event -> {
+                bg.setFill(gradient);
+                text.setFill(Color.WHITE);
+
+            });
+
+            setOnMouseExited(event -> {
+                bg.setFill(Color.DARKRED);
+                text.setFill(Color.DARKGREY);
+            });
+            setOnMousePressed(event -> {
+                bg.setFill(Color.DARKGOLDENROD);
+                Scene scene = null;
+                if (name == "Start Game") {
+
+                }
+
+            });
+
+            setOnMouseReleased(event -> {
+                bg.setFill(gradient);
+            });
+        }
+    }
+    public class SideMenuValueSelect extends VBox {
+
+        public SideMenuValueSelect(String name, Integer Value, Stage primaryStage) {
+            SideMenuTopic topic = new SideMenuTopic(name);
+            SideMenuValueChanger value = new SideMenuValueChanger(Value);
+            getChildren().addAll(topic,value);
+
+
+        }
+    }
+    public class SideMenuTopic  extends StackPane {
+        public SideMenuTopic(String name) {
+                Rectangle bg = new Rectangle(200, 60);
+                bg.setStroke(Color.DARKRED);
+                bg.setStrokeWidth(2);
+                bg.setFill(null);
+
+                Text text = new Text(name);
+                text.setFill(Color.DARKRED);
+                text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
+
+                setAlignment(Pos.CENTER);
+                getChildren().addAll(bg,text);
+
+        }
+    }
+
+    public class SideMenuValueChanger  extends HBox {
+        public SideMenuValueChanger(Integer value) {
+            Integer v1;
+            Polygon l = new Polygon(0, 15, 27, 30, 27, 0);
+            l.setFill(Color.DARKRED);
+            Text placeholder = new Text("    ");
+            Text ph = new Text("    ");
+            Text text =new Text(value.toString());
+            text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
+            Polygon h = new Polygon(0, 0, 0, 30, 27, 15);
+            h.setFill(Color.DARKRED);
+
+            l.setOnMouseEntered(event -> {
+                    l.setFill(Color.RED);
+            });
+            l.setOnMouseExited(event -> {
+                l.setFill(Color.DARKRED);
+            });
+            l.setOnMousePressed(event -> {
+                l.setFill(Color.YELLOW);
+            });
+            l.setOnMouseReleased(event -> {
+                l.setFill(Color.RED);
+            });
+
+            h.setOnMouseEntered(event -> {
+                h.setFill(Color.RED);
+            });
+            h.setOnMouseExited(event -> {
+                h.setFill(Color.DARKRED);
+            });
+            h.setOnMousePressed(event -> {
+                h.setFill(Color.YELLOW);
+            });
+            h.setOnMouseReleased(event -> {
+                h.setFill(Color.RED);
+            });
+
+
+            setAlignment(Pos.CENTER);
+            getChildren().addAll(l,placeholder,text,ph,h);
         }
     }
 
