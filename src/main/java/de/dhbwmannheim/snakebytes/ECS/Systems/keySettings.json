@@ -1,0 +1,16 @@
+[
+  {
+    "player1": {
+      "firstName": "Lokesh",
+      "lastName": "Gupta",
+      "website": "howtodoinjava.com"
+    }
+  },
+  {
+    "player2": {
+      "firstName": "Brian",
+      "lastName": "Schultz",
+      "website": "example.com"
+    }
+  }
+]
