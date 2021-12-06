@@ -1,5 +1,7 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
+//by Kai Schwab
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -23,6 +25,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
+
+//by Kai Schwab
 
 public class CharacterMenu extends StackPane {
     public CharacterMenu(Stage primaryStage){

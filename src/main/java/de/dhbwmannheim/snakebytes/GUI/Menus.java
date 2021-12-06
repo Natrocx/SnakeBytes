@@ -1,5 +1,6 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
+//Code by Kai Schwab
 
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -13,6 +14,8 @@ import java.io.FileNotFoundException;
 
 
 public class Menus extends Application {
+
+    //by Kai Schwab
 
     public static void main(String[] args) {
         launch(args);
@@ -62,24 +65,41 @@ public class Menus extends Application {
         return root;
     }
 
-    //Settings
-    Parent createSettingsContent(Stage primaryStage) throws FileNotFoundException {
+    //Scoreboard
+    static Parent createScoreboardContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
 
-        root.getChildren().addAll();
+        Scoreboard scoreboard = new Scoreboard(primaryStage);
+
+        root.getChildren().addAll(scoreboard);
+
+        return root;
+    }
+
+    //Settings
+    static Parent createSettingsContent(Stage primaryStage) throws FileNotFoundException {
+        Pane root = new Pane();
+
+        root.setPrefSize(1350, 900);
+
+        SettingsMenu settings = new SettingsMenu(primaryStage);
+
+        root.getChildren().addAll(settings);
 
         return root;
     }
 
     //Impressum/Erklaerungen
-    Parent createImpressumContent(Stage primaryStage) throws FileNotFoundException {
+    static Parent createImpressumContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
 
-        root.getChildren().addAll();
+        Impressum impressum = new Impressum(primaryStage);
+
+        root.getChildren().addAll(impressum);
 
         return root;
     }
