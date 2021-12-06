@@ -12,7 +12,7 @@ public class Impressum extends VBox {
         //Title
         HeaderI headerI = new HeaderI(primaryStage);
 
-        //
+        //Items
 
 
         getChildren().addAll(headerI);
