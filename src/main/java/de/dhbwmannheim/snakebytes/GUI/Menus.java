@@ -1,5 +1,6 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
+//Code by Kai Schwab
 
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -63,23 +64,27 @@ public class Menus extends Application {
     }
 
     //Settings
-    Parent createSettingsContent(Stage primaryStage) throws FileNotFoundException {
+    static Parent createSettingsContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
 
-        root.getChildren().addAll();
+        SettingsMenu settings = new SettingsMenu(primaryStage);
+
+        root.getChildren().addAll(settings);
 
         return root;
     }
 
     //Impressum/Erklaerungen
-    Parent createImpressumContent(Stage primaryStage) throws FileNotFoundException {
+    static Parent createImpressumContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
 
-        root.getChildren().addAll();
+        Impressum impressum = new Impressum(primaryStage);
+
+        root.getChildren().addAll(impressum);
 
         return root;
     }

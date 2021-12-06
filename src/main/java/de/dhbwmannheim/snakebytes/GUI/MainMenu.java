@@ -17,6 +17,12 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 
+import javafx.stage.Stage;
+
+import java.io.FileNotFoundException;
+
+//by Kai Schwab
+
 public class MainMenu extends VBox{
     public MainMenu(Stage primaryStage) {
         //Titel
@@ -114,6 +120,27 @@ class MenuItem extends StackPane{
                 }
                 primaryStage.setScene(scene);
             }
+            if (name == "Settings") {
+                try {
+                    scene = new Scene(Menus.createSettingsContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene);
+
+            }
+            if (name == "Impressum") {
+                try {
+                    scene = new Scene(Menus.createImpressumContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene);
+            }
 
         });
 
@@ -122,4 +149,5 @@ class MenuItem extends StackPane{
         });
     }
 }
+
 

@@ -1,5 +1,7 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
+//by Kai Schwab
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
