@@ -26,6 +26,8 @@ import java.io.FileNotFoundException;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
+//by Kai Schwab
+
 public class CharacterMenu extends StackPane {
     public CharacterMenu(Stage primaryStage){
         //title
