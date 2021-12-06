@@ -65,6 +65,19 @@ public class Menus extends Application {
         return root;
     }
 
+    //Scoreboard
+    static Parent createScoreboardContent(Stage primaryStage) throws FileNotFoundException {
+        Pane root = new Pane();
+
+        root.setPrefSize(1350, 900);
+
+        Scoreboard scoreboard = new Scoreboard(primaryStage);
+
+        root.getChildren().addAll(scoreboard);
+
+        return root;
+    }
+
     //Settings
     static Parent createSettingsContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();

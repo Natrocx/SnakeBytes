@@ -11,11 +11,12 @@ public class SettingsMenu extends VBox {
     public SettingsMenu(Stage primaryStage) {
         //Header
         Header header = new Header();
+        Back back = new Back(primaryStage);
 
         //
 
 
-        getChildren().addAll(header);
+        getChildren().addAll(header,back);
     }
 }
 

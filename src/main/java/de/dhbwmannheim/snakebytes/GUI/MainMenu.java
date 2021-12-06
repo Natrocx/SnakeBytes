@@ -59,9 +59,11 @@ class MenuBox extends VBox {
     public MenuBox(Stage primaryStage) {
         getChildren().add(createSeperator());
         MenuItem item1 = new MenuItem("Start Game", primaryStage);
-        MenuItem item2 = new MenuItem("Settings", primaryStage);
-        MenuItem item3 = new MenuItem("Impressum", primaryStage);
-        getChildren().addAll(item1, createSeperator(),item2,createSeperator(),item3);
+        MenuItem item2 = new MenuItem("Scoreboard", primaryStage);
+        MenuItem item3 = new MenuItem("Settings", primaryStage);
+        MenuItem item4 = new MenuItem("Erklärungen", primaryStage);
+
+        getChildren().addAll(item1, createSeperator(),item2,createSeperator(),item3,createSeperator(),item4);
     }
 
     private HBox createSeperator() {
@@ -131,9 +133,19 @@ class MenuItem extends StackPane{
                 primaryStage.setScene(scene);
 
             }
-            if (name == "Impressum") {
+            if (name == "Erklärungen") {
                 try {
                     scene = new Scene(Menus.createImpressumContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene);
+            }
+            if (name == "Scoreboard") {
+                try {
+                    scene = new Scene(Menus.createScoreboardContent(primaryStage), Color.LIGHTBLUE);
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
                     primaryStage.setMaxWidth(Integer.MAX_VALUE);
                 } catch (FileNotFoundException e) {
