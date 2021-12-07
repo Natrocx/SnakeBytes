@@ -24,6 +24,7 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Hashtable;
 import java.util.List;
 
 public class InputSystem extends System {
@@ -32,17 +33,29 @@ public class InputSystem extends System {
     ComponentList<CharacterStateComponent> characterState;
     List<Entity> entities;
 
-    //je entity die entsprechende json auslesen
-    JSONParser jsonParser = new JSONParser();
+    //Saving the KeySettings of player 1 into a HashTable, so that: <keyboard key as String, connected action as String>
+    static Hashtable<String,String> player1KeySettings;
+    static {
+        try {
+            player1KeySettings = new Hashtable<>(getKeySettings("player1"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
-    FileReader reader = new FileReader("src/main/java/de/dhbwmannheim/snakebytes/ECS/Systems/keySettings.json");
-    //Read JSON file
-    Object obj = jsonParser.parse(reader);
-    String[] player1 = new String[5];
-
-
-    ArrayList<String> player1Input = new ArrayList<String>();
-    ArrayList<String> player2Input = new ArrayList<String>();
+    //Saving the KeySettings of player 2 into a HashTable, so that: <keyboard key as String, connected action as String>
+    static Hashtable<String,String> player2KeySettings;
+    static {
+        try {
+            player2KeySettings = new Hashtable<>(getKeySettings("player2"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void keyPressed(KeyEvent keyEvent){
         //!!!! es gilt noch zu überprüfen, ob keyEvent unter KeySettings überhaupt entsprechend gesetzt wurde
@@ -82,8 +95,31 @@ public class InputSystem extends System {
         return null;
     }
 
+    //function to read the JSON-file which saves the key settings of player1 and player2
+    private static Hashtable<String,String> getKeySettings(String player) throws IOException, ParseException {
+        Hashtable<String,String> playerKeyValues = new Hashtable<>();
 
+        JSONParser jsonParser = new JSONParser();
+        FileReader reader = new FileReader("src/main/java/de/dhbwmannheim/snakebytes/ECS/Systems/keySettings.json");
+        Object obj = jsonParser.parse(reader);
+        JSONArray arr = (JSONArray) obj;
 
+        int help;
+        if (player == "player1"){
+            help=0;
+        }else{
+            help=1;
+        }
+        JSONObject obj2 = (JSONObject)  ((JSONObject) arr.get(help)).get(player);
+        for (int i=0;i<obj2.size();i++){
+            String temp = obj2.keySet().stream().toList().get(i).toString();
+            playerKeyValues.put(obj2.get(temp).toString(),temp);
+        }
+
+        return playerKeyValues;
+    }
+
+    //if true is returned the player is currently multi-jumping (respectively double jumping)
     private boolean multiJump(boolean[] array){
         if(array[1] && array[2]){
             return false;

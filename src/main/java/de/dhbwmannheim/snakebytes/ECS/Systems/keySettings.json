@@ -1,16 +1,16 @@
 [
   {
     "player1": {
-      "firstName": "Lokesh",
-      "lastName": "Gupta",
-      "website": "howtodoinjava.com"
+      "left": "arrow_left",
+      "right": "arrow_right",
+      "jump": "arrow_up"
     }
   },
   {
     "player2": {
-      "firstName": "Brian",
-      "lastName": "Schultz",
-      "website": "example.com"
+      "left": "A",
+      "right": "D",
+      "jump": "W"
     }
   }
 ]
