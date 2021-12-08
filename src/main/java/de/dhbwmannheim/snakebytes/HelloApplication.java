@@ -1,5 +1,6 @@
 package de.dhbwmannheim.snakebytes;
 
+import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -35,6 +36,10 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
+
+        Engine.setup();
+        Engine.run();
+
         launch();
     }
 
