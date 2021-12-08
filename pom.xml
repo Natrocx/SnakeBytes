@@ -26,6 +26,11 @@
             <version>17.0.0.1</version>
         </dependency>
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>17-ea+11</version>
+        </dependency>
+        <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
             <version>11.1.0</version>
