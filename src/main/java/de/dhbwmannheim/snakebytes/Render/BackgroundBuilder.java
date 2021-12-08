@@ -33,23 +33,23 @@ public class BackgroundBuilder extends StackPane{
 
 
         ImageView floorIMG = new ImageView(floor);
-        floorIMG.setTranslateX(100);
-        floorIMG.setTranslateY(100);
+        floorIMG.setTranslateX(0);
+        floorIMG.setTranslateY(350);
         getChildren().add(floorIMG);
 
         ImageView stepIMG = new ImageView(step);
-        stepIMG.setTranslateX(300);
-        stepIMG.setTranslateY(550);
+        stepIMG.setTranslateX(-250);
+        stepIMG.setTranslateY(150);
         getChildren().add(stepIMG);
 
         ImageView stepIMG2 = new ImageView(step);
-        stepIMG2.setTranslateX(850);
-        stepIMG2.setTranslateY(550);
+        stepIMG2.setTranslateX(250);
+        stepIMG2.setTranslateY(150);
         getChildren().add(stepIMG2);
 
         ImageView stepIMG3 = new ImageView(step);
-        stepIMG3.setTranslateX(575);
-        stepIMG3.setTranslateY(400);
+        stepIMG3.setTranslateX(0);
+        stepIMG3.setTranslateY(0);
         getChildren().add(stepIMG3);
 
         /*GameOverlay gov = new GameOverlay(primaryStage);
