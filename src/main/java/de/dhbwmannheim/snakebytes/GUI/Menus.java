@@ -103,4 +103,20 @@ public class Menus extends Application {
 
         return root;
     }
+
+    //Game
+    public static Parent createGameContent(Stage primaryStage) throws FileNotFoundException {
+        Pane root = new Pane();
+
+        root.setPrefSize(1350, 900);
+
+        GameOverlay gov = new GameOverlay(primaryStage);
+
+        //Einbauen der FrameHandler KLassen
+
+
+        root.getChildren().addAll(gov);
+
+        return root;
+    }
 }
