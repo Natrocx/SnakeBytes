@@ -3,8 +3,10 @@ package de.dhbwmannheim.snakebytes.ECS.Base;
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoField;
+import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -31,6 +33,7 @@ public class Engine {
         ComponentManager.registerComponentList(PositionComponent.class);
         ComponentManager.registerComponentList(ScreenBorderCollisionComponent.class);
 
+        //registerSystem(new MovementSystem());
         registerSystem(new CollisionSystem());
 
         setupScreenBorders();
@@ -123,11 +126,9 @@ public class Engine {
         // TODO: get cancel condition from input system
         while (true) {
             Instant now = Instant.now();
+            /* Systems will be executed in order of registration - see setup for further information */
             for (System sys : systems) {
-                update((double) now
-                        .minusNanos(last.getLong(ChronoField.NANO_OF_DAY))
-                        .getLong(ChronoField.NANO_OF_DAY)
-                        / 1_000_000_000d);
+                update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
             }
             last = now;
         }
