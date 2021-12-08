@@ -50,6 +50,7 @@ class  Timer extends StackPane {
     }
 }
 
+//ToDo:Countdown wie in CHarakterSelect
 class CountDown extends StackPane{
     public CountDown(){
 

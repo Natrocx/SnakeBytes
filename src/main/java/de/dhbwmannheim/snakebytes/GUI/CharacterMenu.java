@@ -311,7 +311,6 @@ class SideMenuValueChanger  extends HBox {
                 if(v<99){
                     CharacterMenu.rounds++;
                     text.setText(String.valueOf(CharacterMenu.rounds));
-
                 }
             }
             else if (name=="Time"){
@@ -320,8 +319,6 @@ class SideMenuValueChanger  extends HBox {
                     CharacterMenu.time+=10;
                     text.setText(String.valueOf(CharacterMenu.time));
                 }
-
-
             }
         });
         h.setOnMouseReleased(event -> {
