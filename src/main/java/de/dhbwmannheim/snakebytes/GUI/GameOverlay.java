@@ -25,7 +25,7 @@ public class GameOverlay extends StackPane {
         Score score = new Score(0,0,primaryStage);
         score.setTranslateX(550);
         Timer timer =new Timer(60,primaryStage);
-        timer.setTranslateX(850);
+        timer.setTranslateX(900);
         setAlignment(Pos.TOP_RIGHT);
 
         getChildren().addAll(pause,score, timer);
@@ -34,7 +34,9 @@ public class GameOverlay extends StackPane {
 
 class  Score extends StackPane {
     public Score(int p1, int p2, Stage primaryStage) {
-        Title2 score = new Title2("   "+p1+"   :   "+p2+"   ");
+        Text score = new Text(p1+"   :   "+p2);
+        score.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 69));
+        score.setFill(Color.DARKRED);
 
         getChildren().addAll(score);
     }
