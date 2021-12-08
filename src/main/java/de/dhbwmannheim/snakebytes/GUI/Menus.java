@@ -26,8 +26,6 @@ public class Menus extends Application {
         primaryStage.setTitle("SNAKE BYTES");
         Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
 
-        primaryStage.show();
-        primaryStage.setScene(MainMenu);
         primaryStage.setMaxHeight(900);
         primaryStage.setMaxWidth(1350);
         primaryStage.setMinHeight(900);
@@ -111,6 +109,7 @@ public class Menus extends Application {
         root.setPrefSize(1350, 900);
 
         GameOverlay gov = new GameOverlay(primaryStage);
+        //MainMenu mainMenu =new MainMenu(primaryStage);
 
         //Einbauen der FrameHandler KLassen
 
