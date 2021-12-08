@@ -2,6 +2,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //by Kai Schwab
 
+import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -211,13 +212,14 @@ class SideMenuItem extends StackPane {
             bg.setFill(Color.DARKGOLDENROD);
             if(name == "Start"){
                 try {
-                    scene = new Scene(Menus.createGameContent(primaryStage), Color.LIGHTBLUE);
+                    BackgroundBuilder background = new BackgroundBuilder(primaryStage);
+                    /*scene = new Scene(Menus.createGameContent(primaryStage), Color.LIGHTBLUE);
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);*/
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                primaryStage.setScene(scene);
+                //primaryStage.setScene(scene);
             }
 
         });
