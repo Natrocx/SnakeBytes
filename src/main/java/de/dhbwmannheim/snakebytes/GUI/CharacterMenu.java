@@ -274,6 +274,7 @@ class SideMenuValueChanger  extends HBox {
         });
         l.setOnMousePressed(event -> {
             l.setFill(Color.YELLOW);
+
         });
         l.setOnMouseReleased(event -> {
             l.setFill(Color.RED);

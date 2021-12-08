@@ -50,6 +50,12 @@ class  Timer extends StackPane {
     }
 }
 
+class CountDown extends StackPane{
+    public CountDown(){
+
+    }
+}
+
 
 class  Pause extends StackPane {
     public Pause(Stage primaryStage) {
