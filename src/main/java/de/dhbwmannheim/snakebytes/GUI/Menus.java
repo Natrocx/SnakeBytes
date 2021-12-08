@@ -2,6 +2,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //Code by Kai Schwab
 
+import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -109,13 +110,14 @@ public class Menus extends Application {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
-
         GameOverlay gov = new GameOverlay(primaryStage);
+        BackgroundBuilder background = new BackgroundBuilder(primaryStage);
 
         //Einbauen der FrameHandler KLassen
 
 
-        root.getChildren().addAll(gov);
+        root.getChildren().addAll(background, gov);
+
 
         return root;
     }

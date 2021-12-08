@@ -212,14 +212,15 @@ class SideMenuItem extends StackPane {
             bg.setFill(Color.DARKGOLDENROD);
             if(name == "Start"){
                 try {
-                    BackgroundBuilder background = new BackgroundBuilder(primaryStage);
-                    /*scene = new Scene(Menus.createGameContent(primaryStage), Color.LIGHTBLUE);
+
+                    //BackgroundBuilder background = new BackgroundBuilder(primaryStage);
+                    scene = new Scene(Menus.createGameContent(primaryStage), Color.LIGHTBLUE);
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                    primaryStage.setMaxWidth(Integer.MAX_VALUE);*/
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                //primaryStage.setScene(scene);
+                primaryStage.setScene(scene);
             }
 
         });

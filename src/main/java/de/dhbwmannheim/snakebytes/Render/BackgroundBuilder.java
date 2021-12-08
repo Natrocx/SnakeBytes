@@ -2,6 +2,7 @@ package de.dhbwmannheim.snakebytes.Render;
 
 // Author: @Kirolis Eskondis
 
+import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -12,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class BackgroundBuilder {
+public class BackgroundBuilder extends StackPane{
 
 
 
@@ -23,40 +24,43 @@ public class BackgroundBuilder {
                 new BackgroundPosition(Side.LEFT, 0, true, Side.BOTTOM, 0, true),
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)));
 
-        Pane root = new Pane();
-        root.setBackground(bckgrnd);
+        //Pane root = new Pane();
+        setPrefSize(1350, 900);
+        setBackground(bckgrnd);
 
         Image floor = new Image(new File("src/main/resources/level_assets/Floor.png").toURI().toString());
         Image step = new Image(new File("src/main/resources/level_assets/Steps.png").toURI().toString());
 
 
         ImageView floorIMG = new ImageView(floor);
-        floorIMG.setX(250);
-        floorIMG.setY(700);
-        root.getChildren().add(floorIMG);
+        floorIMG.setTranslateX(100);
+        floorIMG.setTranslateY(100);
+        getChildren().add(floorIMG);
 
         ImageView stepIMG = new ImageView(step);
-        stepIMG.setX(300);
-        stepIMG.setY(550);
-        root.getChildren().add(stepIMG);
+        stepIMG.setTranslateX(300);
+        stepIMG.setTranslateY(550);
+        getChildren().add(stepIMG);
 
         ImageView stepIMG2 = new ImageView(step);
-        stepIMG2.setX(850);
-        stepIMG2.setY(550);
-        root.getChildren().add(stepIMG2);
+        stepIMG2.setTranslateX(850);
+        stepIMG2.setTranslateY(550);
+        getChildren().add(stepIMG2);
 
         ImageView stepIMG3 = new ImageView(step);
-        stepIMG3.setX(575);
-        stepIMG3.setY(400);
-        root.getChildren().add(stepIMG3);
+        stepIMG3.setTranslateX(575);
+        stepIMG3.setTranslateY(400);
+        getChildren().add(stepIMG3);
 
+        /*GameOverlay gov = new GameOverlay(primaryStage);
+        getChildren().addAll(gov);
 
         Scene scene=new Scene(root);
 
         primaryStage.setMaxHeight(Integer.MAX_VALUE);
         primaryStage.setMaxWidth(Integer.MAX_VALUE);
 
-        primaryStage.setScene(scene);
+        primaryStage.setScene(scene);*/
 
     }
 }
