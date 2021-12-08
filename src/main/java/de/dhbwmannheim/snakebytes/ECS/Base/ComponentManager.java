@@ -11,7 +11,9 @@ public class ComponentManager {
     private static final HashMap<Class, ComponentList> componentLists = new HashMap<>();
 
     public static void registerComponentList(Class clazz) {
-        componentLists.put(clazz, new ComponentList<>());
+        var list = new ComponentList<>();
+        list.registerCallbacks( ComponentManager::addComponentCallback, ComponentManager::removeComponentCallback);
+        componentLists.put(clazz, list);
     }
 
     @SuppressWarnings("unchecked")
@@ -51,6 +53,6 @@ public class ComponentManager {
      * @return log_2 of the id
      */
     private static int getIndex(int id) {
-        return (int) (Math.log(id) / Math.log(2) + 1e-10 + 1);
+        return (int) (Math.log(id) / Math.log(2) + 1e-10);
     }
 }
