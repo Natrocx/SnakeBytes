@@ -7,4 +7,9 @@ public class MotionComponent extends Component {
 
     /// the velocity is specified in units per second
     public Vec2<Double> velocity;
+
+    @Override
+    public int getId() {
+        return id;
+    }
 }

@@ -9,6 +9,10 @@ public abstract class System {
 
     public abstract void update(double deltaTime) throws Exception;
 
+    /**
+     * This function specifies which Components an Entity needs to have in order to be processed by the System.
+     * @return BitSet representing Component flags
+     */
     public abstract BitSet getSignature();
 
     public void addEntity(Entity e) {

@@ -1,10 +1,9 @@
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
-import de.dhbwmannheim.snakebytes.ECS.Base.Component;
-import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
-import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
-import de.dhbwmannheim.snakebytes.ECS.Base.System;
+import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.*;
+import de.dhbwmannheim.snakebytes.ECS.Base.System;
+import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.BitSet;
@@ -13,27 +12,24 @@ import java.util.List;
 public class CollisionSystem extends System {
 
     // Input components:
-    private ComponentList<BoundingBoxComponent> boundingBoxComponents;
-    private ComponentList<PositionComponent> positionComponents;
+    private final ComponentList<BoundingBoxComponent> boundingBoxComponents;
+    private final ComponentList<PositionComponent> positionComponents;
 
     // In-Out components:
-    private ComponentList<MotionComponent> motionComponents;
+    private final ComponentList<MotionComponent> motionComponents;
 
     /// System Output
-    private ComponentList<AttackCollisionComponent> attackCollisionComponents;
-    private ComponentList<ScreenBorderCollisionComponent> screenBorderCollisionComponents;
-
-    private List<Entity> entities;
+    private final ComponentList<AttackCollisionComponent> attackCollisionComponents;
+    private final ComponentList<ScreenBorderCollisionComponent> screenBorderCollisionComponents;
 
     @Override
     public void update(double deltaTime) {
-        // TODO: maybe skip unnecessary computations?
+        // TODO: maybe skip unnecessary computations? => manually consume iterator
         for (Entity e1 : entities) {
             var e1BB = boundingBoxComponents.getComponent(e1);
             var e1Pos = positionComponents.getComponent(e1);
 
             // We are using a naive algorithm, that checks collisions with all Entities in the Game
-            // All collisions are computed twice, however this does not matter, as they are only stored once
             for (Entity e2 : entities) {
                 // skip tests with self
                 if (e1.id == e2.id) {
@@ -52,14 +48,12 @@ public class CollisionSystem extends System {
                     if both of these are true then there is an overlap on the Y-axis
                     and thus if all of these are true, the rectangles overlap/collide
                  */
-                if (e1Pos.value.x + e1BB.width > e2Pos.value.x &&
-                        e1Pos.value.x < e2Pos.value.x + e2BB.width &&
-                        e1Pos.value.y + e1BB.height > e2Pos.value.y &&
-                        e1Pos.value.y < e2Pos.value.y + e2BB.height) {
+                if (e1Pos.value.x     + e1BB.size.x   > e2Pos.value.x &&
+                        e1Pos.value.x < e2Pos.value.x + e2BB.size.x   &&
+                        e1Pos.value.y + e1BB.size.y   > e2Pos.value.y &&
+                        e1Pos.value.y < e2Pos.value.y + e2BB.size.y) {
                     switch (e1BB.boxType) {
-                        case Ground, HighPlatform, Attack, Screen -> {
-                            continue;
-                        }
+                        case Ground, HighPlatform, Attack, Screen -> {}
                         case Player -> playerCollisions(e1, e2, e1BB.boxType);
                     }
                 }
@@ -69,12 +63,24 @@ public class CollisionSystem extends System {
 
     @Override
     public BitSet getSignature() {
-        return null;
+        var signature = new BitSet();
+
+        signature.set(ConversionUtils.indexFromID(PositionComponent.id));
+        signature.set(ConversionUtils.indexFromID(BoundingBoxComponent.id));
+
+        return signature;
+    }
+
+    public CollisionSystem() {
+        this.positionComponents = ComponentManager.getComponentList(PositionComponent.class);
+        this.boundingBoxComponents = ComponentManager.getComponentList(BoundingBoxComponent.class);
+        this.motionComponents = ComponentManager.getComponentList(MotionComponent.class);
+        this.attackCollisionComponents = ComponentManager.getComponentList(AttackCollisionComponent.class);
+        this.screenBorderCollisionComponents = ComponentManager.getComponentList(ScreenBorderCollisionComponent.class);
     }
 
     /// Handle collisions in case e1 is a player. Position corrections will be made inline.
     private void playerCollisions(Entity e1, Entity e2, BoundingBoxComponent.@NotNull BoxType e2BoxType) {
-        var e1BB = boundingBoxComponents.getComponent(e1);
         var e1Pos = positionComponents.getComponent(e1);
 
         var e2BB = boundingBoxComponents.getComponent(e2);
@@ -94,7 +100,7 @@ public class CollisionSystem extends System {
                 // move player up if they are jumping
                 if (motionComponents.getComponent(e1).velocity.y > 0) {
                     x_overlap = 0;
-                    y_overlap = e2Pos.value.y + e2BB.height - e1Pos.value.y;
+                    y_overlap = e2Pos.value.y + e2BB.size.y - e1Pos.value.y;
 
                 }
                 // Otherwise, fall through to Ground for accurate Movement correction
@@ -103,10 +109,7 @@ public class CollisionSystem extends System {
             case Ground: {
                 e1Pos.value.x += x_overlap;
                 e2Pos.value.y += y_overlap;
-                /*
-                movementCorrectionComponents.insertComponent(e1, new MovementCorrectionComponent(
-                        new Vec2<Double>(x_overlap, y_overlap)));
-                 */
+
                 break;
             }
 

@@ -10,4 +10,9 @@ public class AttackCollisionComponent extends Component {
     }
 
     public Vec2<Double> overlap;
+
+    @Override
+    public int getId() {
+        return id;
+    }
 }
