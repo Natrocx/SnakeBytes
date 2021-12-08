@@ -1,6 +1,6 @@
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -8,28 +8,24 @@ import java.util.function.Function;
  * A packed/dense List of Components indexed by Entities
  */
 public class ComponentList<T extends Component> {
-    private List<T> components;
-    private Map<Entity, Integer> componentListIndices;
+
+    private final Map<Entity, T> components = new HashMap<>();
 
     private Function<Entity, Void> addComponentCallback;
     private Function<Entity, Void> removeComponentCallback;
 
-    private int getEntitiesComponentIndex(Entity entity) {
-        return componentListIndices.get(entity);
-    }
 
     public void insertComponent(Entity entity, T component) {
-        var index = getEntitiesComponentIndex(entity);
+        components.put(entity, component);
         addComponentCallback.apply(entity);
     }
 
     public T getComponent(Entity entity) {
-        return components.get(getEntitiesComponentIndex(entity));
+        return components.get(entity);
     }
 
     public void removeComponent(Entity entity) {
-        components.remove(getEntitiesComponentIndex(entity));
-        componentListIndices.remove(entity);
+        components.remove(entity);
         removeComponentCallback.apply(entity);
     }
 
