@@ -7,7 +7,38 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.Hashtable;
+
 public class SettingsMenu extends VBox {
+
+    /*
+
+    //Saving the KeySettings of player 1 into a HashTable, so that: <keyboard key as String, connected action as String>
+    static Hashtable<String,String> player1KeySettings;
+    static {
+        try {
+            player1KeySettings = new Hashtable<>(getKeySettings("player1"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Saving the KeySettings of player 2 into a HashTable, so that: <keyboard key as String, connected action as String>
+    static Hashtable<String,String> player2KeySettings;
+    static {
+        try {
+            player2KeySettings = new Hashtable<>(getKeySettings("player2"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+     */
     public SettingsMenu(Stage primaryStage) {
         //Header
         Header header = new Header();
@@ -31,3 +62,4 @@ class Header extends HBox {
     }
 
 }
+

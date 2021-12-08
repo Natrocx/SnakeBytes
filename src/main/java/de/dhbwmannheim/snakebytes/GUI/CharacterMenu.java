@@ -32,12 +32,12 @@ public class CharacterMenu extends StackPane {
     public CharacterMenu(Stage primaryStage){
         //title
         Title2 title = new Title2("Choose your Character");
-        title.setTranslateY(-220);
+        title.setTranslateY(-250);
         title.setTranslateX((1350 / 2) - 340);
         //Side Menu1
         SideMenu1 sideMenu1 = new SideMenu1(primaryStage);
 
-        sideMenu1.setTranslateX(-230);
+        sideMenu1.setTranslateX(-200);
         sideMenu1.setTranslateY(278);
 
         //Player Select
@@ -94,22 +94,22 @@ class CharakterSelect extends VBox {
     }
     private HBox createSeperator() {
         HBox sep = new HBox();
-        sep.setPrefSize(160,50);
+        sep.setPrefSize(160,10);
         return sep;
     }
 }
 class CharakterSelect1 extends HBox {
     public CharakterSelect1(){
-        Image cha1 = new Image(new File("src/main/java/de/dhbwmannheim/snakebytes/GUI/res/KammerjaegerSelect.png").toURI().toString());
+        Image cha1 = new Image(new File("src/main/resources/char_models/Kruse.png").toURI().toString());
         ImageView imgC1 = new ImageView(cha1);
-        imgC1.setFitWidth(300);
-        imgC1.setFitHeight(450);
-        Title2 vs = new Title2("  VS  ");
+        imgC1.setFitWidth(250);
+        imgC1.setFitHeight(500);
+        Title2 vs = new Title2("    VS    ");
 
-        Image cha2 = new Image(new File("src/main/java/de/dhbwmannheim/snakebytes/GUI/res/ExmatrikulatorSelect.png").toURI().toString());
+        Image cha2 = new Image(new File("src/main/resources/char_models/Stroeti.png").toURI().toString());
         ImageView imgC2 = new ImageView(cha2);
-        imgC2.setFitWidth(300);
-        imgC2.setFitHeight(450);
+        imgC2.setFitWidth(250);
+        imgC2.setFitHeight(500);
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(imgC1,vs,imgC2);
@@ -207,7 +207,18 @@ class SideMenuItem extends StackPane {
             text.setFill(Color.DARKGREY);
         });
         setOnMousePressed(event -> {
+            Scene scene = null;
             bg.setFill(Color.DARKGOLDENROD);
+            if(name == "Start"){
+                try {
+                    scene = new Scene(Menus.createGameContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene);
+            }
 
         });
 
