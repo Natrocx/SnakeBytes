@@ -1,11 +1,9 @@
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
-import java.util.BitSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public abstract class System {
-    protected final Set<Entity> entities = new HashSet<>();
+    protected final List<Entity> entities = new ArrayList<>();
 
     public abstract void update(double deltaTime);
 

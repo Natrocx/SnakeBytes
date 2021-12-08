@@ -24,17 +24,15 @@ public class CollisionSystem extends System {
 
     @Override
     public void update(double deltaTime) {
-        // TODO: maybe skip unnecessary computations? => manually consume iterator
-        for (Entity e1 : entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            var e1 = entities.get(i);
+
             var e1BB = boundingBoxComponents.getComponent(e1);
             var e1Pos = positionComponents.getComponent(e1);
 
             // We are using a naive algorithm, that checks collisions with all Entities in the Game
-            for (Entity e2 : entities) {
-                // skip tests with self
-                if (e1.id == e2.id) {
-                    continue;
-                }
+            for (int j = i + 1; j < entities.size(); j++) {
+                var e2 = entities.get(j);
 
                 var e2BB = boundingBoxComponents.getComponent(e2);
                 var e2Pos = positionComponents.getComponent(e2);
