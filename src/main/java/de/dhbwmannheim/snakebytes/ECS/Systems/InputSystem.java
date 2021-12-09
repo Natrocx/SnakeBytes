@@ -32,6 +32,7 @@ public class InputSystem extends System {
     ComponentList<MotionComponent> motion;
     ComponentList<CharacterStateComponent> characterState;
     List<Entity> entities;
+    ArrayList<String> pressedKeys;
 
     //Saving the KeySettings of player 1 into a HashTable, so that: <keyboard key as String, connected action as String>
     static Hashtable<String,String> player1KeySettings;
@@ -58,9 +59,9 @@ public class InputSystem extends System {
     }
 
     public void keyPressed(KeyEvent keyEvent){
-        //!!!! es gilt noch zu überprüfen, ob keyEvent unter KeySettings überhaupt entsprechend gesetzt wurde
-        String code = keyEvent.getCode().toString();
 
+        String code = keyEvent.getCode().toString();
+        pressedKeys.add(code);
 
     }
 
@@ -69,20 +70,58 @@ public class InputSystem extends System {
 
 
         for (Entity entity : entities) {
-            //motioncomponent velocity bearbeiten
+
             MotionComponent motionComponent = motion.getComponent(entity);
             CharacterStateComponent characterStateComponent = characterState.getComponent(entity);
-            if (multiJump(characterStateComponent.jumping)==false){ //if no double jump is active
-                motionComponent.velocity.y = 0.001; //jump
-            }
-            if (characterStateComponent.attackCooldown==0){ //if no attack cooldown
-                //if (input[-1]==...)
-                motionComponent.velocity.x = 0.001;
-                motionComponent.velocity.y = 0.001;
-            }
-            if(characterStateComponent.knockback.x==0 && characterStateComponent.knockback.y==0){ //if no knockback
+
+            //iterate over all pressed keys, that did not got processed (pressedKeys only contains non processed keys)
+            for (String key : pressedKeys){
+
+                String temp=new String();
+                if (player1KeySettings.containsKey(key))
+                    temp=player1KeySettings.get(key);
+                if (player2KeySettings.containsKey(key))
+                    temp=player2KeySettings.get(key);
+
+                if (temp!=null) {
+                    switch (temp) {
+                        case "right":
+                            motionComponent.velocity.x = 0.005;
+                            break;
+                        case "left":
+                            motionComponent.velocity.x = -0.005;
+                            break;
+                        case "jump":
+                            if (multiJump(characterStateComponent.jumping) == false) { //if no double jump is active
+                                motionComponent.velocity.y = 0.01; //jump
+                                if (characterStateComponent.jumping[0] != true) {
+                                    characterStateComponent.jumping[0] = true;
+                                } else {
+                                    characterStateComponent.jumping[1] = true;
+                                }
+                            }
+                            break;
+                        case "attack":
+                            if (characterStateComponent.attackCooldown == 0) { //if no attack cooldown
+                                characterStateComponent.attacking=true;
+                            }
+                            break;
+                        case "specialAttack":
+                            if (characterStateComponent.specialAttackCooldown == 0) { //if no special attack cooldown
+                                characterStateComponent.specialAttacking=true;
+                            }
+                            break;
+                    }
+                }
+                    //removes the key
+                    pressedKeys.remove(key);
 
             }
+
+        //Prüfung auf Knockback ist denke ich nicht notwendig, denn man kann sich ja auch in der Luft noch bewegen, attackieren, ...:
+//            if(characterStateComponent.knockback.x==0 && characterStateComponent.knockback.y==0){ //if no knockback
+//
+//            }
 
 
 
@@ -105,7 +144,7 @@ public class InputSystem extends System {
         JSONArray arr = (JSONArray) obj;
 
         int help;
-        if (player == "player1"){
+        if (player.equals("player1")){
             help=0;
         }else{
             help=1;

@@ -3,14 +3,18 @@
     "player1": {
       "left": "arrow_left",
       "right": "arrow_right",
-      "jump": "arrow_up"
+      "jump": "arrow_up",
+      "attack": "",
+      "specialAttack": ""
     }
   },
   {
     "player2": {
       "left": "A",
       "right": "D",
-      "jump": "W"
+      "jump": "W",
+      "attack": "",
+      "specialAttack": ""
     }
   }
 ]

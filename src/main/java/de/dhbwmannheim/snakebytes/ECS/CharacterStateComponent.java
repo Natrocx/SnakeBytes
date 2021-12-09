@@ -9,9 +9,12 @@ public class CharacterStateComponent extends Component {
 
     public Vec2<Double> knockback; //remaining velocity of knockback
     public double attackCooldown; //remaining time of attack cooldown
+    public double specialAttackCooldown; //remaining time of special attack cooldown
     public int lives; //remaining lives
     public String playerName;
-    public boolean[] jumping = new boolean[2]; //because only double jumping is allowed
+    public boolean[] jumping; //because only double jumping is allowed
+    public boolean attacking;
+    public boolean specialAttacking;
 
 
 }
