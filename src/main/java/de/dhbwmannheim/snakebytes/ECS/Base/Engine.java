@@ -11,7 +11,7 @@ public class Engine {
         systems.add(sys);
     }
     
-    public void update(double deltaTime) {
+    public void update(double deltaTime) throws Exception {
         for (System sys :
                 systems) {
             sys.update(deltaTime);

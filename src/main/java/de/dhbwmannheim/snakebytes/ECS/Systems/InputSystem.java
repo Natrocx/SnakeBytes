@@ -68,11 +68,10 @@ public class InputSystem extends System {
         }
     }
 
+    //saving all recent key presses since the last time the following update() function were executed
     public void keyPressed(KeyEvent keyEvent){
-
         String code = keyEvent.getCode().toString();
         pressedKeys.add(code);
-
     }
 
     @Override
@@ -83,16 +82,19 @@ public class InputSystem extends System {
             MotionComponent motionComponent = motion.getComponent(entity);
             CharacterStateComponent characterStateComponent = characterState.getComponent(entity);
 
-            //iterate over all pressed keys, that did not got processed (pressedKeys only contains non processed keys)
+            //iterate over all pressed keys, that did not were processed (since pressedKeys only contains not processed keys)
             for (String key : pressedKeys){
 
-                String temp=new String();
+                String temp= "";
+                //if the key has an action for player1 or player2, this action gets saved into String "temp"
                 if (player1KeySettings.containsKey(key))
                     temp=player1KeySettings.get(key);
                 if (player2KeySettings.containsKey(key))
                     temp=player2KeySettings.get(key);
 
-                if (temp!=null) {
+                //if an action should be executed
+                if (!temp.equals("")) {
+                    //mapping the action which should be executed towards the pressed key
                     switch (temp) {
                         case "right":
                             motionComponent.velocity.x = 0.005;
@@ -101,9 +103,11 @@ public class InputSystem extends System {
                             motionComponent.velocity.x = -0.005;
                             break;
                         case "jump":
-                            if (multiJump(characterStateComponent.jumping) == false) { //if no double jump is active
+                            //if no double jump is active
+                            if (multiJump(characterStateComponent.jumping) == false) {
                                 motionComponent.velocity.y = 0.01; //jump
                                 soundManager.playJumpSound();
+                                //since the player jumps this has to be saved in the boolean Array jumping[]
                                 if (characterStateComponent.jumping[0] != true) {
                                     characterStateComponent.jumping[0] = true;
                                 } else {
@@ -112,17 +116,25 @@ public class InputSystem extends System {
                             }
                             break;
                         case "attack":
-                            if (characterStateComponent.attackCooldown == 0) { //if no attack cooldown
+                            //if there is no attack cooldown -> attack and set attackCooldown
+                            if (characterStateComponent.attackCooldown == 0) {
                                 characterStateComponent.attacking=true;
+                                characterStateComponent.attackCooldown=1.0;
                                 soundManager.playPunchSound();
                             }
                             break;
                         case "specialAttack":
-                            if (characterStateComponent.specialAttackCooldown == 0) { //if no special attack cooldown
+                            //if ther is no special attack cooldown -> attack and set attackCooldown
+                            if (characterStateComponent.specialAttackCooldown == 0) {
                                 characterStateComponent.specialAttacking=true;
+
+                                //for each player play the specific sound of the special attack
+                                //and set the specific specialAttackCooldown
                                 if (player1KeySettings.containsKey(key)){
+                                    characterStateComponent.specialAttackCooldown=2.0;
                                     soundManager.playSpAttack1();
                                 }else{
+                                    characterStateComponent.specialAttackCooldown=2.5;
                                     soundManager.playSpAttack2();
                                 }
                             }
@@ -168,6 +180,7 @@ public class InputSystem extends System {
         JSONObject obj2 = (JSONObject)  ((JSONObject) arr.get(help)).get(player);
         for (int i=0;i<obj2.size();i++){
             String temp = obj2.keySet().stream().toList().get(i).toString();
+            //key= keyboard key; and value= action to execute
             playerKeyValues.put(obj2.get(temp).toString(),temp);
         }
 
