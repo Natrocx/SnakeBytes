@@ -7,7 +7,7 @@ import java.util.Set;
 public abstract class System {
     protected final Set<Entity> entities = new HashSet<>();
 
-    public abstract void update(double deltaTime);
+    public abstract void update(double deltaTime) throws Exception;
 
     public abstract BitSet getSignature();
 

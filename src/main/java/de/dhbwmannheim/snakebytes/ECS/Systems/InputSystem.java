@@ -26,6 +26,15 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Hashtable;
 import java.util.List;
+import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
+
+/**
+ * Author: @Eric Stefan
+ * This class is handling the inputs of all players (respectively the key presses)
+ * and pre-filters if an action should be performed and then performs it.
+ * Important: The collision management (e.g. if a player can walk) is not part of this System,
+ * but the positionComponent still gets updated.
+ */
 
 public class InputSystem extends System {
 
@@ -33,6 +42,7 @@ public class InputSystem extends System {
     ComponentList<CharacterStateComponent> characterState;
     List<Entity> entities;
     ArrayList<String> pressedKeys;
+    SoundManager soundManager;
 
     //Saving the KeySettings of player 1 into a HashTable, so that: <keyboard key as String, connected action as String>
     static Hashtable<String,String> player1KeySettings;
@@ -66,8 +76,7 @@ public class InputSystem extends System {
     }
 
     @Override
-    public void update(double deltaTime) {
-
+    public void update(double deltaTime) throws Exception {
 
         for (Entity entity : entities) {
 
@@ -94,6 +103,7 @@ public class InputSystem extends System {
                         case "jump":
                             if (multiJump(characterStateComponent.jumping) == false) { //if no double jump is active
                                 motionComponent.velocity.y = 0.01; //jump
+                                soundManager.playJumpSound();
                                 if (characterStateComponent.jumping[0] != true) {
                                     characterStateComponent.jumping[0] = true;
                                 } else {
@@ -104,11 +114,17 @@ public class InputSystem extends System {
                         case "attack":
                             if (characterStateComponent.attackCooldown == 0) { //if no attack cooldown
                                 characterStateComponent.attacking=true;
+                                soundManager.playPunchSound();
                             }
                             break;
                         case "specialAttack":
                             if (characterStateComponent.specialAttackCooldown == 0) { //if no special attack cooldown
                                 characterStateComponent.specialAttacking=true;
+                                if (player1KeySettings.containsKey(key)){
+                                    soundManager.playSpAttack1();
+                                }else{
+                                    soundManager.playSpAttack2();
+                                }
                             }
                             break;
                     }

@@ -4,6 +4,11 @@ package de.dhbwmannheim.snakebytes.ECS;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.Component;
 
+/**
+ * Author: @Eric Stefan
+ * This Component contains many important states of a player
+ */
+
 public class CharacterStateComponent extends Component {
     public static int id = 0b1000;
 
