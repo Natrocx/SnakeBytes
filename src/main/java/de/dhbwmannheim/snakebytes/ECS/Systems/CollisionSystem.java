@@ -52,7 +52,7 @@ public class CollisionSystem extends System {
                         e1Pos.value.y < e2Pos.value.y + e2BB.size.y) {
                     switch (e1BB.boxType) {
                         case Ground, HighPlatform, Attack, Screen -> {}
-                        case Player -> playerCollisions(e1, e2, e1BB.boxType);
+                        case Player -> playerCollisions(e1, e2);
                     }
                 }
             }
@@ -78,7 +78,7 @@ public class CollisionSystem extends System {
     }
 
     /// Handle collisions in case e1 is a player. Position corrections will be made inline.
-    private void playerCollisions(Entity e1, Entity e2, BoundingBoxComponent.@NotNull BoxType e2BoxType) {
+    private void playerCollisions(Entity e1, Entity e2) {
         var e1Pos = positionComponents.getComponent(e1);
 
         var e2BB = boundingBoxComponents.getComponent(e2);
@@ -91,7 +91,7 @@ public class CollisionSystem extends System {
         var y_overlap = e1Pos.value.y < e2Pos.value.y ? e2Pos.value.y - e1Pos.value.y : e1Pos.value.y - e2Pos.value.y;
 
 
-        switch (e2BoxType) {
+        switch (e2BB.boxType) {
 
             // The HighPlatform-branch is supposed to move the player on top of the platform if they jump from below
             case HighPlatform:
@@ -106,7 +106,7 @@ public class CollisionSystem extends System {
             // The Ground-branch is supposed to be a physically accurate movement correction
             case Ground: {
                 e1Pos.value.x += x_overlap;
-                e2Pos.value.y += y_overlap;
+                e1Pos.value.y += y_overlap;
 
                 break;
             }
