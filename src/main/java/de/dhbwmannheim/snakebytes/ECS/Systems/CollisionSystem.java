@@ -49,7 +49,7 @@ public class CollisionSystem extends System {
                 if (e1Pos.value.x     + e1BB.size.x   > e2Pos.value.x &&
                         e1Pos.value.x < e2Pos.value.x + e2BB.size.x   &&
                         e1Pos.value.y + e1BB.size.y   > e2Pos.value.y &&
-                        e1Pos.value.y < e2Pos.value.y + e2BB.size.y) {
+                        e1Pos.value.y < e2Pos.value.y + e2BB.size.y)  {
                     switch (e1BB.boxType) {
                         case Ground, HighPlatform, Attack, Screen -> {}
                         case Player -> playerCollisions(e1, e2);
@@ -80,15 +80,20 @@ public class CollisionSystem extends System {
     /// Handle collisions in case e1 is a player. Position corrections will be made inline.
     private void playerCollisions(Entity e1, Entity e2) {
         var e1Pos = positionComponents.getComponent(e1);
+        var e1BB = boundingBoxComponents.getComponent(e1);
 
         var e2BB = boundingBoxComponents.getComponent(e2);
         var e2Pos = positionComponents.getComponent(e2);
 
-        // Determine in which direction and how much to correct (if necessary); the values will be added onto the naively
-        // determined position to determine the physically correct position.
+        // Determine in which direction and how much to correct (if necessary); the values will be added onto the
+        // naively determined position to determine the physically correct position.
         // Always push e1 in the direction which would result in shorter movement
-        var x_overlap = e1Pos.value.x < e2Pos.value.x ? e2Pos.value.x - e1Pos.value.x : e1Pos.value.x - e2Pos.value.x;
-        var y_overlap = e1Pos.value.y < e2Pos.value.y ? e2Pos.value.y - e1Pos.value.y : e1Pos.value.y - e2Pos.value.y;
+        var x_overlap = e1Pos.value.x < e2Pos.value.x ?
+                e1Pos.value.x + e1BB.size.x - e2Pos.value.x   :
+                e2Pos.value.x + e2BB.size.x - e1Pos.value.x;
+        var y_overlap = e1Pos.value.y < e2Pos.value.y ?
+                e1Pos.value.y + e2BB.size.y - e2Pos.value.y :
+                e2Pos.value.y + e2BB.size.y - e1Pos.value.y;
 
 
         switch (e2BB.boxType) {
@@ -114,12 +119,12 @@ public class CollisionSystem extends System {
             // The player-branch does basically exactly the same as Ground but distributed to both objects of the collision
             case Player: {
                 // for player 1:
-                e1Pos.value.x +=   0.5 * x_overlap;
-                e1Pos.value.y +=   0.5 * y_overlap;
+                e1Pos.value.x += - 0.5 * x_overlap;
+                e1Pos.value.y += - 0.5 * y_overlap;
 
                 // for player 2 (correct into other direction):
-                e2Pos.value.x += - 0.5 * x_overlap;
-                e2Pos.value.y += - 0.5 * y_overlap;
+                e2Pos.value.x +=   0.5 * x_overlap;
+                e2Pos.value.y +=   0.5 * y_overlap;
 
                 break;
             }
