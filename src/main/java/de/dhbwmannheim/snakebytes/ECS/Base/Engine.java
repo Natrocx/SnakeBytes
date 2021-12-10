@@ -25,6 +25,7 @@ public class Engine {
     }
 
     public static void setup() {
+        // WARNING: Please do not rearrange order of registration without considering the semantic impact
         ComponentManager.registerComponentList(AttackCollisionComponent.class);
         ComponentManager.registerComponentList(BoundingBoxComponent.class);
         ComponentManager.registerComponentList(MotionComponent.class);
@@ -52,7 +53,7 @@ public class Engine {
     private static void setupPlayers() {
         var player1 = new Entity();
         var motionComponent1 = new MotionComponent();
-        var positionComponent1 = new PositionComponent(new Vec2<>(0.1, 0.25));
+        var positionComponent1 = new PositionComponent(new Vec2<>(0.1, 0.23));
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
 
         registerEntity(player1);
@@ -62,13 +63,13 @@ public class Engine {
 
         var player2 = new Entity();
         var motionComponent2 = new MotionComponent();
-        var positionComponent2 = new PositionComponent(new Vec2<>(0.9, 0.3));
+        var positionComponent2 = new PositionComponent(new Vec2<>(0.14, 0.3));
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
 
         registerEntity(player2);
         ComponentManager.addComponent(player2, motionComponent2);
         ComponentManager.addComponent(player2, positionComponent2);
-        ComponentManager.addComponent(player2, boundingBoxComponent1);
+        ComponentManager.addComponent(player2, boundingBoxComponent2);
     }
 
     private static void setupScreenBorders() {
@@ -131,6 +132,14 @@ public class Engine {
                 system.removeEntity(entity);
             }
         }
+    }
+
+    public static void destroyEntity(Entity entity) {
+        for(System system : systems) {
+            system.removeEntity(entity);
+        }
+
+        ComponentManager.destroyComponents(entity);
     }
 
     public static void run() {
