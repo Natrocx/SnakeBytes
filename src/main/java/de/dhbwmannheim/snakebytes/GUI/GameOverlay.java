@@ -2,6 +2,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -11,8 +12,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 //by Kai Schwab
 
@@ -21,6 +25,15 @@ public class GameOverlay extends StackPane {
     int scP1 = 0;
     int scP2 = 0;
     public GameOverlay(Stage primaryStage) {
+        MiniBack back = new MiniBack(primaryStage);
+        back.setTranslateX(-80);
+        back.setTranslateY(-70);
+        MiniBack music = new MiniBack(primaryStage);
+        music.setTranslateX(900);
+        music.setTranslateY(-70);
+        MiniBack sound = new MiniBack(primaryStage);
+        sound.setTranslateX(1050);
+        sound.setTranslateY(-70);
         Pause pause = new Pause(primaryStage);
         pause.setTranslateX(1180);
         pause.setTranslateY(-70);
@@ -28,14 +41,15 @@ public class GameOverlay extends StackPane {
         score.setTranslateX(550);
         score.setTranslateY(-70);
         Game_Timer timer =new Game_Timer(CharacterMenu.time,primaryStage);
-        timer.setTranslateX(900);
+        timer.setTranslateX(200);
         timer.setTranslateY(-70);
-        setAlignment(Pos.TOP_RIGHT);
         CountDown countDown = new CountDown();
         countDown.setTranslateX(550);
         countDown.setTranslateY(300);
 
-        getChildren().addAll(pause,score, timer,countDown);
+        setAlignment(Pos.TOP_CENTER);
+
+        getChildren().addAll(countDown,score,timer,pause,sound,music,back);
 
     }
 }
@@ -142,6 +156,75 @@ class  Pause extends StackPane {
         });
         r2.setOnMouseReleased(event -> {
             circle.setFill(Color.RED);
+        });
+
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(circle, r1,r2);
+
+    }
+}
+class  MiniBack extends StackPane {
+    public MiniBack(Stage primaryStage) {
+        final Circle circle = new Circle(10, 20, 20);
+        final Rectangle r1 = new Rectangle(5, 25);
+        final Rectangle r2 = new Rectangle(5, 25);
+        r1.setRotate(45);
+        r2.setRotate(315);
+        circle.setFill(Color.DARKRED);
+        circle.setStroke(Color.BLACK);
+        circle.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        circle.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        circle.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            Scene scene = null;
+            try {
+                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(scene);
+        });
+        r1.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        r1.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        r1.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            Scene scene = null;
+            try {
+                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(scene);
+        });
+        r2.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        r2.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        r2.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            Scene scene = null;
+            try {
+                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(scene);
         });
 
         setAlignment(Pos.CENTER);
