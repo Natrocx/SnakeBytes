@@ -5,8 +5,6 @@ import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoField;
-import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -36,26 +34,41 @@ public class Engine {
         //registerSystem(new MovementSystem());
         registerSystem(new CollisionSystem());
 
-        setupScreenBorders();
         setupPlayers();
+        setupScreenBorders();
+        setupPlatforms();
+    }
+
+    private static void setupPlatforms() {
+        var ground = new Entity();
+        var groundPosition = new PositionComponent(new Vec2<>(0.1, 0.2));
+        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.8, 0.1), BoundingBoxComponent.BoxType.Ground);
+
+        registerEntity(ground);
+        ComponentManager.addComponent(ground, groundPosition);
+        ComponentManager.addComponent(ground, groundBoundingBox);
     }
 
     private static void setupPlayers() {
         var player1 = new Entity();
         var motionComponent1 = new MotionComponent();
-        var positionComponent1 = new PositionComponent(new Vec2<>(0.1, 0.1));
+        var positionComponent1 = new PositionComponent(new Vec2<>(0.1, 0.25));
+        var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
 
         registerEntity(player1);
         ComponentManager.addComponent(player1, motionComponent1);
         ComponentManager.addComponent(player1, positionComponent1);
+        ComponentManager.addComponent(player1, boundingBoxComponent1);
 
         var player2 = new Entity();
         var motionComponent2 = new MotionComponent();
-        var positionComponent2 = new PositionComponent(new Vec2<>(0.9, 0.1));
+        var positionComponent2 = new PositionComponent(new Vec2<>(0.9, 0.3));
+        var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
 
         registerEntity(player2);
         ComponentManager.addComponent(player2, motionComponent2);
         ComponentManager.addComponent(player2, positionComponent2);
+        ComponentManager.addComponent(player2, boundingBoxComponent1);
     }
 
     private static void setupScreenBorders() {
@@ -70,13 +83,13 @@ public class Engine {
         registerEntity(borderBottom);
 
         var blPosition = new PositionComponent(new Vec2<>(-1.0, -1.0));
-        var blBB = new BoundingBoxComponent(new Vec2<>(1.0, 2.0));
+        var blBB = new BoundingBoxComponent(new Vec2<>(1.0, 2.0), BoundingBoxComponent.BoxType.Screen);
         var brPosition = new PositionComponent(new Vec2<>(1.0, -1.0));
-        var brBB = new BoundingBoxComponent(new Vec2<>(1.0, 2.0));
+        var brBB = new BoundingBoxComponent(new Vec2<>(1.0, 2.0), BoundingBoxComponent.BoxType.Screen);
         var btPosition = new PositionComponent(new Vec2<>(0.0, 1.0));
-        var btBB = new BoundingBoxComponent(new Vec2<>(1.0, 1.0));
+        var btBB = new BoundingBoxComponent(new Vec2<>(1.0, 1.0), BoundingBoxComponent.BoxType.Screen);
         var bbPosition = new PositionComponent(new Vec2<>(0.0, -1.0));
-        var bbBB = new BoundingBoxComponent(new Vec2<>(1.0, 1.0));
+        var bbBB = new BoundingBoxComponent(new Vec2<>(1.0, 1.0), BoundingBoxComponent.BoxType.Screen);
 
         ComponentManager.addComponent(borderLeft, blPosition);
         ComponentManager.addComponent(borderLeft, blBB);

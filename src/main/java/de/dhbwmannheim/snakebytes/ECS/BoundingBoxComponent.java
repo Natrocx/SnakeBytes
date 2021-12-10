@@ -13,10 +13,6 @@ public class BoundingBoxComponent extends Component {
         this.boxType = boxType;
     }
 
-    public BoundingBoxComponent(Vec2<Double> size) {
-        this.size = size;
-    }
-
     @Override
     public int getId() {
         return id;
