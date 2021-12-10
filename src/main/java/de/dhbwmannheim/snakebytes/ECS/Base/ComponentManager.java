@@ -10,14 +10,14 @@ public class ComponentManager {
     @SuppressWarnings("rawtypes") // consistent use of generic Type IDs make checks unnecessary
     private static final HashMap<Class, ComponentList> componentLists = new HashMap<>();
 
-    public static void registerComponentList(Class clazz) {
+    public static void registerComponentList(Class<? extends Component> clazz) {
         var list = new ComponentList<>();
         list.registerCallbacks( ComponentManager::addComponentCallback, ComponentManager::removeComponentCallback);
         componentLists.put(clazz, list);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Component> ComponentList<T> getComponentList(Class clazz) {
+    public static <T extends Component> ComponentList<T> getComponentList(Class<T> clazz) {
         return componentLists.get(clazz);
     }
 
@@ -42,8 +42,14 @@ public class ComponentManager {
 
 
     @SuppressWarnings("unchecked") // consistent use of generic Type IDs make checks unnecessary
-    public static <T extends Component> T getComponent(Entity entity, Class clazz) {
+    public static <T extends Component> T getComponent(Entity entity, Class<T> clazz) {
         return (T) componentLists.get(clazz).getComponent(entity);
+    }
+
+    static void destroyComponents(Entity entity) {
+        for(ComponentList<?> list : componentLists.values()) {
+            list.removeComponent(entity);
+        }
     }
 
     /**
