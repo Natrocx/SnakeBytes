@@ -17,13 +17,9 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 
-import javafx.stage.Stage;
-
-import java.io.FileNotFoundException;
-
 //by Kai Schwab
 
-public class MainMenu extends VBox{
+public class MainMenu extends VBox {
     public MainMenu(Stage primaryStage) {
         //Titel
         Title title = new Title("S N A K E   B Y T E S");
@@ -35,10 +31,11 @@ public class MainMenu extends VBox{
         vbox.setTranslateY(150);
         vbox.setTranslateX((1350 / 2) - 350);
 
-        getChildren().addAll(title,vbox);
+        getChildren().addAll(title, vbox);
 
     }
 }
+
 //Titel-Objekt
 class Title extends StackPane {
     public Title(String name) {
@@ -51,7 +48,7 @@ class Title extends StackPane {
         text.setFill(Color.DARKRED);
         text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 69));
 
-        getChildren().addAll(bg,text);
+        getChildren().addAll(bg, text);
     }
 }
 
@@ -63,36 +60,33 @@ class MenuBox extends VBox {
         MenuItem item3 = new MenuItem("Settings", primaryStage);
         MenuItem item4 = new MenuItem("Erklärungen", primaryStage);
 
-        getChildren().addAll(item1, createSeperator(),item2,createSeperator(),item3,createSeperator(),item4);
+        getChildren().addAll(item1, createSeperator(), item2, createSeperator(), item3, createSeperator(), item4);
     }
 
     private HBox createSeperator() {
         HBox sep = new HBox();
-        sep.setPrefSize(200,69);
+        sep.setPrefSize(200, 69);
         return sep;
     }
 
 }
 
-class MenuItem extends StackPane{
+class MenuItem extends StackPane {
 
     public MenuItem(String name, Stage primaryStage) {
-        LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop[] {
-                new Stop(0, Color.YELLOW),
+        LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop(0, Color.YELLOW),
                 new Stop(0.1, Color.RED),
                 new Stop(0.9, Color.RED),
-                new Stop(1, Color.DARKBLUE)
+                new Stop(1, Color.DARKBLUE));
 
-        });
-
-        Rectangle bg = new Rectangle(600,60);
+        Rectangle bg = new Rectangle(600, 60);
         bg.setStroke(Color.BLACK);
         bg.setFill(Color.DARKRED);
         bg.setOpacity(0.7);
 
         Text text = new Text(name);
         text.setFill(Color.DARKGREY);
-        text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD,25));
+        text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(bg, text);
@@ -108,7 +102,7 @@ class MenuItem extends StackPane{
             text.setFill(Color.DARKGREY);
         });
 
-        //Funktionen bei einbem Knopfdruck auf ein belie/biges Item
+        //Funktionen bei einbem Knopfdruck auf ein beliebiges Item
         setOnMousePressed(event -> {
             bg.setFill(Color.DARKGOLDENROD);
             Scene scene = null;
