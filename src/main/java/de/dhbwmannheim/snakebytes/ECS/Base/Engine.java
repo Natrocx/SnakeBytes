@@ -1,3 +1,4 @@
+// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
@@ -147,7 +148,7 @@ public class Engine {
 
     public static void reset() {
         ComponentManager.addComponent(players[0], POSITION_COMPONENT_1.copy());
-        ComponentManager.addComponent(players[1], POSITION_COMPONENT_1.copy());
+        ComponentManager.addComponent(players[1], POSITION_COMPONENT_2.copy());
 
         ComponentManager.clearComponents(AttackCollisionComponent.class);
         ComponentManager.clearComponents(ScreenBorderCollisionComponent.class);

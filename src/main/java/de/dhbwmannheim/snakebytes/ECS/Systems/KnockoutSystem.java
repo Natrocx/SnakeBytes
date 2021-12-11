@@ -1,3 +1,4 @@
+// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.System;

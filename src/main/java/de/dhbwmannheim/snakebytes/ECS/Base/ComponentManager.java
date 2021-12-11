@@ -1,3 +1,4 @@
+// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import org.jetbrains.annotations.NotNull;

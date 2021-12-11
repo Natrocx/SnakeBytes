@@ -1,3 +1,4 @@
+// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
@@ -8,6 +9,7 @@ import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
 import java.util.BitSet;
+
 
 public class CollisionSystem extends System {
 
@@ -23,6 +25,11 @@ public class CollisionSystem extends System {
     private final ComponentList<ScreenBorderCollisionComponent> screenBorderCollisionComponents;
 
     public CollisionSystem() {
+        signature = new BitSet();
+
+        signature.set(ConversionUtils.indexFromID(PositionComponent.id));
+        signature.set(ConversionUtils.indexFromID(BoundingBoxComponent.id));
+
         this.positionComponents = ComponentManager.getComponentList(PositionComponent.class);
         this.boundingBoxComponents = ComponentManager.getComponentList(BoundingBoxComponent.class);
         this.motionComponents = ComponentManager.getComponentList(MotionComponent.class);
@@ -86,11 +93,6 @@ public class CollisionSystem extends System {
 
     @Override
     public BitSet getSignature() {
-        var signature = new BitSet();
-
-        signature.set(ConversionUtils.indexFromID(PositionComponent.id));
-        signature.set(ConversionUtils.indexFromID(BoundingBoxComponent.id));
-
         return signature;
     }
 

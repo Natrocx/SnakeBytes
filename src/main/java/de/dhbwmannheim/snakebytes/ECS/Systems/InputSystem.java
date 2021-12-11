@@ -1,12 +1,12 @@
-//code by Eric Stefan
+//code by Eric Stefan, Jonas Lauschke
 
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
-import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
-import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
+import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.MotionComponent;
+import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.scene.input.KeyEvent;
 import org.json.simple.JSONArray;
@@ -179,9 +179,19 @@ public class InputSystem extends System {
 
     }
 
+    public InputSystem() {
+        signature = new BitSet();
+
+        signature.set(ConversionUtils.indexFromID(CharacterStateComponent.id));
+        signature.set(ConversionUtils.indexFromID(MotionComponent.id));
+
+        motion = ComponentManager.getComponentList(MotionComponent.class);
+        characterState = ComponentManager.getComponentList(CharacterStateComponent.class);
+    }
+
     @Override
     public BitSet getSignature() {
-        return null;
+        return signature;
     }
 
     //if true is returned the player is currently multi-jumping (respectively double jumping)

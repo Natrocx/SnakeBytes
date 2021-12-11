@@ -1,3 +1,4 @@
+// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import java.util.ArrayList;
@@ -6,6 +7,7 @@ import java.util.List;
 
 public abstract class System {
     protected final List<Entity> entities = new ArrayList<>();
+    protected BitSet signature;
 
     public abstract void update(double deltaTime) throws Exception;
 
