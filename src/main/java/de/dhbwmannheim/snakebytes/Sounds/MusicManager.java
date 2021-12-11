@@ -16,9 +16,9 @@ public class MusicManager {
 
     //declaration has to be before a methods --> prevent garbage collector to cancel playback
     private MediaPlayer player;
+    private Media sound = new Media(new File("src/main/resources/music/SnakeBytes_GameMusic.mp3").toURI().toString());
 
     public MusicManager() {
-        Media sound = new Media(new File("src/main/resources/music/SnakeBytes_GameMusic.mp3").toURI().toString());
         this.player = new MediaPlayer(sound);
     }
 
