@@ -15,7 +15,7 @@ public class Engine {
 
     public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.1, 0.23));
     public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.14, 0.3));
-    private static final List<System> systems = new ArrayList<>();
+    private static final List<ISystem> systems = new ArrayList<>();
     private static final Entity[] players = new Entity[2];
     private static Victory finish = null;
 
@@ -24,7 +24,7 @@ public class Engine {
     }
 
     public static void update(double deltaTime) throws Exception {
-        for (System sys :
+        for (ISystem sys :
                 systems) {
             sys.update(deltaTime);
         }
@@ -120,7 +120,7 @@ public class Engine {
      * @param entity May or may not be registered already.
      */
     public static void registerEntity(Entity entity) {
-        for (System system : systems) {
+        for (ISystem system : systems) {
             BitSet signature = (BitSet) system.getSignature().clone();
             signature.and(entity.signature);
 
@@ -136,7 +136,7 @@ public class Engine {
      * @param entity May or may not be registered already.
      */
     public static void unregisterEntity(Entity entity) {
-        for (System system : systems) {
+        for (ISystem system : systems) {
             BitSet signature = (BitSet) system.getSignature().clone();
             signature.and(entity.signature);
 
@@ -147,7 +147,7 @@ public class Engine {
     }
 
     public static void destroyEntity(Entity entity) {
-        for (System system : systems) {
+        for (ISystem system : systems) {
             system.removeEntity(entity);
         }
 
@@ -186,7 +186,7 @@ public class Engine {
         while (finish != null) {
             Instant now = Instant.now();
             /* Systems will be executed in order of registration - see setup for further information */
-            for (System sys : systems) {
+            for (ISystem sys : systems) {
                 update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
             }
             last = now;
