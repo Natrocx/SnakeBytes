@@ -7,9 +7,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.Hashtable;
-
 public class SettingsMenu extends VBox {
 
     /*
@@ -47,18 +44,18 @@ public class SettingsMenu extends VBox {
         //
 
 
-        getChildren().addAll(header,back);
+        getChildren().addAll(header, back);
     }
 }
 
 class Header extends HBox {
-    public Header(){
+    public Header() {
         Title2 P1 = new Title2("               P1               ");
         Title2 title = new Title2("            Settings            ");
         Title2 P2 = new Title2("               P2               ");
 
         setAlignment(Pos.TOP_CENTER);
-        getChildren().addAll(P1,title,P2);
+        getChildren().addAll(P1, title, P2);
     }
 
 }

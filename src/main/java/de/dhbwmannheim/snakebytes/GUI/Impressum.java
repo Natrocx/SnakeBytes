@@ -1,7 +1,6 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -24,7 +23,7 @@ public class Impressum extends VBox {
         TextElement t2 = new TextElement("Cyber-Kammerjäger", "Die Special-Fähigkeit des Kammernjägers stellt einen Pointer , als Killer-Feature, dar. Die Pointer hat die Eigenschaft, die der Programmiersprache C zugeschriebn wird, schnell zu sein ");
 
 
-        getChildren().addAll(headerI,ws,t1,t2);
+        getChildren().addAll(headerI, ws, t1, t2);
     }
 }
 
@@ -40,16 +39,17 @@ class HeaderI extends HBox {
         back.setTranslateY(20);
 
         setAlignment(Pos.TOP_CENTER);
-        getChildren().addAll(titleI,back);
+        getChildren().addAll(titleI, back);
     }
 }
-class TextElement extends HBox{
-    public TextElement(String title,String text){
+
+class TextElement extends HBox {
+    public TextElement(String title, String text) {
         Title3 titleE = new Title3(title);
 
-        Textpart textpart =new Textpart(text);
+        Textpart textpart = new Textpart(text);
 
-        getChildren().addAll(titleE,textpart);
+        getChildren().addAll(titleE, textpart);
     }
 }
 
@@ -65,6 +65,7 @@ class Title3 extends StackPane {
         getChildren().addAll(text);
     }
 }
+
 class Textpart extends StackPane {
     public Textpart(String explenation) {
 
