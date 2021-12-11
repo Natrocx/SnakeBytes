@@ -1,6 +1,6 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-import javafx.application.Platform;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -73,7 +73,7 @@ class  Game_Timer extends StackPane {
     }
 }
 
-//ToDo:Countdown wie in CHarakterSelect
+
 class CountDown extends StackPane{
     static int c = 3;
     public CountDown(){
@@ -164,6 +164,8 @@ class  Pause extends StackPane {
 
     }
 }
+//To do music
+//Todo Music Stop beim backen
 class  MiniBack extends StackPane {
     public MiniBack(Stage primaryStage) {
         final Circle circle = new Circle(10, 20, 20);
