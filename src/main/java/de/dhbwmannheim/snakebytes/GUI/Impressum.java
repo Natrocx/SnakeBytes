@@ -95,7 +95,7 @@ class CTitle extends StackPane {
         text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
         text.setWrappingWidth(250);
 
-        setMargin(text, new Insets(5, 5, 5, 5);
+        setMargin(text, new Insets(5, 5, 5, 5));
         setAlignment(Pos.CENTER);
         getChildren().addAll(text);
     }
