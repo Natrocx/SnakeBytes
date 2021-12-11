@@ -15,8 +15,6 @@ import java.io.FileNotFoundException;
 
 public class Menus extends Application {
 
-    //by Kai Schwab
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -88,7 +86,8 @@ public class Menus extends Application {
 
         return root;
     }
-    static Parent createKeyBinding(Stage primaryStage) throws FileNotFoundException {
+
+    static Parent createKeyBindingContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(320, 80);

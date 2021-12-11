@@ -12,7 +12,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Date;
 
 public class Scoreboard extends VBox {
     public Scoreboard(Stage primaryStage) {
