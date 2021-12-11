@@ -108,7 +108,7 @@ class MenuItem extends StackPane{
             text.setFill(Color.DARKGREY);
         });
 
-        //Funktionen bei einbem Knopfdruck auf ein belie/biges Item
+        //Funktionen bei einbem Knopfdruck auf ein beliebiges Item
         setOnMousePressed(event -> {
             bg.setFill(Color.DARKGOLDENROD);
             Scene scene = null;
