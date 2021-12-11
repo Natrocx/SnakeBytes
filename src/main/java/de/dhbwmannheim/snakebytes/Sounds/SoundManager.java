@@ -13,41 +13,42 @@ import java.io.File;
 
 public class SoundManager {
 
-    MediaPlayer player;
+    private MediaPlayer playerJump;
+    private MediaPlayer playerPunch;
+    private MediaPlayer playerSpAttack1;
+    private MediaPlayer playerSpAttack2;
+
+    private Media sound = new Media(new File("src/main/resources/sounds/jump.mp3").toURI().toString());
+    private Media sound2 = new Media(new File("src/main/resources/sounds/punch.mp3").toURI().toString());
+    private Media sound3 = new Media(new File("src/main/resources/sounds/spAttack1.mp3").toURI().toString());
+    private Media sound4 = new Media(new File("src/main/resources/sounds/spAttack2.mp3").toURI().toString());
+
 
     public SoundManager() {
+        this.playerJump = new MediaPlayer(sound);
+        this.playerPunch = new MediaPlayer(sound2);
+        this.playerSpAttack1 = new MediaPlayer(sound3);
+        this.playerSpAttack2 = new MediaPlayer(sound4);
     }
 
     public void playJumpSound() throws Exception {
-        //Media Creation
-        Media sound = new Media(new File("src/main/resources/sounds/jump.mp3").toURI().toString());
-        player = new MediaPlayer(sound);
 
-        player.play();
+        playerJump.play();
     }
 
     public void playPunchSound() throws Exception {
-        //Media Creation
-        Media sound = new Media(new File("src/main/resources/sounds/punch.mp3").toURI().toString());
-        player = new MediaPlayer(sound);
 
-        player.play();
+        playerPunch.play();
     }
 
     public void playSpAttack1() throws Exception {
-        //Media Creation
-        Media sound = new Media(new File("src/main/resources/sounds/spAttack1.mp3").toURI().toString());
-        player = new MediaPlayer(sound);
 
-        player.play();
+        playerSpAttack1.play();
     }
 
     public void playSpAttack2() throws Exception {
-        //Media Creation
-        Media sound = new Media(new File("src/main/resources/sounds/spAttack2.mp3").toURI().toString());
-        player = new MediaPlayer(sound);
 
-        player.play();
+        playerSpAttack2.play();
     }
 
 }
