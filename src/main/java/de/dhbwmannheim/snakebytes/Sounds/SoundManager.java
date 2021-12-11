@@ -24,6 +24,7 @@ public class SoundManager {
         player = new MediaPlayer(sound);
 
         player.play();
+        player.setVolume(0.0);
     }
 
     public void playPunchSound() throws Exception {
@@ -32,6 +33,7 @@ public class SoundManager {
         player = new MediaPlayer(sound);
 
         player.play();
+        player.setVolume(0.0);
     }
 
     public void playSpAttack1() throws Exception {
@@ -40,6 +42,7 @@ public class SoundManager {
         player = new MediaPlayer(sound);
 
         player.play();
+        player.setVolume(0.0);
     }
 
     public void playSpAttack2() throws Exception {
@@ -48,6 +51,7 @@ public class SoundManager {
         player = new MediaPlayer(sound);
 
         player.play();
+        player.setVolume(0.0);
     }
 
 }
