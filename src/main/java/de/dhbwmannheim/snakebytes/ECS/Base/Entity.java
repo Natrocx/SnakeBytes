@@ -18,4 +18,5 @@ public class Entity {
     public int hashCode() {
         return id;
     }
+    
 }

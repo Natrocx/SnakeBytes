@@ -15,7 +15,6 @@ public class AttackCollisionComponent extends Component {
     public Vec2<Double> overlap;
 
 
-
     public AttackCollisionComponent(Vec2<Double> overlap) {
         this.overlap = overlap;
     }
