@@ -1,13 +1,13 @@
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
-import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.*;
+import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
+import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
+import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.BitSet;
-import java.util.List;
 
 public class CollisionSystem extends System {
 
@@ -21,6 +21,14 @@ public class CollisionSystem extends System {
     /// System Output
     private final ComponentList<AttackCollisionComponent> attackCollisionComponents;
     private final ComponentList<ScreenBorderCollisionComponent> screenBorderCollisionComponents;
+
+    public CollisionSystem() {
+        this.positionComponents = ComponentManager.getComponentList(PositionComponent.class);
+        this.boundingBoxComponents = ComponentManager.getComponentList(BoundingBoxComponent.class);
+        this.motionComponents = ComponentManager.getComponentList(MotionComponent.class);
+        this.attackCollisionComponents = ComponentManager.getComponentList(AttackCollisionComponent.class);
+        this.screenBorderCollisionComponents = ComponentManager.getComponentList(ScreenBorderCollisionComponent.class);
+    }
 
     @Override
     public void update(double deltaTime) {
@@ -86,14 +94,6 @@ public class CollisionSystem extends System {
         return signature;
     }
 
-    public CollisionSystem() {
-        this.positionComponents = ComponentManager.getComponentList(PositionComponent.class);
-        this.boundingBoxComponents = ComponentManager.getComponentList(BoundingBoxComponent.class);
-        this.motionComponents = ComponentManager.getComponentList(MotionComponent.class);
-        this.attackCollisionComponents = ComponentManager.getComponentList(AttackCollisionComponent.class);
-        this.screenBorderCollisionComponents = ComponentManager.getComponentList(ScreenBorderCollisionComponent.class);
-    }
-
     /// Handle collisions in case e1 is a player. Position corrections will be made inline.
     private void playerCollisions(Entity e1, Entity e2) {
         var e1Pos = positionComponents.getComponent(e1);
@@ -106,7 +106,7 @@ public class CollisionSystem extends System {
         // naively determined position to determine the physically correct position.
         // Always push e1 in the direction which would result in shorter movement
         var x_overlap = e1Pos.value.x < e2Pos.value.x ?
-                e1Pos.value.x + e1BB.size.x - e2Pos.value.x   :
+                e1Pos.value.x + e1BB.size.x - e2Pos.value.x :
                 e2Pos.value.x + e2BB.size.x - e1Pos.value.x;
         var y_overlap = e1Pos.value.y < e2Pos.value.y ?
                 e1Pos.value.y + e2BB.size.y - e2Pos.value.y :
@@ -125,7 +125,7 @@ public class CollisionSystem extends System {
                 }
                 // Otherwise, fall through to Ground for accurate Movement correction
 
-            // The Ground-branch is supposed to be a physically accurate movement correction
+                // The Ground-branch is supposed to be a physically accurate movement correction
             case Ground: {
                 e1Pos.value.x += x_overlap;
                 e1Pos.value.y += y_overlap;
@@ -136,19 +136,19 @@ public class CollisionSystem extends System {
             // The player-branch does basically exactly the same as Ground but distributed to both objects of the collision
             case Player: {
                 // for player 1:
-                e1Pos.value.x += - 0.5 * x_overlap;
-                e1Pos.value.y += - 0.5 * y_overlap;
+                e1Pos.value.x += -0.5 * x_overlap;
+                e1Pos.value.y += -0.5 * y_overlap;
 
                 // for player 2 (correct into other direction):
-                e2Pos.value.x +=   0.5 * x_overlap;
-                e2Pos.value.y +=   0.5 * y_overlap;
+                e2Pos.value.x += 0.5 * x_overlap;
+                e2Pos.value.y += 0.5 * y_overlap;
 
                 break;
             }
 
             // there are no corrections to be made inline so the system will simply emit the corresponding component
             case Attack:
-                attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent( new Vec2<>(
+                attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(new Vec2<>(
                         x_overlap, y_overlap
                 )));
                 break;

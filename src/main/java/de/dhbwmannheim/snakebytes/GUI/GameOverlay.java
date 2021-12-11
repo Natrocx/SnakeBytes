@@ -1,17 +1,11 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
-import java.io.FileNotFoundException;
-
-import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 //by Kai Schwab
 
@@ -25,7 +19,7 @@ public class GameOverlay extends StackPane {
     }
 }
 
-class  Pause extends StackPane {
+class Pause extends StackPane {
     public Pause(Stage primaryStage) {
         final Circle circle = new Circle(10, 20, 20);
         final Rectangle r1 = new Rectangle(5, 25);
@@ -67,7 +61,7 @@ class  Pause extends StackPane {
         });
 
         setAlignment(Pos.CENTER);
-        getChildren().addAll(circle, r1,r2);
+        getChildren().addAll(circle, r1, r2);
 
     }
 }

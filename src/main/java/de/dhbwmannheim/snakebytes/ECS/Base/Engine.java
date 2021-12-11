@@ -12,12 +12,14 @@ import java.util.List;
 public class Engine {
 
     private static final List<System> systems = new ArrayList<>();
+    public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.1, 0.23));
+    public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.14, 0.3));
 
     public static void registerSystem(System sys) {
         systems.add(sys);
     }
-    
-    public void update(double deltaTime) throws Exception {
+
+    public static void update(double deltaTime) throws Exception {
         for (System sys :
                 systems) {
             sys.update(deltaTime);
@@ -53,22 +55,20 @@ public class Engine {
     private static void setupPlayers() {
         var player1 = new Entity();
         var motionComponent1 = new MotionComponent();
-        var positionComponent1 = new PositionComponent(new Vec2<>(0.1, 0.23));
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
 
         registerEntity(player1);
         ComponentManager.addComponent(player1, motionComponent1);
-        ComponentManager.addComponent(player1, positionComponent1);
+        ComponentManager.addComponent(player1, POSITION_COMPONENT_1.copy());
         ComponentManager.addComponent(player1, boundingBoxComponent1);
 
         var player2 = new Entity();
         var motionComponent2 = new MotionComponent();
-        var positionComponent2 = new PositionComponent(new Vec2<>(0.14, 0.3));
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
 
         registerEntity(player2);
         ComponentManager.addComponent(player2, motionComponent2);
-        ComponentManager.addComponent(player2, positionComponent2);
+        ComponentManager.addComponent(player2, POSITION_COMPONENT_2.copy());
         ComponentManager.addComponent(player2, boundingBoxComponent2);
     }
 
@@ -135,18 +135,46 @@ public class Engine {
     }
 
     public static void destroyEntity(Entity entity) {
-        for(System system : systems) {
+        for (System system : systems) {
             system.removeEntity(entity);
         }
 
         ComponentManager.destroyComponents(entity);
     }
 
-    public static void run() {
+    public static void reset() {
+        ComponentManager.addComponent(players[0], POSITION_COMPONENT_1.copy());
+        ComponentManager.addComponent(players[1], POSITION_COMPONENT_1.copy());
+
+        ComponentManager.clearComponents(AttackCollisionComponent.class);
+        ComponentManager.clearComponents(ScreenBorderCollisionComponent.class);
+    }
+
+    /**
+     * Call this when one players lives becomes negative
+     *
+     * @param playersKnockedOut Array of players that lost in the current tick of the engine
+     */
+    public static void finish(Entity[] playersKnockedOut) {
+        for (Entity entity : playersKnockedOut) {
+            if (entity == players[0] && finish == null) {
+                finish = Victory.PlayerOne;
+            } else if (entity == players[1] && finish == null) {
+                finish = Victory.PlayerTwo;
+            } else if (entity == players[0] || entity == players[1]) {
+                finish = Victory.Draw;
+            }
+        }
+    }
+
+    private static Victory finish = null;
+    private static Entity[] players = new Entity[2];
+
+    public static Victory run() throws Exception {
 
         Instant last = Instant.now();
         // TODO: get cancel condition from input system
-        while (true) {
+        while (finish != null) {
             Instant now = Instant.now();
             /* Systems will be executed in order of registration - see setup for further information */
             for (System sys : systems) {
@@ -154,5 +182,12 @@ public class Engine {
             }
             last = now;
         }
+        return finish;
+    }
+
+    public enum Victory {
+        PlayerOne,
+        PlayerTwo,
+        Draw
     }
 }
