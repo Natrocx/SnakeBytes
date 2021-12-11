@@ -16,6 +16,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.System;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Hashtable;
@@ -29,7 +30,7 @@ import java.util.List;
  * but the positionComponent still gets updated.
  */
 
-public class InputSystem extends System {
+public class InputSystem extends de.dhbwmannheim.snakebytes.ECS.Base.System{
 
     //Saving the KeySettings of player 1 into a HashTable, so that: <keyboard key as String, connected action as String>
     static Hashtable<String, String> player1KeySettings;

@@ -12,7 +12,7 @@ import de.dhbwmannheim.snakebytes.ECS.Base.Component;
 public class CharacterStateComponent extends Component {
     public static final int id = 0b1000000;
 
-    public Vec2<Double> knockback; //remaining velocity of knockback
+    public double knockback; //remaining velocity of knockback
     public double attackCooldown; //remaining time of attack cooldown
     public double specialAttackCooldown; //remaining time of special attack cooldown
     public int lives; //remaining lives
