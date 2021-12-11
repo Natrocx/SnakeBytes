@@ -19,16 +19,17 @@ import javafx.stage.Stage;
 import javafx.scene.text.*;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Hashtable;
 
-public class SettingsMenu extends VBox {
+public class SettingsMenu extends StackPane {
     public SettingsMenu(Stage primaryStage) {
         //Title
         HeaderP title = new HeaderP(primaryStage);
-        title.setTranslateX(500);
+        title.setTranslateX(400);
+        title.setTranslateY(-100);
 
         SettingsTable settings = new SettingsTable(primaryStage);
+
+        setAlignment(Pos.CENTER);
 
         getChildren().addAll(title,settings);
     }
@@ -42,7 +43,7 @@ class HeaderP extends HBox {
 
 
         Back back = new Back(primaryStage);
-        back.setTranslateX(400);
+        back.setTranslateX(600);
         back.setTranslateY(20);
 
         setAlignment(Pos.TOP_CENTER);
