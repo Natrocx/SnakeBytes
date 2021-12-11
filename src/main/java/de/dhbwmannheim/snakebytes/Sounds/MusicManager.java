@@ -18,13 +18,11 @@ public class MusicManager {
     MediaPlayer player;
 
     public MusicManager() {
+        Media sound = new Media(new File("src/main/resources/music/SnakeBytes_GameMusic.mp3").toURI().toString());
+        player = new MediaPlayer(sound);
     }
 
     public void playMusic() throws Exception {
-
-        //Media Creation
-        Media sound = new Media(new File("src/main/resources/music/SnakeBytes_GameMusic.mp3").toURI().toString());
-        player = new MediaPlayer(sound);
 
         //Loop
         player.setOnEndOfMedia(new Runnable() {
@@ -34,6 +32,11 @@ public class MusicManager {
         });
 
         player.play();
+    }
+
+    public void pauseMusic() throws Exception {
+
+        player.pause();
     }
 
 }
