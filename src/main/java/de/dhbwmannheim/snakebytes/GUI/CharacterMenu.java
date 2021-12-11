@@ -231,6 +231,7 @@ class SideMenuItem extends StackPane {
 
                 try {
                     FrameHandler frameHandler = new FrameHandler(primaryStage);
+                    //schleife
                     frameHandler.update(frameHandler);
 
                 } catch (Exception e) {
