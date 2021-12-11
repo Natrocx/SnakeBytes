@@ -6,6 +6,7 @@ import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.MotionComponent;
+import de.dhbwmannheim.snakebytes.ECS.PositionComponent;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.scene.input.KeyEvent;
@@ -77,30 +78,6 @@ public class InputSystem extends System {
     ArrayList<String> pressedKeys;
     SoundManager soundManager;
 
-    //function to read the JSON-file which saves the key settings of player1 and player2
-    private static Hashtable<String, String> getKeySettings(String player) throws IOException, ParseException {
-        Hashtable<String, String> playerKeyValues = new Hashtable<>();
-
-        JSONParser jsonParser = new JSONParser();
-        FileReader reader = new FileReader("src/main/java/de/dhbwmannheim/snakebytes/ECS/Systems/keySettings.json");
-        Object obj = jsonParser.parse(reader);
-        JSONArray arr = (JSONArray) obj;
-
-        int help;
-        if (player.equals("player1")) {
-            help = 0;
-        } else {
-            help = 1;
-        }
-        JSONObject obj2 = (JSONObject) ((JSONObject) arr.get(help)).get(player);
-        for (int i = 0; i < obj2.size(); i++) {
-            String temp = obj2.keySet().stream().toList().get(i).toString();
-            //key= keyboard key; and value= action to execute
-            playerKeyValues.put(obj2.get(temp).toString(), temp);
-        }
-
-        return playerKeyValues;
-    }
 
     //saving all recent key presses since the last time the following update() function were executed
     public void keyPressed(KeyEvent keyEvent){

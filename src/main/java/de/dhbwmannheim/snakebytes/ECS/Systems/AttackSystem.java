@@ -33,6 +33,7 @@ public class AttackSystem extends System {
     @Override
     public void update(double deltaTime) throws Exception {
 
+
         for (Entity entity : entities) {
             if(entity==Engine.getPlayer(0)){
                 MotionComponent attackMotion = motionComponents.getComponent(Engine.getPlayer(1));
@@ -40,6 +41,9 @@ public class AttackSystem extends System {
                 MotionComponent attackMotion = motionComponents.getComponent(Engine.getPlayer(0);
             }
 
+            var playerDirection = characterState.getComponent(entity).lookingDirection;
+            var playerposition = positionComponents.getComponent(entity).value;
+            var playerKnockback = characterState.getComponent(entity).knockback;
 
             //TODO what do i need for attackCollision
             AttackCollisionComponent attackCollision = attackCollisionComponent.getComponent(entity);
@@ -51,24 +55,18 @@ public class AttackSystem extends System {
                 var boundindgBoxComponent = new BoundingBoxComponent(new Vec2<>(0.02,0.005), BoundingBoxComponent.BoxType.Attack);
                 ComponentManager.addComponent(armEntity,boundindgBoxComponent);
 
-                var playerDirection = characterState.getComponent(entity).state;
-                var playerposition = positionComponents.getComponent(entity);
-
-                var playerKnockback = characterState.getComponent(entity).knockback;
-
                 switch(playerDirection){
                     case 4:
-                        var positionComponent = new PositionComponent(new Vec2<>(playerposition.value.x-0.02, playerposition.value.y+0.07));
-                        ComponentManager.addComponent(armEntity,positionComponent);
+                        var positionLeftComponent = new PositionComponent(new Vec2<>(playerposition.x-0.02, playerposition.y+0.07));
+                        ComponentManager.addComponent(armEntity,positionLeftComponent);
                         break;
                     case 5:
-                        var positionComponent = new PositionComponent(new Vec2<>(playerposition.value.x+0.07, playerposition.value.y+0.07));
-                        ComponentManager.addComponent(armEntity,positionComponent);
+                        var positionRightComponent = new PositionComponent(new Vec2<>(playerposition.x+0.07, playerposition.y+0.07));
+                        ComponentManager.addComponent(armEntity,positionRightComponent);
                         break;
                     default:
                         break;
                 }
-                var pos = new PositionComponent(new Vec2<>());
 
 
                 playerKnockback = +0.5;
@@ -77,6 +75,9 @@ public class AttackSystem extends System {
             }
 
             if (characterState.getComponent(entity).specialAttacking == true){
+                Entity spcAttack = new Entity();
+
+
                 attackKnockback.knockback = +0.75;
                 attackMotion.velocity = attackCollision.overlap;
 
