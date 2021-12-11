@@ -6,10 +6,9 @@ import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 
 import java.io.FileNotFoundException;
 
@@ -20,24 +19,6 @@ public class Menus extends Application {
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws FileNotFoundException {
-        primaryStage.setTitle("SNAKE BYTES");
-        Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
-
-        primaryStage.show();
-        primaryStage.setScene(MainMenu);
-        primaryStage.setMaxHeight(900);
-        primaryStage.setMaxWidth(1350);
-        primaryStage.setMinHeight(900);
-        primaryStage.setMinWidth(1350);
-        primaryStage.setHeight(900);
-        primaryStage.setWidth(1350);
-
-        primaryStage.setScene(MainMenu);
-        primaryStage.show();
     }
 
     //Main Menu
@@ -120,5 +101,23 @@ public class Menus extends Application {
 
 
         return root;
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws FileNotFoundException {
+        primaryStage.setTitle("SNAKE BYTES");
+        Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+
+        primaryStage.show();
+        primaryStage.setScene(MainMenu);
+        primaryStage.setMaxHeight(900);
+        primaryStage.setMaxWidth(1350);
+        primaryStage.setMinHeight(900);
+        primaryStage.setMinWidth(1350);
+        primaryStage.setHeight(900);
+        primaryStage.setWidth(1350);
+
+        primaryStage.setScene(MainMenu);
+        primaryStage.show();
     }
 }
