@@ -2,6 +2,8 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //Code by Kai Schwab
 
+import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
+import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +16,9 @@ import java.io.FileNotFoundException;
 
 
 public class Menus extends Application {
+
+    //by Kai Schwab
+    public static MusicManager mediaplayer = new MusicManager();
 
     public static void main(String[] args) {
         launch(args);
@@ -120,10 +125,12 @@ public class Menus extends Application {
         root.setPrefSize(1350, 900);
 
         GameOverlay gov = new GameOverlay(primaryStage);
-        //MainMenu mainMenu =new MainMenu(primaryStage);
+        BackgroundBuilder background = new BackgroundBuilder(primaryStage);
+        mediaplayer.playMusic();
 
         //Einbauen der FrameHandler KLassen
 
+        root.getChildren().addAll(background, gov);
 
         root.getChildren().addAll(gov);
         //root.getChildren().addAll(background,gov);
