@@ -56,11 +56,11 @@ public class AttackSystem extends System {
                 ComponentManager.addComponent(armEntity,boundindgBoxComponent);
 
                 switch(playerDirection){
-                    case 4:
+                    case 0:
                         var positionLeftComponent = new PositionComponent(new Vec2<>(playerposition.x-0.02, playerposition.y+0.07));
                         ComponentManager.addComponent(armEntity,positionLeftComponent);
                         break;
-                    case 5:
+                    case 1:
                         var positionRightComponent = new PositionComponent(new Vec2<>(playerposition.x+0.07, playerposition.y+0.07));
                         ComponentManager.addComponent(armEntity,positionRightComponent);
                         break;
