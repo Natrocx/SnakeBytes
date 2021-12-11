@@ -29,10 +29,10 @@ public class GameOverlay extends StackPane {
         MiniBack back = new MiniBack(primaryStage);
         back.setTranslateX(-80);
         back.setTranslateY(-70);
-        MiniBack music = new MiniBack(primaryStage);
+        Music music = new Music(primaryStage);
         music.setTranslateX(900);
         music.setTranslateY(-70);
-        MiniBack sound = new MiniBack(primaryStage);
+        Sound sound = new Sound(primaryStage);
         sound.setTranslateX(1050);
         sound.setTranslateY(-70);
         Pause pause = new Pause(primaryStage);
@@ -276,22 +276,9 @@ class  Sound extends StackPane {
         r1.setOnMouseReleased(event -> {
             circle.setFill(Color.RED);
         });
-        r2.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        r2.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
-        r2.setOnMousePressed(event -> {
-            circle.setFill(Color.YELLOW);
-            //Pause();
-        });
-        r2.setOnMouseReleased(event -> {
-            circle.setFill(Color.RED);
-        });
 
         setAlignment(Pos.CENTER);
-        getChildren().addAll(circle, r1,r2);
+        getChildren().addAll(circle, r1);
 
     }
 }
