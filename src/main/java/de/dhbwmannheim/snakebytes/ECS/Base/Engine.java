@@ -13,16 +13,18 @@ import java.util.List;
 
 public class Engine {
 
-    private static final List<System> systems = new ArrayList<>();
     public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.1, 0.23));
     public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.14, 0.3));
+    private static final List<ISystem> systems = new ArrayList<>();
+    private static final Entity[] players = new Entity[2];
+    private static Victory finish = null;
 
     public static void registerSystem(System sys) {
         systems.add(sys);
     }
 
     public static void update(double deltaTime) throws Exception {
-        for (System sys :
+        for (ISystem sys :
                 systems) {
             sys.update(deltaTime);
         }
@@ -60,20 +62,26 @@ public class Engine {
         var player1 = new Entity();
         var motionComponent1 = new MotionComponent();
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
+        var gravityComponent1 = new GravityComponent(0.1);
 
         registerEntity(player1);
+        players[0] = player1;
         ComponentManager.addComponent(player1, motionComponent1);
         ComponentManager.addComponent(player1, POSITION_COMPONENT_1.copy());
         ComponentManager.addComponent(player1, boundingBoxComponent1);
+        ComponentManager.addComponent(player1, gravityComponent1);
 
         var player2 = new Entity();
         var motionComponent2 = new MotionComponent();
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
+        var gravityComponent2 = new GravityComponent(0.1);
 
         registerEntity(player2);
+        players[1] = player2;
         ComponentManager.addComponent(player2, motionComponent2);
         ComponentManager.addComponent(player2, POSITION_COMPONENT_2.copy());
         ComponentManager.addComponent(player2, boundingBoxComponent2);
+        ComponentManager.addComponent(player2, gravityComponent2);
     }
 
     private static void setupScreenBorders() {
@@ -112,7 +120,7 @@ public class Engine {
      * @param entity May or may not be registered already.
      */
     public static void registerEntity(Entity entity) {
-        for (System system : systems) {
+        for (ISystem system : systems) {
             BitSet signature = (BitSet) system.getSignature().clone();
             signature.and(entity.signature);
 
@@ -128,7 +136,7 @@ public class Engine {
      * @param entity May or may not be registered already.
      */
     public static void unregisterEntity(Entity entity) {
-        for (System system : systems) {
+        for (ISystem system : systems) {
             BitSet signature = (BitSet) system.getSignature().clone();
             signature.and(entity.signature);
 
@@ -139,7 +147,7 @@ public class Engine {
     }
 
     public static void destroyEntity(Entity entity) {
-        for (System system : systems) {
+        for (ISystem system : systems) {
             system.removeEntity(entity);
         }
 
@@ -171,9 +179,6 @@ public class Engine {
         }
     }
 
-    private static Victory finish = null;
-    private static Entity[] players = new Entity[2];
-
     public static Victory run() throws Exception {
 
         Instant last = Instant.now();
@@ -181,12 +186,20 @@ public class Engine {
         while (finish != null) {
             Instant now = Instant.now();
             /* Systems will be executed in order of registration - see setup for further information */
-            for (System sys : systems) {
+            for (ISystem sys : systems) {
                 update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
             }
             last = now;
         }
         return finish;
+    }
+
+    public static Entity getPlayer(int number) {
+        return players[number];
+    }
+
+    public static Entity[] getPlayers() {
+        return players;
     }
 
     public enum Victory {
