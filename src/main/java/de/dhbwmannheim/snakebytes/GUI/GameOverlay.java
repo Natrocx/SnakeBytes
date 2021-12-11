@@ -203,6 +203,11 @@ class  MiniBack extends StackPane {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
             try {
+                Menus.mediaplayer.pauseMusic();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
                 primaryStage.setMaxHeight(Integer.MAX_VALUE);
                 primaryStage.setMaxWidth(Integer.MAX_VALUE);
@@ -232,6 +237,105 @@ class  MiniBack extends StackPane {
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(circle, r1,r2);
+
+    }
+}
+class  Sound extends StackPane {
+    boolean mute =false;
+    public Sound(Stage primaryStage) {
+        final Circle circle = new Circle(10, 20, 20);
+        final Rectangle r1 = new Rectangle(5, 25);
+        final Rectangle r2 = new Rectangle(5, 25);
+        r1.setTranslateX(-5);
+        r2.setTranslateX(5);
+        circle.setFill(Color.DARKRED);
+        circle.setStroke(Color.BLACK);
+        circle.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        circle.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        circle.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            //Pause();
+        });
+        circle.setOnMouseReleased(event -> {
+            circle.setFill(Color.RED);
+        });
+        r1.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        r1.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        r1.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            //Pause();
+        });
+        r1.setOnMouseReleased(event -> {
+            circle.setFill(Color.RED);
+        });
+        r2.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        r2.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        r2.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            //Pause();
+        });
+        r2.setOnMouseReleased(event -> {
+            circle.setFill(Color.RED);
+        });
+
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(circle, r1,r2);
+
+    }
+}
+class  Music extends StackPane {
+    boolean mute =false;
+    public Music(Stage primaryStage) {
+        final Circle circle = new Circle(10, 20, 20);
+        final Rectangle r1 = new Rectangle(5, 25);
+        r1.setTranslateX(-5);
+        circle.setFill(Color.DARKRED);
+        circle.setStroke(Color.BLACK);
+        circle.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        circle.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        circle.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            try {
+                Menus.mediaplayer.pauseMusic();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        circle.setOnMouseReleased(event -> {
+            circle.setFill(Color.RED);
+        });
+        r1.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        r1.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        r1.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            try {
+                Menus.mediaplayer.pauseMusic();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(circle, r1);
 
     }
 }
