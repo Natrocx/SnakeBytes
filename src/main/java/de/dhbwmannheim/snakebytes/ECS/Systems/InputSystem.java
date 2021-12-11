@@ -2,8 +2,9 @@
 
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
-import de.dhbwmannheim.snakebytes.ECS.Base.*;
-import de.dhbwmannheim.snakebytes.ECS.Base.System;
+import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
+import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
+import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.MotionComponent;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
@@ -16,7 +17,6 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.System;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Hashtable;
