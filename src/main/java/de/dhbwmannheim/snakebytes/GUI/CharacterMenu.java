@@ -2,11 +2,14 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //by Kai Schwab
 
+import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
+import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -23,21 +26,27 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 //by Kai Schwab
 
+
+
 public class CharacterMenu extends StackPane {
+    static int rounds = 3;
+    static int time =  300 ;
     public CharacterMenu(Stage primaryStage){
         //title
         Title2 title = new Title2("Choose your Character");
-        title.setTranslateY(-220);
+        title.setTranslateY(-250);
         title.setTranslateX((1350 / 2) - 340);
         //Side Menu1
         SideMenu1 sideMenu1 = new SideMenu1(primaryStage);
 
-        sideMenu1.setTranslateX(-230);
+        sideMenu1.setTranslateX(-200);
         sideMenu1.setTranslateY(278);
 
         //Player Select
@@ -68,10 +77,11 @@ class Title2 extends StackPane {
         getChildren().addAll(text);
     }
 }
+
 class SideMenu1 extends VBox {
     public SideMenu1( Stage primaryStage){
         SideMenuItem left1 = new SideMenuItem("Tunier", primaryStage);
-        SideMenuValueSelect left2 = new SideMenuValueSelect("Runden",3, primaryStage);
+        SideMenuValueSelect left2 = new SideMenuValueSelect("Points",String.valueOf(CharacterMenu.rounds), primaryStage);
         getChildren().addAll(left1,createSeperator(),left2);
 
     }
@@ -92,30 +102,33 @@ class CharakterSelect extends VBox {
         getChildren().addAll(csl1,csl2,createSeperator(),csl3);
 
     }
+
     private HBox createSeperator() {
         HBox sep = new HBox();
-        sep.setPrefSize(160,50);
+        sep.setPrefSize(160,10);
         return sep;
     }
 }
+
 class CharakterSelect1 extends HBox {
     public CharakterSelect1(){
-        Image cha1 = new Image(new File("src/main/java/de/dhbwmannheim/snakebytes/GUI/res/KammerjaegerSelect.png").toURI().toString());
+        Image cha1 = new Image(new File("src/main/resources/char_models/kammerjaeger.png").toURI().toString());
         ImageView imgC1 = new ImageView(cha1);
-        imgC1.setFitWidth(300);
-        imgC1.setFitHeight(450);
-        Title2 vs = new Title2("  VS  ");
+        imgC1.setFitWidth(250);
+        imgC1.setFitHeight(500);
+        Title2 vs = new Title2("    VS    ");
 
-        Image cha2 = new Image(new File("src/main/java/de/dhbwmannheim/snakebytes/GUI/res/ExmatrikulatorSelect.png").toURI().toString());
+        Image cha2 = new Image(new File("src/main/resources/char_models/exmatrikulator.png").toURI().toString());
         ImageView imgC2 = new ImageView(cha2);
-        imgC2.setFitWidth(300);
-        imgC2.setFitHeight(450);
+        imgC2.setFitWidth(250);
+        imgC2.setFitHeight(500);
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(imgC1,vs,imgC2);
 
     }
 }
+
 class CharakterSelect2 extends HBox {
     public CharakterSelect2(){
         Text name1 = new Text("Cyber-Kammerjäger");
@@ -161,7 +174,7 @@ class CharakterSelect3 extends HBox {
 class SideMenu2 extends VBox{
     public SideMenu2( Stage primaryStage){
         Back back =new Back(primaryStage);
-        SideMenuValueSelect right1 = new SideMenuValueSelect("Points",5, primaryStage);
+        SideMenuValueSelect right1 = new SideMenuValueSelect("Time",String.valueOf(CharacterMenu.time), primaryStage);
         getChildren().addAll(back,createSeperator(),createSeperator(),right1);
 
     }
@@ -207,7 +220,20 @@ class SideMenuItem extends StackPane {
             text.setFill(Color.DARKGREY);
         });
         setOnMousePressed(event -> {
+            Scene scene = null;
             bg.setFill(Color.DARKGOLDENROD);
+            if (name == "Start") {
+
+                try {
+                    FrameHandler frameHandler = new FrameHandler(primaryStage);
+                    //schleife
+                    frameHandler.update(frameHandler);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
 
         });
 
@@ -216,11 +242,12 @@ class SideMenuItem extends StackPane {
         });
     }
 }
+
 class SideMenuValueSelect extends VBox {
 
-    public SideMenuValueSelect(String name, Integer Value, Stage primaryStage) {
+    public SideMenuValueSelect(String name, String Value, Stage primaryStage) {
         SideMenuTopic topic = new SideMenuTopic(name);
-        SideMenuValueChanger value = new SideMenuValueChanger(Value);
+        SideMenuValueChanger value = new SideMenuValueChanger(Value,name);
         getChildren().addAll(topic,value);
 
 
@@ -244,13 +271,12 @@ class SideMenuTopic  extends StackPane {
 }
 
 class SideMenuValueChanger  extends HBox {
-    public SideMenuValueChanger(Integer value) {
-        Integer v1;
+    public SideMenuValueChanger(String value,String name) {
         Polygon l = new Polygon(0, 15, 27, 30, 27, 0);
         l.setFill(Color.DARKRED);
         Text placeholder = new Text("    ");
         Text ph = new Text("    ");
-        Text text =new Text(value.toString());
+        Text text =new Text(value);
         text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
         Polygon h = new Polygon(0, 0, 0, 30, 27, 15);
         h.setFill(Color.DARKRED);
@@ -263,6 +289,21 @@ class SideMenuValueChanger  extends HBox {
         });
         l.setOnMousePressed(event -> {
             l.setFill(Color.YELLOW);
+            int v= 0;
+            if(name=="Points"){
+                v=CharacterMenu.rounds;
+                if(v>0){
+                    CharacterMenu.rounds++;
+                    text.setText(String.valueOf(CharacterMenu.rounds));
+                }
+            }
+            else if (name=="Time"){
+                v=CharacterMenu.time;
+                if(v>0){
+                    CharacterMenu.time-=10;
+                    text.setText(String.valueOf(CharacterMenu.time));
+                }
+            }
         });
         l.setOnMouseReleased(event -> {
             l.setFill(Color.RED);
@@ -276,6 +317,21 @@ class SideMenuValueChanger  extends HBox {
         });
         h.setOnMousePressed(event -> {
             h.setFill(Color.YELLOW);
+            int v= 0;
+            if(name=="Points"){
+                v=CharacterMenu.rounds;
+                if(v<99){
+                    CharacterMenu.rounds++;
+                    text.setText(String.valueOf(CharacterMenu.rounds));
+                }
+            }
+            else if (name=="Time"){
+                v=CharacterMenu.time;
+                if(v<990){
+                    CharacterMenu.time+=10;
+                    text.setText(String.valueOf(CharacterMenu.time));
+                }
+            }
         });
         h.setOnMouseReleased(event -> {
             h.setFill(Color.RED);

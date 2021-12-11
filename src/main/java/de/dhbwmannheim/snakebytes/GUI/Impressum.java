@@ -20,6 +20,7 @@ public class Impressum extends VBox {
         Title2 ws = new Title2("");
 
         //Items
+
         PyTitle pytit = new PyTitle("Exmatrikulator");
         PyText pytex = new PyText("Angriff:", "Die Special-Fähigkeit des Exmatrikukalors stellt die vielen mitgelieferten Bibliotheken, als eine der stärksten Waffen dar. Ebenso ist Python Code einfach zu lesen und benötigt kein explizites Speichermanagement.");
         PyText pytex2 = new PyText("Geschichte:", "Der Exmatrikulator ist der harte Hammer der Gerechtigkeit für all jene, die während der Vorlesung schlafen oder Agar.io spielen. Seine unnahbare Aura lässt vor allem Erstsemester erschüttern. Sein Arsenal ist ebenso wie die Typen in Python, wandelbar und orientiert sich an den neusten Trends. Es kursieren einige Legenden über den Exmatrikulator, welcher in längst vergangener Zeit mit der Programmiersprache SetlX im Bunde gewesen sein soll. Doch mit dem aufkommen einer neuen Technologie wurde der Exmatrikulator hungrig nach Macht im Bereich der Data Science und wandte sich der Programmiersprache Python zu, die bereits die meisten Funktionen vorab in Form von Bibliotheken bereitstellt. Und so striff der Exmatrikulator seine alten Gewohnheiten ab wie eine Schlangenhaut und hervor stieg das neueste Mitglied des Python-Kults, ein würdiger Gegner im Kampf der Programmiersprachen.");
@@ -94,7 +95,7 @@ class CTitle extends StackPane {
         text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
         text.setWrappingWidth(250);
 
-        setMargin(text, new Insets(5, 5, 5, 5));
+        setMargin(text, new Insets(5, 5, 5, 5);
         setAlignment(Pos.CENTER);
         getChildren().addAll(text);
     }

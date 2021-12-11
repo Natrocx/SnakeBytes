@@ -1,10 +1,10 @@
 package de.dhbwmannheim.snakebytes.Sounds;
 
 /*
-* Author: @Kirolis Eskondis
-*         @Thu Giang Tran
-* This class implements the background music during a fight
-* */
+ * Author: @Kirolis Eskondis
+ *         @Thu Giang Tran
+ * This class implements the background music during a fight
+ * */
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -28,7 +28,7 @@ public class MusicManager {
 
         //Loop
         player.setOnEndOfMedia(new Runnable() {
-            public void run(){
+            public void run() {
                 player.seek(Duration.ZERO);
             }
         });
