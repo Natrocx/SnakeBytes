@@ -51,7 +51,6 @@ public class Engine {
         setupPlayers();
         setupScreenBorders();
         setupPlatforms();
-
     }
 
     private static void setupPlatforms() {
