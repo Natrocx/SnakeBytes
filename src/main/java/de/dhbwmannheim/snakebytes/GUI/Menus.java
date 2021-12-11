@@ -119,21 +119,20 @@ public class Menus extends Application {
     }
 
     //Game
-    public static Parent createGameContent(Stage primaryStage) throws FileNotFoundException {
+    public static Pane createGameContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
 
         GameOverlay gov = new GameOverlay(primaryStage);
         BackgroundBuilder background = new BackgroundBuilder(primaryStage);
-        mediaplayer.playMusic();
+        try {
+            mediaplayer.playMusic();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        //Einbauen der FrameHandler KLassen
-
-        root.getChildren().addAll(background, gov);
-
-        root.getChildren().addAll(gov);
-        //root.getChildren().addAll(background,gov);
+        root.getChildren().addAll(background,gov);
 
         return root;
     }
