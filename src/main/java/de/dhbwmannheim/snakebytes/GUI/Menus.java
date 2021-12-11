@@ -88,6 +88,18 @@ public class Menus extends Application {
 
         return root;
     }
+    static Parent createKeyBinding(Stage primaryStage) throws FileNotFoundException {
+        Pane root = new Pane();
+
+        root.setPrefSize(320, 80);
+
+        PressKeyWindow keyWindow = new PressKeyWindow(primaryStage);
+
+        root.getChildren().addAll(keyWindow);
+
+        return root;
+    }
+
 
     //Impressum/Erklaerungen
     static Parent createImpressumContent(Stage primaryStage) throws FileNotFoundException {
