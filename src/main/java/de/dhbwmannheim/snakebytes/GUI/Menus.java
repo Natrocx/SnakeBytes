@@ -124,15 +124,10 @@ public class Menus extends Application {
         root.setPrefSize(1350, 900);
 
         GameOverlay gov = new GameOverlay(primaryStage);
-        //MainMenu mainMenu =new MainMenu(primaryStage);
-
         BackgroundBuilder background = new BackgroundBuilder(primaryStage);
         mediaplayer.playMusic();
-        //Einbauen der FrameHandler KLassen
 
 
-        root.getChildren().addAll(gov);
-        //root.getChildren().addAll(background,gov);
         root.getChildren().addAll(background, gov);
 
 

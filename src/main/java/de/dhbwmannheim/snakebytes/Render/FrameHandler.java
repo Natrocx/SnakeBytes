@@ -5,6 +5,7 @@ package de.dhbwmannheim.snakebytes.Render;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.PositionComponent;
 import de.dhbwmannheim.snakebytes.GUI.Menus;
+import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.animation.Timeline;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,6 +30,7 @@ public class FrameHandler extends StackPane {
     Pane root;
 
     public FrameHandler (Stage primaryStage) throws Exception {
+
         ArrayList<ImageView> imagesP1 = initializeGraphics("player1");
         ArrayList<ImageView> imagesP2 = initializeGraphics("player2");
         ArrayList<ImageView> spcAttacks = initializeGraphics("graphics");
