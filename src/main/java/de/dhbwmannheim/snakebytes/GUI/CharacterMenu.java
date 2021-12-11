@@ -3,11 +3,13 @@ package de.dhbwmannheim.snakebytes.GUI;
 //by Kai Schwab
 
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
+import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -24,6 +26,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
@@ -104,13 +108,13 @@ class CharakterSelect extends VBox {
 
 class CharakterSelect1 extends HBox {
     public CharakterSelect1() {
-        Image cha1 = new Image(new File("src/main/resources/char_models/Kruse.png").toURI().toString());
+        Image cha1 = new Image(new File("src/main/resources/char_models/kammerjaeger.png").toURI().toString());
         ImageView imgC1 = new ImageView(cha1);
         imgC1.setFitWidth(250);
         imgC1.setFitHeight(500);
         Title2 vs = new Title2("    VS    ");
 
-        Image cha2 = new Image(new File("src/main/resources/char_models/Stroeti.png").toURI().toString());
+        Image cha2 = new Image(new File("src/main/resources/char_models/exmatrikulator.png").toURI().toString());
         ImageView imgC2 = new ImageView(cha2);
         imgC2.setFitWidth(250);
         imgC2.setFitHeight(500);
@@ -212,16 +216,29 @@ class SideMenuItem extends StackPane {
             Scene scene = null;
             bg.setFill(Color.DARKGOLDENROD);
             if (name == "Start") {
-                try {
+               /* try {
 
                     //BackgroundBuilder background = new BackgroundBuilder(primaryStage);
-                    scene = new Scene(Menus.createGameContent(primaryStage), Color.LIGHTBLUE);
+                    //scene = new Scene(Menus.createGameContent(primaryStage), Color.LIGHTBLUE);
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
                     primaryStage.setMaxWidth(Integer.MAX_VALUE);
-                } catch (FileNotFoundException e) {
+                } //catch (FileNotFoundException e) {
+                   // e.printStackTrace();
+                //}
+                catch (Exception e) {
+                    e.printStackTrace();
+                }*/
+
+                try {
+                    FrameHandler frameHandler = new FrameHandler(primaryStage);
+                    frameHandler.update(frameHandler);
+
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                primaryStage.setScene(scene);
+
+               // primaryStage.setScene(scene);
+
             }
 
         });

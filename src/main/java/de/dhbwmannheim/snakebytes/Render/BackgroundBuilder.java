@@ -39,28 +39,22 @@ public class BackgroundBuilder extends StackPane{
 
         ImageView stepIMG = new ImageView(step);
         stepIMG.setTranslateX(-250);
-        stepIMG.setTranslateY(150);
+        stepIMG.setTranslateY(135);
+        stepIMG.setFitHeight(30);
         getChildren().add(stepIMG);
 
         ImageView stepIMG2 = new ImageView(step);
         stepIMG2.setTranslateX(250);
-        stepIMG2.setTranslateY(150);
+        stepIMG2.setTranslateY(135);
+        stepIMG2.setFitHeight(30);
         getChildren().add(stepIMG2);
 
         ImageView stepIMG3 = new ImageView(step);
         stepIMG3.setTranslateX(0);
-        stepIMG3.setTranslateY(0);
+        stepIMG3.setTranslateY(-20);
+        stepIMG3.setFitHeight(30);
         getChildren().add(stepIMG3);
 
-        /*GameOverlay gov = new GameOverlay(primaryStage);
-        getChildren().addAll(gov);
-
-        Scene scene=new Scene(root);
-
-        primaryStage.setMaxHeight(Integer.MAX_VALUE);
-        primaryStage.setMaxWidth(Integer.MAX_VALUE);
-
-        primaryStage.setScene(scene);*/
 
     }
 }
