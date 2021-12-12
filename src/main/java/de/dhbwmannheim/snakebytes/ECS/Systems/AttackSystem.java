@@ -19,7 +19,6 @@ public class AttackSystem extends System {
     private final ComponentList<MotionComponent> motionComponents;
     private final ComponentList<CharacterStateComponent> characterState;
     private final ComponentList<AttackCollisionComponent> attackCollisionComponent;
-    private final ComponentList<BoundingBoxComponent> boundingBoxComponentComponentList;
 
 
     public AttackSystem(ComponentList<PositionComponent> positionComponents, ComponentList<MotionComponent> motionComponents, ComponentList<CharacterStateComponent> characterState, ComponentList<AttackCollisionComponent> attackCollisionComponent, ComponentList<BoundingBoxComponent> boundingBoxComponentComponentList) {
@@ -27,7 +26,6 @@ public class AttackSystem extends System {
         this.motionComponents = motionComponents;
         this.characterState = characterState;
         this.attackCollisionComponent = attackCollisionComponent;
-        this.boundingBoxComponentComponentList = boundingBoxComponentComponentList;
     }
 
     @Override
@@ -35,65 +33,37 @@ public class AttackSystem extends System {
 
 
         for (Entity entity : entities) {
-            if(entity==Engine.getPlayer(0)){
-                MotionComponent attackMotion = motionComponents.getComponent(Engine.getPlayer(1));
-            }else if(entity==Engine.getPlayer(1)){
-                MotionComponent attackMotion = motionComponents.getComponent(Engine.getPlayer(0);
-            }
 
-            var playerDirection = characterState.getComponent(entity).lookingDirection;
-            var playerposition = positionComponents.getComponent(entity).value;
-            var playerKnockback = characterState.getComponent(entity).knockback;
+            MotionComponent attackMotion = motionComponents.getComponent(entity);
+            PositionComponent attackPosition = positionComponents.getComponent(entity);
+            CharacterStateComponent playerKnockback = characterState.getComponent(entity);
 
-            //TODO what do i need for attackCollision
             AttackCollisionComponent attackCollision = attackCollisionComponent.getComponent(entity);
 
-            //if normal attack is registered, then add knockback to enemy
-            if (characterState.getComponent(entity).attacking = true) {
-                Entity armEntity = new Entity();
-                addEntity(armEntity);
-                var boundindgBoxComponent = new BoundingBoxComponent(new Vec2<>(0.02,0.005), BoundingBoxComponent.BoxType.Attack);
-                ComponentManager.addComponent(armEntity,boundindgBoxComponent);
+            //if normal attack is registered, then
+            if (characterState.getComponent(entity).attacking == true) {
 
-                switch(playerDirection){
-                    case 0:
-                        var positionLeftComponent = new PositionComponent(new Vec2<>(playerposition.x-0.02, playerposition.y+0.07));
-                        ComponentManager.addComponent(armEntity,positionLeftComponent);
-                        break;
-                    case 1:
-                        var positionRightComponent = new PositionComponent(new Vec2<>(playerposition.x+0.07, playerposition.y+0.07));
-                        ComponentManager.addComponent(armEntity,positionRightComponent);
-                        break;
-                    default:
-                        break;
+                //add knockback to player
+                playerKnockback.knockback = +0.5;
+
+                //push enemy with new calculated knockback * velocity
+                attackMotion.velocity = new Vec2<>(attackPosition.value.x+0.1 * playerKnockback.knockback, attackPosition.value.y+0.05 * playerKnockback.knockback);
+
+
+
+            } else {
+                //if special attack is registered, then
+                if (characterState.getComponent(entity).specialAttacking == true){
+
+                    //add knockback to player
+                    playerKnockback.knockback = +0.75;
+
+                    //push enemy with new calculated knockback * velocity
+                    attackMotion.velocity = new Vec2<>(attackPosition.value.x+0.1 * playerKnockback.knockback, attackPosition.value.y+0.05 * playerKnockback.knockback);
+
                 }
-
-
-                playerKnockback = +0.5;
-                //TODO how to determine players position, so they fly off in right direction
-                attackMotion.velocity = attackCollision.overlap;
             }
 
-            if (characterState.getComponent(entity).specialAttacking == true){
-                Entity spcAttack = new Entity();
-
-
-                attackKnockback.knockback = +0.75;
-                attackMotion.velocity = attackCollision.overlap;
-
-            }
-
-        }
-
-        /*kncokbackfactor
-         * velocitty anpassen
-         * attackcomponent
-         * position der plyer bestimmen
-         * */
-
-        @Override
-        public BitSet getSignature () {
-            return null;
         }
 
     }
