@@ -128,7 +128,7 @@ public class CollisionSystem extends System {
                 // move player up if they are jumping
                 if (motionComponents.getComponent(e1).velocity.y > 0) {
                     x_overlap = 0;
-                    y_overlap = e2Pos.value.y + e2BB.height - e1Pos.value.y;
+                    y_overlap = e2Pos.value.y + e2BB.size.y - e1Pos.value.y;
 
                 }
                 // Otherwise, fall through to Ground for accurate Movement correction
