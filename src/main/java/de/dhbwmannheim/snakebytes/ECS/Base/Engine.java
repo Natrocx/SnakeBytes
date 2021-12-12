@@ -216,12 +216,10 @@ public class Engine {
 
         Instant last = Instant.now();
         // TODO: get cancel condition from input system
-        while (finish != null) {
+        while (finish == null) {
             Instant now = Instant.now();
             /* Systems will be executed in order of registration - see setup for further information */
-            for (ISystem sys : systems) {
                 update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
-            }
             last = now;
             frameHandler.update(primaryStage);
         }
