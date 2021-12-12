@@ -211,6 +211,7 @@ public class InputSystem extends System {
     private static void setupAttack(int attackType, int direction, Vec2<Double> playerPosition, Double boundingBoxX, Double boundingBoxY){
 
         Vec2<Double> temp = new Vec2<>();
+        int attackStateIndex=0;
 
         var attack = new Entity();
         //if attack should go to the right the hitbox of the player should be added
@@ -228,6 +229,7 @@ public class InputSystem extends System {
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.001,0.01), BoundingBoxComponent.BoxType.Attack);
 
+
             Engine.registerEntity(attack);
             ComponentManager.addComponent(attack,attackPosition);
             ComponentManager.addComponent(attack,attackBoundingBox);
@@ -237,27 +239,33 @@ public class InputSystem extends System {
             if (direction==0){
                 temp.x=playerPosition.x;
                 helpX=-0.1;
+                attackStateIndex=0;
             }else if(direction==1){
                 helpX=0.1;
+                attackStateIndex=1;
             }
             //start position of motion
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, temp.y));
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.01), BoundingBoxComponent.BoxType.Attack);
             var attackMotion = new MotionComponent(new Vec2<>(helpX,0.0));
+            var attackState = new AttackStateComponent(attackStateIndex);
 
             Engine.registerEntity(attack);
             ComponentManager.addComponent(attack,attackPosition);
             ComponentManager.addComponent(attack,attackBoundingBox);
             ComponentManager.addComponent(attack,attackMotion);
+            ComponentManager.addComponent(attack,attackState);
 
         }else if(attackType==2){
             Double hilf=0.0;
             if (direction==0) {
                 temp.x = playerPosition.x;
                 hilf=-0.4;
+                attackStateIndex=2;
             }else{
                 hilf=0.4;
+                attackStateIndex=3;
             }
             //start position of motion
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, temp.y));
@@ -266,13 +274,14 @@ public class InputSystem extends System {
 
             var attackMotion = new MotionComponent(new Vec2<>(hilf,0.2));
             var attackGravity = new GravityComponent(1.0);
-
+            var attackState = new AttackStateComponent(attackStateIndex);
 
             Engine.registerEntity(attack);
             ComponentManager.addComponent(attack,attackPosition);
             ComponentManager.addComponent(attack,attackBoundingBox);
             ComponentManager.addComponent(attack,attackMotion);
             ComponentManager.addComponent(attack,attackGravity);
+            ComponentManager.addComponent(attack,attackState);
         }
     }
 
