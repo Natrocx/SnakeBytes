@@ -9,6 +9,7 @@ import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.PositionComponent;
+import de.dhbwmannheim.snakebytes.ECS.Vec2;
 import de.dhbwmannheim.snakebytes.GUI.Menus;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.animation.Timeline;
@@ -36,7 +37,7 @@ import java.util.TimerTask;
 public class FrameHandler extends StackPane {
 
 
-    private Pane root;
+    private Scene scene;
     private PositionComponent oldPositionP1;
     private PositionComponent oldPositionP2;
     private PositionComponent oldPositionATK1;
@@ -66,14 +67,15 @@ public class FrameHandler extends StackPane {
         spcAttack2start.setTranslateX(5000);
 
         //createGameContent builds the Background and GameOverlay
-        this.root = Menus.createGameContent(primaryStage);
+        Menus.createGameContent(primaryStage);
 
         //Images are added to frame and scene is rendered
-        root.getChildren().add(p1start);
-        root.getChildren().add(p2start);
-        root.getChildren().add(spcAttack1start);
-        root.getChildren().add(spcAttack2start);
-        Scene scene = new Scene(root);
+
+        Menus.root.getChildren().add(2,p1start);
+        Menus.root.getChildren().add(3,p2start);
+        Menus.root.getChildren().add(4,spcAttack1start);
+        Menus.root.getChildren().add(5,spcAttack2start);
+        scene = new Scene(Menus.root);
         primaryStage.setScene(scene);
     }
 
@@ -88,9 +90,17 @@ public class FrameHandler extends StackPane {
         var player2state = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(player2).state;
 
         ImageView p1 = imagesP1.get(player1state);
+        if(player1state>1){
+            p1.setFitWidth(73);
+        }
         replace(p1,2,position1);
 
+
+
         ImageView p2 = imagesP2.get(player2state);
+        if(player2state>1){
+            p2.setFitWidth(68);
+        }
         replace(p2,3,position2);
 
 
@@ -125,17 +135,18 @@ public class FrameHandler extends StackPane {
                 }
             }
         }
-        Scene scene = new Scene(root);
+        scene.setRoot(Menus.root);
         primaryStage.setScene(scene);
 
     }
 
     //
     public void replace(ImageView pic, int index, PositionComponent position){
-        pic.setTranslateY((1 - position.value.y) * 900);
+        pic.setTranslateY(position.value.y * 900);
         pic.setTranslateX(position.value.x * 1350);
-        root.getChildren().remove(index);
-        root.getChildren().add(index,pic);
+        Menus.root.getChildren().remove(index);
+        Menus.root.getChildren().add(index,pic);
+
     }
 
     //returns ArrayList of needed Images that are sized as needed
@@ -165,8 +176,8 @@ public class FrameHandler extends StackPane {
                 ImageView p2right = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-right.png").toURI().toString()));
                 ImageView p2atkleft = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-atk-left.png").toURI().toString()));
                 ImageView p2atkright = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-atk-right.png").toURI().toString()));
-                ImageView p2spcleft = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-spc-left.png").toURI().toString()));
-                ImageView p2spcright = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-spc-right.png").toURI().toString()));
+                ImageView p2spcleft = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-special-left.png").toURI().toString()));
+                ImageView p2spcright = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-special-right.png").toURI().toString()));
                 ImageView[] anotherhelpList = new ImageView[] {p2left,p2right,p2atkleft,p2atkright,p2spcleft,p2spcright};
                 images.addAll(List.of(anotherhelpList));
 

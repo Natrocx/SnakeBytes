@@ -15,8 +15,9 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 
-
 public class Menus extends Application {
+
+    public static Pane root = new Pane();
 
     //by Kai Schwab
     public static MusicManager mediaplayer = new MusicManager();
@@ -122,19 +123,20 @@ public class Menus extends Application {
     }
 
     //Game
-    public static Pane createGameContent(Stage primaryStage) throws Exception {
-        Pane root = new Pane();
+    public static void createGameContent(Stage primaryStage) throws FileNotFoundException {
 
         root.setPrefSize(1350, 900);
 
         GameOverlay gov = new GameOverlay(primaryStage);
         BackgroundBuilder background = new BackgroundBuilder(primaryStage);
-        mediaplayer.playMusic();
+        try {
+            mediaplayer.playMusic();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        Menus.root.getChildren().add(0,background);
+        Menus.root.getChildren().add(1,gov);
 
-        root.getChildren().addAll(background, gov);
-
-
-        return root;
     }
 }

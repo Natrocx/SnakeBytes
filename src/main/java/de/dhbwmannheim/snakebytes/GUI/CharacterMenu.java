@@ -35,8 +35,8 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 
 public class CharacterMenu extends StackPane {
-    static int rounds = 3;
-    static int time =  300 ;
+    public static int rounds = 3;
+    public static int time =  300 ;
     public CharacterMenu(Stage primaryStage){
         //title
         Title2 title = new Title2("Choose your Character");
@@ -224,13 +224,19 @@ class SideMenuItem extends StackPane {
             if (name == "Start") {
 
                     Engine.setup();
-
+                FrameHandler framehandler = null;
                 try {
-                        FrameHandler framehandler = new FrameHandler(primaryStage);
-                        Engine.run(framehandler, primaryStage);
+                    framehandler = new FrameHandler(primaryStage);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                framehandler.update(primaryStage);
+                try {
+                    Engine.run(framehandler, primaryStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
 
             }
 
