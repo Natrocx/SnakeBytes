@@ -5,6 +5,7 @@ import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
 import de.dhbwmannheim.snakebytes.ECS.Systems.KnockoutSystem;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
+import javafx.stage.Stage;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -190,7 +191,7 @@ public class Engine {
         }
     }
 
-    public static Victory run(FrameHandler frameHandler) throws Exception {
+    public static Victory run(FrameHandler frameHandler, Stage primaryStage) throws Exception {
 
         Instant last = Instant.now();
         // TODO: get cancel condition from input system
@@ -201,7 +202,7 @@ public class Engine {
                 update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
             }
             last = now;
-            frameHandler.update();
+            frameHandler.update(primaryStage);
         }
         return finish;
     }

@@ -227,7 +227,7 @@ class SideMenuItem extends StackPane {
 
                 try {
                         FrameHandler framehandler = new FrameHandler(primaryStage);
-                        Engine.run(framehandler);
+                        Engine.run(framehandler, primaryStage);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

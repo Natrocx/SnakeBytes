@@ -2,6 +2,7 @@ package de.dhbwmannheim.snakebytes.Render;
 
 
 
+import de.dhbwmannheim.snakebytes.ECS.AttackStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
@@ -77,73 +78,66 @@ public class FrameHandler extends StackPane {
     }
 
 
-    public void update(){
+    public void update(Stage primaryStage){
 
         Entity player1 = Engine.getPlayer(0);
         Entity player2 = Engine.getPlayer(1);
-        var position1 = ComponentManager.getComponentList(PositionComponent.class).getComponent(player1).value;
-        var position2 = ComponentManager.getComponentList(PositionComponent.class).getComponent(player2).value;
+        var position1 = ComponentManager.getComponentList(PositionComponent.class).getComponent(player1);
+        var position2 = ComponentManager.getComponentList(PositionComponent.class).getComponent(player2);
         var player1state = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(player1).state;
         var player2state = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(player2).state;
 
         ImageView p1 = imagesP1.get(player1state);
-        p1.setTranslateX(position1.x*1350);
-        p1.setTranslateY((1-position1.y)*900);
-
-        root.getChildren().remove(2);
-        root.getChildren().add(2,p1);
+        replace(p1,2,position1);
 
         ImageView p2 = imagesP2.get(player2state);
-        p1.setTranslateX(position1.x*1350);
-        p1.setTranslateY((1-position1.y)*900);
-
-        root.getChildren().remove(3);
-        root.getChildren().add(3,p2);
+        replace(p2,3,position2);
 
 
-/*
         if(Engine.attackList.size() == 1){
+
             Entity attackEntity1 = Engine.attackList.get(0);
-            var attackstate1 = ComponentManager.getComponentList().getComponent(attackEntity1);
-            var attackpos1 = ComponentManager.getComponentList(PositionComponent.class).getComponent(attackEntity1);
+            var attackstate = ComponentManager.getComponentList(AttackStateComponent.class).getComponent(attackEntity1).state;
+            var attackpos = ComponentManager.getComponentList(PositionComponent.class).getComponent(attackEntity1);
 
-            if(attackstate1 < 2) {
+            if(attackstate < 2) {
                 ImageView atk1 = spcAttacksP1.get(attackstate);
-            else if (attackstate > 1)
-                    ImageView atk1 = spcAttacksP2.get(attackstate - 2);
+                replace(atk1,4,attackpos);
             }
-
-            atk1.setTranslateY((1 - attackpos1.y) * 900);
-            atk1.setTranslateX(attackpos1.x * 1350);
+            else if (attackstate > 1) {
+                    ImageView atk1 = spcAttacksP2.get(attackstate - 2);
+                    replace(atk1,5,attackpos);
+            }
 
         } else if (Engine.attackList.size() == 2) {
-            Entity attackentity1 =
-            Entity attackentity2 =
-            var attackstate1 =
-            var attackstate2 =
-            var attackpos1 = ComponentManager.getComponentList(PositionComponent.class).getComponent(attackentity1);
-            var attackpos2 = ComponentManager.getComponentList(PositionComponent.class).getComponent(attackentity2);
 
-            if (attackstate1 < 2) {
-                ImageView atk1 = spcAttack1.get(attackstate1);
-            else if (attackstate > 1)
-                    ImageView atk1 = spcAttack2.get(attackstate1 - 2);
-            }
-            if (attackstate2 < 2) {
-                ImageView atk2 = spcAttack1.get(attackstate2);
-            else if (attackstate2 > 1)
-                    ImageView atk2 = spcAttack2.get(attackstate2 - 2);
-            }
+            for(Entity e: Engine.attackList){
+                var attackstate = ComponentManager.getComponentList(AttackStateComponent.class).getComponent(e).state;
+                var attackpos = ComponentManager.getComponentList(PositionComponent.class).getComponent(e);
 
-            atk1.setTranslateY((1 - attackpos1.y) * 900);
-            atk1.setTranslateX(attackpos1.x * 1350);
-            atk1.setTranslateY((1 - attackpos2.y) * 900);
-            atk1.setTranslateX(attackpos2.x * 1350);
+                if (attackstate < 2) {
+                    ImageView atk1 = spcAttacksP1.get(attackstate);
+                    replace(atk1,4,attackpos);
+                }
+                else if (attackstate > 1){
+                    ImageView atk1 = spcAttacksP2.get(attackstate - 2);
+                    replace(atk1,5,attackpos);
+                }
+            }
         }
-
-        }*/
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
 
     }
+
+    //
+    public void replace(ImageView pic, int index, PositionComponent position){
+        pic.setTranslateY((1 - position.value.y) * 900);
+        pic.setTranslateX(position.value.x * 1350);
+        root.getChildren().remove(index);
+        root.getChildren().add(index,pic);
+    }
+
     //returns ArrayList of needed Images that are sized as needed
     public ArrayList initializeGraphics(String player){
         ArrayList<ImageView> images = new ArrayList<ImageView>();
@@ -209,5 +203,7 @@ public class FrameHandler extends StackPane {
 
         return images;
         }
+
+
 
 }
