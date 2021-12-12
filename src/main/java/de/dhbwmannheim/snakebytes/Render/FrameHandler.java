@@ -1,6 +1,6 @@
 package de.dhbwmannheim.snakebytes.Render;
 
-// Author: @Kirolis Eskondis
+
 
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
@@ -27,12 +27,17 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/** Author: @Kirolis Eskondis
+ * This class defines the FrameHandler which renders every frame the user sees
+ */
+
 public class FrameHandler extends StackPane {
 
 
     private Scene scene;
-    Pane root;
+    private Pane root;
 
+    //Arraylists of needed images are loaded
     ArrayList<ImageView> imagesP1 = initializeGraphics("player1");
     ArrayList<ImageView> imagesP2 = initializeGraphics("player2");
     ArrayList<ImageView> spcAttacksP1 = initializeGraphics("attackP1");
@@ -40,6 +45,7 @@ public class FrameHandler extends StackPane {
 
     public FrameHandler (Stage primaryStage) throws Exception {
 
+        //Images for entities are set in their starting positions
         ImageView p1start = imagesP1.get(1);
         p1start.setTranslateY(615);
         p1start.setTranslateX(300);
@@ -53,7 +59,10 @@ public class FrameHandler extends StackPane {
         spcAttack2start.setTranslateY(5000);
         spcAttack2start.setTranslateX(5000);
 
+        //createGameContent builds the Background and GameOverlay
         this.root = Menus.createGameContent(primaryStage);
+
+        //Images are added to frame and scene is rendered
         root.getChildren().add(p1start);
         root.getChildren().add(p2start);
         root.getChildren().add(spcAttack1start);
@@ -131,7 +140,7 @@ public class FrameHandler extends StackPane {
         }*/
 
     }
-
+    //returns ArrayList of needed Images that are sized as needed
     public ArrayList initializeGraphics(String player){
         ArrayList<ImageView> images = new ArrayList<ImageView>();
 

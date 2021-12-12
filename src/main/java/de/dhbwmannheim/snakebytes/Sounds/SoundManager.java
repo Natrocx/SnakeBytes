@@ -31,6 +31,7 @@ public class SoundManager {
         this.playerSpAttack2 = new MediaPlayer(sound4);
     }
 
+    //to test if simultanious attacks are possible
     public void playJumpSound() throws Exception {
 
         playerJump.play();
