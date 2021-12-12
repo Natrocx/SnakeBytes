@@ -20,6 +20,8 @@ public class CharacterStateComponent extends Component {
     public boolean[] jumping; //because only double jumping is allowed
     public boolean attacking;
     public boolean specialAttacking;
+    public int lookingDirection; //0=left, 1=right
+    public int state; //for FrameHandler: 0=left, 1=right, 2=attackLeft, 3=attackRight, 4=specialAttackLeft, 5=specialAttackRight
 
 
     @Override
