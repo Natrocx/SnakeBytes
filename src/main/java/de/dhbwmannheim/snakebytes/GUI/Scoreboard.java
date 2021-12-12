@@ -2,7 +2,6 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //by Kai Schwab
 
-import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -12,8 +11,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Date;
-
 public class Scoreboard extends VBox {
     public Scoreboard(Stage primaryStage) {
         //Header
@@ -21,26 +18,26 @@ public class Scoreboard extends VBox {
         headerS.setTranslateX(-400);
 
         //Items
-        SB_Item item1 = new SB_Item("08.12.2021","2", "3");
+        SB_Item item1 = new SB_Item("08.12.2021", "2", "3");
         item1.setStyle("-fx-border-width: 5px");
         item1.setStyle("-fx-border-color: DARKRED");
         item1.setTranslateX(75);
-        SB_Item item2 = new SB_Item("08.12.2021","2", "3");
+        SB_Item item2 = new SB_Item("08.12.2021", "2", "3");
         item2.setStyle("-fx-border-width: 5px");
         item2.setStyle("-fx-border-color: DARKRED");
         item2.setTranslateX(75);
-        SB_Item item3 = new SB_Item("08.12.2021","2", "3");
+        SB_Item item3 = new SB_Item("08.12.2021", "2", "3");
         item3.setStyle("-fx-border-width: 5px");
         item3.setStyle("-fx-border-color: DARKRED");
         item3.setTranslateX(75);
 
 
-        getChildren().addAll(headerS,createSeperator(),item1,item2,item3);
+        getChildren().addAll(headerS, createSeperator(), item1, item2, item3);
     }
 
     private HBox createSeperator() {
         HBox sep = new HBox();
-        sep.setPrefSize(200,150);
+        sep.setPrefSize(200, 150);
         return sep;
     }
 
@@ -61,7 +58,7 @@ class HeaderS extends HBox {
     }
 }
 
-class SB_Item extends HBox{
+class SB_Item extends HBox {
     public SB_Item(String date, String score_P1, String score_P2) {
         Text p1 = new Text("  Player 1   :");
         p1.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
@@ -79,11 +76,12 @@ class SB_Item extends HBox{
         datum.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
 
         setAlignment(Pos.CENTER);
-        getChildren().addAll(p1,createSeperator(), s_p1,createSeperator(), datum, createSeperator(), s_p2,createSeperator(), p2);
+        getChildren().addAll(p1, createSeperator(), s_p1, createSeperator(), datum, createSeperator(), s_p2, createSeperator(), p2);
     }
+
     private HBox createSeperator() {
         HBox sep = new HBox();
-        sep.setPrefSize(200,150);
+        sep.setPrefSize(200, 150);
         return sep;
     }
 

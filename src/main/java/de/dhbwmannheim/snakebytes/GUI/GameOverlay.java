@@ -1,9 +1,8 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -30,10 +29,10 @@ public class GameOverlay extends StackPane {
         MiniBack back = new MiniBack(primaryStage);
         back.setTranslateX(-80);
         back.setTranslateY(-70);
-        Music music = new Music(primaryStage);
+        MiniBack music = new MiniBack(primaryStage);
         music.setTranslateX(900);
         music.setTranslateY(-70);
-        Sound sound = new Sound(primaryStage);
+        MiniBack sound = new MiniBack(primaryStage);
         sound.setTranslateX(1050);
         sound.setTranslateY(-70);
         Pause pause = new Pause(primaryStage);
@@ -48,17 +47,10 @@ public class GameOverlay extends StackPane {
         CountDown countDown = new CountDown();
         countDown.setTranslateX(550);
         countDown.setTranslateY(300);
-        Schadenanzeige dmgP1 = new Schadenanzeige("P1",3);
-        dmgP1.setTranslateX(10);
-        dmgP1.setTranslateY(700);
-        Schadenanzeige dmgP2 = new Schadenanzeige("P2",400);
-        dmgP2.setTranslateX(1150);
-        dmgP2.setTranslateY(700);
-
 
         setAlignment(Pos.TOP_CENTER);
 
-        getChildren().addAll(countDown,dmgP1,dmgP2,score,timer,pause,sound,music,back);
+        getChildren().addAll(countDown,score,timer,pause,sound,music,back);
 
     }
 }
@@ -81,7 +73,7 @@ class  Game_Timer extends StackPane {
     }
 }
 
-
+//ToDo:Countdown wie in CHarakterSelect
 class CountDown extends StackPane{
     static int c = 3;
     public CountDown(){
@@ -113,7 +105,6 @@ class CountDown extends StackPane{
             }
         }, 420,1000);
         countd.setText("");
-        c=3;
     }
 
 }
@@ -173,8 +164,6 @@ class  Pause extends StackPane {
 
     }
 }
-//To do music
-//Todo Music Stop beim backen
 class  MiniBack extends StackPane {
     public MiniBack(Stage primaryStage) {
         final Circle circle = new Circle(10, 20, 20);
@@ -194,11 +183,6 @@ class  MiniBack extends StackPane {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
             try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
                 primaryStage.setMaxHeight(Integer.MAX_VALUE);
                 primaryStage.setMaxWidth(Integer.MAX_VALUE);
@@ -216,11 +200,6 @@ class  MiniBack extends StackPane {
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
-            try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
                 primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -238,11 +217,6 @@ class  MiniBack extends StackPane {
         });
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
-            try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             Scene scene = null;
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
@@ -257,207 +231,5 @@ class  MiniBack extends StackPane {
         setAlignment(Pos.CENTER);
         getChildren().addAll(circle, r1,r2);
 
-    }
-}
-class  Sound extends StackPane {
-    boolean mute =false;
-    public Sound(Stage primaryStage) {
-        final Circle circle = new Circle(10, 20, 20);
-        final Text r1 = new Text("S");
-        r1.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
-        circle.setFill(Color.DARKGREEN);
-        circle.setStroke(Color.BLACK);
-        circle.setOnMouseEntered(event -> {
-            if(mute==true) {
-                circle.setFill(Color.RED);
-            }else{
-                circle.setFill(Color.GREEN);
-            }
-        });
-        circle.setOnMouseExited(event -> {
-            if(mute==true) {
-                circle.setFill(Color.DARKRED);
-            }else{
-                circle.setFill(Color.DARKGREEN);
-            }
-        });
-        circle.setOnMousePressed(event -> {
-            if(mute==true){
-                mute=false;
-            }else {
-                mute=true;
-            }
-            circle.setFill(Color.YELLOW);
-            if(mute==true){
-                try {
-                   // Menus.soundplayer.setVolume(0,0);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                try {
-                    Menus.mediaplayer.playMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        circle.setOnMouseReleased(event -> {
-            if(mute==true) {
-                circle.setFill(Color.RED);
-            }else{
-                circle.setFill(Color.GREEN);
-            }
-        });
-        r1.setOnMouseEntered(event -> {
-            if(mute==true) {
-                circle.setFill(Color.RED);
-            }else{
-                circle.setFill(Color.GREEN);
-            }
-        });
-        r1.setOnMouseExited(event -> {
-            if(mute==true) {
-                circle.setFill(Color.DARKRED);
-            }else{
-                circle.setFill(Color.DARKGREEN);
-            }
-        });
-        r1.setOnMousePressed(event -> {
-            if(mute==true){
-                mute=false;
-            }else {
-                mute=true;
-            }
-            if(mute==true){
-                try {
-                    Menus.mediaplayer.pauseMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                try {
-                    Menus.mediaplayer.playMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        r1.setOnMouseReleased(event -> {
-            if(mute==true) {
-                circle.setFill(Color.RED);
-            }else{
-                circle.setFill(Color.GREEN);
-            }
-        });
-        setAlignment(Pos.CENTER);
-        getChildren().addAll(circle, r1);
-
-    }
-}
-
-class  Music extends StackPane {
-    boolean mute =false;
-    public Music(Stage primaryStage) {
-        final Circle circle = new Circle(10, 20, 20);
-        final Text r1 = new Text("M");
-        r1.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
-        circle.setFill(Color.DARKGREEN);
-        circle.setStroke(Color.BLACK);
-        circle.setOnMouseEntered(event -> {
-            if(mute==true) {
-                circle.setFill(Color.RED);
-            }else{
-                circle.setFill(Color.GREEN);
-            }
-        });
-        circle.setOnMouseExited(event -> {
-            if(mute==true) {
-                circle.setFill(Color.DARKRED);
-            }else{
-                circle.setFill(Color.DARKGREEN);
-            }
-        });
-        circle.setOnMousePressed(event -> {
-            if(mute==true){
-                mute=false;
-            }else {
-                mute=true;
-            }
-            circle.setFill(Color.YELLOW);
-            if(mute==true){
-                try {
-                    Menus.mediaplayer.pauseMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                try {
-                    Menus.mediaplayer.playMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        circle.setOnMouseReleased(event -> {
-            if(mute==true) {
-                circle.setFill(Color.RED);
-            }else{
-                circle.setFill(Color.GREEN);
-            }
-        });
-        r1.setOnMouseEntered(event -> {
-            if(mute==true) {
-                circle.setFill(Color.RED);
-            }else{
-                circle.setFill(Color.GREEN);
-            }
-        });
-        r1.setOnMouseExited(event -> {
-            if(mute==true) {
-                circle.setFill(Color.DARKRED);
-            }else{
-                circle.setFill(Color.DARKGREEN);
-            }
-        });
-        r1.setOnMousePressed(event -> {
-            if(mute==true){
-                mute=false;
-            }else {
-                mute=true;
-            }
-            if(mute==true){
-                try {
-                    Menus.mediaplayer.pauseMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                try {
-                    Menus.mediaplayer.playMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        r1.setOnMouseReleased(event -> {
-            if(mute==true) {
-                circle.setFill(Color.RED);
-            }else{
-                circle.setFill(Color.GREEN);
-            }
-        });
-        setAlignment(Pos.CENTER);
-        getChildren().addAll(circle, r1);
-
-    }
-}
-
-class Schadenanzeige extends HBox {
-    public Schadenanzeige(String player,int Schaden){
-        Title2 p1 = new Title2(player+" : ");
-        Title2 dmg =new Title2(String.valueOf(Schaden));
-
-        getChildren().addAll(p1,dmg);
     }
 }

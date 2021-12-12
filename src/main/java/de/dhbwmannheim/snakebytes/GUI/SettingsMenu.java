@@ -5,7 +5,6 @@ package de.dhbwmannheim.snakebytes.GUI;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -16,13 +15,10 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.text.*;
 
 import java.io.FileNotFoundException;
-
-import static de.dhbwmannheim.snakebytes.GUI.Menus.createSettingsContent;
-import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 public class SettingsMenu extends StackPane {
     public SettingsMenu(Stage primaryStage) {
@@ -32,9 +28,6 @@ public class SettingsMenu extends StackPane {
         title.setTranslateY(-100);
 
         SettingsTable settings = new SettingsTable(primaryStage);
-
-        settings.setTranslateX(50);
-        settings.setTranslateY(100);
 
         setAlignment(Pos.CENTER);
 
@@ -81,24 +74,26 @@ class SettingsTable extends StackPane {
                 new TextItem("Attack 1"),
                 new TextItem("Attack 2"));
         moveSet.setTranslateX(200);
+        System.out.println();
         moveSet.setTranslateY(250);
 
 
         ButtonBox player1Box = new ButtonBox(
-                new ButtonItem("w",primaryStage, "yump"),     //up
-                new ButtonItem("a",primaryStage, "left"),     //left
-                new ButtonItem("d",primaryStage, "right"),     //right
-                new ButtonItem("j",primaryStage, "attack"),     //Attack 1
-                new ButtonItem("k",primaryStage,"specialAttack"));    //Attack 2
+                new ButtonItem("w",primaryStage),     //up
+                new ButtonItem("a",primaryStage),     //left
+                new ButtonItem("d",primaryStage),     //right
+                new ButtonItem("j",primaryStage),     //Attack 1
+                new ButtonItem("k",primaryStage));    //Attack 2
         player1Box.setTranslateX(550);
+        System.out.println();
         player1Box.setTranslateY(250);
 
         ButtonBox player2Box = new ButtonBox(
-                new ButtonItem("w",primaryStage, "yump"),     //up
-                new ButtonItem("a",primaryStage, "left"),     //left
-                new ButtonItem("d",primaryStage, "right"),     //right
-                new ButtonItem("j",primaryStage, "attack"),     //Attack 1
-                new ButtonItem("k",primaryStage,"specialAttack"));
+                new ButtonItem("w",primaryStage),     //up
+                new ButtonItem("a",primaryStage),     //left
+                new ButtonItem("d",primaryStage),     //right
+                new ButtonItem("j",primaryStage),     //Attack 1
+                new ButtonItem("k",primaryStage));    //Attack 2
         player2Box.setTranslateX((800));
         System.out.println();
         player2Box.setTranslateY(250);
@@ -124,7 +119,7 @@ class SettingsTopic extends HBox {
 
 }
 
-class TextBox extends VBox {
+class TextBox extends VBox{
     public TextBox(TextItem...items) {
         getChildren().add(createSeperator());
 
@@ -169,7 +164,7 @@ class ButtonBox extends VBox{
     }
 }
 class ButtonItem extends StackPane{
-    public ButtonItem(String name, Stage primaryStage,String input) {
+    public ButtonItem(String name, Stage primaryStage) {
         LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop[] {
                 new Stop(0, Color.YELLOW),
                 new Stop(0.1, Color.RED),
@@ -198,53 +193,25 @@ class ButtonItem extends StackPane{
             text.setFill(Color.DARKGREY);
         });
         setOnMousePressed(event -> {
-                    bg.setFill(Color.DARKGOLDENROD);
-                    Scene scene = null;
-                    try {
-                        scene = new Scene(Menus.createKeyBindingContent(input,primaryStage), Color.LIGHTBLUE);
-                        primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                        primaryStage.setMaxWidth(Integer.MAX_VALUE);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-            Scene finalScene = scene;
-            finalScene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
-                System.out.println("Taste gedrückt: " + KeyEvent.getText());
-                System.out.println("oder: " + KeyEvent.getCode().toString());
-
-                PressKeyWindow.Key=KeyEvent.getCode().toString();
-
-                Scene scene2 = null;
-                try {
-                    scene2 = new Scene(createSettingsContent(primaryStage), Color.LIGHTBLUE);
-                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                primaryStage.setScene(scene2);
-
-            });
-
+            bg.setFill(Color.DARKGOLDENROD);
+            Scene scene = null;
+            try {
+                scene = new Scene(Menus.createKeyBinding(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
             primaryStage.setMaxHeight(Integer.MAX_VALUE);
             primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            primaryStage.setScene(finalScene);
+            primaryStage.setScene(scene);
         });
 
         setOnMouseReleased(event -> {
             bg.setFill(gradient);
         });
     }
-}
-
-class SettingsObj {
-    int spieler;
-    String attack;
-    String left;
-    String right;
-    String specialAttack;
-    String yump;
 }
 
 
