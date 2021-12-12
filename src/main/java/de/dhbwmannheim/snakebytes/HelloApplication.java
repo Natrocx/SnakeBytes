@@ -18,12 +18,6 @@ import java.nio.file.Paths;
 public class HelloApplication extends Application {
     public static void main(String[] args) {
 
-        Engine.setup();
-        try {
-            Engine.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         launch();
     }

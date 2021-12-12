@@ -14,6 +14,6 @@ public class GravityComponent extends Component {
 
     @Override
     public int getId() {
-        return 0;
+        return id;
     }
 }

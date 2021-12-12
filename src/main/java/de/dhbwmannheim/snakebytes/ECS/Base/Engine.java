@@ -4,6 +4,7 @@ package de.dhbwmannheim.snakebytes.ECS.Base;
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
 import de.dhbwmannheim.snakebytes.ECS.Systems.KnockoutSystem;
+import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -38,6 +39,7 @@ public class Engine {
         ComponentManager.registerComponentList(PositionComponent.class);
         ComponentManager.registerComponentList(ScreenBorderCollisionComponent.class);
         ComponentManager.registerComponentList(CharacterStateComponent.class);
+        ComponentManager.registerComponentList(GravityComponent.class);
 
         //registerSystem(new MovementSystem());
         registerSystem(new CollisionSystem());
@@ -46,6 +48,7 @@ public class Engine {
         setupPlayers();
         setupScreenBorders();
         setupPlatforms();
+
     }
 
     private static void setupPlatforms() {
@@ -179,7 +182,7 @@ public class Engine {
         }
     }
 
-    public static Victory run() throws Exception {
+    public static Victory run(FrameHandler frameHandler) throws Exception {
 
         Instant last = Instant.now();
         // TODO: get cancel condition from input system
@@ -190,6 +193,7 @@ public class Engine {
                 update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
             }
             last = now;
+            frameHandler.update();
         }
         return finish;
     }
