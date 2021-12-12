@@ -12,7 +12,7 @@ import de.dhbwmannheim.snakebytes.ECS.Base.Component;
 public class CharacterStateComponent extends Component {
     public static final int id = 0b1000000;
 
-    public Vec2<Double> knockback; //remaining velocity of knockback
+    public double knockback; //remaining velocity of knockback
     public double attackCooldown; //remaining time of attack cooldown
     public double specialAttackCooldown; //remaining time of special attack cooldown
     public int lives; //remaining lives
@@ -22,7 +22,7 @@ public class CharacterStateComponent extends Component {
     public int lookingDirection; //0=left, 1=right
     public int state; //for FrameHandler: 0=left, 1=right, 2=attackLeft, 3=attackRight, 4=specialAttackLeft, 5=specialAttackRight
 
-    public CharacterStateComponent(Vec2<Double> knockback, double attackCooldown, double specialAttackCooldown, int lives, boolean[] jumping, boolean attacking, boolean specialAttacking, int lookingDirection, int state) {
+    public CharacterStateComponent(double knockback, double attackCooldown, double specialAttackCooldown, int lives, boolean[] jumping, boolean attacking, boolean specialAttacking, int lookingDirection, int state) {
         this.knockback = knockback;
         this.attackCooldown = attackCooldown;
         this.specialAttackCooldown = specialAttackCooldown;
