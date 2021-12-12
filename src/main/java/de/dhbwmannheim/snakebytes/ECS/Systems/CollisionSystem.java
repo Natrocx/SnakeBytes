@@ -64,7 +64,6 @@ public class CollisionSystem extends System {
                         e1Pos.value.y + e1BB.size.y   > e2Pos.value.y &&
                         e1Pos.value.y < e2Pos.value.y + e2BB.size.y)  {
                     switch (e1BB.boxType) {
-                        // TODO: maybe implement further branches? Not necessary if players are inserted before other objects and no non-player collisions are required
                         case Ground, HighPlatform, Screen -> {}
                         case Player -> playerCollisions(e1, e2);
                         case Attack -> attackCollisions(e1, e2);
@@ -76,11 +75,7 @@ public class CollisionSystem extends System {
     }
 
     private void specialAttackCollisions(Entity e1, Entity e2) {
-        var e1Pos = positionComponents.getComponent(e1);
-        var e1BB = boundingBoxComponents.getComponent(e1);
-
         var e2BB = boundingBoxComponents.getComponent(e2);
-        var e2Pos = positionComponents.getComponent(e2);
 
         switch (e2BB.boxType) {
             case Ground, SpecialAttack, Attack, HighPlatform -> { /* do nothing */ }
@@ -93,11 +88,7 @@ public class CollisionSystem extends System {
     }
 
     private void attackCollisions(Entity e1, Entity e2) {
-        var e1Pos = positionComponents.getComponent(e1);
-        var e1BB = boundingBoxComponents.getComponent(e1);
-
         var e2BB = boundingBoxComponents.getComponent(e2);
-        var e2Pos = positionComponents.getComponent(e2);
 
         switch (e2BB.boxType) {
             case Ground, Attack, HighPlatform, Screen, SpecialAttack -> { /* do nothing */ }
