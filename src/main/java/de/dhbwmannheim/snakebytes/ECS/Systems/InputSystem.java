@@ -42,8 +42,7 @@ public class InputSystem extends System {
     ComponentList<CharacterStateComponent> characterState;
     ComponentList<BoundingBoxComponent> boundingBox;
     ComponentList<PositionComponent> position;
-    List<Entity> entities;
-    ArrayList<String> pressedKeys = new ArrayList<>();
+    List<String> pressedKeys = new ArrayList<>();
     SoundManager soundManager;
 
     //Saving the KeySettings of player 1 into a HashTable, so that: <keyboard key as String, connected action as String>
@@ -202,6 +201,9 @@ public class InputSystem extends System {
 
         motion = ComponentManager.getComponentList(MotionComponent.class);
         characterState = ComponentManager.getComponentList(CharacterStateComponent.class);
+        boundingBox = ComponentManager.getComponentList(BoundingBoxComponent.class);
+        position = ComponentManager.getComponentList(PositionComponent.class);
+
     }
 
 
