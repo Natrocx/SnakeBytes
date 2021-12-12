@@ -24,6 +24,7 @@ public class Engine {
     private static final List<ISystem> systems = new ArrayList<>();
     private static final Entity[] players = new Entity[2];
     private static Victory finish = null;
+    private static InputSystem inputSystem;
 
     public static void registerSystem(System sys) {
         systems.add(sys);
