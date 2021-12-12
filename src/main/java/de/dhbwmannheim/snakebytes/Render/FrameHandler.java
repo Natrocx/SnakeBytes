@@ -6,11 +6,12 @@ import de.dhbwmannheim.snakebytes.ECS.AttackStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
-import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.PositionComponent;
+import de.dhbwmannheim.snakebytes.ECS.Systems.InputSystem;
 import de.dhbwmannheim.snakebytes.ECS.Vec2;
 import de.dhbwmannheim.snakebytes.GUI.Menus;
+import de.dhbwmannheim.snakebytes.GUI.PressKeyWindow;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
@@ -18,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -25,10 +27,12 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Array;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Consumer;
 
 /** Author: @Kirolis Eskondis
  * This class defines the FrameHandler which renders every frame the user sees
@@ -50,7 +54,7 @@ public class FrameHandler extends StackPane {
     ArrayList<ImageView> spcAttacksP1 = initializeGraphics("attackP1");
     ArrayList<ImageView> spcAttacksP2 = initializeGraphics("attackP2");
 
-    public FrameHandler (Stage primaryStage) throws Exception {
+    public FrameHandler (Stage primaryStage, Consumer<KeyEvent> keyPressCallback) throws Exception {
 
         //Images for entities are set in their starting positions
         ImageView p1start = imagesP1.get(1);
@@ -76,6 +80,12 @@ public class FrameHandler extends StackPane {
         Menus.root.getChildren().add(4,spcAttack1start);
         Menus.root.getChildren().add(5,spcAttack2start);
         scene = new Scene(Menus.root);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
+                    java.lang.System.out.println("Taste gedrückt: " + KeyEvent.getText());
+                    System.out.println("oder: " + KeyEvent.getCode().toString());
+                    PressKeyWindow.Key = KeyEvent.getCode().toString();
+                    keyPressCallback.accept(KeyEvent);
+                });
         primaryStage.setScene(scene);
     }
 
