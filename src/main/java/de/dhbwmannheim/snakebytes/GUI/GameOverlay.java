@@ -52,11 +52,11 @@ public class GameOverlay extends StackPane {
         CountDown countDown = new CountDown();
         countDown.setTranslateX(550);
         countDown.setTranslateY(300);
-        Schadenanzeige dmgP1 = new Schadenanzeige("P1",3);
+        Schadenanzeige dmgP1 = new Schadenanzeige("P1",300);
         dmgP1.setTranslateX(10);
         dmgP1.setTranslateY(700);
         Schadenanzeige dmgP2 = new Schadenanzeige("P2",400);
-        dmgP2.setTranslateX(1150);
+        dmgP2.setTranslateX(1100);
         dmgP2.setTranslateY(700);
 
 
@@ -300,7 +300,7 @@ class  Sound extends StackPane {
                 }
             }else {
                 try {
-                    Menus.mediaplayer.playMusic();
+                    //Menus.mediaplayer.playMusic();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -466,7 +466,7 @@ class Schadenanzeige extends HBox {
 
         getChildren().addAll(p1,dmg);
     }
-
+/*
     //TODO children müssen noch ermittelt werden und eingefügt werden
     public Schadensberechnung(double ){
         ComponentList<CharacterStateComponent> characterState = null;
@@ -483,4 +483,6 @@ class Schadenanzeige extends HBox {
             }
         }
     }
+
+ */
 }
