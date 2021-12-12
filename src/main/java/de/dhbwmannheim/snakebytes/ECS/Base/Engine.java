@@ -3,10 +3,12 @@ package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
+import de.dhbwmannheim.snakebytes.ECS.Systems.InputSystem;
 import de.dhbwmannheim.snakebytes.ECS.Systems.KnockoutSystem;
 import de.dhbwmannheim.snakebytes.ECS.Systems.MotionSystem;
 import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.time.Duration;
@@ -14,6 +16,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Engine {
 
@@ -50,10 +53,16 @@ public class Engine {
         registerSystem(new MotionSystem());
         registerSystem(new CollisionSystem());
         registerSystem(new KnockoutSystem());
+        inputSystem = new InputSystem();
+        registerSystem(inputSystem);
 
         setupPlayers();
         setupScreenBorders();
         setupPlatforms();
+    }
+
+    public static Consumer<KeyEvent> getKeyPressedCallback() {
+        return inputSystem::keyPressed;
     }
 
     private static void setupPlatforms() {
