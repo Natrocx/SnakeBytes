@@ -1,6 +1,8 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
 
+import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
+import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
@@ -20,7 +22,11 @@ import java.util.TimerTask;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
-//by Kai Schwab
+/**
+ * Author: @Kai Schwab
+ *         @Thu Giang Tran
+ * This class...
+ */
 
 public class GameOverlay extends StackPane {
     int counter = 3;
@@ -453,11 +459,30 @@ class  Music extends StackPane {
     }
 }
 
+
 class Schadenanzeige extends HBox {
-    public Schadenanzeige(String player,int Schaden){
+    public Schadenanzeige(String player,double Schaden){
+
         Title2 p1 = new Title2(player+" : ");
-        Title2 dmg =new Title2(String.valueOf(Schaden));
+        Title2 dmg = new Title2(String.valueOf(Schaden));
 
         getChildren().addAll(p1,dmg);
+    }
+
+    //TODO children müssen noch ermittelt werden und eingefügt werden
+    public Schadensberechnung(double ){
+        ComponentList<CharacterStateComponent> characterState = null;
+
+        for (Entity entity: Engine.getPlayers()) {
+            CharacterStateComponent playerKnockback = characterState.getComponent(entity);
+            Schaden = playerKnockback.knockback * 100;
+            if (entity == Engine.getPlayer(1)){
+
+            }else
+            if (entity == Engine.getPlayer(2)){
+                double damage2 = Schaden;
+                Title2 dmg = new Title2(String.valueOf(damage2));
+            }
+        }
     }
 }
