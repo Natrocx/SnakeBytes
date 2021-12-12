@@ -94,12 +94,12 @@ public class Menus extends Application {
         return root;
     }
 
-    static Parent createKeyBindingContent(Stage primaryStage) throws FileNotFoundException {
+    static Parent createKeyBindingContent(String input,Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(320, 80);
 
-        PressKeyWindow keyWindow = new PressKeyWindow(primaryStage);
+        PressKeyWindow keyWindow = new PressKeyWindow(input,primaryStage);
 
         root.getChildren().addAll(keyWindow);
 

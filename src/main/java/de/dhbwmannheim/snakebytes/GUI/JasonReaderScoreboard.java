@@ -23,6 +23,6 @@ public class JasonReaderScoreboard {
     }
 }
 
-class ScoreboardData {
 
-}
+
+

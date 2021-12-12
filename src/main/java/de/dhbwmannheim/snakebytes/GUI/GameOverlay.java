@@ -3,6 +3,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -47,10 +48,17 @@ public class GameOverlay extends StackPane {
         CountDown countDown = new CountDown();
         countDown.setTranslateX(550);
         countDown.setTranslateY(300);
+        Schadenanzeige dmgP1 = new Schadenanzeige("P1",3);
+        dmgP1.setTranslateX(10);
+        dmgP1.setTranslateY(700);
+        Schadenanzeige dmgP2 = new Schadenanzeige("P2",400);
+        dmgP2.setTranslateX(1150);
+        dmgP2.setTranslateY(700);
+
 
         setAlignment(Pos.TOP_CENTER);
 
-        getChildren().addAll(countDown,score,timer,pause,sound,music,back);
+        getChildren().addAll(countDown,dmgP1,dmgP2,score,timer,pause,sound,music,back);
 
     }
 }
@@ -442,5 +450,14 @@ class  Music extends StackPane {
         setAlignment(Pos.CENTER);
         getChildren().addAll(circle, r1);
 
+    }
+}
+
+class Schadenanzeige extends HBox {
+    public Schadenanzeige(String player,int Schaden){
+        Title2 p1 = new Title2(player+" : ");
+        Title2 dmg =new Title2(String.valueOf(Schaden));
+
+        getChildren().addAll(p1,dmg);
     }
 }

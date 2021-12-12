@@ -17,7 +17,7 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 public class PressKeyWindow extends VBox {
     static String Key = "";
-    public PressKeyWindow(Stage primaryStage) {
+    public PressKeyWindow(String Input,Stage primaryStage) {
         PressKey title = new PressKey("P R E S S  A  B U T T O N",primaryStage);
         title.setTranslateY(20);
         title.setTranslateX(100);

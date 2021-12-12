@@ -85,20 +85,20 @@ class SettingsTable extends StackPane {
 
 
         ButtonBox player1Box = new ButtonBox(
-                new ButtonItem("w",primaryStage),     //up
-                new ButtonItem("a",primaryStage),     //left
-                new ButtonItem("d",primaryStage),     //right
-                new ButtonItem("j",primaryStage),     //Attack 1
-                new ButtonItem("k",primaryStage));    //Attack 2
+                new ButtonItem("w",primaryStage, "yump"),     //up
+                new ButtonItem("a",primaryStage, "left"),     //left
+                new ButtonItem("d",primaryStage, "right"),     //right
+                new ButtonItem("j",primaryStage, "attack"),     //Attack 1
+                new ButtonItem("k",primaryStage,"specialAttack"));    //Attack 2
         player1Box.setTranslateX(550);
         player1Box.setTranslateY(250);
 
         ButtonBox player2Box = new ButtonBox(
-                new ButtonItem("w",primaryStage),     //up
-                new ButtonItem("a",primaryStage),     //left
-                new ButtonItem("d",primaryStage),     //right
-                new ButtonItem("j",primaryStage),     //Attack 1
-                new ButtonItem("k",primaryStage));    //Attack 2
+                new ButtonItem("w",primaryStage, "yump"),     //up
+                new ButtonItem("a",primaryStage, "left"),     //left
+                new ButtonItem("d",primaryStage, "right"),     //right
+                new ButtonItem("j",primaryStage, "attack"),     //Attack 1
+                new ButtonItem("k",primaryStage,"specialAttack"));
         player2Box.setTranslateX((800));
         System.out.println();
         player2Box.setTranslateY(250);
@@ -169,7 +169,7 @@ class ButtonBox extends VBox{
     }
 }
 class ButtonItem extends StackPane{
-    public ButtonItem(String name, Stage primaryStage) {
+    public ButtonItem(String name, Stage primaryStage,String input) {
         LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop[] {
                 new Stop(0, Color.YELLOW),
                 new Stop(0.1, Color.RED),
@@ -201,7 +201,7 @@ class ButtonItem extends StackPane{
                     bg.setFill(Color.DARKGOLDENROD);
                     Scene scene = null;
                     try {
-                        scene = new Scene(Menus.createKeyBindingContent(primaryStage), Color.LIGHTBLUE);
+                        scene = new Scene(Menus.createKeyBindingContent(input,primaryStage), Color.LIGHTBLUE);
                         primaryStage.setMaxHeight(Integer.MAX_VALUE);
                         primaryStage.setMaxWidth(Integer.MAX_VALUE);
                     } catch (FileNotFoundException e) {
@@ -236,6 +236,15 @@ class ButtonItem extends StackPane{
             bg.setFill(gradient);
         });
     }
+}
+
+class SettingsObj {
+    int spieler;
+    String attack;
+    String left;
+    String right;
+    String specialAttack;
+    String yump;
 }
 
 
