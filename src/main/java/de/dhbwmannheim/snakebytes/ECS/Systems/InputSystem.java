@@ -43,7 +43,7 @@ public class InputSystem extends System {
     ComponentList<BoundingBoxComponent> boundingBox;
     ComponentList<PositionComponent> position;
     List<Entity> entities;
-    ArrayList<String> pressedKeys;
+    ArrayList<String> pressedKeys = new ArrayList<>();
     SoundManager soundManager;
 
     //Saving the KeySettings of player 1 into a HashTable, so that: <keyboard key as String, connected action as String>
