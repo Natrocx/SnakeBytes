@@ -15,8 +15,8 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.text.*;
 
 import java.io.FileNotFoundException;
 
@@ -28,6 +28,9 @@ public class SettingsMenu extends StackPane {
         title.setTranslateY(-100);
 
         SettingsTable settings = new SettingsTable(primaryStage);
+
+        settings.setTranslateX(50);
+        settings.setTranslateY(100);
 
         setAlignment(Pos.CENTER);
 
@@ -74,7 +77,6 @@ class SettingsTable extends StackPane {
                 new TextItem("Attack 1"),
                 new TextItem("Attack 2"));
         moveSet.setTranslateX(200);
-        System.out.println();
         moveSet.setTranslateY(250);
 
 
@@ -85,7 +87,6 @@ class SettingsTable extends StackPane {
                 new ButtonItem("j",primaryStage),     //Attack 1
                 new ButtonItem("k",primaryStage));    //Attack 2
         player1Box.setTranslateX(550);
-        System.out.println();
         player1Box.setTranslateY(250);
 
         ButtonBox player2Box = new ButtonBox(
@@ -119,7 +120,7 @@ class SettingsTopic extends HBox {
 
 }
 
-class TextBox extends VBox{
+class TextBox extends VBox {
     public TextBox(TextItem...items) {
         getChildren().add(createSeperator());
 
@@ -196,7 +197,7 @@ class ButtonItem extends StackPane{
             bg.setFill(Color.DARKGOLDENROD);
             Scene scene = null;
             try {
-                scene = new Scene(Menus.createKeyBinding(primaryStage), Color.LIGHTBLUE);
+                scene = new Scene(Menus.createKeyBindingContent(primaryStage), Color.LIGHTBLUE);
                 primaryStage.setMaxHeight(Integer.MAX_VALUE);
                 primaryStage.setMaxWidth(Integer.MAX_VALUE);
             } catch (FileNotFoundException e) {

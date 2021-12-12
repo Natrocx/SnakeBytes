@@ -92,7 +92,8 @@ public class Menus extends Application {
 
         return root;
     }
-    static Parent createKeyBinding(Stage primaryStage) throws FileNotFoundException {
+
+    static Parent createKeyBindingContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(320, 80);
@@ -119,18 +120,20 @@ public class Menus extends Application {
     }
 
     //Game
-    public static Pane createGameContent(Stage primaryStage) throws Exception {
+    public static Pane createGameContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
 
         GameOverlay gov = new GameOverlay(primaryStage);
         BackgroundBuilder background = new BackgroundBuilder(primaryStage);
-        mediaplayer.playMusic();
+        try {
+            mediaplayer.playMusic();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-
-        root.getChildren().addAll(background, gov);
-
+        root.getChildren().addAll(background,gov);
 
         return root;
     }
