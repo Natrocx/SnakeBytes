@@ -2,12 +2,23 @@ package de.dhbwmannheim.snakebytes;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,18 +27,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class HelloApplication extends Application {
-    public static void main(String[] args) {
-
-        Engine.setup();
-        try {
-            Engine.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        launch();
-    }
-
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("Hello, World!");
@@ -36,13 +35,21 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-    public static class Test extends Application {
+    public static void main(String[] args) {
 
-        Stage stage;
+        Engine.setup();
+        Engine.run();
+
+        launch();
+    }
+
+    public static class Test extends Application {
 
         public static void main(String[] args) {
             launch(args);
         }
+
+        Stage stage;
 
         @Override
         public void start(Stage primaryStage) {

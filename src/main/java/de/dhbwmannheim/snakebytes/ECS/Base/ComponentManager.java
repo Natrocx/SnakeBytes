@@ -1,4 +1,3 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +12,7 @@ public class ComponentManager {
 
     public static void registerComponentList(Class<? extends Component> clazz) {
         var list = new ComponentList<>();
-        list.registerCallbacks(ComponentManager::addComponentCallback, ComponentManager::removeComponentCallback);
+        list.registerCallbacks( ComponentManager::addComponentCallback, ComponentManager::removeComponentCallback);
         componentLists.put(clazz, list);
     }
 
@@ -48,13 +47,9 @@ public class ComponentManager {
     }
 
     static void destroyComponents(Entity entity) {
-        for (ComponentList<?> list : componentLists.values()) {
+        for(ComponentList<?> list : componentLists.values()) {
             list.removeComponent(entity);
         }
-    }
-
-    public static void clearComponents(Class<? extends Component> clazz) {
-        registerComponentList(clazz);
     }
 
     /**
