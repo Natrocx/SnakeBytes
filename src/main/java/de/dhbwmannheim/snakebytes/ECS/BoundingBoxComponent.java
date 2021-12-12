@@ -24,6 +24,7 @@ public class BoundingBoxComponent extends Component {
         HighPlatform,
         Player,
         Attack,
+        SpecialAttack,
         Screen
     }
 }

@@ -2,9 +2,7 @@
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
-import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
-import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
-import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
+import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
@@ -70,10 +68,28 @@ public class CollisionSystem extends System {
                         case Ground, HighPlatform, Screen -> {}
                         case Player -> playerCollisions(e1, e2);
                         case Attack -> attackCollisions(e1, e2);
+                        case SpecialAttack -> specialAttackCollisions(e1, e2);
                     }
                 }
             }
         }
+    }
+
+    private void specialAttackCollisions(Entity e1, Entity e2) {
+        var e1Pos = positionComponents.getComponent(e1);
+        var e1BB = boundingBoxComponents.getComponent(e1);
+
+        var e2BB = boundingBoxComponents.getComponent(e2);
+        var e2Pos = positionComponents.getComponent(e2);
+
+        switch (e2BB.boxType) {
+            case Ground, SpecialAttack, Attack, HighPlatform -> { /* do nothing */ }
+            case Player -> playerCollisions(e2, e1); // already implemented in player collisions
+            case Screen -> {
+                Engine.destroyAttack(e1);
+            }
+        }
+
     }
 
     private void attackCollisions(Entity e1, Entity e2) {
@@ -84,9 +100,8 @@ public class CollisionSystem extends System {
         var e2Pos = positionComponents.getComponent(e2);
 
         switch (e2BB.boxType) {
-            case Ground, Player, HighPlatform, Screen -> { /* do nothing */ }
-            case Attack -> playerCollisions(e2, e1); // already implemented in player collisions
-            // for ranged attacks maybe destroy attack Entity?
+            case Ground, Attack, HighPlatform, Screen, SpecialAttack -> { /* do nothing */ }
+            case Player -> playerCollisions(e2, e1); // already implemented in player collisions
         }
 
     }
@@ -149,6 +164,7 @@ public class CollisionSystem extends System {
             }
 
             // there are no corrections to be made inline so the system will simply emit the corresponding component
+            case SpecialAttack:
             case Attack:
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(new Vec2<>(
                         x_overlap, y_overlap

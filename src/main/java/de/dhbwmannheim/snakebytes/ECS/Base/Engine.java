@@ -142,6 +142,11 @@ public class Engine {
 
     }
 
+    public static void destroyAttack(Entity entity) {
+        attackList.remove(entity);
+        destroyEntity(entity);
+    }
+
     /**
      * May be used to remove an Entity from unfitting Systems using the entities Signature
      *
