@@ -196,8 +196,10 @@ public class InputSystem extends System {
             PositionComponent positionComponent = position.getComponent(entity);
 
             //reduce attack cooldowns
-            characterStateComponent.attackCooldown = characterStateComponent.attackCooldown - deltaTime;
-            characterStateComponent.specialAttackCooldown = characterStateComponent.specialAttackCooldown - deltaTime;
+            if(characterStateComponent != null) {
+                characterStateComponent.attackCooldown = characterStateComponent.attackCooldown - deltaTime;
+                characterStateComponent.specialAttackCooldown = characterStateComponent.specialAttackCooldown - deltaTime;
+            }
 
             //iterate over all pressed keys, that did not were processed (since pressedKeys only contains not processed keys)
             for (String key : pressedKeys) {

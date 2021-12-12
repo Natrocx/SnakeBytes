@@ -31,20 +31,25 @@ public class KnockoutSystem extends System {
     public void update(double deltaTime) {
         Entity[] playersLost = new Entity[2];
         int lossCount = 0;
-        for (Entity entity : entities) {
+        for (Entity entity : Engine.getPlayers()) {
             // get current character state to determine actions taken
             var characterState = characterStateComponentComponents.getComponent(entity);
-            characterState.lives--;
+            if(characterState != null) {
+                characterState.lives--;
+                if (characterState.lives < 0) {
+                    playersLost[lossCount] = entity;
+                    lossCount++;
+                }
+                characterStateComponentComponents.removeComponent(entity);
 
-            if (characterState.lives < 0) {
-                playersLost[lossCount] = entity;
-                lossCount++;
             }
+
+
 
             // TODO play some animations/sounds?
 
             // remove component after parsing it
-            characterStateComponentComponents.removeComponent(entity);
+
         }
 
         if (lossCount > 1)
