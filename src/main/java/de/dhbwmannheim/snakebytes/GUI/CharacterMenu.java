@@ -2,14 +2,15 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //by Kai Schwab
 
-import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
+import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
+import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
+import de.dhbwmannheim.snakebytes.ECS.Systems.InputSystem;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -26,8 +27,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
@@ -36,8 +35,8 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 
 public class CharacterMenu extends StackPane {
-    static int rounds = 3;
-    static int time =  300 ;
+    public static int rounds = 3;
+    public static int time =  300 ;
     public CharacterMenu(Stage primaryStage){
         //title
         Title2 title = new Title2("Choose your Character");
@@ -224,14 +223,20 @@ class SideMenuItem extends StackPane {
             bg.setFill(Color.DARKGOLDENROD);
             if (name == "Start") {
 
+                    Engine.setup();
+                FrameHandler framehandler = null;
                 try {
-                    FrameHandler frameHandler = new FrameHandler(primaryStage);
-                    //schleife
-                    frameHandler.update(frameHandler);
-
+                    framehandler = new FrameHandler(primaryStage);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                framehandler.update(primaryStage);
+                try {
+                    Engine.run(framehandler, primaryStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
 
             }
 

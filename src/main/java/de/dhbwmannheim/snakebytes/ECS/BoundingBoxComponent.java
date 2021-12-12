@@ -1,4 +1,3 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.Component;
@@ -24,6 +23,7 @@ public class BoundingBoxComponent extends Component {
         HighPlatform,
         Player,
         Attack,
+        SpecialAttack,
         Screen
     }
 }

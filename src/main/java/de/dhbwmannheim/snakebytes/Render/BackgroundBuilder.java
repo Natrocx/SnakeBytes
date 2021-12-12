@@ -1,7 +1,8 @@
 package de.dhbwmannheim.snakebytes.Render;
 
-// Author: @Kirolis Eskondis
-
+/** Author: @Kirolis Eskondis
+ * This class builds the arena when match is started
+*/
 import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
@@ -19,15 +20,16 @@ public class BackgroundBuilder extends StackPane{
 
 
     public BackgroundBuilder(Stage primaryStage) throws FileNotFoundException {
+        //set Background image
         Background bckgrnd = new Background(new BackgroundImage(new Image(new File("src/main/resources/level_assets/background.png").toURI().toString()),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
                 new BackgroundPosition(Side.LEFT, 0, true, Side.BOTTOM, 0, true),
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)));
 
-        //Pane root = new Pane();
         setPrefSize(1350, 900);
         setBackground(bckgrnd);
 
+        //set platform images as well as their positions and size
         Image floor = new Image(new File("src/main/resources/level_assets/Floor.png").toURI().toString());
         Image step = new Image(new File("src/main/resources/level_assets/Steps.png").toURI().toString());
 
