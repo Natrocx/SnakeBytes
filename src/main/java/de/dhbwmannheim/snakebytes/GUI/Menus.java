@@ -4,6 +4,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
+import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ public class Menus extends Application {
 
     //by Kai Schwab
     public static MusicManager mediaplayer = new MusicManager();
+    public static SoundManager soundplayer = new SoundManager();
 
     public static void main(String[] args) {
         launch(args);

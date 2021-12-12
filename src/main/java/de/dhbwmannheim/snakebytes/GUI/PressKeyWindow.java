@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 public class PressKeyWindow extends VBox {
+    static String Key = "";
     public PressKeyWindow(Stage primaryStage) {
         PressKey title = new PressKey("P R E S S  A  B U T T O N",primaryStage);
         title.setTranslateY(20);
@@ -26,6 +27,7 @@ public class PressKeyWindow extends VBox {
     }
 }
 class PressKey extends StackPane {
+    public String Key="";
     public PressKey(String name,Stage primaryStage) {
         Rectangle bg = new Rectangle(300, 40);
         bg.setStroke(Color.DARKRED);
@@ -38,17 +40,5 @@ class PressKey extends StackPane {
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(bg,text);
-
-        setOnKeyTyped(event -> {
-            Scene scene = null;
-            try {
-                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
-                primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            primaryStage.setScene(scene);
-        });
     }
 }
