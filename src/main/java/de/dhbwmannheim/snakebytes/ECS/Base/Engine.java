@@ -5,6 +5,7 @@ import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
 import de.dhbwmannheim.snakebytes.ECS.Systems.KnockoutSystem;
 import de.dhbwmannheim.snakebytes.ECS.Systems.MotionSystem;
+import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 import javafx.stage.Stage;
 
@@ -18,8 +19,8 @@ public class Engine {
 
     public static ArrayList<Entity> attackList = new ArrayList<>();
 
-    public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.1, 0.23));
-    public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.14, 0.3));
+    public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.2222, 0.6833));
+    public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.7407, 0.6833));
     private static final List<ISystem> systems = new ArrayList<>();
     private static final Entity[] players = new Entity[2];
     private static Victory finish = null;
@@ -65,10 +66,12 @@ public class Engine {
     }
 
     private static void setupPlayers() {
+        boolean[] doublefalse = {false,false};
         var player1 = new Entity();
         var motionComponent1 = new MotionComponent();
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent1 = new GravityComponent(0.1);
+        var characterStateComponent1 = new CharacterStateComponent(new Vec2<>(0.1,0.05),3,5, CharacterMenu.rounds,doublefalse,false,false,1,1);
 
         registerEntity(player1);
         players[0] = player1;
@@ -76,11 +79,13 @@ public class Engine {
         ComponentManager.addComponent(player1, POSITION_COMPONENT_1.copy());
         ComponentManager.addComponent(player1, boundingBoxComponent1);
         ComponentManager.addComponent(player1, gravityComponent1);
+        ComponentManager.addComponent(player1,characterStateComponent1);
 
         var player2 = new Entity();
         var motionComponent2 = new MotionComponent();
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent2 = new GravityComponent(0.1);
+        var characterStateComponent2 = new CharacterStateComponent(new Vec2<>(0.1,0.05),0,5, CharacterMenu.rounds,doublefalse,false,false,0,0);
 
         registerEntity(player2);
         players[1] = player2;
@@ -88,6 +93,7 @@ public class Engine {
         ComponentManager.addComponent(player2, POSITION_COMPONENT_2.copy());
         ComponentManager.addComponent(player2, boundingBoxComponent2);
         ComponentManager.addComponent(player2, gravityComponent2);
+        ComponentManager.addComponent(player2,characterStateComponent2);
     }
 
     private static void setupScreenBorders() {

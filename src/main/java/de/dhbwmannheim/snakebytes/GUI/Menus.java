@@ -14,8 +14,9 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 
-
 public class Menus extends Application {
+
+    public static Pane root = new Pane();
 
     //by Kai Schwab
     public static MusicManager mediaplayer = new MusicManager();
@@ -120,8 +121,7 @@ public class Menus extends Application {
     }
 
     //Game
-    public static Pane createGameContent(Stage primaryStage) throws FileNotFoundException {
-        Pane root = new Pane();
+    public static void createGameContent(Stage primaryStage) throws FileNotFoundException {
 
         root.setPrefSize(1350, 900);
 
@@ -133,8 +133,8 @@ public class Menus extends Application {
             e.printStackTrace();
         }
 
-        root.getChildren().addAll(background,gov);
+        Menus.root.getChildren().add(0,background);
+        Menus.root.getChildren().add(1,gov);
 
-        return root;
     }
 }
