@@ -2,12 +2,16 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //Code by Kai Schwab
 
+import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
+import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
+import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
 
 import java.io.FileNotFoundException;
 
@@ -15,9 +19,27 @@ import java.io.FileNotFoundException;
 public class Menus extends Application {
 
     //by Kai Schwab
+    public static MusicManager mediaplayer = new MusicManager();
+    public static SoundManager soundplayer = new SoundManager();
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws FileNotFoundException {
+        primaryStage.setTitle("SNAKE BYTES");
+        Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+
+        primaryStage.setMaxHeight(900);
+        primaryStage.setMaxWidth(1350);
+        primaryStage.setMinHeight(900);
+        primaryStage.setMinWidth(1350);
+        primaryStage.setHeight(900);
+        primaryStage.setWidth(1350);
+
+        primaryStage.setScene(MainMenu);
+        primaryStage.show();
     }
 
     //Main Menu
@@ -72,6 +94,19 @@ public class Menus extends Application {
         return root;
     }
 
+    static Parent createKeyBindingContent(String input,Stage primaryStage) throws FileNotFoundException {
+        Pane root = new Pane();
+
+        root.setPrefSize(320, 80);
+
+        PressKeyWindow keyWindow = new PressKeyWindow(input,primaryStage);
+
+        root.getChildren().addAll(keyWindow);
+
+        return root;
+    }
+
+
     //Impressum/Erklaerungen
     static Parent createImpressumContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
@@ -86,36 +121,21 @@ public class Menus extends Application {
     }
 
     //Game
-    public static Parent createGameContent(Stage primaryStage) throws FileNotFoundException {
+    public static Pane createGameContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
 
         GameOverlay gov = new GameOverlay(primaryStage);
+        BackgroundBuilder background = new BackgroundBuilder(primaryStage);
+        try {
+            mediaplayer.playMusic();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        //Einbauen der FrameHandler KLassen
-
-
-        root.getChildren().addAll(gov);
+        root.getChildren().addAll(background,gov);
 
         return root;
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws FileNotFoundException {
-        primaryStage.setTitle("SNAKE BYTES");
-        Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
-
-        primaryStage.show();
-        primaryStage.setScene(MainMenu);
-        primaryStage.setMaxHeight(900);
-        primaryStage.setMaxWidth(1350);
-        primaryStage.setMinHeight(900);
-        primaryStage.setMinWidth(1350);
-        primaryStage.setHeight(900);
-        primaryStage.setWidth(1350);
-
-        primaryStage.setScene(MainMenu);
-        primaryStage.show();
     }
 }

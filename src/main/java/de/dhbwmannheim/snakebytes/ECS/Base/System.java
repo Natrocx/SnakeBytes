@@ -1,6 +1,10 @@
 // Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
+import java.util.*;
+
+public abstract class System {
+    protected final List<Entity> entities = new ArrayList<>();
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -18,6 +22,8 @@ public abstract class System implements ISystem {
      * @return BitSet representing Component flags
      */
     @Override
+     * @return BitSet representing Component flags
+     */
     public abstract BitSet getSignature();
 
     @Override

@@ -77,6 +77,7 @@ public class InputSystem extends System {
     List<Entity> entities;
     ArrayList<String> pressedKeys;
     SoundManager soundManager;
+    private BitSet signature;
 
 
     //saving all recent key presses since the last time the following update() function were executed
@@ -210,7 +211,7 @@ public class InputSystem extends System {
 
 
     public InputSystem() {
-        signature = new BitSet();
+         BitSet signature = new BitSet();
 
         signature.set(ConversionUtils.indexFromID(CharacterStateComponent.id));
         signature.set(ConversionUtils.indexFromID(MotionComponent.id));

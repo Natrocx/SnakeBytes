@@ -18,6 +18,7 @@ public class MotionSystem extends System {
     private final ComponentList<PositionComponent> positionComponents;
     private final ComponentList<MotionComponent> motionComponents;
     private final ComponentList<GravityComponent> gravityComponents;
+    private final BitSet signature;
 
 
     @Override
