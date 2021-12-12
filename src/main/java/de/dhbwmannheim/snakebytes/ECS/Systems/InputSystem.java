@@ -143,15 +143,12 @@ public class InputSystem extends System {
                                     setupAttack(0,1,pos,width,height);
                                     characterStateComponent.state=3;
                                 }
-
-
                             }
                             break;
                         case "specialAttack":
                             //if there is no special attack cooldown -> attack and set attackCooldown
                             if (characterStateComponent.specialAttackCooldown == 0) {
                                 characterStateComponent.specialAttacking=true;
-
 
                                 //for each player play the specific sound of the special attack
                                 //and set the specific specialAttackCooldown
@@ -196,7 +193,6 @@ public class InputSystem extends System {
     public BitSet getSignature() {
         return signature;
     }
-
 
     public InputSystem() {
         signature = new BitSet();
@@ -256,18 +252,27 @@ public class InputSystem extends System {
             ComponentManager.addComponent(attack,attackMotion);
 
         }else if(attackType==2){
+            Double hilf=0.0;
+            if (direction==0) {
+                temp.x = playerPosition.x;
+                hilf=-0.4;
+            }else{
+                hilf=0.4;
+            }
             //start position of motion
-            var attackPosition = new PositionComponent(new Vec2<>(playerPosition.x, temp.y));
+            var attackPosition = new PositionComponent(new Vec2<>(temp.x, temp.y));
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.1), BoundingBoxComponent.BoxType.Attack);
 
+            var attackMotion = new MotionComponent(new Vec2<>(hilf,0.2));
+            var attackGravity = new GravityComponent(1.0);
 
-            var attackMotion = new MotionComponent(new Vec2<>(0.1,0.075));
 
             Engine.registerEntity(attack);
             ComponentManager.addComponent(attack,attackPosition);
             ComponentManager.addComponent(attack,attackBoundingBox);
             ComponentManager.addComponent(attack,attackMotion);
+            ComponentManager.addComponent(attack,attackGravity);
         }
     }
 
