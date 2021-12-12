@@ -4,6 +4,7 @@ package de.dhbwmannheim.snakebytes.ECS.Base;
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
 import de.dhbwmannheim.snakebytes.ECS.Systems.KnockoutSystem;
+import de.dhbwmannheim.snakebytes.ECS.Systems.MotionSystem;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 
 import java.time.Duration;
@@ -41,14 +42,13 @@ public class Engine {
         ComponentManager.registerComponentList(CharacterStateComponent.class);
         ComponentManager.registerComponentList(GravityComponent.class);
 
-        //registerSystem(new MovementSystem());
+        registerSystem(new MotionSystem());
         registerSystem(new CollisionSystem());
         registerSystem(new KnockoutSystem());
 
         setupPlayers();
         setupScreenBorders();
         setupPlatforms();
-
     }
 
     private static void setupPlatforms() {
