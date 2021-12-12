@@ -19,6 +19,11 @@ public class KnockoutSystem extends System {
     ComponentList<CharacterStateComponent> characterStateComponentComponents;
 
     public KnockoutSystem() {
+        signature = new BitSet();
+
+        signature.set(ConversionUtils.indexFromID(ScreenBorderCollisionComponent.id));
+        signature.set(ConversionUtils.indexFromID(CharacterStateComponent.id));
+
         characterStateComponentComponents = ComponentManager.getComponentList(CharacterStateComponent.class);
     }
 
@@ -50,11 +55,6 @@ public class KnockoutSystem extends System {
 
     @Override
     public BitSet getSignature() {
-        BitSet signature = new BitSet();
-
-        signature.set(ConversionUtils.indexFromID(ScreenBorderCollisionComponent.id));
-        signature.set(ConversionUtils.indexFromID(CharacterStateComponent.id));
-
         return signature;
     }
 }

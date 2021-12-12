@@ -81,7 +81,7 @@ public class Engine {
         var motionComponent1 = new MotionComponent();
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent1 = new GravityComponent(0.1);
-        var characterStateComponent1 = new CharacterStateComponent(1,3,5, CharacterMenu.rounds,doublefalse,false,false,1,1);
+        var characterStateComponent1 = new CharacterStateComponent(1,3,5, CharacterMenu.rounds, new boolean[]{false, false},false,false,1,1);
 
         registerEntity(player1);
         players[0] = player1;
@@ -95,7 +95,7 @@ public class Engine {
         var motionComponent2 = new MotionComponent();
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent2 = new GravityComponent(0.1);
-        var characterStateComponent2 = new CharacterStateComponent(1,0,5, CharacterMenu.rounds,doublefalse,false,false,0,0);
+        var characterStateComponent2 = new CharacterStateComponent(1,0,5, CharacterMenu.rounds,new boolean[]{false, false},false,false,0,0);
 
         registerEntity(player2);
         players[1] = player2;

@@ -21,6 +21,7 @@ public class CollisionSystem extends System {
     /// System Output
     private final ComponentList<AttackCollisionComponent> attackCollisionComponents;
     private final ComponentList<ScreenBorderCollisionComponent> screenBorderCollisionComponents;
+    private final ComponentList<CharacterStateComponent> characterStateComponentComponents;
 
     public CollisionSystem() {
         signature = new BitSet();
@@ -33,6 +34,7 @@ public class CollisionSystem extends System {
         this.motionComponents = ComponentManager.getComponentList(MotionComponent.class);
         this.attackCollisionComponents = ComponentManager.getComponentList(AttackCollisionComponent.class);
         this.screenBorderCollisionComponents = ComponentManager.getComponentList(ScreenBorderCollisionComponent.class);
+        this.characterStateComponentComponents = ComponentManager.getComponentList(CharacterStateComponent.class);
     }
 
     @Override
@@ -138,6 +140,11 @@ public class CollisionSystem extends System {
                 e1Pos.value.x += x_overlap;
                 e1Pos.value.y += y_overlap;
 
+                motionComponents.getComponent(e1).velocity.y = 0.0;
+
+                characterStateComponentComponents.getComponent(e1).jumping[0] = false;
+                characterStateComponentComponents.getComponent(e1).jumping[1] = false;
+
                 break;
             }
 
@@ -150,6 +157,12 @@ public class CollisionSystem extends System {
                 // for player 2 (correct into other direction):
                 e2Pos.value.x += 0.5 * x_overlap;
                 e2Pos.value.y += 0.5 * y_overlap;
+
+                motionComponents.getComponent(e1).velocity.y = 0.0;
+                motionComponents.getComponent(e1).velocity.x = 0.0;
+
+                motionComponents.getComponent(e2).velocity.y = 0.0;
+                motionComponents.getComponent(e2).velocity.x = 0.0;
 
                 break;
             }
