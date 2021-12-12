@@ -1,4 +1,3 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.util;
 
 public class ConversionUtils {

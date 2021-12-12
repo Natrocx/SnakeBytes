@@ -4,6 +4,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
+import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ public class Menus extends Application {
 
     //by Kai Schwab
     public static MusicManager mediaplayer = new MusicManager();
+    public static SoundManager soundplayer = new SoundManager();
 
     public static void main(String[] args) {
         launch(args);
@@ -92,12 +94,13 @@ public class Menus extends Application {
 
         return root;
     }
-    static Parent createKeyBinding(Stage primaryStage) throws FileNotFoundException {
+
+    static Parent createKeyBindingContent(String input,Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(320, 80);
 
-        PressKeyWindow keyWindow = new PressKeyWindow(primaryStage);
+        PressKeyWindow keyWindow = new PressKeyWindow(input,primaryStage);
 
         root.getChildren().addAll(keyWindow);
 
@@ -119,18 +122,20 @@ public class Menus extends Application {
     }
 
     //Game
-    public static Pane createGameContent(Stage primaryStage) throws Exception {
+    public static Pane createGameContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
 
         GameOverlay gov = new GameOverlay(primaryStage);
         BackgroundBuilder background = new BackgroundBuilder(primaryStage);
-        mediaplayer.playMusic();
+        try {
+            mediaplayer.playMusic();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-
-        root.getChildren().addAll(background, gov);
-
+        root.getChildren().addAll(background,gov);
 
         return root;
     }

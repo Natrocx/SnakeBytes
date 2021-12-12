@@ -20,6 +20,7 @@ public class Impressum extends VBox {
         Title2 ws = new Title2("");
 
         //Items
+        // Text by Robert Sedlmeier
 
         PyTitle pytit = new PyTitle("Exmatrikulator");
         PyText pytex = new PyText("Angriff:", "Die Special-Fähigkeit des Exmatrikukalors stellt die vielen mitgelieferten Bibliotheken, als eine der stärksten Waffen dar. Ebenso ist Python Code einfach zu lesen und benötigt kein explizites Speichermanagement.");
