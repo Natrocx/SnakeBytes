@@ -292,14 +292,14 @@ class SideMenuValueChanger  extends HBox {
             int v= 0;
             if(name=="Points"){
                 v=CharacterMenu.rounds;
-                if(v>0){
-                    CharacterMenu.rounds++;
+                if(v-1>0){
+                    CharacterMenu.rounds--;
                     text.setText(String.valueOf(CharacterMenu.rounds));
                 }
             }
             else if (name=="Time"){
                 v=CharacterMenu.time;
-                if(v>0){
+                if(v-10>0){
                     CharacterMenu.time-=10;
                     text.setText(String.valueOf(CharacterMenu.time));
                 }

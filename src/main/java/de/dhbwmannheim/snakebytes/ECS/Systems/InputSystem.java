@@ -61,6 +61,7 @@ public class InputSystem extends System {
     List<Entity> entities;
     ArrayList<String> pressedKeys;
     SoundManager soundManager;
+    private BitSet signature;
 
     //function to read the JSON-file which saves the key settings of player1 and player2
     private static Hashtable<String, String> getKeySettings(String player) throws IOException, ParseException {
@@ -180,7 +181,7 @@ public class InputSystem extends System {
     }
 
     public InputSystem() {
-        signature = new BitSet();
+         BitSet signature = new BitSet();
 
         signature.set(ConversionUtils.indexFromID(CharacterStateComponent.id));
         signature.set(ConversionUtils.indexFromID(MotionComponent.id));

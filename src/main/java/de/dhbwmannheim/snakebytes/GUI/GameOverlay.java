@@ -105,6 +105,7 @@ class CountDown extends StackPane{
             }
         }, 420,1000);
         countd.setText("");
+        c=3;
     }
 
 }
@@ -185,6 +186,11 @@ class  MiniBack extends StackPane {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
             try {
+                Menus.mediaplayer.pauseMusic();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
                 primaryStage.setMaxHeight(Integer.MAX_VALUE);
                 primaryStage.setMaxWidth(Integer.MAX_VALUE);
@@ -224,6 +230,11 @@ class  MiniBack extends StackPane {
         });
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
+            try {
+                Menus.mediaplayer.pauseMusic();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Scene scene = null;
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
@@ -244,81 +255,188 @@ class  Sound extends StackPane {
     boolean mute =false;
     public Sound(Stage primaryStage) {
         final Circle circle = new Circle(10, 20, 20);
-        final Rectangle r1 = new Rectangle(5, 25);
-        final Rectangle r2 = new Rectangle(5, 25);
-        r1.setTranslateX(-5);
-        r2.setTranslateX(5);
-        circle.setFill(Color.DARKRED);
+        final Text r1 = new Text("S");
+        r1.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
+        circle.setFill(Color.DARKGREEN);
         circle.setStroke(Color.BLACK);
         circle.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
+            if(mute==true) {
+                circle.setFill(Color.RED);
+            }else{
+                circle.setFill(Color.GREEN);
+            }
         });
         circle.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
+            if(mute==true) {
+                circle.setFill(Color.DARKRED);
+            }else{
+                circle.setFill(Color.DARKGREEN);
+            }
         });
         circle.setOnMousePressed(event -> {
+            if(mute==true){
+                mute=false;
+            }else {
+                mute=true;
+            }
             circle.setFill(Color.YELLOW);
-            //Pause();
+            if(mute==true){
+                try {
+                   // Menus.soundplayer.setVolume(0,0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                try {
+                    Menus.mediaplayer.playMusic();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         });
         circle.setOnMouseReleased(event -> {
-            circle.setFill(Color.RED);
+            if(mute==true) {
+                circle.setFill(Color.RED);
+            }else{
+                circle.setFill(Color.GREEN);
+            }
         });
         r1.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
+            if(mute==true) {
+                circle.setFill(Color.RED);
+            }else{
+                circle.setFill(Color.GREEN);
+            }
         });
         r1.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
+            if(mute==true) {
+                circle.setFill(Color.DARKRED);
+            }else{
+                circle.setFill(Color.DARKGREEN);
+            }
         });
         r1.setOnMousePressed(event -> {
-            circle.setFill(Color.YELLOW);
-            //Pause();
+            if(mute==true){
+                mute=false;
+            }else {
+                mute=true;
+            }
+            if(mute==true){
+                try {
+                    Menus.mediaplayer.pauseMusic();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                try {
+                    Menus.mediaplayer.playMusic();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         });
         r1.setOnMouseReleased(event -> {
-            circle.setFill(Color.RED);
+            if(mute==true) {
+                circle.setFill(Color.RED);
+            }else{
+                circle.setFill(Color.GREEN);
+            }
         });
-
         setAlignment(Pos.CENTER);
         getChildren().addAll(circle, r1);
 
     }
 }
+
 class  Music extends StackPane {
     boolean mute =false;
     public Music(Stage primaryStage) {
         final Circle circle = new Circle(10, 20, 20);
-        final Rectangle r1 = new Rectangle(5, 25);
-        r1.setTranslateX(-5);
-        circle.setFill(Color.DARKRED);
+        final Text r1 = new Text("M");
+        r1.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
+        circle.setFill(Color.DARKGREEN);
         circle.setStroke(Color.BLACK);
         circle.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
+            if(mute==true) {
+                circle.setFill(Color.RED);
+            }else{
+                circle.setFill(Color.GREEN);
+            }
         });
         circle.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
+            if(mute==true) {
+                circle.setFill(Color.DARKRED);
+            }else{
+                circle.setFill(Color.DARKGREEN);
+            }
         });
         circle.setOnMousePressed(event -> {
+            if(mute==true){
+                mute=false;
+            }else {
+                mute=true;
+            }
             circle.setFill(Color.YELLOW);
-            try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(mute==true){
+                try {
+                    Menus.mediaplayer.pauseMusic();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                try {
+                    Menus.mediaplayer.playMusic();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         circle.setOnMouseReleased(event -> {
-            circle.setFill(Color.RED);
+            if(mute==true) {
+                circle.setFill(Color.RED);
+            }else{
+                circle.setFill(Color.GREEN);
+            }
         });
         r1.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
+            if(mute==true) {
+                circle.setFill(Color.RED);
+            }else{
+                circle.setFill(Color.GREEN);
+            }
         });
         r1.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
+            if(mute==true) {
+                circle.setFill(Color.DARKRED);
+            }else{
+                circle.setFill(Color.DARKGREEN);
+            }
         });
         r1.setOnMousePressed(event -> {
-            circle.setFill(Color.YELLOW);
-            try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(mute==true){
+                mute=false;
+            }else {
+                mute=true;
+            }
+            if(mute==true){
+                try {
+                    Menus.mediaplayer.pauseMusic();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                try {
+                    Menus.mediaplayer.playMusic();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        r1.setOnMouseReleased(event -> {
+            if(mute==true) {
+                circle.setFill(Color.RED);
+            }else{
+                circle.setFill(Color.GREEN);
             }
         });
         setAlignment(Pos.CENTER);

@@ -5,7 +5,7 @@ import java.util.*;
 public abstract class System {
     protected final List<Entity> entities = new ArrayList<>();
 
-    public abstract void update(double deltaTime);
+    public abstract void update(double deltaTime) throws Exception;
 
     /**
      * This function specifies which Components an Entity needs to have in order to be processed by the System.

@@ -5,6 +5,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -19,6 +20,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createSettingsContent;
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 public class SettingsMenu extends StackPane {
     public SettingsMenu(Stage primaryStage) {
@@ -194,19 +198,38 @@ class ButtonItem extends StackPane{
             text.setFill(Color.DARKGREY);
         });
         setOnMousePressed(event -> {
-            bg.setFill(Color.DARKGOLDENROD);
-            Scene scene = null;
-            try {
-                scene = new Scene(Menus.createKeyBindingContent(primaryStage), Color.LIGHTBLUE);
-                primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+                    bg.setFill(Color.DARKGOLDENROD);
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(Menus.createKeyBindingContent(primaryStage), Color.LIGHTBLUE);
+                        primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                        primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+            Scene finalScene = scene;
+            finalScene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
+                System.out.println("Taste gedrückt: " + KeyEvent.getText());
+                System.out.println("oder: " + KeyEvent.getCode().toString());
+
+                PressKeyWindow.Key=KeyEvent.getCode().toString();
+
+                Scene scene2 = null;
+                try {
+                    scene2 = new Scene(createSettingsContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene2);
+
+            });
+
 
             primaryStage.setMaxHeight(Integer.MAX_VALUE);
             primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            primaryStage.setScene(scene);
+            primaryStage.setScene(finalScene);
         });
 
         setOnMouseReleased(event -> {

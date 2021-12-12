@@ -17,7 +17,7 @@ public class Engine {
         systems.add(sys);
     }
 
-    public static void update(double deltaTime) {
+    public static void update(double deltaTime) throws Exception {
         for (System sys :
                 systems) {
             sys.update(deltaTime);
@@ -142,7 +142,7 @@ public class Engine {
         ComponentManager.destroyComponents(entity);
     }
 
-    public static void run() {
+    public static void run() throws Exception {
 
         Instant last = Instant.now();
         // TODO: get cancel condition from input system
@@ -154,5 +154,11 @@ public class Engine {
             }
             last = now;
         }
+    }
+
+    public static void reset() {
+    }
+
+    public static void finish(Entity[] playersLost) {
     }
 }
