@@ -14,6 +14,7 @@ import de.dhbwmannheim.snakebytes.GUI.Menus;
 import de.dhbwmannheim.snakebytes.GUI.PressKeyWindow;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -84,7 +85,9 @@ public class FrameHandler extends StackPane {
                     java.lang.System.out.println("Taste gedrückt: " + KeyEvent.getText());
                     System.out.println("oder: " + KeyEvent.getCode().toString());
                     PressKeyWindow.Key = KeyEvent.getCode().toString();
-                    keyPressCallback.accept(KeyEvent);
+                    if(keyPressCallback != null){
+                        keyPressCallback.accept(KeyEvent);
+                    }
                 });
         primaryStage.setScene(scene);
     }
@@ -94,24 +97,34 @@ public class FrameHandler extends StackPane {
 
         Entity player1 = Engine.getPlayer(0);
         Entity player2 = Engine.getPlayer(1);
-        var position1 = ComponentManager.getComponentList(PositionComponent.class).getComponent(player1);
-        var position2 = ComponentManager.getComponentList(PositionComponent.class).getComponent(player2);
-        var player1state = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(player1).state;
-        var player2state = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(player2).state;
+        var positionComponent1 = ComponentManager.getComponentList(PositionComponent.class);
+        var positionComponent2 = ComponentManager.getComponentList(PositionComponent.class);
+        var player1state = ComponentManager.getComponentList(CharacterStateComponent.class);
+        var player2state = ComponentManager.getComponentList(CharacterStateComponent.class);
 
-        ImageView p1 = imagesP1.get(player1state);
-        if(player1state>1){
-            p1.setFitWidth(73);
+        if(positionComponent1 !=null){
+            var position1 = positionComponent1.getComponent(player1);
+            if(player1state.getComponent(player1) != null){
+                ImageView p1 = imagesP1.get(player1state.getComponent(player1).state);
+                if(player1state.getComponent(player1).state >1){
+                    p1.setFitWidth(73);
+                }
+                replace(p1,2,position1);
+            }
         }
-        replace(p1,2,position1);
-
-
-
-        ImageView p2 = imagesP2.get(player2state);
-        if(player2state>1){
-            p2.setFitWidth(68);
+        if(positionComponent2 !=null){
+            var position2 = positionComponent1.getComponent(player2);
+            if(player2state.getComponent(player2) != null){
+                ImageView p2 = imagesP2.get(player2state.getComponent(player2).state);
+                if(player2state.getComponent(player2).state>1){
+                    p2.setFitWidth(68);
+                }
+                replace(p2,3,position2);
+            }
         }
-        replace(p2,3,position2);
+
+
+
 
 
         if(Engine.attackList.size() == 1){
@@ -145,8 +158,14 @@ public class FrameHandler extends StackPane {
                 }
             }
         }
-        scene.setRoot(Menus.root);
-        primaryStage.setScene(scene);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                scene.setRoot(Menus.root);
+                primaryStage.setScene(scene);
+            }
+        });
+
 
     }
 

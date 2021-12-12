@@ -62,7 +62,10 @@ public class Engine {
     }
 
     public static Consumer<KeyEvent> getKeyPressedCallback() {
-        return inputSystem::keyPressed;
+        if(inputSystem != null) {
+            return inputSystem::keyPressed;
+        }
+        return null;
     }
 
     private static void setupPlatforms() {
@@ -212,16 +215,16 @@ public class Engine {
         }
     }
 
-    public static Victory run(FrameHandler frameHandler, Stage primaryStage) throws Exception {
+    public static Victory run() throws Exception {
 
         Instant last = Instant.now();
         // TODO: get cancel condition from input system
         while (finish == null) {
             Instant now = Instant.now();
             /* Systems will be executed in order of registration - see setup for further information */
-                update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
+            update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
             last = now;
-            frameHandler.update(primaryStage);
+
         }
         return finish;
     }
