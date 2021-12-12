@@ -27,6 +27,7 @@ public class Menus extends Application {
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
         primaryStage.setTitle("SNAKE BYTES");
+        primaryStage.setResizable(false);
         Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
 
         primaryStage.setMaxHeight(900);

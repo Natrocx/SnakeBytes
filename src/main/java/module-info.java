@@ -15,5 +15,7 @@ module de.dhbwmannheim.snakebytes {
 
     exports de.dhbwmannheim.snakebytes.Sounds;
     opens de.dhbwmannheim.snakebytes.Sounds to javafx.fxml;
+    exports de.dhbwmannheim.snakebytes.GameLoop;
+    opens de.dhbwmannheim.snakebytes.GameLoop to javafx.fxml;
 
 }

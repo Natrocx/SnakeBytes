@@ -11,6 +11,7 @@ import de.dhbwmannheim.snakebytes.ECS.PositionComponent;
 import de.dhbwmannheim.snakebytes.GUI.Menus;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.animation.Timeline;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -34,8 +35,12 @@ import java.util.TimerTask;
 public class FrameHandler extends StackPane {
 
 
-    private Scene scene;
     private Pane root;
+    private PositionComponent oldPositionP1;
+    private PositionComponent oldPositionP2;
+    private PositionComponent oldPositionATK1;
+    private PositionComponent oldPositionATK2;
+
 
     //Arraylists of needed images are loaded
     ArrayList<ImageView> imagesP1 = initializeGraphics("player1");
@@ -67,12 +72,12 @@ public class FrameHandler extends StackPane {
         root.getChildren().add(p2start);
         root.getChildren().add(spcAttack1start);
         root.getChildren().add(spcAttack2start);
-        this.scene = new Scene(root);
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
     }
 
 
-    public void update(FrameHandler frameHandler){
+    public void update(){
 
      /*   Entity player1 = Engine.getPlayer(0);
         Entity player2 = Engine.getPlayer(1);
