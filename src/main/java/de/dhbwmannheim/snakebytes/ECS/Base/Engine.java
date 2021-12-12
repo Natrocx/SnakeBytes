@@ -14,6 +14,8 @@ import java.util.List;
 
 public class Engine {
 
+    public static ArrayList<Entity> attackList = new ArrayList<>();
+
     public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.1, 0.23));
     public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.14, 0.3));
     private static final List<ISystem> systems = new ArrayList<>();
@@ -131,6 +133,12 @@ public class Engine {
                 system.addEntity(entity);
             }
         }
+    }
+
+    public static void registerAttack(Entity entity) {
+        attackList.add(entity);
+        registerEntity(entity);
+
     }
 
     /**

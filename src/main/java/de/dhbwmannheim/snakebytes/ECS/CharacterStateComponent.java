@@ -23,6 +23,18 @@ public class CharacterStateComponent extends Component {
     public int lookingDirection; //0=left, 1=right
     public int state; //for FrameHandler: 0=left, 1=right, 2=attackLeft, 3=attackRight, 4=specialAttackLeft, 5=specialAttackRight
 
+    public CharacterStateComponent(Vec2<Double> knockback, double attackCooldown, double specialAttackCooldown, int lives, String playerName, boolean[] jumping, boolean attacking, boolean specialAttacking, int lookingDirection, int state) {
+        this.knockback = knockback;
+        this.attackCooldown = attackCooldown;
+        this.specialAttackCooldown = specialAttackCooldown;
+        this.lives = lives;
+        this.playerName = playerName;
+        this.jumping = jumping;
+        this.attacking = attacking;
+        this.specialAttacking = specialAttacking;
+        this.lookingDirection = lookingDirection;
+        this.state = state;
+    }
 
     @Override
     public int getId() {

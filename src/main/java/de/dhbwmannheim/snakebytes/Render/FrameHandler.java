@@ -79,7 +79,7 @@ public class FrameHandler extends StackPane {
 
     public void update(){
 
-     /*   Entity player1 = Engine.getPlayer(0);
+        Entity player1 = Engine.getPlayer(0);
         Entity player2 = Engine.getPlayer(1);
         var position1 = ComponentManager.getComponentList(PositionComponent.class).getComponent(player1).value;
         var position2 = ComponentManager.getComponentList(PositionComponent.class).getComponent(player2).value;
@@ -101,23 +101,22 @@ public class FrameHandler extends StackPane {
         root.getChildren().add(3,p2);
 
 
-
-
-        if(EntityAnzahl = 1){
-            Entity attackentity1 =
-            var attackstate1 =
-            var attackpos1 = ComponentManager.getComponentList(PositionComponent.class).getComponent(attackentity1);
+/*
+        if(Engine.attackList.size() == 1){
+            Entity attackEntity1 = Engine.attackList.get(0);
+            var attackstate1 = ComponentManager.getComponentList().getComponent(attackEntity1);
+            var attackpos1 = ComponentManager.getComponentList(PositionComponent.class).getComponent(attackEntity1);
 
             if(attackstate1 < 2) {
-                ImageView atk1 = spcAttack1.get(attackstate);
+                ImageView atk1 = spcAttacksP1.get(attackstate);
             else if (attackstate > 1)
-                    ImageView atk1 = spcAttack2.get(attackstate - 2);
+                    ImageView atk1 = spcAttacksP2.get(attackstate - 2);
             }
 
             atk1.setTranslateY((1 - attackpos1.y) * 900);
             atk1.setTranslateX(attackpos1.x * 1350);
 
-        } else if (entityAnzahl = 2) {
+        } else if (Engine.attackList.size() == 2) {
             Entity attackentity1 =
             Entity attackentity2 =
             var attackstate1 =
