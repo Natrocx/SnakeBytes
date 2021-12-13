@@ -4,9 +4,8 @@ module de.dhbwmannheim.snakebytes {
     requires javafx.media;
 
     requires org.controlsfx.controls;
-
-    opens de.dhbwmannheim.snakebytes to javafx.fxml;
-    exports de.dhbwmannheim.snakebytes;
+    requires json.simple;
+    requires org.jetbrains.annotations;
 
     exports de.dhbwmannheim.snakebytes.GUI;
     opens de.dhbwmannheim.snakebytes.GUI to javafx.fxml;

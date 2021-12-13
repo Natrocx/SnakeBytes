@@ -5,6 +5,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -15,10 +16,13 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.text.*;
 
 import java.io.FileNotFoundException;
+
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createSettingsContent;
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 public class SettingsMenu extends StackPane {
     public SettingsMenu(Stage primaryStage) {
@@ -28,6 +32,9 @@ public class SettingsMenu extends StackPane {
         title.setTranslateY(-100);
 
         SettingsTable settings = new SettingsTable(primaryStage);
+
+        settings.setTranslateX(50);
+        settings.setTranslateY(100);
 
         setAlignment(Pos.CENTER);
 
@@ -74,7 +81,6 @@ class SettingsTable extends StackPane {
                 new TextItem("Attack 1"),
                 new TextItem("Attack 2"));
         moveSet.setTranslateX(200);
-        System.out.println();
         moveSet.setTranslateY(250);
 
 
@@ -85,7 +91,6 @@ class SettingsTable extends StackPane {
                 new ButtonItem("j",primaryStage),     //Attack 1
                 new ButtonItem("k",primaryStage));    //Attack 2
         player1Box.setTranslateX(550);
-        System.out.println();
         player1Box.setTranslateY(250);
 
         ButtonBox player2Box = new ButtonBox(
@@ -119,7 +124,7 @@ class SettingsTopic extends HBox {
 
 }
 
-class TextBox extends VBox{
+class TextBox extends VBox {
     public TextBox(TextItem...items) {
         getChildren().add(createSeperator());
 
@@ -193,19 +198,38 @@ class ButtonItem extends StackPane{
             text.setFill(Color.DARKGREY);
         });
         setOnMousePressed(event -> {
-            bg.setFill(Color.DARKGOLDENROD);
-            Scene scene = null;
-            try {
-                scene = new Scene(Menus.createKeyBinding(primaryStage), Color.LIGHTBLUE);
-                primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+                    bg.setFill(Color.DARKGOLDENROD);
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(Menus.createKeyBindingContent(primaryStage), Color.LIGHTBLUE);
+                        primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                        primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+            Scene finalScene = scene;
+            finalScene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
+                System.out.println("Taste gedrückt: " + KeyEvent.getText());
+                System.out.println("oder: " + KeyEvent.getCode().toString());
+
+                PressKeyWindow.Key=KeyEvent.getCode().toString();
+
+                Scene scene2 = null;
+                try {
+                    scene2 = new Scene(createSettingsContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene2);
+
+            });
+
 
             primaryStage.setMaxHeight(Integer.MAX_VALUE);
             primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            primaryStage.setScene(scene);
+            primaryStage.setScene(finalScene);
         });
 
         setOnMouseReleased(event -> {
