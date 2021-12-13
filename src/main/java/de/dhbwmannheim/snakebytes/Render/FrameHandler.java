@@ -100,24 +100,22 @@ public class FrameHandler extends StackPane {
 
         Entity player1 = Engine.getPlayer(0);
         Entity player2 = Engine.getPlayer(1);
-        var positionComponent1 = ComponentManager.getComponentList(PositionComponent.class);
-        var positionComponent2 = ComponentManager.getComponentList(PositionComponent.class);
-        var player1state = ComponentManager.getComponentList(CharacterStateComponent.class);
-        var player2state = ComponentManager.getComponentList(CharacterStateComponent.class);
+        var positionComponent = ComponentManager.getComponentList(PositionComponent.class);
+        var playerstate = ComponentManager.getComponentList(CharacterStateComponent.class);
 
-        var position1 = positionComponent1.getComponent(player1);
-        if(player1state.getComponent(player1) != null){
-            ImageView p1 = imagesP1.get(player1state.getComponent(player1).state);
-            if(player1state.getComponent(player1).state >1){
+        var position1 = positionComponent.getComponent(player1);
+        if(playerstate.getComponent(player1) != null){
+            ImageView p1 = imagesP1.get(playerstate.getComponent(player1).state);
+            if(playerstate.getComponent(player1).state >1){
                 p1.setFitWidth(73);
             }
         replace(p1,2,position1);
         }
 
-        var position2 = positionComponent1.getComponent(player2);
-        if(player2state.getComponent(player2) != null){
-            ImageView p2 = imagesP2.get(player2state.getComponent(player2).state);
-            if(player2state.getComponent(player2).state>1){
+        var position2 = positionComponent.getComponent(player2);
+        if(playerstate.getComponent(player2) != null){
+            ImageView p2 = imagesP2.get(playerstate.getComponent(player2).state);
+            if(playerstate.getComponent(player2).state>1){
                 p2.setFitWidth(68);
             }
         replace(p2,3,position2);
