@@ -82,12 +82,13 @@ public class Engine {
         var motionComponent1 = new MotionComponent();
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent1 = new GravityComponent(0.1);
+        var positonComponent1 = new PositionComponent(new Vec2<>(0.2222, 0.6833));
         var characterStateComponent1 = new CharacterStateComponent(1,3,5, CharacterMenu.rounds, new boolean[]{false, false},false,false,1,1);
 
         registerEntity(player1);
         players[0] = player1;
         ComponentManager.addComponent(player1, motionComponent1);
-        ComponentManager.addComponent(player1, POSITION_COMPONENT_1.copy());
+        ComponentManager.addComponent(player1, positonComponent1);
         ComponentManager.addComponent(player1, boundingBoxComponent1);
         ComponentManager.addComponent(player1, gravityComponent1);
         ComponentManager.addComponent(player1,characterStateComponent1);
@@ -96,12 +97,13 @@ public class Engine {
         var motionComponent2 = new MotionComponent();
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent2 = new GravityComponent(0.1);
+        var positionComponent2 =new PositionComponent(new Vec2<>(0.7407, 0.6833));
         var characterStateComponent2 = new CharacterStateComponent(1,0,5, CharacterMenu.rounds,new boolean[]{false, false},false,false,0,0);
 
         registerEntity(player2);
         players[1] = player2;
         ComponentManager.addComponent(player2, motionComponent2);
-        ComponentManager.addComponent(player2, POSITION_COMPONENT_2.copy());
+        ComponentManager.addComponent(player2, positionComponent2);
         ComponentManager.addComponent(player2, boundingBoxComponent2);
         ComponentManager.addComponent(player2, gravityComponent2);
         ComponentManager.addComponent(player2,characterStateComponent2);

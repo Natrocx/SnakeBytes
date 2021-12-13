@@ -105,30 +105,31 @@ public class FrameHandler extends StackPane {
         var player1state = ComponentManager.getComponentList(CharacterStateComponent.class);
         var player2state = ComponentManager.getComponentList(CharacterStateComponent.class);
 
-        if(positionComponent1 !=null){
-            var position1 = positionComponent1.getComponent(player1);
-            if(player1state.getComponent(player1) != null){
-                ImageView p1 = imagesP1.get(player1state.getComponent(player1).state);
-                if(player1state.getComponent(player1).state >1){
-                    p1.setFitWidth(73);
-                }
-                replace(p1,2,position1);
+        var position1 = positionComponent1.getComponent(player1);
+        if(player1state.getComponent(player1) != null){
+            ImageView p1 = imagesP1.get(player1state.getComponent(player1).state);
+            if(player1state.getComponent(player1).state >1){
+                p1.setFitWidth(73);
             }
+        replace(p1,2,position1);
+        }
+
+        var position2 = positionComponent1.getComponent(player2);
+        if(player2state.getComponent(player2) != null){
+            ImageView p2 = imagesP2.get(player2state.getComponent(player2).state);
+            if(player2state.getComponent(player2).state>1){
+                p2.setFitWidth(68);
+            }
+        replace(p2,3,position2);
+        }
+
+        /*
+        if(positionComponent1 !=null){
+
         }
         if(positionComponent2 !=null){
-            var position2 = positionComponent1.getComponent(player2);
-            if(player2state.getComponent(player2) != null){
-                ImageView p2 = imagesP2.get(player2state.getComponent(player2).state);
-                if(player2state.getComponent(player2).state>1){
-                    p2.setFitWidth(68);
-                }
-                replace(p2,3,position2);
-            }
-        }
 
-
-
-
+        }*/
 
         if(Engine.attackList.size() == 1){
 
