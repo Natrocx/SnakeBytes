@@ -10,7 +10,29 @@ import java.io.IOException;
 import java.util.Hashtable;
 import org.json.simple.parser.ParseException;
 
-public class JsonHandler {
+class JsonHandler {
+
+    static String workingDirectory;
+
+    public void getDirectory() {
+        String OS = (System.getProperty("os.name")).toUpperCase();
+        if (OS.contains("WIN"))
+        {
+            workingDirectory = System.getenv("AppData");
+            workingDirectory += "/SnakeBytes";
+        }
+        else if(OS.contains("LINUX"))
+        {
+            workingDirectory = System.getProperty("user.home");
+            workingDirectory += "/.local/share/SnakeBytes";
+        }else{
+            workingDirectory = System.getProperty("user.home");
+            workingDirectory += "/Library/Application Support/SnakeBytes";
+        }
+    }
+
+
+    //Schreibt die Steuerungseinstellungen in JSON-Datei
     public static void toJson(Hashtable<String, String> p1table, Hashtable<String, String> p2table) throws IOException {
 
         JSONObject player1 = new JSONObject();
@@ -18,6 +40,7 @@ public class JsonHandler {
         JSONObject p1name = new JSONObject();
         JSONObject p2name = new JSONObject();
         
+        //Steuerungseinstellungen in JSON-Objekt
         player1.put("left", p1table.get("left"));
         player1.put("right", p1table.get("right"));
         player1.put("up", p1table.get("up"));
@@ -31,14 +54,16 @@ public class JsonHandler {
         player2.put("attack", p2table.get("attack"));
         player2.put("special", p2table.get("special"));
 
+        //Einstellungen für Zugriff auf Spieler 1 bzw Spieler 2 schachteln
         p1name.put("player1", player1);
         p2name.put("player2", player2);
 
+        //Einstellungen in JSON-Array zum Speichern packen
         JSONArray settingsList = new JSONArray();
         settingsList.add(p1name);
         settingsList.add(p2name);
 
-        try (FileWriter file = new FileWriter("src/main/java/de/dhbwmannheim/snakebytes/ECS/Systems/abc.json")) {
+        try (FileWriter file = new FileWriter(workingDirectory)) {
             file.write(settingsList.toJSONString()); 
             file.flush();
         } catch (IOException e) {
@@ -46,11 +71,12 @@ public class JsonHandler {
         }  
     }
 
+    //Holt die Steuerungseinstellungen eines Spielers
     public static Hashtable<String, String> fromJson(String player) throws IOException, ParseException {
         Hashtable<String, String> playersettings = new Hashtable<>();
 
         JSONParser jsonParser = new JSONParser();
-        FileReader reader = new FileReader("src/main/java/de/dhbwmannheim/snakebytes/ECS/Systems/keySettings.json");
+        FileReader reader = new FileReader(workingDirectory);
         Object obj = jsonParser.parse(reader);
         JSONArray arr = (JSONArray) obj;
 
