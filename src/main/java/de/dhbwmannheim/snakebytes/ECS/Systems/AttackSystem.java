@@ -3,6 +3,7 @@ package de.dhbwmannheim.snakebytes.ECS.Systems;
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
+import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
 import java.util.BitSet;
 
@@ -22,6 +23,12 @@ public class AttackSystem extends System {
 
 
     public AttackSystem() {
+        signature = new BitSet();
+        signature.set(ConversionUtils.indexFromID(PositionComponent.id));
+        signature.set(ConversionUtils.indexFromID(MotionComponent.id));
+        signature.set(ConversionUtils.indexFromID(CharacterStateComponent.id));
+        signature.set(ConversionUtils.indexFromID(AttackCollisionComponent.id));
+
        positionComponents = ComponentManager.getComponentList(PositionComponent.class);
        motionComponents = ComponentManager.getComponentList(MotionComponent.class);
        characterState = ComponentManager.getComponentList(CharacterStateComponent.class);

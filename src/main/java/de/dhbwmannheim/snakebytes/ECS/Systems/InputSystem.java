@@ -67,6 +67,8 @@ public class InputSystem extends System {
 
         signature.set(ConversionUtils.indexFromID(CharacterStateComponent.id));
         signature.set(ConversionUtils.indexFromID(MotionComponent.id));
+        signature.set(ConversionUtils.indexFromID(BoundingBoxComponent.id));
+        signature.set(ConversionUtils.indexFromID(PositionComponent.id));
 
         motion = ComponentManager.getComponentList(MotionComponent.class);
         characterState = ComponentManager.getComponentList(CharacterStateComponent.class);
