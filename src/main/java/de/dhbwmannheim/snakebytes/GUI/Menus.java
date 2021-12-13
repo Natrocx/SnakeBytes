@@ -91,8 +91,9 @@ public class Menus extends Application {
 
         return root;
     }
-    static Parent createKeyBinding(Stage primaryStage) throws FileNotFoundException {
+    static Parent createKeyBindingContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
+        root.getChildren().clear();
 
         root.setPrefSize(320, 80);
 

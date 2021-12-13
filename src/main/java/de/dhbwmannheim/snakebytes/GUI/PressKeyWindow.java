@@ -11,6 +11,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class PressKeyWindow extends VBox {
+    public static String Key;
+
     public PressKeyWindow(Stage primaryStage) {
         PressKey title = new PressKey("P R E S S  A  B U T T O N");
         title.setTranslateY(20);

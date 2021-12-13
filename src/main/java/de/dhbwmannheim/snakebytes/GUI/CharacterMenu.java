@@ -1,17 +1,12 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-import de.dhbwmannheim.snakebytes.ECS.Systems.JsonHandler;
-
 //by Kai Schwab
-
-import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -27,11 +22,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
-import org.json.simple.parser.ParseException;
-// import de.dhbwmannheim.snakebytes.ECS.Systems.JsonHandler; Import für Testfunktion by R.S.
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
@@ -382,16 +372,6 @@ class  Back extends StackPane {
         });
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
-            //Testfunktion !!! by R.S.
-            // try {
-            //     JsonHandler.toJson(JsonHandler.fromJson("player1"), JsonHandler.fromJson("player2"));
-            // } catch (IOException e1) {
-            //     // TODO Auto-generated catch block
-            //     e1.printStackTrace();
-            // } catch (ParseException e1) {
-            //     // TODO Auto-generated catch block
-            //     e1.printStackTrace();
-            // }
             Scene scene = null;
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);

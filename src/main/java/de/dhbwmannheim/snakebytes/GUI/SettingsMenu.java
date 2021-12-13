@@ -5,6 +5,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -12,12 +13,22 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.text.*;
+
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
+import de.dhbwmannheim.snakebytes.ECS.Systems.JsonHandler;
+
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createSettingsContent;
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 public class SettingsMenu extends StackPane {
     public SettingsMenu(Stage primaryStage) {
@@ -27,6 +38,9 @@ public class SettingsMenu extends StackPane {
         title.setTranslateY(-100);
 
         SettingsTable settings = new SettingsTable(primaryStage);
+
+        settings.setTranslateX(50);
+        settings.setTranslateY(100);
 
         setAlignment(Pos.CENTER);
 
@@ -41,7 +55,7 @@ class HeaderP extends HBox {
         titleI.setTranslateY(20);
 
 
-        Back back = new Back(primaryStage);
+        BackS back = new BackS(primaryStage);
         back.setTranslateX(600);
         back.setTranslateY(20);
 
@@ -51,7 +65,6 @@ class HeaderP extends HBox {
 }
 
 class SettingsTable extends StackPane {
-
     public SettingsTable(Stage primaryStage){
         //Settings Topics
         SettingsTopic moveSetTitle = new SettingsTopic("A C T I O N S");
@@ -74,8 +87,8 @@ class SettingsTable extends StackPane {
                 new TextItem("Attack 1"),
                 new TextItem("Attack 2"));
         moveSet.setTranslateX(200);
-        System.out.println();
         moveSet.setTranslateY(250);
+
 
         ButtonBox player1Box = new ButtonBox(
                 new ButtonItem("w",primaryStage),     //up
@@ -118,7 +131,7 @@ class SettingsTopic extends HBox {
 
 }
 
-class TextBox extends VBox{
+class TextBox extends VBox {
     public TextBox(TextItem...items) {
         getChildren().add(createSeperator());
 
@@ -192,24 +205,126 @@ class ButtonItem extends StackPane{
             text.setFill(Color.DARKGREY);
         });
         setOnMousePressed(event -> {
-            bg.setFill(Color.DARKGOLDENROD);
-            Scene scene = null;
-            try {
-                scene = new Scene(Menus.createKeyBinding(primaryStage), Color.LIGHTBLUE);
-                primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+                    bg.setFill(Color.DARKGOLDENROD);
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(Menus.createKeyBindingContent(primaryStage), Color.LIGHTBLUE);
+                        primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                        primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+            Scene finalScene = scene;
+            finalScene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
+                System.out.println("Taste gedrückt: " + KeyEvent.getText());
+                System.out.println("oder: " + KeyEvent.getCode().toString());
+
+                PressKeyWindow.Key=KeyEvent.getCode().toString();
+
+                Scene scene2 = null;
+                try {
+                    scene2 = new Scene(createSettingsContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene2);
+
+            });
+
 
             primaryStage.setMaxHeight(Integer.MAX_VALUE);
             primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            primaryStage.setScene(scene);
+            primaryStage.setScene(finalScene);
         });
 
         setOnMouseReleased(event -> {
             bg.setFill(gradient);
         });
+    }
+}
+
+class  BackS extends StackPane {
+    public BackS(Stage primaryStage) {
+        final Circle circle = new Circle(10, 42, 42);
+        final Rectangle r1 = new Rectangle(10, 50);
+        final Rectangle r2 = new Rectangle(10, 50);
+        r1.setRotate(45);
+        r2.setRotate(315);
+        circle.setFill(Color.DARKRED);
+        circle.setStroke(Color.BLACK);
+        circle.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        circle.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        circle.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            Scene scene = null;
+            
+            try {
+                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(scene);
+        });
+        r1.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        r1.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        r1.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            Scene scene = null;
+            try {
+                JsonHandler.toJson(JsonHandler.fromJson("player1"), JsonHandler.fromJson("player2"));
+            } catch (IOException | ParseException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            try {
+                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(scene);
+        });
+        r2.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        r2.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        r2.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            Scene scene = null;
+            try {
+                JsonHandler.toJson(JsonHandler.fromJson("player1"), JsonHandler.fromJson("player2"));
+            } catch (IOException | ParseException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            try {
+                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(scene);
+        });
+
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(circle, r1,r2);
+
     }
 }
 

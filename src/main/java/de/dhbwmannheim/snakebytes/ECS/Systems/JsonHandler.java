@@ -1,4 +1,4 @@
-package de.dhbwmannheim.snakebytes.GUI.res;
+package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 //by Robert Sedlmeier
 import org.json.simple.JSONArray;
@@ -35,8 +35,8 @@ public class JsonHandler {
         p2name.put("player2", player2);
 
         JSONArray settingsList = new JSONArray();
-        settingsList.add(player1);
-        settingsList.add(player2);
+        settingsList.add(p1name);
+        settingsList.add(p2name);
 
         try (FileWriter file = new FileWriter("src/main/java/de/dhbwmannheim/snakebytes/ECS/Systems/abc.json")) {
             file.write(settingsList.toJSONString()); 
