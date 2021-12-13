@@ -8,7 +8,7 @@ public class Entity {
     public final int id;
     public BitSet signature;
 
-    Entity() {
+    public Entity() {
         id = numEntities++; // assign a rolling ID and increment
 
         signature = new BitSet(64); // 64 Components should be a reasonable assumption and fits into natively supported data types

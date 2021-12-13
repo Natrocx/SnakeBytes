@@ -7,9 +7,6 @@ module de.dhbwmannheim.snakebytes {
     requires json.simple;
     requires org.jetbrains.annotations;
 
-    opens de.dhbwmannheim.snakebytes to javafx.fxml;
-    exports de.dhbwmannheim.snakebytes;
-
     exports de.dhbwmannheim.snakebytes.GUI;
     opens de.dhbwmannheim.snakebytes.GUI to javafx.fxml;
 

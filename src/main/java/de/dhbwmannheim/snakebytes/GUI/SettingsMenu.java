@@ -30,6 +30,9 @@ import de.dhbwmannheim.snakebytes.ECS.Systems.JsonHandler;
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createSettingsContent;
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createSettingsContent;
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
+
 public class SettingsMenu extends StackPane {
     public SettingsMenu(Stage primaryStage) {
         //Title
@@ -97,7 +100,6 @@ class SettingsTable extends StackPane {
                 new ButtonItem("j",primaryStage),     //Attack 1
                 new ButtonItem("k",primaryStage));    //Attack 2
         player1Box.setTranslateX(550);
-        System.out.println();
         player1Box.setTranslateY(250);
 
         ButtonBox player2Box = new ButtonBox(

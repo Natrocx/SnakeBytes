@@ -4,6 +4,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
+import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,11 +15,13 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 
-
 public class Menus extends Application {
+
+    public static Pane root = new Pane();
 
     //by Kai Schwab
     public static MusicManager mediaplayer = new MusicManager();
+    public static SoundManager soundplayer = new SoundManager();
 
     public static void main(String[] args) {
         launch(args);
@@ -27,6 +30,7 @@ public class Menus extends Application {
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
         primaryStage.setTitle("SNAKE BYTES");
+        primaryStage.setResizable(false);
         Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
 
         primaryStage.setMaxHeight(900);
@@ -91,6 +95,7 @@ public class Menus extends Application {
 
         return root;
     }
+
     static Parent createKeyBindingContent(Stage primaryStage) throws FileNotFoundException {
         Pane root = new Pane();
         root.getChildren().clear();
@@ -119,19 +124,20 @@ public class Menus extends Application {
     }
 
     //Game
-    public static Pane createGameContent(Stage primaryStage) throws Exception {
-        Pane root = new Pane();
+    public static void createGameContent(Stage primaryStage) throws FileNotFoundException {
 
         root.setPrefSize(1350, 900);
 
         GameOverlay gov = new GameOverlay(primaryStage);
         BackgroundBuilder background = new BackgroundBuilder(primaryStage);
-        mediaplayer.playMusic();
+        try {
+            mediaplayer.playMusic();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        Menus.root.getChildren().add(0,background);
+        Menus.root.getChildren().add(1,gov);
 
-        root.getChildren().addAll(background, gov);
-
-
-        return root;
     }
 }
