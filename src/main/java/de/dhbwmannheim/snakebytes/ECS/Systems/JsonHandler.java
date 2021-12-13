@@ -19,15 +19,15 @@ class JsonHandler {
         if (OS.contains("WIN"))
         {
             workingDirectory = System.getenv("AppData");
-            workingDirectory += "/SnakeBytes";
+            workingDirectory += "/SnakeBytes/keySettings.json";
         }
         else if(OS.contains("LINUX"))
         {
             workingDirectory = System.getProperty("user.home");
-            workingDirectory += "/.local/share/SnakeBytes";
+            workingDirectory += "/.local/share/SnakeBytes/keySettings.json";
         }else{
             workingDirectory = System.getProperty("user.home");
-            workingDirectory += "/Library/Application Support/SnakeBytes";
+            workingDirectory += "/Library/Application Support/SnakeBytes/keySettings.json";
         }
     }
 
