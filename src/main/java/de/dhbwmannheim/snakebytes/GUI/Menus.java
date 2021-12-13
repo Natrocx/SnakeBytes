@@ -46,7 +46,7 @@ public class Menus extends Application {
 
     //Main Menu
     public static Parent createTitleContent(Stage primaryStage) throws FileNotFoundException {
-        Pane root = new Pane();
+        root.getChildren().clear();
 
         root.setPrefSize(1350, 900);
 
@@ -59,7 +59,7 @@ public class Menus extends Application {
 
     //CharakterMenu
     static Parent createCharakterContent(Stage primaryStage) throws FileNotFoundException {
-        Pane root = new Pane();
+        root.getChildren().clear();
 
         root.setPrefSize(1350, 900);
 
@@ -72,7 +72,8 @@ public class Menus extends Application {
 
     //Scoreboard
     static Parent createScoreboardContent(Stage primaryStage) throws FileNotFoundException {
-        Pane root = new Pane();
+
+        root.getChildren().clear();
 
         root.setPrefSize(1350, 900);
 
@@ -85,7 +86,8 @@ public class Menus extends Application {
 
     //Settings
     static Parent createSettingsContent(Stage primaryStage) throws FileNotFoundException {
-        Pane root = new Pane();
+
+        root.getChildren().clear();
 
         root.setPrefSize(1350, 900);
 
@@ -97,7 +99,8 @@ public class Menus extends Application {
     }
 
     static Parent createKeyBindingContent(Stage primaryStage) throws FileNotFoundException {
-        Pane root = new Pane();
+
+        root.getChildren().clear();
 
         root.setPrefSize(320, 80);
 
@@ -111,7 +114,8 @@ public class Menus extends Application {
 
     //Impressum/Erklaerungen
     static Parent createImpressumContent(Stage primaryStage) throws FileNotFoundException {
-        Pane root = new Pane();
+
+        root.getChildren().clear();
 
         root.setPrefSize(1350, 900);
 
@@ -124,6 +128,8 @@ public class Menus extends Application {
 
     //Game
     public static void createGameContent(Stage primaryStage) throws FileNotFoundException {
+
+        root.getChildren().clear();
 
         root.setPrefSize(1350, 900);
 
@@ -138,5 +144,17 @@ public class Menus extends Application {
         Menus.root.getChildren().add(0,background);
         Menus.root.getChildren().add(1,gov);
 
+    }
+    static Parent createEndScreenContent(Stage primaryStage) throws FileNotFoundException {
+
+        root.getChildren().clear();
+
+        root.setPrefSize(1350, 900);
+
+        EndScreen endscreen = new EndScreen(primaryStage);
+
+        root.getChildren().addAll(endscreen);
+
+        return root;
     }
 }

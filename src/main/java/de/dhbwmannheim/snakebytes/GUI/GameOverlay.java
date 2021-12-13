@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createEndScreenContent;
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 /**
@@ -178,7 +179,6 @@ class  Pause extends StackPane {
     }
 }
 //To do music
-//Todo Music Stop beim backen
 class  MiniBack extends StackPane {
     public MiniBack(Stage primaryStage) {
         final Circle circle = new Circle(10, 20, 20);
@@ -196,6 +196,7 @@ class  MiniBack extends StackPane {
         });
         circle.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
+            //Engine Stop noch einbauen
             Scene scene = null;
             try {
                 Menus.mediaplayer.pauseMusic();
@@ -463,6 +464,8 @@ class Schadenanzeige extends HBox {
 
         Title2 p1 = new Title2(player+" : ");
         Title2 dmg = new Title2(String.valueOf(Schaden));
+
+        System.out.println(String.valueOf(Menus.root.getChildren().toString()));
 
         getChildren().addAll(p1,dmg);
     }

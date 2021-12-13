@@ -223,7 +223,7 @@ class SideMenuItem extends StackPane {
             bg.setFill(Color.DARKGOLDENROD);
             if (name == "Start") {
 
-                    Engine.setup();
+                Engine.setup();
                 FrameHandler framehandler = null;
                 try {
                     framehandler = new FrameHandler(primaryStage);
@@ -236,8 +236,16 @@ class SideMenuItem extends StackPane {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
+            }
+            if (name == "Weiter") {
+                try {
+                    scene = new Scene(Menus.createCharakterContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene);
             }
 
         });
