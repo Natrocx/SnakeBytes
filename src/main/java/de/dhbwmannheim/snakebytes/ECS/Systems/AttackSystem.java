@@ -1,7 +1,9 @@
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
-import de.dhbwmannheim.snakebytes.ECS.Base.*;
+import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
+import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
+import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
@@ -9,8 +11,9 @@ import java.util.BitSet;
 
 /**
  * Author: @Jonas Lauschke
- *         @Kirolis Eskondis
- *         @Thu Giang Tran
+ *
+ * @Kirolis Eskondis
+ * @Thu Giang Tran
  * This class is the System which handles knockback and collision if an attack occurs
  */
 
@@ -29,10 +32,10 @@ public class AttackSystem extends System {
         signature.set(ConversionUtils.indexFromID(CharacterStateComponent.id));
         signature.set(ConversionUtils.indexFromID(AttackCollisionComponent.id));
 
-       positionComponents = ComponentManager.getComponentList(PositionComponent.class);
-       motionComponents = ComponentManager.getComponentList(MotionComponent.class);
-       characterState = ComponentManager.getComponentList(CharacterStateComponent.class);
-       attackCollisionComponent = ComponentManager.getComponentList(AttackCollisionComponent.class);
+        positionComponents = ComponentManager.getComponentList(PositionComponent.class);
+        motionComponents = ComponentManager.getComponentList(MotionComponent.class);
+        characterState = ComponentManager.getComponentList(CharacterStateComponent.class);
+        attackCollisionComponent = ComponentManager.getComponentList(AttackCollisionComponent.class);
     }
 
     @Override
@@ -45,28 +48,25 @@ public class AttackSystem extends System {
             PositionComponent attackPosition = positionComponents.getComponent(entity);
             CharacterStateComponent playerKnockback = characterState.getComponent(entity);
 
-            AttackCollisionComponent attackCollision = attackCollisionComponent.getComponent(entity);
-
             //if normal attack is registered, then
-            if (characterState.getComponent(entity).attacking == true) {
+            if (characterState.getComponent(entity).attacking) {
 
                 //add knockback to player
                 playerKnockback.knockback = +0.5;
 
                 //push enemy with new calculated knockback * velocity
-                attackMotion.velocity = new Vec2<>(attackPosition.value.x+0.1 * playerKnockback.knockback, attackPosition.value.y+0.05 * playerKnockback.knockback);
-
+                attackMotion.velocity = new Vec2<>(attackPosition.value.x + 0.1 * playerKnockback.knockback, attackPosition.value.y + 0.05 * playerKnockback.knockback);
 
 
             } else {
                 //if special attack is registered, then
-                if (characterState.getComponent(entity).specialAttacking == true){
+                if (characterState.getComponent(entity).specialAttacking) {
 
                     //add knockback to player
                     playerKnockback.knockback = +0.75;
 
                     //push enemy with new calculated knockback * velocity
-                    attackMotion.velocity = new Vec2<>(attackPosition.value.x+0.1 * playerKnockback.knockback, attackPosition.value.y+0.05 * playerKnockback.knockback);
+                    attackMotion.velocity = new Vec2<>(attackPosition.value.x + 0.1 * playerKnockback.knockback, attackPosition.value.y + 0.05 * playerKnockback.knockback);
 
                 }
             }
