@@ -21,7 +21,7 @@ public class CollisionSystem extends System {
     /// System Output
     private final ComponentList<AttackCollisionComponent> attackCollisionComponents;
     private final ComponentList<ScreenBorderCollisionComponent> screenBorderCollisionComponents;
-    private final ComponentList<CharacterStateComponent> characterStateComponentComponents;
+    private final ComponentList<CharacterStateComponent> characterStateComponents;
 
     public CollisionSystem() {
         signature = new BitSet();
@@ -34,7 +34,7 @@ public class CollisionSystem extends System {
         this.motionComponents = ComponentManager.getComponentList(MotionComponent.class);
         this.attackCollisionComponents = ComponentManager.getComponentList(AttackCollisionComponent.class);
         this.screenBorderCollisionComponents = ComponentManager.getComponentList(ScreenBorderCollisionComponent.class);
-        this.characterStateComponentComponents = ComponentManager.getComponentList(CharacterStateComponent.class);
+        this.characterStateComponents = ComponentManager.getComponentList(CharacterStateComponent.class);
     }
 
     @Override
@@ -134,12 +134,12 @@ public class CollisionSystem extends System {
 
                 // The Ground-branch is supposed to be a physically accurate movement correction
             case Ground: {
-                e1Pos.value.y = e1Pos.value.x + y_overlap;
+                e1Pos.value.y = e1Pos.value.y + y_overlap;
 
                 motionComponents.getComponent(e1).velocity.y = 0.0;
 
-                characterStateComponentComponents.getComponent(e1).jumping[0] = false;
-                characterStateComponentComponents.getComponent(e1).jumping[1] = false;
+                characterStateComponents.getComponent(e1).jumping[0] = false;
+                characterStateComponents.getComponent(e1).jumping[1] = false;
 
                 break;
             }
