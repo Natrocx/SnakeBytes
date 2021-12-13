@@ -116,12 +116,8 @@ public class CollisionSystem extends System {
         // Determine in which direction and how much to correct (if necessary); the values will be added onto the
         // naively determined position to determine the physically correct position.
         // Always push e1 in the direction which would result in shorter movement
-        var x_overlap = e1Pos.value.x < e2Pos.value.x ?
-                e1Pos.value.x + e1BB.size.x - e2Pos.value.x :
-                e2Pos.value.x + e2BB.size.x - e1Pos.value.x;
-        var y_overlap = e1Pos.value.y < e2Pos.value.y ?
-                e1Pos.value.y + e2BB.size.y - e2Pos.value.y :
-                e2Pos.value.y + e2BB.size.y - e1Pos.value.y;
+        var x_overlap = (e2Pos.value.x + e2BB.size.x) - e1Pos.value.y;
+        var y_overlap = (e2Pos.value.y + e2BB.size.y) - e1Pos.value.y;
 
 
         switch (e2BB.boxType) {
@@ -138,8 +134,7 @@ public class CollisionSystem extends System {
 
                 // The Ground-branch is supposed to be a physically accurate movement correction
             case Ground: {
-                e1Pos.value.x += x_overlap;
-                e1Pos.value.y += y_overlap;
+                e1Pos.value.y = e1Pos.value.x + y_overlap;
 
                 motionComponents.getComponent(e1).velocity.y = 0.0;
 

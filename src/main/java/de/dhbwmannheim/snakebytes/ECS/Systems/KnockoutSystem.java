@@ -34,6 +34,7 @@ public class KnockoutSystem extends System {
         Entity[] playersLost = new Entity[2];
         int lossCount = 0;
         boolean reset = false;
+        //noinspection ForLoopReplaceableByForEach - will result in the JVM complaining
         for (int i = 0; i < entities.size(); i++) {
             var entity = entities.get(i);
 

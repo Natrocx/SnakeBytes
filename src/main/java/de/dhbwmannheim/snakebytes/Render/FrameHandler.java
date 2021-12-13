@@ -171,7 +171,7 @@ public class FrameHandler extends StackPane {
 
     //
     public void replace(ImageView pic, int index, PositionComponent position){
-        pic.setTranslateY(position.value.y * 900);
+        pic.setTranslateY((1 - position.value.y) * 900);
         pic.setTranslateX(position.value.x * 1350);
         Menus.root.getChildren().remove(index);
         Menus.root.getChildren().add(index,pic);
