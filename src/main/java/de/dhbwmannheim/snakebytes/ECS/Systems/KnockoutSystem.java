@@ -8,6 +8,7 @@ import de.dhbwmannheim.snakebytes.ECS.ScreenBorderCollisionComponent;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
 import java.util.BitSet;
+import java.util.Iterator;
 
 
 /**
@@ -33,8 +34,8 @@ public class KnockoutSystem extends System {
         Entity[] playersLost = new Entity[2];
         int lossCount = 0;
         boolean reset = false;
-        for (Entity entity : entities) {
-            reset = true;
+        for (int i = 0; i < entities.size(); i++) {
+            var entity = entities.get(i);
 
             // get current character state to determine actions taken
             var characterState = characterStateComponentComponents.getComponent(entity);
@@ -47,6 +48,7 @@ public class KnockoutSystem extends System {
             }
 
             screenBorderCollisionComponents.removeComponent(entity);
+            reset = true;
         }
 
         if (lossCount > 0)
