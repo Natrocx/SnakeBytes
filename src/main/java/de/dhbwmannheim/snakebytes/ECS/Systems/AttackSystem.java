@@ -21,11 +21,11 @@ public class AttackSystem extends System {
     private final ComponentList<AttackCollisionComponent> attackCollisionComponent;
 
 
-    public AttackSystem(ComponentList<PositionComponent> positionComponents, ComponentList<MotionComponent> motionComponents, ComponentList<CharacterStateComponent> characterState, ComponentList<AttackCollisionComponent> attackCollisionComponent, ComponentList<BoundingBoxComponent> boundingBoxComponentComponentList) {
-        this.positionComponents = positionComponents;
-        this.motionComponents = motionComponents;
-        this.characterState = characterState;
-        this.attackCollisionComponent = attackCollisionComponent;
+    public AttackSystem() {
+       positionComponents = ComponentManager.getComponentList(PositionComponent.class);
+       motionComponents = ComponentManager.getComponentList(MotionComponent.class);
+       characterState = ComponentManager.getComponentList(CharacterStateComponent.class);
+       attackCollisionComponent = ComponentManager.getComponentList(AttackCollisionComponent.class);
     }
 
     @Override

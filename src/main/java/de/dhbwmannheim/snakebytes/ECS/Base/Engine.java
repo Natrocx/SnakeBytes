@@ -2,10 +2,7 @@
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
-import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
-import de.dhbwmannheim.snakebytes.ECS.Systems.InputSystem;
-import de.dhbwmannheim.snakebytes.ECS.Systems.KnockoutSystem;
-import de.dhbwmannheim.snakebytes.ECS.Systems.MotionSystem;
+import de.dhbwmannheim.snakebytes.ECS.Systems.*;
 import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 import javafx.scene.input.KeyEvent;
@@ -53,6 +50,7 @@ public class Engine {
         registerSystem(new MotionSystem());
         registerSystem(new CollisionSystem());
         registerSystem(new KnockoutSystem());
+        registerSystem(new AttackSystem());
         inputSystem = new InputSystem();
         registerSystem(inputSystem);
 
