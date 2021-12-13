@@ -1,5 +1,7 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
+import de.dhbwmannheim.snakebytes.ECS.Systems.JsonHandler;
+
 //by Kai Schwab
 
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
@@ -23,11 +25,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.json.simple.parser.ParseException;
+// import de.dhbwmannheim.snakebytes.ECS.Systems.JsonHandler; Import für Testfunktion by R.S.
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
@@ -378,6 +382,16 @@ class  Back extends StackPane {
         });
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
+            //Testfunktion !!! by R.S.
+            // try {
+            //     JsonHandler.toJson(JsonHandler.fromJson("player1"), JsonHandler.fromJson("player2"));
+            // } catch (IOException e1) {
+            //     // TODO Auto-generated catch block
+            //     e1.printStackTrace();
+            // } catch (ParseException e1) {
+            //     // TODO Auto-generated catch block
+            //     e1.printStackTrace();
+            // }
             Scene scene = null;
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);

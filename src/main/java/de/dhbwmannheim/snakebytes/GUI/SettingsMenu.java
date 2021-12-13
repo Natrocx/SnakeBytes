@@ -17,7 +17,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.text.*;
-
 import java.io.FileNotFoundException;
 
 public class SettingsMenu extends StackPane {
@@ -52,6 +51,7 @@ class HeaderP extends HBox {
 }
 
 class SettingsTable extends StackPane {
+
     public SettingsTable(Stage primaryStage){
         //Settings Topics
         SettingsTopic moveSetTitle = new SettingsTopic("A C T I O N S");
@@ -76,7 +76,6 @@ class SettingsTable extends StackPane {
         moveSet.setTranslateX(200);
         System.out.println();
         moveSet.setTranslateY(250);
-
 
         ButtonBox player1Box = new ButtonBox(
                 new ButtonItem("w",primaryStage),     //up
