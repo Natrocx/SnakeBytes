@@ -27,6 +27,7 @@ import java.util.List;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.BoundingBoxComponent;
+import de.dhbwmannheim.snakebytes.JsonHandler;
 
 /**
  * Author: @Eric Stefan
@@ -50,7 +51,7 @@ public class InputSystem extends System {
     static Hashtable<String,String> player1KeySettings;
     static {
         try {
-            player1KeySettings = new Hashtable<>(getKeySettings("player1"));
+            player1KeySettings = new Hashtable<>(JsonHandler.fromJson("player1", JsonHandler.KeyOfHashMap.KEYBOARD_KEY));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -62,7 +63,7 @@ public class InputSystem extends System {
     static Hashtable<String,String> player2KeySettings;
     static {
         try {
-            player2KeySettings = new Hashtable<>(getKeySettings("player2"));
+            player2KeySettings = new Hashtable<>(JsonHandler.fromJson("player2", JsonHandler.KeyOfHashMap.KEYBOARD_KEY));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -283,30 +284,6 @@ public class InputSystem extends System {
             ComponentManager.addComponent(attack,attackGravity);
             ComponentManager.addComponent(attack,attackState);
         }
-    }
-
-    //function to read the JSON-file which saves the key settings of player1 and player2
-    private static Hashtable<String,String> getKeySettings(String player) throws IOException, ParseException {
-        Hashtable<String,String> playerKeyValues = new Hashtable<>();
-
-        JSONParser jsonParser = new JSONParser();
-        FileReader reader = new FileReader("src/main/java/de/dhbwmannheim/snakebytes/ECS/Systems/keySettings.json");
-        Object obj = jsonParser.parse(reader);
-        JSONArray arr = (JSONArray) obj;
-
-        int help;
-        if (player.equals("player1")){
-            help=0;
-        }else{
-            help=1;
-        }
-        JSONObject obj2 = (JSONObject)  ((JSONObject) arr.get(help)).get(player);
-        for (int i=0;i<obj2.size();i++){
-            String temp = obj2.keySet().stream().toList().get(i).toString();
-            //key= keyboard key; and value= action to execute
-            playerKeyValues.put(obj2.get(temp).toString(),temp);
-        }
-        return playerKeyValues;
     }
 
     //if true is returned the player is currently multi-jumping (respectively double jumping)
