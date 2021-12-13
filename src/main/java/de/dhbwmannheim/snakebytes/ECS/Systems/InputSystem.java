@@ -15,10 +15,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 /**
  * Author: @Eric Stefan
@@ -190,7 +187,8 @@ public class InputSystem extends System {
     @Override
     public void update(double deltaTime) throws Exception {
 
-        for (Entity entity : entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            var entity = entities.get(i);
 
             MotionComponent motionComponent = motion.getComponent(entity);
             CharacterStateComponent characterStateComponent = characterState.getComponent(entity);
@@ -204,7 +202,8 @@ public class InputSystem extends System {
             }
 
             //iterate over all pressed keys, that did not were processed (since pressedKeys only contains not processed keys)
-            for (String key : pressedKeys) {
+            for (int j = 0; j < pressedKeys.size(); j++) {
+                var key = pressedKeys.get(j);
 
                 String temp = "";
                 //if the key has an action for player1 or player2, this action gets saved into String "temp"
