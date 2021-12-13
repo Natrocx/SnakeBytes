@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -49,7 +50,7 @@ class HeaderP extends HBox {
         titleI.setTranslateY(20);
 
 
-        Back back = new Back(primaryStage);
+        BackS back = new BackS(primaryStage);
         back.setTranslateX(600);
         back.setTranslateY(20);
 
@@ -235,6 +236,79 @@ class ButtonItem extends StackPane{
         setOnMouseReleased(event -> {
             bg.setFill(gradient);
         });
+    }
+}
+
+class  BackS extends StackPane {
+    public BackS(Stage primaryStage) {
+        final Circle circle = new Circle(10, 42, 42);
+        final Rectangle r1 = new Rectangle(10, 50);
+        final Rectangle r2 = new Rectangle(10, 50);
+        r1.setRotate(45);
+        r2.setRotate(315);
+        circle.setFill(Color.DARKRED);
+        circle.setStroke(Color.BLACK);
+        circle.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        circle.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        circle.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            Scene scene = null;
+            //speicher Funktion einbauen 1/3
+            try {
+                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(scene);
+        });
+        r1.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        r1.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        r1.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            Scene scene = null;
+            //speicher Funktion einbauen 2/3
+            try {
+                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(scene);
+        });
+        r2.setOnMouseEntered(event -> {
+            circle.setFill(Color.RED);
+        });
+        r2.setOnMouseExited(event -> {
+            circle.setFill(Color.DARKRED);
+        });
+        r2.setOnMousePressed(event -> {
+            circle.setFill(Color.YELLOW);
+            Scene scene = null;
+            //speicher Funktion einbauen 3/3
+            try {
+                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(scene);
+        });
+
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(circle, r1,r2);
+
     }
 }
 
