@@ -20,13 +20,13 @@ public class Impressum extends VBox {
         Title2 ws = new Title2("");
 
         //Items
-
         PyTitle pytit = new PyTitle("Exmatrikulator");
         PyText pytex = new PyText("Angriff:", "Die Special-Fähigkeit des Exmatrikukalors stellt die vielen mitgelieferten Bibliotheken, als eine der stärksten Waffen dar. Ebenso ist Python Code einfach zu lesen und benötigt kein explizites Speichermanagement.");
         PyText pytex2 = new PyText("Geschichte:", "Der Exmatrikulator ist der harte Hammer der Gerechtigkeit für all jene, die während der Vorlesung schlafen oder Agar.io spielen. Seine unnahbare Aura lässt vor allem Erstsemester erschüttern. Sein Arsenal ist ebenso wie die Typen in Python, wandelbar und orientiert sich an den neusten Trends. Es kursieren einige Legenden über den Exmatrikulator, welcher in längst vergangener Zeit mit der Programmiersprache SetlX im Bunde gewesen sein soll. Doch mit dem aufkommen einer neuen Technologie wurde der Exmatrikulator hungrig nach Macht im Bereich der Data Science und wandte sich der Programmiersprache Python zu, die bereits die meisten Funktionen vorab in Form von Bibliotheken bereitstellt. Und so striff der Exmatrikulator seine alten Gewohnheiten ab wie eine Schlangenhaut und hervor stieg das neueste Mitglied des Python-Kults, ein würdiger Gegner im Kampf der Programmiersprachen.");
         CTitle ctit = new CTitle("Cyber-Kammerjäger");
         CText ctex = new CText("Angriff:", "Die Special-Fähigkeit des Kammerjägers stellt einen Pointer dar. Pointer sind ein Markenzeichen von C und sorgen für ein unvergleichlich effektives Speichermanagement. Infolge dessen ist C eine der performantesten Sprachen die es gibt.");
         CText ctex2 = new CText("Geschichte:", "Der Cyber-Kammerjäger ist die Kraft mit der man rechnen muss, wenn man das Semikolon vergisst. Ein antiker Titan, erweckt nur durch den Klang von ineffizient genutztem Systemspeicher. Aus um jene mit seinen geschweiften Klammern und, wie in der Programmiersprache C, unheimlich performanten Methoden zu jagen, die vom rechten Weg abgekommen sind. Der Cyber-Kammerjäger bedient sich dabei den ausgeklügeltsten Methoden und bleibt dabei dem System nahe. Auch bei der Typisierung überlässt der Cyber-Kammerjäger nichts dem Zufallsrad und greift authoritär auf die Hardware zu. Als graue Eminenz, hatte der dem C-Kult angehörige Cyber-Kammerjäger seinen Code beinahe jeder anderen Programmiersprache in Form von Bibliotheken hinzugefügt. Die enorme Hingabe gegenüber C ist eine der größten Stärken des Cyber-Kammerjägers, was ihn zu einem gefährlichen Gegner im Kampf der Programmiersprachen macht.");
+        //Texte by Robert Sedlmeier
 
         getChildren().addAll(headerI,ws,pytit,pytex,pytex2,ctit,ctex,ctex2);
     }
