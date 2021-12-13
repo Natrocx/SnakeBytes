@@ -77,6 +77,6 @@ public class AttackSystem extends System {
 
     @Override
     public BitSet getSignature() {
-        return null;
+        return signature;
     }
 }
