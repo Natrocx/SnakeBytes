@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
@@ -226,11 +227,12 @@ class SideMenuItem extends StackPane {
         setOnMousePressed(event -> {
             Scene scene = null;
             bg.setFill(Color.DARKGOLDENROD);
-            if (name == "Start") {
+            if (Objects.equals(name, "Start")) {
 
                 FrameHandler frameHandler = null;
 
                 try {
+                    Engine.setup();
                     frameHandler = new FrameHandler(primaryStage, Engine.getKeyPressedCallback());
                 } catch (Exception e) {
                     e.printStackTrace();

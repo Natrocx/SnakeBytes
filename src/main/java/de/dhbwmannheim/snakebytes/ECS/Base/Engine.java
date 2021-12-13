@@ -70,8 +70,8 @@ public class Engine {
 
     private static void setupPlatforms() {
         var ground = new Entity();
-        var groundPosition = new PositionComponent(new Vec2<>(0.1, 0.2));
-        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.8, 0.1), BoundingBoxComponent.BoxType.Ground);
+        var groundPosition = new PositionComponent(new Vec2<>(0.0, 0.388888888888889));
+        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(1.0, 0.4), BoundingBoxComponent.BoxType.Ground);
 
         registerEntity(ground);
         ComponentManager.addComponent(ground, groundPosition);
@@ -191,6 +191,7 @@ public class Engine {
     }
 
     public static void reset() {
+        java.lang.System.out.println("reset");
         ComponentManager.addComponent(players[0], POSITION_COMPONENT_1.copy());
         ComponentManager.addComponent(players[1], POSITION_COMPONENT_2.copy());
 

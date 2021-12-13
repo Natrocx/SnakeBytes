@@ -2,8 +2,8 @@
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
-import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
+import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
 import java.util.BitSet;
@@ -61,12 +61,13 @@ public class CollisionSystem extends System {
                     if both of these are true then there is an overlap on the Y-axis
                     and thus if all of these are true, the rectangles overlap/collide
                  */
-                if (e1Pos.value.x     + e1BB.size.x   > e2Pos.value.x &&
-                        e1Pos.value.x < e2Pos.value.x + e2BB.size.x   &&
-                        e1Pos.value.y + e1BB.size.y   > e2Pos.value.y &&
-                        e1Pos.value.y < e2Pos.value.y + e2BB.size.y)  {
+                if (e1Pos.value.x + e1BB.size.x > e2Pos.value.x &&
+                        e1Pos.value.x < e2Pos.value.x + e2BB.size.x &&
+                        e1Pos.value.y + e1BB.size.y > e2Pos.value.y &&
+                        e1Pos.value.y < e2Pos.value.y + e2BB.size.y) {
                     switch (e1BB.boxType) {
-                        case Ground, HighPlatform, Screen -> {}
+                        case Ground, HighPlatform, Screen -> {
+                        }
                         case Player -> playerCollisions(e1, e2);
                         case Attack -> attackCollisions(e1, e2);
                         case SpecialAttack -> specialAttackCollisions(e1, e2);
