@@ -202,15 +202,18 @@ public class InputSystem extends System {
             }
 
 
+
+        }
+
+        if (!temp.equals("")) {
+            characterStateComponent.specialAttacking = false;
+            characterStateComponent.attacking = false;
             if (characterStateComponent.state == 2 || characterStateComponent.state == 4) {
                 characterStateComponent.state = 0;
             }
             if (characterStateComponent.state == 3 || characterStateComponent.state == 5) {
                 characterStateComponent.state = 1;
             }
-        }
-
-        if (!temp.equals("")) {
             Double width = boundingBoxComponent.size.x;
             Double height = boundingBoxComponent.size.y;
             Vec2<Double> pos = positionComponent.value;
@@ -221,23 +224,17 @@ public class InputSystem extends System {
                     motionComponent.timeToDecay = motionComponent.maxTimeToDecay;
                     characterStateComponent.state = 1;
                     characterStateComponent.lookingDirection = 1;
-                    characterStateComponent.specialAttacking = false;
-                    characterStateComponent.attacking = false;
                     break;
                 case "left":
                     motionComponent.velocity.x = -0.05;
                     motionComponent.timeToDecay = motionComponent.maxTimeToDecay;
                     characterStateComponent.state = 0;
                     characterStateComponent.lookingDirection = 0;
-                    characterStateComponent.specialAttacking = false;
-                    characterStateComponent.attacking = false;
                     break;
                 case "jump":
                     //if no double jump is active
                     if (multiJump(characterStateComponent.jumping) == false) {
                         motionComponent.velocity.y = 0.15; //jump
-                        characterStateComponent.specialAttacking = false;
-                        characterStateComponent.attacking = false;
                         soundManager.playJumpSound();
                         //since the player jumps this has to be saved in the boolean Array jumping[]
                         if (characterStateComponent.jumping[0] != true) {
@@ -257,6 +254,7 @@ public class InputSystem extends System {
                         if (characterStateComponent.lookingDirection == 0) {
                             setupAttack(0, 0, pos, width, height, entity);
                             characterStateComponent.state = 2;
+
                         } else {
                             setupAttack(0, 1, pos, width, height, entity);
                             characterStateComponent.state = 3;

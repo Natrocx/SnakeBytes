@@ -269,6 +269,7 @@ class SideMenuItem extends StackPane {
             setOnMouseReleased(event -> {
                 bg.setFill(gradient);
             });
+        //JsonHandler.toScoreboardJson();
         }
 
     public void startRender(FrameHandler frameHandler, Stage primaryStage){

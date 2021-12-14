@@ -20,16 +20,12 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 public class PressKeyWindow extends VBox {
 
     public static String Key = "";
-    public PressKeyWindow(Stage primaryStage) {
-        PressKey title = new PressKey("P R E S S  A  B U T T O N",primaryStage);
+    public PressKeyWindow (Stage primaryStage) {
+        PressKey title = new PressKey("P R E S S  A  B U T T O N", primaryStage);
         title.setTranslateY(20);
         title.setTranslateX(100);
-
-
-    public PressKeyWindow(Stage primaryStage) throws FileNotFoundException {
-
-        Text text = new Text("PRESS A BUTTON");
     }
+
 }
 class PressKey extends StackPane {
     public static String Key="";
@@ -50,7 +46,7 @@ class PressKey extends StackPane {
         final Scene scene = new Scene(test);
         System.out.println("btest2");
         scene.setOnKeyPressed(event->{
-            key=event.getCode().toString();
+            Key=event.getCode().toString();
             System.out.println(event.getCode().toString());
             Stage s = (Stage) scene.getWindow();
             s.show();

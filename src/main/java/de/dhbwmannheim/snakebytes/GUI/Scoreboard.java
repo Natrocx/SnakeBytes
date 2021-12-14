@@ -2,8 +2,16 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //by Kai Schwab
 
+import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
+import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
+import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
+import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
+import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
+import de.dhbwmannheim.snakebytes.JsonHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -11,30 +19,123 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class Scoreboard extends VBox {
-    public Scoreboard(Stage primaryStage) {
+    static ComponentList<CharacterStateComponent> characterStateComponentComponents;
+    static Entity player1 = Engine.getPlayer(0);
+    static Entity player2 = Engine.getPlayer(1);
+    static int scoreboardJsonArrayIndex=0;
+
+    public static void saveScoreboardToJson() throws IOException, ParseException {
+        characterStateComponentComponents = ComponentManager.getComponentList(CharacterStateComponent .class);
+        var characterStatePlayer1 = characterStateComponentComponents.getComponent(player1);
+        var characterStatePlayer2 = characterStateComponentComponents.getComponent(player2);
+
+        String scorePlayer1 = String.valueOf(characterStatePlayer1.lives);
+        String scorePlayer2 = String.valueOf(characterStatePlayer2.lives);
+
+        String currentDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate now = LocalDate.now();
+        currentDate=formatter.format(now);
+
+        JsonHandler.toScoreboardJson(new String[]{currentDate,scorePlayer1,scorePlayer2});
+    }
+
+    public Scoreboard(Stage primaryStage) throws IOException, ParseException {
+        JSONArray jsonArray;
+        jsonArray = JsonHandler.fromScoreboardJson();
+
+        JSONObject scoreboard1 = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
+        scoreboardJsonArrayIndex++;
+        JSONObject scoreboard2 = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
+        scoreboardJsonArrayIndex++;
+        JSONObject scoreboard3 = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
+        scoreboardJsonArrayIndex++;
+
         //Header
         HeaderS headerS = new HeaderS(primaryStage);
         headerS.setTranslateX(-400);
+        Button buttonNext = new Button("next page");
+        buttonNext.setTranslateX(80);
+        buttonNext.setTranslateY(5);
+        Button buttenPrev = new Button("previous page");
+        buttenPrev.setTranslateX(80);
+        buttenPrev.setTranslateY(10);
+
 
         //Items
-        SB_Item item1 = new SB_Item("08.12.2021", "2", "3");
+        SB_Item item1 = new SB_Item(scoreboard1.get("date").toString(), scoreboard1.get("scoreP1").toString(), scoreboard1.get("scoreP2").toString());
         item1.setStyle("-fx-border-width: 5px");
         item1.setStyle("-fx-border-color: DARKRED");
         item1.setTranslateX(75);
-        SB_Item item2 = new SB_Item("08.12.2021", "2", "3");
+        SB_Item item2 = new SB_Item(scoreboard2.get("date").toString(), scoreboard2.get("scoreP1").toString(), scoreboard2.get("scoreP2").toString());
         item2.setStyle("-fx-border-width: 5px");
         item2.setStyle("-fx-border-color: DARKRED");
         item2.setTranslateX(75);
-        SB_Item item3 = new SB_Item("08.12.2021", "2", "3");
+        SB_Item item3 = new SB_Item(scoreboard3.get("date").toString(), scoreboard3.get("scoreP1").toString(), scoreboard3.get("scoreP2").toString());
         item3.setStyle("-fx-border-width: 5px");
         item3.setStyle("-fx-border-color: DARKRED");
         item3.setTranslateX(75);
 
+        buttonNext.setOnMouseClicked(mouseEvent -> {
+                getChildren().clear();
+                JSONObject scoreboard1_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
+                scoreboardJsonArrayIndex++;
+                JSONObject scoreboard2_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
+                scoreboardJsonArrayIndex++;
+                JSONObject scoreboard3_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
+                scoreboardJsonArrayIndex++;
 
-        getChildren().addAll(headerS, createSeperator(), item1, item2, item3);
+                SB_Item item1_temp = new SB_Item(scoreboard1_temp.get("date").toString(), scoreboard1_temp.get("scoreP1").toString(), scoreboard1_temp.get("scoreP2").toString());
+                item1_temp.setStyle("-fx-border-width: 5px");
+                item1_temp.setStyle("-fx-border-color: DARKRED");
+                item1_temp.setTranslateX(75);
+                SB_Item item2_temp = new SB_Item(scoreboard2_temp.get("date").toString(), scoreboard2_temp.get("scoreP1").toString(), scoreboard2_temp.get("scoreP2").toString());
+                item2_temp.setStyle("-fx-border-width: 5px");
+                item2_temp.setStyle("-fx-border-color: DARKRED");
+                item2_temp.setTranslateX(75);
+                SB_Item item3_temp = new SB_Item(scoreboard3_temp.get("date").toString(), scoreboard3_temp.get("scoreP1").toString(), scoreboard3_temp.get("scoreP2").toString());
+                item3_temp.setStyle("-fx-border-width: 5px");
+                item3_temp.setStyle("-fx-border-color: DARKRED");
+                item3_temp.setTranslateX(75);
+                getChildren().addAll(headerS, createSeperator(), item1_temp, item2_temp, item3_temp, buttonNext, buttenPrev);
+
+        });
+        buttenPrev.setOnMouseClicked(mouseEvent -> {
+            getChildren().clear();
+            JSONObject scoreboard1_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
+            scoreboardJsonArrayIndex--;
+            JSONObject scoreboard2_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
+            scoreboardJsonArrayIndex--;
+            JSONObject scoreboard3_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
+            scoreboardJsonArrayIndex--;
+
+            SB_Item item1_temp = new SB_Item(scoreboard1_temp.get("date").toString(), scoreboard1_temp.get("scoreP1").toString(), scoreboard1_temp.get("scoreP2").toString());
+            item1_temp.setStyle("-fx-border-width: 5px");
+            item1_temp.setStyle("-fx-border-color: DARKRED");
+            item1_temp.setTranslateX(75);
+            SB_Item item2_temp = new SB_Item(scoreboard2_temp.get("date").toString(), scoreboard2_temp.get("scoreP1").toString(), scoreboard2_temp.get("scoreP2").toString());
+            item2_temp.setStyle("-fx-border-width: 5px");
+            item2_temp.setStyle("-fx-border-color: DARKRED");
+            item2_temp.setTranslateX(75);
+            SB_Item item3_temp = new SB_Item(scoreboard3_temp.get("date").toString(), scoreboard3_temp.get("scoreP1").toString(), scoreboard3_temp.get("scoreP2").toString());
+            item3_temp.setStyle("-fx-border-width: 5px");
+            item3_temp.setStyle("-fx-border-color: DARKRED");
+            item3_temp.setTranslateX(75);
+            getChildren().addAll(headerS, createSeperator(), item1_temp, item2_temp, item3_temp, buttonNext, buttenPrev);
+        });
+
+        getChildren().addAll(headerS, createSeperator(), item1, item2, item3, buttonNext, buttenPrev);
+
     }
 
     private HBox createSeperator() {

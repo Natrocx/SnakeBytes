@@ -52,20 +52,20 @@ public class AttackSystem extends System {
             if (!attackCollisionComponent.getComponent(entity).specialAttack) {
 
                 //add knockback to player
-                playerKnockback.knockback = +0.05;
+                playerKnockback.knockback +=0.05;
 
                 //push enemy with new calculated knockback * velocity
-                attackMotion.velocity = new Vec2<>(attackPosition.value.x + (0.05 * playerKnockback.knockback), attackPosition.value.y + (0.05 * playerKnockback.knockback));
+                attackMotion.velocity = new Vec2<>(attackMotion.velocity.x + (0.05 * playerKnockback.knockback), attackMotion.velocity.y + (0.05 * playerKnockback.knockback));
                 attackMotion.timeToDecay = 2;
 
             } else {
                 //if special attack is registered, then
 
                 //add knockback to player
-                playerKnockback.knockback = +0.75;
+                playerKnockback.knockback +=0.75;
 
                 //push enemy with new calculated knockback * velocity
-                attackMotion.velocity = new Vec2<>(attackPosition.value.x + 0.1 * playerKnockback.knockback, attackPosition.value.y + 0.05 * playerKnockback.knockback);
+                attackMotion.velocity = new Vec2<>(attackMotion.velocity.x + 0.1 * playerKnockback.knockback, attackMotion.velocity.y + 0.05 * playerKnockback.knockback);
 
             }
         }
