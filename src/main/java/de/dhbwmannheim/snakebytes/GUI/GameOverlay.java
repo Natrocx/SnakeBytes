@@ -3,7 +3,6 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -20,11 +19,7 @@ import java.util.TimerTask;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
-/**
- * Author: @Kai Schwab
- *         @Thu Giang Tran
- * This class...
- */
+//by Kai Schwab
 
 public class GameOverlay extends StackPane {
     int counter = 3;
@@ -52,17 +47,10 @@ public class GameOverlay extends StackPane {
         CountDown countDown = new CountDown();
         countDown.setTranslateX(550);
         countDown.setTranslateY(300);
-        Schadenanzeige dmgP1 = new Schadenanzeige("P1",300);
-        dmgP1.setTranslateX(10);
-        dmgP1.setTranslateY(700);
-        Schadenanzeige dmgP2 = new Schadenanzeige("P2",400);
-        dmgP2.setTranslateX(1100);
-        dmgP2.setTranslateY(700);
-
 
         setAlignment(Pos.TOP_CENTER);
 
-        getChildren().addAll(countDown,dmgP1,dmgP2,score,timer,pause,sound,music,back);
+        getChildren().addAll(countDown,score,timer,pause,sound,music,back);
 
     }
 }
@@ -300,7 +288,7 @@ class  Sound extends StackPane {
                 }
             }else {
                 try {
-                    //Menus.mediaplayer.playMusic();
+                    Menus.mediaplayer.playMusic();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -455,34 +443,4 @@ class  Music extends StackPane {
         getChildren().addAll(circle, r1);
 
     }
-}
-
-
-class Schadenanzeige extends HBox {
-    public Schadenanzeige(String player,double Schaden){
-
-        Title2 p1 = new Title2(player+" : ");
-        Title2 dmg = new Title2(String.valueOf(Schaden));
-
-        getChildren().addAll(p1,dmg);
-    }
-/*
-    //TODO children müssen noch ermittelt werden und eingefügt werden
-    public Schadensberechnung(double ){
-        ComponentList<CharacterStateComponent> characterState = null;
-
-        for (Entity entity: Engine.getPlayers()) {
-            CharacterStateComponent playerKnockback = characterState.getComponent(entity);
-            Schaden = playerKnockback.knockback * 100;
-            if (entity == Engine.getPlayer(1)){
-
-            }else
-            if (entity == Engine.getPlayer(2)){
-                double damage2 = Schaden;
-                Title2 dmg = new Title2(String.valueOf(damage2));
-            }
-        }
-    }
-
- */
 }

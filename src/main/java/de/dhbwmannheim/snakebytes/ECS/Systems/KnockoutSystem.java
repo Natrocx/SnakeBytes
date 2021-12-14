@@ -8,6 +8,7 @@ import de.dhbwmannheim.snakebytes.ECS.ScreenBorderCollisionComponent;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
 import java.util.BitSet;
+import java.util.Iterator;
 
 
 /**
@@ -15,7 +16,7 @@ import java.util.BitSet;
  */
 public class KnockoutSystem extends System {
 
-    // ComponentList<ScreenBorderCollisionComponent> screenBorderCollisionComponents;
+     ComponentList<ScreenBorderCollisionComponent> screenBorderCollisionComponents;
     ComponentList<CharacterStateComponent> characterStateComponentComponents;
 
     public KnockoutSystem() {
@@ -25,13 +26,18 @@ public class KnockoutSystem extends System {
         signature.set(ConversionUtils.indexFromID(CharacterStateComponent.id));
 
         characterStateComponentComponents = ComponentManager.getComponentList(CharacterStateComponent.class);
+        screenBorderCollisionComponents = ComponentManager.getComponentList(ScreenBorderCollisionComponent.class);
     }
 
     @Override
     public void update(double deltaTime) {
         Entity[] playersLost = new Entity[2];
         int lossCount = 0;
-        for (Entity entity : Engine.getPlayers()) {
+        boolean reset = false;
+        //noinspection ForLoopReplaceableByForEach - will result in the JVM complaining
+        for (int i = 0; i < entities.size(); i++) {
+            var entity = entities.get(i);
+
             // get current character state to determine actions taken
             var characterState = characterStateComponentComponents.getComponent(entity);
             if(characterState != null) {
@@ -40,21 +46,15 @@ public class KnockoutSystem extends System {
                     playersLost[lossCount] = entity;
                     lossCount++;
                 }
-                characterStateComponentComponents.removeComponent(entity);
-
             }
 
-
-
-            // TODO play some animations/sounds?
-
-            // remove component after parsing it
-
+            screenBorderCollisionComponents.removeComponent(entity);
+            reset = true;
         }
 
-        if (lossCount > 1)
+        if (lossCount > 0)
             Engine.finish(playersLost);
-        else
+        else if (reset)
             Engine.reset();
     }
 

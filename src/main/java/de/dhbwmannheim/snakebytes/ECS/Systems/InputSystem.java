@@ -6,6 +6,7 @@ import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
+import de.dhbwmannheim.snakebytes.JsonHandler;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.scene.input.KeyEvent;
 import org.json.simple.JSONArray;
@@ -15,10 +16,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 /**
  * Author: @Eric Stefan
@@ -37,7 +35,7 @@ public class InputSystem extends System {
 
     static {
         try {
-            player1KeySettings = new Hashtable<>(getKeySettings("player1"));
+            player1KeySettings = new Hashtable<>(JsonHandler.fromJson("player1", JsonHandler.KeyOfHashMap.KEYBOARD_KEY));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -47,7 +45,7 @@ public class InputSystem extends System {
 
     static {
         try {
-            player2KeySettings = new Hashtable<>(getKeySettings("player2"));
+            player2KeySettings = new Hashtable<>(JsonHandler.fromJson("player2", JsonHandler.KeyOfHashMap.KEYBOARD_KEY));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -67,6 +65,8 @@ public class InputSystem extends System {
 
         signature.set(ConversionUtils.indexFromID(CharacterStateComponent.id));
         signature.set(ConversionUtils.indexFromID(MotionComponent.id));
+        signature.set(ConversionUtils.indexFromID(BoundingBoxComponent.id));
+        signature.set(ConversionUtils.indexFromID(PositionComponent.id));
 
         motion = ComponentManager.getComponentList(MotionComponent.class);
         characterState = ComponentManager.getComponentList(CharacterStateComponent.class);
@@ -155,29 +155,7 @@ public class InputSystem extends System {
         }
     }
 
-    //function to read the JSON-file which saves the key settings of player1 and player2
-    private static Hashtable<String, String> getKeySettings(String player) throws IOException, ParseException {
-        Hashtable<String, String> playerKeyValues = new Hashtable<>();
 
-        JSONParser jsonParser = new JSONParser();
-        FileReader reader = new FileReader("src/main/java/de/dhbwmannheim/snakebytes/ECS/Systems/keySettings.json");
-        Object obj = jsonParser.parse(reader);
-        JSONArray arr = (JSONArray) obj;
-
-        int help;
-        if (player.equals("player1")) {
-            help = 0;
-        } else {
-            help = 1;
-        }
-        JSONObject obj2 = (JSONObject) ((JSONObject) arr.get(help)).get(player);
-        for (int i = 0; i < obj2.size(); i++) {
-            String temp = obj2.keySet().stream().toList().get(i).toString();
-            //key= keyboard key; and value= action to execute
-            playerKeyValues.put(obj2.get(temp).toString(), temp);
-        }
-        return playerKeyValues;
-    }
 
     //saving all recent key presses since the last time the following update() function were executed
     public void keyPressed(KeyEvent keyEvent) {
@@ -188,7 +166,8 @@ public class InputSystem extends System {
     @Override
     public void update(double deltaTime) throws Exception {
 
-        for (Entity entity : entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            var entity = entities.get(i);
 
             MotionComponent motionComponent = motion.getComponent(entity);
             CharacterStateComponent characterStateComponent = characterState.getComponent(entity);
@@ -202,7 +181,8 @@ public class InputSystem extends System {
             }
 
             //iterate over all pressed keys, that did not were processed (since pressedKeys only contains not processed keys)
-            for (String key : pressedKeys) {
+            for (int j = 0; j < pressedKeys.size(); j++) {
+                var key = pressedKeys.get(j);
 
                 String temp = "";
                 //if the key has an action for player1 or player2, this action gets saved into String "temp"

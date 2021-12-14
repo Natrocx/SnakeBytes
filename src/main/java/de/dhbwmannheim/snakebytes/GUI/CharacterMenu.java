@@ -7,6 +7,7 @@ import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
 import de.dhbwmannheim.snakebytes.ECS.Systems.InputSystem;
 import de.dhbwmannheim.snakebytes.EngineLoop;
+import de.dhbwmannheim.snakebytes.JsonHandler;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -32,6 +33,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
@@ -226,25 +228,19 @@ class SideMenuItem extends StackPane {
         setOnMousePressed(event -> {
             Scene scene = null;
             bg.setFill(Color.DARKGOLDENROD);
-            if (name == "Start") {
-
+            if (Objects.equals(name, "Start")) {
+                JsonHandler.saveDefaultJson();
                 FrameHandler frameHandler = null;
 
                 try {
+                    Engine.setup();
                     frameHandler = new FrameHandler(primaryStage, Engine.getKeyPressedCallback());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 FrameHandler finalFrameHandler = frameHandler;
-
-                //to try if error: Not in JavaFX applikation thread
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        startRender(finalFrameHandler,primaryStage);
-                    }
-                });
+                startRender(finalFrameHandler,primaryStage);
 
             EngineLoop loop = new EngineLoop();
             loop.start();
@@ -319,14 +315,14 @@ class SideMenuValueChanger  extends HBox {
             int v= 0;
             if(name=="Points"){
                 v=CharacterMenu.rounds;
-                if(v>1){
-                    CharacterMenu.rounds--;
+                if(v>0){
+                    CharacterMenu.rounds++;
                     text.setText(String.valueOf(CharacterMenu.rounds));
                 }
             }
             else if (name=="Time"){
                 v=CharacterMenu.time;
-                if(v>10){
+                if(v>0){
                     CharacterMenu.time-=10;
                     text.setText(String.valueOf(CharacterMenu.time));
                 }

@@ -3,10 +3,12 @@ package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class System implements ISystem {
     protected final List<Entity> entities = new ArrayList<>();
+    protected HashSet<Entity> entitiesPresent = new HashSet<>();
     protected BitSet signature;
 
     @Override
@@ -22,11 +24,17 @@ public abstract class System implements ISystem {
 
     @Override
     public void addEntity(Entity e) {
-        entities.add(e);
+        if (!entitiesPresent.contains(e)) {
+            entities.add(e);
+            entitiesPresent.add(e);
+        }
     }
 
     @Override
     public void removeEntity(Entity e) {
-        entities.remove(e);
+        if(entitiesPresent.contains(e)) {
+            entities.remove(e);
+            entitiesPresent.remove(e);
+        }
     }
 }

@@ -2,10 +2,7 @@
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
-import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
-import de.dhbwmannheim.snakebytes.ECS.Systems.InputSystem;
-import de.dhbwmannheim.snakebytes.ECS.Systems.KnockoutSystem;
-import de.dhbwmannheim.snakebytes.ECS.Systems.MotionSystem;
+import de.dhbwmannheim.snakebytes.ECS.Systems.*;
 import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 import javafx.scene.input.KeyEvent;
@@ -22,8 +19,8 @@ public class Engine {
 
     public static ArrayList<Entity> attackList = new ArrayList<>();
 
-    public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.2222, 0.6833));
-    public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.7407, 0.6833));
+    public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.2222, 0.3167));
+    public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.7407, 0.3167));
     private static final List<ISystem> systems = new ArrayList<>();
     private static final Entity[] players = new Entity[2];
     private static Victory finish = null;
@@ -53,6 +50,7 @@ public class Engine {
         registerSystem(new MotionSystem());
         registerSystem(new CollisionSystem());
         registerSystem(new KnockoutSystem());
+        registerSystem(new AttackSystem());
         inputSystem = new InputSystem();
         registerSystem(inputSystem);
 
@@ -70,8 +68,8 @@ public class Engine {
 
     private static void setupPlatforms() {
         var ground = new Entity();
-        var groundPosition = new PositionComponent(new Vec2<>(0.1, 0.2));
-        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.8, 0.1), BoundingBoxComponent.BoxType.Ground);
+        var groundPosition = new PositionComponent(new Vec2<>(0.22, 0.01));
+        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.56, 0.305), BoundingBoxComponent.BoxType.Ground);
 
         registerEntity(ground);
         ComponentManager.addComponent(ground, groundPosition);
@@ -84,12 +82,13 @@ public class Engine {
         var motionComponent1 = new MotionComponent();
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent1 = new GravityComponent(0.1);
+        var positionComponent1 = new PositionComponent(new Vec2<>(0.2222, 0.16));
         var characterStateComponent1 = new CharacterStateComponent(1,3,5, CharacterMenu.rounds, new boolean[]{false, false},false,false,1,1);
 
         registerEntity(player1);
         players[0] = player1;
         ComponentManager.addComponent(player1, motionComponent1);
-        ComponentManager.addComponent(player1, POSITION_COMPONENT_1.copy());
+        ComponentManager.addComponent(player1, positionComponent1);
         ComponentManager.addComponent(player1, boundingBoxComponent1);
         ComponentManager.addComponent(player1, gravityComponent1);
         ComponentManager.addComponent(player1,characterStateComponent1);
@@ -98,12 +97,13 @@ public class Engine {
         var motionComponent2 = new MotionComponent();
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent2 = new GravityComponent(0.1);
+        var positionComponent2 = new PositionComponent(new Vec2<>(0.7407, 0.16));
         var characterStateComponent2 = new CharacterStateComponent(1,0,5, CharacterMenu.rounds,new boolean[]{false, false},false,false,0,0);
 
         registerEntity(player2);
         players[1] = player2;
         ComponentManager.addComponent(player2, motionComponent2);
-        ComponentManager.addComponent(player2, POSITION_COMPONENT_2.copy());
+        ComponentManager.addComponent(player2, positionComponent2);
         ComponentManager.addComponent(player2, boundingBoxComponent2);
         ComponentManager.addComponent(player2, gravityComponent2);
         ComponentManager.addComponent(player2,characterStateComponent2);
@@ -191,6 +191,7 @@ public class Engine {
     }
 
     public static void reset() {
+        java.lang.System.out.println("reset");
         ComponentManager.addComponent(players[0], POSITION_COMPONENT_1.copy());
         ComponentManager.addComponent(players[1], POSITION_COMPONENT_2.copy());
 
