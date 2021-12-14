@@ -1,6 +1,14 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
+import de.dhbwmannheim.snakebytes.ECS.*;
+import de.dhbwmannheim.snakebytes.ECS.Systems.*;
+import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
+import de.dhbwmannheim.snakebytes.Render.FrameHandler;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+
+import java.time.Duration;
+import java.time.Instant;
 /**
  * Author: @Jonas Lauschke
  *         @Thu Giang Tran
@@ -73,20 +81,20 @@ public class Engine {
 
     private static void setupPlatforms() {
         var ground = new Entity();
-        var groundPosition = new PositionComponent(new Vec2<>(0.0, 0.02));
-        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(1.0, 0.305), BoundingBoxComponent.BoxType.Ground);
+        var groundPosition = new PositionComponent(new Vec2<>(0.21, 0.01));
+        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.58, 0.305), BoundingBoxComponent.BoxType.Ground);
 
         var platformLeft = new Entity();
-        var platformLeftPosition = new PositionComponent(new Vec2<>(0.25, 0.35));
-        var platformLeftBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+        var platformLeftPosition = new PositionComponent(new Vec2<>(0.28, 0.46));
+        var platformLeftBoundingBox = new BoundingBoxComponent(new Vec2<>(0.085, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
 
         var platformRight = new Entity();
-        var platformRightPosition = new PositionComponent(new Vec2<>(0.59, 0.35));
-        var platformRightBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+        var platformRightPosition = new PositionComponent(new Vec2<>(0.65, 0.46));
+        var platformRightBoundingBox = new BoundingBoxComponent(new Vec2<>(0.085, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
 
         var platformMiddle = new Entity();
-        var platformMiddlePosition = new PositionComponent(new Vec2<>(0.437, 0.52));
-        var platformMiddleBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+        var platformMiddlePosition = new PositionComponent(new Vec2<>(0.47, 0.638));
+        var platformMiddleBoundingBox = new BoundingBoxComponent(new Vec2<>(0.085, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
 
         registerEntity(ground);
         ComponentManager.addComponent(ground, groundPosition);
@@ -103,21 +111,21 @@ public class Engine {
         registerEntity(platformMiddle);
         ComponentManager.addComponent(platformMiddle, platformMiddlePosition);
         ComponentManager.addComponent(platformMiddle,platformMiddleBoundingBox);
-
     }
 
     private static void setupPlayers() {
         boolean[] doublefalse = {false,false};
         var player1 = new Entity();
         var motionComponent1 = new MotionComponent();
-        var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);  //TODO player anpassen
+        var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent1 = new GravityComponent(0.1);
-        var characterStateComponent1 = new CharacterStateComponent(1,3,5, CharacterMenu.rounds, new boolean[]{false, false},false,false,1,1);
+        var positionComponent1 = new PositionComponent(new Vec2<>(0.2222, 0.16));
+        var characterStateComponent1 = new CharacterStateComponent(1,0,0, CharacterMenu.rounds, new boolean[]{false, false},false,false,1,1);
 
         registerEntity(player1);
         players[0] = player1;
         ComponentManager.addComponent(player1, motionComponent1);
-        ComponentManager.addComponent(player1, POSITION_COMPONENT_1.copy());
+        ComponentManager.addComponent(player1, positionComponent1);
         ComponentManager.addComponent(player1, boundingBoxComponent1);
         ComponentManager.addComponent(player1, gravityComponent1);
         ComponentManager.addComponent(player1,characterStateComponent1);
@@ -126,12 +134,13 @@ public class Engine {
         var motionComponent2 = new MotionComponent();
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent2 = new GravityComponent(0.1);
+        var positionComponent2 = new PositionComponent(new Vec2<>(0.7407, 0.16));
         var characterStateComponent2 = new CharacterStateComponent(1,0,5, CharacterMenu.rounds,new boolean[]{false, false},false,false,0,0);
 
         registerEntity(player2);
         players[1] = player2;
         ComponentManager.addComponent(player2, motionComponent2);
-        ComponentManager.addComponent(player2, POSITION_COMPONENT_2.copy());
+        ComponentManager.addComponent(player2, positionComponent2);
         ComponentManager.addComponent(player2, boundingBoxComponent2);
         ComponentManager.addComponent(player2, gravityComponent2);
         ComponentManager.addComponent(player2,characterStateComponent2);
