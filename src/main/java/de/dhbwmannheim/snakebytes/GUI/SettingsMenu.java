@@ -1,11 +1,12 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-//by Kai Schwab
+//by Kai Schwab, Eric Stefan
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -21,12 +22,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Hashtable;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import de.dhbwmannheim.snakebytes.JsonHandler;
 
-import static de.dhbwmannheim.snakebytes.GUI.Menus.createSettingsContent;
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 public class SettingsMenu extends StackPane {
@@ -37,13 +38,24 @@ public class SettingsMenu extends StackPane {
         title.setTranslateY(-100);
 
         SettingsTable settings = new SettingsTable(primaryStage);
+        Button b = new Button();
+        b.setText("refresh");
+        b.setTranslateX(925);
+        b.setTranslateY(100);
+        b.setOnMouseClicked(event->{
+            getChildren().clear();
+            SettingsTable settings1 = new SettingsTable(primaryStage);
+            settings1.setTranslateX(50);
+            settings1.setTranslateY(100);
+            getChildren().addAll(title, settings1,b);
+        });
 
         settings.setTranslateX(50);
         settings.setTranslateY(100);
 
         setAlignment(Pos.CENTER);
 
-        getChildren().addAll(title, settings);
+        getChildren().addAll(title, settings,b);
     }
 }
 
@@ -66,6 +78,10 @@ class SettingsTable extends StackPane {
 
     public static Hashtable<String, String> controlsp1;
     public static Hashtable<String, String> controlsp2;
+    String buttonPressed;
+    ButtonItem buttonPressedButton;
+    String buttonOfPlayer;
+    ButtonItem[] focusedButtonItems;
 
     public SettingsTable(Stage primaryStage) {
 
@@ -100,28 +116,150 @@ class SettingsTable extends StackPane {
         moveSet.setTranslateX(200);
         moveSet.setTranslateY(250);
 
+        Button saveButton = new Button();
+        saveButton.setText("Save");
+        saveButton.setTranslateX(593);
+        saveButton.setTranslateY(0);
+
+
+
+        ButtonItem b1 = new ButtonItem(controlsp1.get("jump"), primaryStage, "jump");
+        ButtonItem b2 = new ButtonItem(controlsp1.get("left"), primaryStage, "left");
+        ButtonItem b3 = new ButtonItem(controlsp1.get("right"), primaryStage, "right");
+        ButtonItem b4 =  new ButtonItem(controlsp1.get("attack"), primaryStage, "attack");
+        ButtonItem b5 = new ButtonItem(controlsp1.get("specialAttack"), primaryStage, "specialAttack");
+        b1.setOnMousePressed(event->{
+            buttonPressed="jump";
+            buttonPressedButton=b1;
+            buttonOfPlayer="player1";
+            setButtonFocus(b1);
+        });
+        b2.setOnMousePressed(event->{
+            buttonPressed="left";
+            buttonPressedButton=b2;
+            buttonOfPlayer="player1";
+            setButtonFocus(b2);
+        });
+        b3.setOnMousePressed(event->{
+            buttonPressed="right";
+            buttonPressedButton=b3;
+            buttonOfPlayer="player1";
+            setButtonFocus(b3);
+        });
+        b4.setOnMousePressed(event->{
+            buttonPressed="attack";
+            buttonPressedButton=b4;
+            buttonOfPlayer="player1";
+            setButtonFocus(b4);
+        });
+        b5.setOnMousePressed(event->{
+            buttonPressed="specialAttack";
+            buttonPressedButton=b5;
+            buttonOfPlayer="player1";
+            setButtonFocus(b5);
+        });
+
         ButtonBox player1Box = new ButtonBox(
-                new ButtonItem(controlsp1.get("jump"), primaryStage, "jump"), // up
-                new ButtonItem(controlsp1.get("left"), primaryStage, "left"), // left
-                new ButtonItem(controlsp1.get("right"), primaryStage, "right"), // right
-                new ButtonItem(controlsp1.get("attack"), primaryStage, "attack"), // Attack 1
-                new ButtonItem(controlsp1.get("specialAttack"), primaryStage, "specialAttack")); // Attack 2
+                b1, // up
+                b2, // left
+                b3, // right
+                b4, // Attack 1
+                b5); // Attack 2
         player1Box.setTranslateX(550);
         player1Box.setTranslateY(250);
 
+        ButtonItem b6 = new ButtonItem(controlsp2.get("jump"), primaryStage, "jump2");
+        ButtonItem b7 = new ButtonItem(controlsp2.get("left"), primaryStage, "left2");
+        ButtonItem b8 = new ButtonItem(controlsp2.get("right"), primaryStage, "right2");
+        ButtonItem b9 =  new ButtonItem(controlsp2.get("attack"), primaryStage, "attack2");
+        ButtonItem b10 = new ButtonItem(controlsp2.get("specialAttack"), primaryStage, "specialAttack2");
+        b6.setOnMousePressed(event->{
+            buttonPressed="jump";
+            buttonPressedButton=b6;
+            buttonOfPlayer="player2";
+            setButtonFocus(b6);
+        });
+        b7.setOnMousePressed(event->{
+            buttonPressed="left";
+            buttonPressedButton=b7;
+            buttonOfPlayer="player2";
+            setButtonFocus(b7);
+        });
+        b8.setOnMousePressed(event->{
+            buttonPressed="right";
+            buttonPressedButton=b8;
+            buttonOfPlayer="player2";
+            setButtonFocus(b8);
+        });
+        b9.setOnMousePressed(event->{
+            buttonPressed="attack";
+            buttonPressedButton=b9;
+            buttonOfPlayer="player2";
+            setButtonFocus(b9);
+        });
+        b10.setOnMousePressed(event->{
+            buttonPressed="specialAttack";
+            buttonPressedButton=b10;
+            buttonOfPlayer="player2";
+            setButtonFocus(b10);
+        });
+
+        focusedButtonItems= new ButtonItem[]{b1, b2,b3,b4,b5,b6,b7,b8,b9,b10};
+
         ButtonBox player2Box = new ButtonBox(
-                new ButtonItem(controlsp2.get("jump"), primaryStage, "jump2"), // up
-                new ButtonItem(controlsp2.get("left"), primaryStage, "left2"), // left
-                new ButtonItem(controlsp2.get("right"), primaryStage, "right2"), // right
-                new ButtonItem(controlsp2.get("attack"), primaryStage, "attack2"), // Attack 1
-                new ButtonItem(controlsp2.get("specialAttack"), primaryStage, "specialAttack2")); // Attack 2
+                b6, // up
+                b7, // left
+                b8, // right
+                b9, // Attack 1
+                b10); // Attack 2
         player2Box.setTranslateX((800));
         System.out.println();
         player2Box.setTranslateY(250);
         createSeperator();
 
-        getChildren().addAll(moveSetTitle, player1Title, player2Title, moveSet, player1Box, player2Box);
+        TextField tes = new TextField();
+        tes.setTranslateX(450);
+        tes.setOnAction(actionEvent->{
+            if (buttonOfPlayer=="player1"){
+                controlsp1.put(buttonPressed,tes.getCharacters().toString());
+            }else if(buttonOfPlayer=="player2"){
+                controlsp2.put(buttonPressed,tes.getCharacters().toString());
+            }
+            try {
+                JsonHandler.toJson(controlsp1,controlsp2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            tes.setText(null);
+            System.out.println(controlsp1);
+            System.out.println(controlsp2);
+        });
 
+        saveButton.setOnMouseClicked(event->{
+            if (buttonOfPlayer=="player1"){
+                controlsp1.put(buttonPressed,tes.getCharacters().toString());
+            }else if(buttonOfPlayer=="player2"){
+                controlsp2.put(buttonPressed,tes.getCharacters().toString());
+            }
+            try {
+                JsonHandler.toJson(controlsp1,controlsp2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            tes.setText(null);
+            System.out.println(controlsp1);
+            System.out.println(controlsp2);
+        });
+
+        getChildren().addAll(moveSetTitle, player1Title, player2Title, moveSet, player1Box, player2Box, tes, saveButton);
+
+    }
+
+    public void setButtonFocus(ButtonItem buttonItem){
+        for (ButtonItem button:focusedButtonItems) {
+            button.setStyle("");
+        }
+        buttonItem.setStyle("-fx-background-color: #00ff00");
     }
 
     public static HBox createSeperator() {
@@ -210,51 +348,22 @@ class ButtonItem extends StackPane {
         getChildren().addAll(bg, text);
         setOnMouseEntered(event -> {
             bg.setFill(gradient);
+            System.out.println("Test1");
             text.setFill(Color.WHITE);
 
         });
 
         setOnMouseExited(event -> {
             bg.setFill(Color.DARKRED);
+            System.out.println("Test2");
             text.setFill(Color.DARKGREY);
         });
+
         setOnMousePressed(event -> {
             bg.setFill(Color.DARKGOLDENROD);
-            Scene scene = null;
-            try {
-                scene = new Scene(Menus.createKeyBindingContent(primaryStage), Color.LIGHTBLUE);
-                primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            Scene finalScene = scene;
-            System.out.println("Test");
-            finalScene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
-                if(id.contains("2")){
-                    SettingsTable.controlsp2.put(id.substring(0, id.length() - 1), KeyEvent.getCode().toString());   
-                } else {
-                    SettingsTable.controlsp1.put(id, KeyEvent.getCode().toString());
-                }
-                
-                System.out.println("Taste gedrückt: " + KeyEvent.getText());
-                System.out.println("oder: " + KeyEvent.getCode().toString());
-
-                Scene scene2 = null;
-                try {
-                    scene2 = new Scene(createSettingsContent(primaryStage), Color.LIGHTBLUE);
-                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                primaryStage.setScene(scene2);
-
-            });
 
             primaryStage.setMaxHeight(Integer.MAX_VALUE);
             primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            primaryStage.setScene(finalScene);
         });
 
         setOnMouseReleased(event -> {

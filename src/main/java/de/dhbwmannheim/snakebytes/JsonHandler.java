@@ -50,6 +50,27 @@ public class JsonHandler {
 
     }
 
+    public static void toScoreboardJson(String[] stringArray) throws IOException {
+        JSONObject scoreboard = new JSONObject();
+        scoreboard.put("date",stringArray[0]);
+        scoreboard.put("scoreP1",stringArray[1]);
+        scoreboard.put("scoreP2",stringArray[2]);
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(scoreboard);
+
+        File file0 = new File(workingDirectory+"/scoreboard.json");
+        file0.getParentFile().mkdirs();
+        file0.createNewFile();
+
+        try (FileWriter file = new FileWriter(workingDirectory+"/scoreboard.json")) {
+            file.write(jsonArray.toJSONString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Schreibt die Steuerungseinstellungen in JSON-Datei
     public static void toJson(Hashtable<String, String> p1table, Hashtable<String, String> p2table) throws IOException {
 
@@ -119,6 +140,5 @@ public class JsonHandler {
         return playersettings;
     }
 }
-
 
 
