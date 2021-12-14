@@ -1,4 +1,4 @@
-//code by Eric Stefan
+//code by Eric Stefan, Jonas Lauschke
 
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
@@ -79,7 +79,7 @@ public class InputSystem extends System {
     //create Attack Entitys
     //param attackType (0->normal, 1->special attack 1, 2->special attack 2)
     //to remember: the coordinate system begins from the bottom left, as well as each position in PositionComponent
-    private static void setupAttack(int attackType, int direction, Vec2<Double> playerPosition, Double boundingBoxX, Double boundingBoxY) {
+    private static void setupAttack(int attackType, int direction, Vec2<Double> playerPosition, Double boundingBoxX, Double boundingBoxY, Entity entity) {
 
         Vec2<Double> temp = new Vec2<>();
         int attackStateIndex = 0;
@@ -99,11 +99,12 @@ public class InputSystem extends System {
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, temp.y));
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.001, 0.01), BoundingBoxComponent.BoxType.Attack);
-
+            var attackState = new AttackStateComponent(direction, entity.id, 0.25);
 
             Engine.registerEntity(attack);
             ComponentManager.addComponent(attack, attackPosition);
             ComponentManager.addComponent(attack, attackBoundingBox);
+            ComponentManager.addComponent(attack, attackState);
 
         } else if (attackType == 1) {
             Double helpX = 0.0;
@@ -120,7 +121,7 @@ public class InputSystem extends System {
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.01), BoundingBoxComponent.BoxType.Attack);
             var attackMotion = new MotionComponent(new Vec2<>(helpX, 0.0));
-            var attackState = new AttackStateComponent(attackStateIndex);
+            var attackState = new AttackStateComponent(attackStateIndex, entity.id);
 
             Engine.registerEntity(attack);
             ComponentManager.addComponent(attack, attackPosition);
@@ -242,10 +243,10 @@ public class InputSystem extends System {
                         characterStateComponent.attackCooldown = 1.0;
                         soundManager.playPunchSound();
                         if (characterStateComponent.lookingDirection == 0) {
-                            setupAttack(0, 0, pos, width, height);
+                            setupAttack(0, 0, pos, width, height, entity);
                             characterStateComponent.state = 2;
                         } else {
-                            setupAttack(0, 1, pos, width, height);
+                            setupAttack(0, 1, pos, width, height, entity);
                             characterStateComponent.state = 3;
                         }
                     }
@@ -256,10 +257,10 @@ public class InputSystem extends System {
                         characterStateComponent.specialAttacking = true;
                         characterStateComponent.specialAttackCooldown = 2.0;
                         if (characterStateComponent.lookingDirection == 0) {
-                            //setupAttack(1, 0, pos, width, height);
+                            setupAttack(1, 0, pos, width, height, entity);
                             characterStateComponent.state = 4;
                         } else {
-                            //setupAttack(1, 1, pos, width, height);
+                            setupAttack(1, 1, pos, width, height, entity);
                             characterStateComponent.state = 5;
                         }
 

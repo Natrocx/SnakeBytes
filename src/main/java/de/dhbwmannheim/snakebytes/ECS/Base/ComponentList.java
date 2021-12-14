@@ -27,8 +27,10 @@ public class ComponentList<T extends Component> {
     }
 
     public void removeComponent(Entity entity) {
-        removeComponentCallback.accept(entity, components.get(entity));
-        components.remove(entity);
+        if (components.containsKey(entity)) {
+            removeComponentCallback.accept(entity, components.get(entity));
+            components.remove(entity);
+        }
     }
 
     void registerCallbacks(BiConsumer<Entity, Component> addComponentCallback, BiConsumer<Entity, Component> removeComponentCallback) {
