@@ -62,14 +62,36 @@ public class GameOverlay extends StackPane {
 
         setAlignment(Pos.TOP_CENTER);
 
-        getChildren().addAll(countDown,dmgP1,dmgP2,score,timer,pause,sound,music,back);
+        getChildren().add(0,timer);
+        getChildren().add(1,score);
+        getChildren().add(2,dmgP1);
+        getChildren().add(3,dmgP2);
+        getChildren().add(4,countDown);
+        getChildren().add(5,music);
+        getChildren().add(6,sound);
+        getChildren().add(7,pause);
+        getChildren().add(8,back);
 
     }
+    /*
+    public Schadensberechnung(double ){
+        ComponentList<CharacterStateComponent> characterState = null;
 
-    public void aktualisiren (){
+        for (Entity entity: Engine.getPlayers()) {
+            CharacterStateComponent playerKnockback = characterState.getComponent(entity);
+            Schaden = playerKnockback.knockback * 100;
+            if (entity == Engine.getPlayer(1)){
 
-
+            }else
+            if (entity == Engine.getPlayer(2)){
+                double damage2 = Schaden;
+                Title2 dmg = new Title2(String.valueOf(damage2));
+            }
+        }
     }
+
+     */
+
 }
 
 class  Score extends StackPane {
@@ -83,10 +105,37 @@ class  Score extends StackPane {
 }
 
 class  Game_Timer extends StackPane {
-    public Game_Timer(int t1, Stage primaryStage) {
-        Title2 timer = new Title2("   "+t1+" sek"+"   ");
 
-        getChildren().addAll(timer);
+    public Game_Timer(int t1,Stage primaryStage) {
+        Title2 anzeige = new Title2("   "+t1+" sek"+"   ");
+
+        getChildren().addAll(anzeige);
+
+        Timer timer2 = new Timer();
+
+        timer2.scheduleAtFixedRate(new TimerTask() {
+            int c = t1;
+            public void run() {
+                if(c > 0)
+                {
+                    anzeige.getChildren().set(0, new Title2("   "+c+" sek"+"   "));
+                    System.out.println();
+                    c--;
+                }
+                else {
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(Menus.createCharakterContent(primaryStage), Color.LIGHTBLUE);
+                        primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                        primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    primaryStage.setScene(scene);
+
+                }
+            }
+        }, 3000,1000);
     }
 }
 
@@ -123,8 +172,8 @@ class CountDown extends StackPane{
         }, 420,1000);
         countd.setText("");
         c=3;
-    }
 
+    }
 }
 
 
@@ -469,27 +518,7 @@ class Schadenanzeige extends HBox {
         Title2 p1 = new Title2(player+" : ");
         Title2 dmg = new Title2(String.valueOf(Schaden));
 
-        System.out.println(String.valueOf(Menus.root.getChildren().toString()));
 
         getChildren().addAll(p1,dmg);
     }
-/*
-    //TODO children müssen noch ermittelt werden und eingefügt werden
-    public Schadensberechnung(double ){
-        ComponentList<CharacterStateComponent> characterState = null;
-
-        for (Entity entity: Engine.getPlayers()) {
-            CharacterStateComponent playerKnockback = characterState.getComponent(entity);
-            Schaden = playerKnockback.knockback * 100;
-            if (entity == Engine.getPlayer(1)){
-
-            }else
-            if (entity == Engine.getPlayer(2)){
-                double damage2 = Schaden;
-                Title2 dmg = new Title2(String.valueOf(damage2));
-            }
-        }
-    }
-
- */
 }
