@@ -13,6 +13,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Hashtable;
 
+import java.util.List;
+
+import org.json.simple.parser.ParseException;
+
 public class JsonHandler {
 
     static String workingDirectory;
@@ -22,7 +26,9 @@ public class JsonHandler {
     }
 
     //set the String workingDirectory based on the operating systems appdata specific folder and create a folder "SnakeBytes" if needed
-    public static void setDirectory() {
+
+    private static void setDirectory() {
+
         String OS = (System.getProperty("os.name")).toUpperCase();
         if (OS.contains("WIN"))//Windows
         {
@@ -34,8 +40,13 @@ public class JsonHandler {
             workingDirectory = System.getProperty("user.home");
             workingDirectory += "/.local/share/SnakeBytes";
         }else{//macOS
+
+            workingDirectory = System.getProperty("user.home");
+            workingDirectory += "/Library/Application Support/SnakeBytes";
+
             // macOS will refuse to allow access to application support for non-native applications. We will have to use the local directory instead.
             workingDirectory = ".";
+
         }
         File file = new File(workingDirectory);
         file.mkdirs();
@@ -44,6 +55,31 @@ public class JsonHandler {
     //save the default keySettings json into the working directory
     public static void saveDefaultJson(){
         setDirectory();
+        File file = new File("src/main/resources/keySettings.json");
+        file.renameTo(new File(workingDirectory+"/keySettings.json"));
+
+    }
+
+    public static void toScoreboardJson(String[] stringArray) throws IOException {
+        JSONObject scoreboard = new JSONObject();
+        scoreboard.put("date",stringArray[0]);
+        scoreboard.put("scoreP1",stringArray[1]);
+        scoreboard.put("scoreP2",stringArray[2]);
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(scoreboard);
+
+        File file0 = new File(workingDirectory+"/scoreboard.json");
+        file0.getParentFile().mkdirs();
+        file0.createNewFile();
+
+        try (FileWriter file = new FileWriter(workingDirectory+"/scoreboard.json")) {
+            file.write(jsonArray.toJSONString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         if(new File(workingDirectory + "/keySettings.json").exists())
             return; // nothing left to do
         File file2 = new File(workingDirectory);
@@ -109,10 +145,16 @@ public class JsonHandler {
         JSONObject obj2 = (JSONObject) ((JSONObject) arr.get(help)).get(player);
         for (int i = 0; i < obj2.size(); i++) {
             String temp = obj2.keySet().stream().toList().get(i).toString();
+
+            if (keyOfHashMap==KeyOfHashMap.ACTION){
+                //key= action to execute; and value= keyboard key
+                playersettings.put(temp,obj2.get(temp).toString());
+            }else if(keyOfHashMap==KeyOfHashMap.KEYBOARD_KEY){
             if (keyOfHashMap== KeyOfHashMap.ACTION){
                 //key= action to execute; and value= keyboard key
                 playersettings.put(temp,obj2.get(temp).toString());
             }else if(keyOfHashMap== KeyOfHashMap.KEYBOARD_KEY){
+              
                 //for the InputSystem it seems useful that the keyboard key is the key of the HashMap
                 //key= keyboard key; and value= action to execute
                 playersettings.put(obj2.get(temp).toString(),temp);
@@ -121,6 +163,3 @@ public class JsonHandler {
         return playersettings;
     }
 }
-
-
-

@@ -11,6 +11,15 @@ import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.scene.input.KeyEvent;
 import org.json.simple.parser.ParseException;
 
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Hashtable;
+import java.util.List;
+import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
+import de.dhbwmannheim.snakebytes.ECS.Base.*;
+import de.dhbwmannheim.snakebytes.ECS.BoundingBoxComponent;
+import de.dhbwmannheim.snakebytes.JsonHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -142,6 +151,7 @@ public class InputSystem extends System {
             //start position of motion
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, temp.y));
             //defining width and height of the attack hitbox
+            //var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.1), BoundingBoxComponent.BoxType.SpecialAttack);
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.1), BoundingBoxComponent.BoxType.Attack);
 
             var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2));
@@ -156,6 +166,7 @@ public class InputSystem extends System {
             ComponentManager.addComponent(attack, attackState);
         }
     }
+
 
 
     //saving all recent key presses since the last time the following update() function were executed
