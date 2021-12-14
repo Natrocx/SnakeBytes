@@ -1,5 +1,9 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
+
+/**
+ * Author: @Jonas Lauschke
+ *         @Thu Giang Tran
+ ***/
 
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.*;
@@ -66,21 +70,46 @@ public class Engine {
         return null;
     }
 
-    private static void setupPlatforms() {
+    private static void setupPlatforms() {   
         var ground = new Entity();
         var groundPosition = new PositionComponent(new Vec2<>(0.0, 0.02));
-        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(1.0, 0.4), BoundingBoxComponent.BoxType.Ground);
+        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(1.0, 0.305), BoundingBoxComponent.BoxType.Ground);
+
+        var platformLeft = new Entity();
+        var platformLeftPosition = new PositionComponent(new Vec2<>(0.25, 0.35));
+        var platformLeftBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+
+        var platformRight = new Entity();
+        var platformRightPosition = new PositionComponent(new Vec2<>(0.59, 0.35));
+        var platformRightBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+
+        var platformMiddle = new Entity();
+        var platformMiddlePosition = new PositionComponent(new Vec2<>(0.437, 0.52));
+        var platformMiddleBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
 
         registerEntity(ground);
         ComponentManager.addComponent(ground, groundPosition);
         ComponentManager.addComponent(ground, groundBoundingBox);
+
+        registerEntity(platformLeft);
+        ComponentManager.addComponent(platformLeft, platformLeftPosition);
+        ComponentManager.addComponent(platformLeft,platformLeftBoundingBox);
+
+        registerEntity(platformRight);
+        ComponentManager.addComponent(platformRight, platformRightPosition);
+        ComponentManager.addComponent(platformRight,platformRightBoundingBox);
+
+        registerEntity(platformMiddle);
+        ComponentManager.addComponent(platformMiddle, platformMiddlePosition);
+        ComponentManager.addComponent(platformMiddle,platformMiddleBoundingBox);
+
     }
 
     private static void setupPlayers() {
         boolean[] doublefalse = {false,false};
         var player1 = new Entity();
         var motionComponent1 = new MotionComponent();
-        var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
+        var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);  //TODO player anpassen
         var gravityComponent1 = new GravityComponent(0.1);
         var characterStateComponent1 = new CharacterStateComponent(1,3,5, CharacterMenu.rounds, new boolean[]{false, false},false,false,1,1);
 
