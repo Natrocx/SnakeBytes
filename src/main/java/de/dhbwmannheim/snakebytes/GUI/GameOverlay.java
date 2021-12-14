@@ -2,10 +2,10 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -18,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static de.dhbwmannheim.snakebytes.GUI.Menus.createEndScreenContent;
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 /**
@@ -64,6 +63,11 @@ public class GameOverlay extends StackPane {
         setAlignment(Pos.TOP_CENTER);
 
         getChildren().addAll(countDown,dmgP1,dmgP2,score,timer,pause,sound,music,back);
+
+    }
+
+    public void aktualisiren (){
+
 
     }
 }
