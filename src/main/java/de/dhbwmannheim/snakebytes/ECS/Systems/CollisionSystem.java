@@ -68,21 +68,21 @@ public class CollisionSystem extends System {
                     switch (e1BB.boxType) {
                         case Ground, HighPlatform, Screen -> {
                         }
-                        case Player -> playerCollisions(e1, e2);
-                        case Attack -> attackCollisions(e1, e2);
-                        case SpecialAttack -> specialAttackCollisions(e1, e2);
+                        case Player -> playerCollisions(e1, e2, deltaTime);
+                        case Attack -> attackCollisions(e1, e2, deltaTime);
+                        case SpecialAttack -> specialAttackCollisions(e1, e2, deltaTime);
                     }
                 }
             }
         }
     }
 
-    private void specialAttackCollisions(Entity e1, Entity e2) {
+    private void specialAttackCollisions(Entity e1, Entity e2, double deltaTime) {
         var e2BB = boundingBoxComponents.getComponent(e2);
 
         switch (e2BB.boxType) {
             case Ground, SpecialAttack, Attack, HighPlatform -> { /* do nothing */ }
-            case Player -> playerCollisions(e2, e1); // already implemented in player collisions
+            case Player -> playerCollisions(e2, e1, deltaTime); // already implemented in player collisions
             case Screen -> {
                 Engine.destroyAttack(e1);
             }
@@ -90,12 +90,12 @@ public class CollisionSystem extends System {
 
     }
 
-    private void attackCollisions(Entity e1, Entity e2) {
+    private void attackCollisions(Entity e1, Entity e2, double deltaTime) {
         var e2BB = boundingBoxComponents.getComponent(e2);
 
         switch (e2BB.boxType) {
             case Ground, Attack, HighPlatform, Screen, SpecialAttack -> { /* do nothing */ }
-            case Player -> playerCollisions(e2, e1); // already implemented in player collisions
+            case Player -> playerCollisions(e2, e1, deltaTime); // already implemented in player collisions
         }
 
     }
@@ -106,7 +106,7 @@ public class CollisionSystem extends System {
     }
 
     /// Handle collisions in case e1 is a player. Position corrections will be made inline.
-    private void playerCollisions(Entity e1, Entity e2) {
+    private void playerCollisions(Entity e1, Entity e2, double deltaTime) {
         var e1Pos = positionComponents.getComponent(e1);
         var e1BB = boundingBoxComponents.getComponent(e1);
 
@@ -116,8 +116,8 @@ public class CollisionSystem extends System {
         // Determine in which direction and how much to correct (if necessary); the values will be added onto the
         // naively determined position to determine the physically correct position.
         // Always push e1 in the direction which would result in shorter movement
-        var x_overlap = (e2Pos.value.x + e2BB.size.x) - e1Pos.value.y;
-        var y_overlap = (e2Pos.value.y + e2BB.size.y) - e1Pos.value.y;
+        var x_overlap = e1Pos.value.x > e2Pos.value.x ? (e2Pos.value.x + e2BB.size.x) - e1Pos.value.y : (e1Pos.value.x + e1BB.size.x) - e2Pos.value.x;
+        var y_overlap = e1Pos.value.y > e2Pos.value.y ? (e2Pos.value.y + e2BB.size.y) - e1Pos.value.y : (e1Pos.value.y + e1BB.size.y) - e2Pos.value.y;
 
 
         switch (e2BB.boxType) {
@@ -148,11 +148,11 @@ public class CollisionSystem extends System {
             case Player: {
                 // for player 1:
                 e1Pos.value.x += -0.5 * x_overlap;
-                e1Pos.value.y += -0.5 * y_overlap;
+                //e1Pos.value.y += -0.5 * y_overlap;
 
                 // for player 2 (correct into other direction):
                 e2Pos.value.x += 0.5 * x_overlap;
-                e2Pos.value.y += 0.5 * y_overlap;
+                //e2Pos.value.y += 0.5 * y_overlap;
 
                 motionComponents.getComponent(e1).velocity.y = 0.0;
                 motionComponents.getComponent(e1).velocity.x = 0.0;
@@ -166,6 +166,8 @@ public class CollisionSystem extends System {
             // there are no corrections to be made inline so the system will simply emit the corresponding component
             case SpecialAttack:
             case Attack:
+                java.lang.System.out.println("Player-Attack Collision: " + e1.id + " " + ComponentManager.getComponent(e2, AttackStateComponent.class).emittingEntity);
+                //if (ComponentManager.getComponent(e2, AttackStateComponent.class).emittingEntity != e1.id)
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(new Vec2<>(
                         x_overlap, y_overlap
                 )));

@@ -59,7 +59,9 @@ public class Engine {
         ComponentManager.registerComponentList(ScreenBorderCollisionComponent.class);
         ComponentManager.registerComponentList(CharacterStateComponent.class);
         ComponentManager.registerComponentList(GravityComponent.class);
+        ComponentManager.registerComponentList(AttackStateComponent.class);
 
+        registerSystem(new CleanupSystem());
         registerSystem(new MotionSystem());
         registerSystem(new CollisionSystem());
         registerSystem(new KnockoutSystem());
@@ -220,11 +222,12 @@ public class Engine {
     }
 
     public static void destroyEntity(Entity entity) {
+
+        ComponentManager.destroyComponents(entity);
         for (ISystem system : systems) {
             system.removeEntity(entity);
         }
 
-        ComponentManager.destroyComponents(entity);
     }
 
     public static void reset() {
@@ -232,8 +235,13 @@ public class Engine {
         ComponentManager.addComponent(players[0], POSITION_COMPONENT_1.copy());
         ComponentManager.addComponent(players[1], POSITION_COMPONENT_2.copy());
 
+        for (Entity entity : attackList) {
+            destroyAttack(entity);
+        }
+
         ComponentManager.clearComponents(AttackCollisionComponent.class);
         ComponentManager.clearComponents(ScreenBorderCollisionComponent.class);
+        ComponentManager.clearComponents(AttackStateComponent.class);
     }
 
     /**
