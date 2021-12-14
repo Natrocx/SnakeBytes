@@ -2,6 +2,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //Code by Kai Schwab
 
+import de.dhbwmannheim.snakebytes.JsonHandler;
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
@@ -29,6 +30,7 @@ public class Menus extends Application {
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
+        JsonHandler.saveDefaultJson();
         primaryStage.setTitle("SNAKE BYTES");
         primaryStage.setResizable(false);
         Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
