@@ -34,14 +34,18 @@ public class JsonHandler {
             workingDirectory = System.getProperty("user.home");
             workingDirectory += "/.local/share/SnakeBytes";
         }else{//macOS
-            workingDirectory = System.getProperty("user.home");
-            workingDirectory += "/Library/Application Support/SnakeBytes";
+            // macOS will refuse to allow access to application support for non-native applications. We will have to use the local directory instead.
+            workingDirectory = ".";
         }
+        File file = new File(workingDirectory);
+        file.mkdirs();
     }
 
     //save the default keySettings json into the working directory
     public static void saveDefaultJson(){
         setDirectory();
+        if(new File(workingDirectory + "/keySettings.json").exists())
+            return; // nothing left to do
         File file2 = new File(workingDirectory);
         file2.mkdirs();
         File file = new File("src/main/resources/keySettings.json");
