@@ -1,7 +1,8 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
 
-import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
+import de.dhbwmannheim.snakebytes.ECS.Base.*;
+import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
+import java.lang.System;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -33,8 +35,8 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 public class GameOverlay extends StackPane {
     int counter = 3;
-    int scP1 = 0;
-    int scP2 = 0;
+    static int scP1 = 0;
+    static int scP2 = 1;
     public GameOverlay(Stage primaryStage) {
         MiniBack back = new MiniBack(primaryStage);
         back.setTranslateX(-80);
@@ -77,6 +79,73 @@ public class GameOverlay extends StackPane {
         getChildren().add(7,pause);
         getChildren().add(8,back);
 
+        //Update Schleife
+        Timeline timeline2 = new Timeline(new KeyFrame(
+                Duration.millis(10),
+                ae -> {
+                    Score score_n = new Score(scP1,scP2,primaryStage);
+                    score_n.setTranslateX(550);
+                    score_n.setTranslateY(-70);
+                    getChildren().set(1, score_n);
+                    /*
+                    ComponentList<CharacterStateComponent> characterState = null;
+                    for (Entity entity: Engine.getPlayers()) {
+                        CharacterStateComponent playerKnockback = characterState.getComponent(entity);
+                        double Schaden = playerKnockback.knockback * 100;
+                        if (entity == Engine.getPlayer(1)){
+                            Schadenanzeige dmgP1_n= new Schadenanzeige("P1",Schaden);
+                            dmgP1_n.setTranslateX(10);
+                            dmgP1_n.setTranslateY(700);
+                            getChildren().set(2, dmgP1_n);
+
+                        }else
+                        if (entity == Engine.getPlayer(2)){
+                            Schadenanzeige dmgP2_n= new Schadenanzeige("P2",Schaden);
+                            dmgP2_n.setTranslateX(1100);
+                            dmgP2_n.setTranslateY(700);
+                            getChildren().set(3, dmgP2_n);
+                        }
+                    }
+                     */
+                    if(scP1==CharacterMenu.rounds) {
+                        EndScreen.winner= "P1";
+                        Scene scene=null;
+                        try {
+                            try {
+                                Menus.mediaplayer.pauseMusic();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
+                            primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                            primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        primaryStage.setScene(scene);
+                    }
+                    if(scP2==CharacterMenu.rounds) {
+                        EndScreen.winner= "P2";
+                        Scene scene=null;
+                        try {
+                            try {
+                                Menus.mediaplayer.pauseMusic();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
+                            primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                            primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        primaryStage.setScene(scene);
+                    }
+                }));
+        timeline2.setCycleCount(Animation.INDEFINITE);
+        timeline2.play();
+
+
 
     }
 }
@@ -112,6 +181,12 @@ class  Game_Timer extends StackPane {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+                            if(GameOverlay.scP1>GameOverlay.scP2){
+                                EndScreen.winner="P1";
+                            }
+                            if(GameOverlay.scP1<GameOverlay.scP2){
+                                EndScreen.winner="P2";
+                            }
                             scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
                             primaryStage.setMaxWidth(Integer.MAX_VALUE);
@@ -123,10 +198,6 @@ class  Game_Timer extends StackPane {
                 }));
         timeline.setCycleCount(t+1);
         timeline.play();
-
-
-
-
 
     }
 }

@@ -11,7 +11,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 public class EndScreen extends VBox {
-    String winner = "P1";
+    public static String winner = "P1";
     public EndScreen(Stage primaryStage){
         Title2 title = new Title2("The Winner is "+winner);
 

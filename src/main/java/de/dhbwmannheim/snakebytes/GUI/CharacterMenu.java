@@ -78,7 +78,7 @@ class Title2 extends StackPane {
 
 class SideMenu1 extends VBox {
     public SideMenu1( Stage primaryStage){
-        SideMenuItem left1 = new SideMenuItem("Tunier", primaryStage);
+        SideMenuItem left1 = new SideMenuItem("Erklärungen", primaryStage);
         SideMenuValueSelect left2 = new SideMenuValueSelect("Points",String.valueOf(CharacterMenu.rounds), primaryStage);
         getChildren().addAll(left1,createSeperator(),left2);
 
@@ -235,8 +235,26 @@ class SideMenuItem extends StackPane {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
+            }
+            if (name == "Erklärungen") {
+                try {
+                    scene = new Scene(Menus.createImpressumContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene);
+            }
+            if (name == "Weiter") {
+                try {
+                    scene = new Scene(Menus.createCharakterContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene);
             }
 
         });
