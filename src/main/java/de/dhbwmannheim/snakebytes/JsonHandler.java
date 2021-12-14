@@ -38,13 +38,13 @@ public class JsonHandler {
             workingDirectory = System.getProperty("user.home");
             workingDirectory += "/Library/Application Support/SnakeBytes";
         }
+        File file = new File(workingDirectory);
+        file.mkdirs();
     }
 
     //save the default keySettings json into the working directory
     public static void saveDefaultJson(){
         setDirectory();
-        File file2 = new File(workingDirectory);
-        file2.mkdirs();
         File file = new File("src/main/resources/keySettings.json");
         file.renameTo(new File(workingDirectory+"/keySettings.json"));
 
