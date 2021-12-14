@@ -1,12 +1,24 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
-import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
-import de.dhbwmannheim.snakebytes.ECS.Systems.KnockoutSystem;
-import de.dhbwmannheim.snakebytes.ECS.Systems.MotionSystem;
+import de.dhbwmannheim.snakebytes.ECS.Systems.*;
 import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+
+import java.time.Duration;
+import java.time.Instant;
+/**
+ * Author: @Jonas Lauschke
+ *         @Thu Giang Tran
+ ***/
+
+import de.dhbwmannheim.snakebytes.ECS.*;
+import de.dhbwmannheim.snakebytes.ECS.Systems.*;
+import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
+import de.dhbwmannheim.snakebytes.Render.FrameHandler;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.time.Duration;
@@ -14,16 +26,18 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Engine {
 
     public static ArrayList<Entity> attackList = new ArrayList<>();
 
-    public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.2222, 0.6833));
-    public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.7407, 0.6833));
+    public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.2222, 0.3167));
+    public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.7407, 0.3167));
     private static final List<ISystem> systems = new ArrayList<>();
     private static final Entity[] players = new Entity[2];
     private static Victory finish = null;
+    private static InputSystem inputSystem;
 
     public static void registerSystem(System sys) {
         systems.add(sys);
@@ -45,24 +59,60 @@ public class Engine {
         ComponentManager.registerComponentList(ScreenBorderCollisionComponent.class);
         ComponentManager.registerComponentList(CharacterStateComponent.class);
         ComponentManager.registerComponentList(GravityComponent.class);
+        ComponentManager.registerComponentList(AttackStateComponent.class);
 
+        registerSystem(new CleanupSystem());
         registerSystem(new MotionSystem());
         registerSystem(new CollisionSystem());
         registerSystem(new KnockoutSystem());
+        registerSystem(new AttackSystem());
+        inputSystem = new InputSystem();
+        registerSystem(inputSystem);
 
         setupPlayers();
         setupScreenBorders();
         setupPlatforms();
     }
 
+    public static Consumer<KeyEvent> getKeyPressedCallback() {
+        if(inputSystem != null) {
+            return inputSystem::keyPressed;
+        }
+        return null;
+    }
+
     private static void setupPlatforms() {
         var ground = new Entity();
-        var groundPosition = new PositionComponent(new Vec2<>(0.1, 0.2));
-        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.8, 0.1), BoundingBoxComponent.BoxType.Ground);
+        var groundPosition = new PositionComponent(new Vec2<>(0.21, 0.01));
+        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.58, 0.305), BoundingBoxComponent.BoxType.Ground);
+
+        var platformLeft = new Entity();
+        var platformLeftPosition = new PositionComponent(new Vec2<>(0.28, 0.46));
+        var platformLeftBoundingBox = new BoundingBoxComponent(new Vec2<>(0.085, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+
+        var platformRight = new Entity();
+        var platformRightPosition = new PositionComponent(new Vec2<>(0.65, 0.46));
+        var platformRightBoundingBox = new BoundingBoxComponent(new Vec2<>(0.085, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+
+        var platformMiddle = new Entity();
+        var platformMiddlePosition = new PositionComponent(new Vec2<>(0.47, 0.638));
+        var platformMiddleBoundingBox = new BoundingBoxComponent(new Vec2<>(0.085, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
 
         registerEntity(ground);
         ComponentManager.addComponent(ground, groundPosition);
         ComponentManager.addComponent(ground, groundBoundingBox);
+
+        registerEntity(platformLeft);
+        ComponentManager.addComponent(platformLeft, platformLeftPosition);
+        ComponentManager.addComponent(platformLeft,platformLeftBoundingBox);
+
+        registerEntity(platformRight);
+        ComponentManager.addComponent(platformRight, platformRightPosition);
+        ComponentManager.addComponent(platformRight,platformRightBoundingBox);
+
+        registerEntity(platformMiddle);
+        ComponentManager.addComponent(platformMiddle, platformMiddlePosition);
+        ComponentManager.addComponent(platformMiddle,platformMiddleBoundingBox);
     }
 
     private static void setupPlayers() {
@@ -71,12 +121,13 @@ public class Engine {
         var motionComponent1 = new MotionComponent();
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent1 = new GravityComponent(0.1);
-        var characterStateComponent1 = new CharacterStateComponent(1,3,5, CharacterMenu.rounds,doublefalse,false,false,1,1);
+        var positionComponent1 = new PositionComponent(new Vec2<>(0.2222, 0.16));
+        var characterStateComponent1 = new CharacterStateComponent(1,0,0, CharacterMenu.rounds, new boolean[]{false, false},false,false,1,1);
 
         registerEntity(player1);
         players[0] = player1;
         ComponentManager.addComponent(player1, motionComponent1);
-        ComponentManager.addComponent(player1, POSITION_COMPONENT_1.copy());
+        ComponentManager.addComponent(player1, positionComponent1);
         ComponentManager.addComponent(player1, boundingBoxComponent1);
         ComponentManager.addComponent(player1, gravityComponent1);
         ComponentManager.addComponent(player1,characterStateComponent1);
@@ -85,12 +136,13 @@ public class Engine {
         var motionComponent2 = new MotionComponent();
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent2 = new GravityComponent(0.1);
-        var characterStateComponent2 = new CharacterStateComponent(1,0,5, CharacterMenu.rounds,doublefalse,false,false,0,0);
+        var positionComponent2 = new PositionComponent(new Vec2<>(0.7407, 0.16));
+        var characterStateComponent2 = new CharacterStateComponent(1,0,5, CharacterMenu.rounds,new boolean[]{false, false},false,false,0,0);
 
         registerEntity(player2);
         players[1] = player2;
         ComponentManager.addComponent(player2, motionComponent2);
-        ComponentManager.addComponent(player2, POSITION_COMPONENT_2.copy());
+        ComponentManager.addComponent(player2, positionComponent2);
         ComponentManager.addComponent(player2, boundingBoxComponent2);
         ComponentManager.addComponent(player2, gravityComponent2);
         ComponentManager.addComponent(player2,characterStateComponent2);
@@ -170,19 +222,26 @@ public class Engine {
     }
 
     public static void destroyEntity(Entity entity) {
+
+        ComponentManager.destroyComponents(entity);
         for (ISystem system : systems) {
             system.removeEntity(entity);
         }
 
-        ComponentManager.destroyComponents(entity);
     }
 
     public static void reset() {
+        java.lang.System.out.println("reset");
         ComponentManager.addComponent(players[0], POSITION_COMPONENT_1.copy());
         ComponentManager.addComponent(players[1], POSITION_COMPONENT_2.copy());
 
+        for (Entity entity : attackList) {
+            destroyAttack(entity);
+        }
+
         ComponentManager.clearComponents(AttackCollisionComponent.class);
         ComponentManager.clearComponents(ScreenBorderCollisionComponent.class);
+        ComponentManager.clearComponents(AttackStateComponent.class);
     }
 
     /**
@@ -202,18 +261,16 @@ public class Engine {
         }
     }
 
-    public static Victory run(FrameHandler frameHandler, Stage primaryStage) throws Exception {
+    public static Victory run() throws Exception {
 
         Instant last = Instant.now();
         // TODO: get cancel condition from input system
-        while (finish != null) {
+        while (finish == null) {
             Instant now = Instant.now();
             /* Systems will be executed in order of registration - see setup for further information */
-            for (ISystem sys : systems) {
-                update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
-            }
+            update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
             last = now;
-            frameHandler.update(primaryStage);
+
         }
         return finish;
     }

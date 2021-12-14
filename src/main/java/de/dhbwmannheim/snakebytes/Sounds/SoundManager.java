@@ -1,10 +1,10 @@
 package de.dhbwmannheim.snakebytes.Sounds;
 
-/*
+/**
  * Author: @Kirolis Eskondis
  *         @Thu Giang Tran
- * This class implements the sound effects during a fight
- * */
+ * This class implements the background music during a fight
+ ***/
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -34,21 +34,22 @@ public class SoundManager {
     //to test if simultanious attacks are possible
     public void playJumpSound() throws Exception {
 
+        playerJump.stop();
         playerJump.play();
     }
 
     public void playPunchSound() throws Exception {
-
+        playerPunch.stop();
         playerPunch.play();
     }
 
     public void playSpAttack1() throws Exception {
-
+        playerSpAttack1.stop();
         playerSpAttack1.play();
     }
 
     public void playSpAttack2() throws Exception {
-
+        playerSpAttack2.stop();
         playerSpAttack2.play();
     }
 

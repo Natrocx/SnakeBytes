@@ -6,18 +6,21 @@ import de.dhbwmannheim.snakebytes.ECS.AttackStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
-import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.PositionComponent;
+import de.dhbwmannheim.snakebytes.ECS.Systems.InputSystem;
 import de.dhbwmannheim.snakebytes.ECS.Vec2;
 import de.dhbwmannheim.snakebytes.GUI.Menus;
+import de.dhbwmannheim.snakebytes.GUI.PressKeyWindow;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -25,10 +28,12 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Array;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Consumer;
 
 /** Author: @Kirolis Eskondis
  * This class defines the FrameHandler which renders every frame the user sees
@@ -50,7 +55,7 @@ public class FrameHandler extends StackPane {
     ArrayList<ImageView> spcAttacksP1 = initializeGraphics("attackP1");
     ArrayList<ImageView> spcAttacksP2 = initializeGraphics("attackP2");
 
-    public FrameHandler (Stage primaryStage) throws Exception {
+    public FrameHandler (Stage primaryStage, Consumer<KeyEvent> keyPressCallback) throws Exception {
 
         //Images for entities are set in their starting positions
         ImageView p1start = imagesP1.get(1);
@@ -76,33 +81,53 @@ public class FrameHandler extends StackPane {
         Menus.root.getChildren().add(4,spcAttack1start);
         Menus.root.getChildren().add(5,spcAttack2start);
         scene = new Scene(Menus.root);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
+                    java.lang.System.out.println("Taste gedrückt: " + KeyEvent.getText());
+                    System.out.println("oder: " + KeyEvent.getCode().toString());
+                    PressKeyWindow.Key = KeyEvent.getCode().toString();
+                    if(keyPressCallback != null){
+                        keyPressCallback.accept(KeyEvent);
+                    }
+                });
         primaryStage.setScene(scene);
     }
 
 
     public void update(Stage primaryStage){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
 
         Entity player1 = Engine.getPlayer(0);
         Entity player2 = Engine.getPlayer(1);
-        var position1 = ComponentManager.getComponentList(PositionComponent.class).getComponent(player1);
-        var position2 = ComponentManager.getComponentList(PositionComponent.class).getComponent(player2);
-        var player1state = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(player1).state;
-        var player2state = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(player2).state;
+        var positionComponent = ComponentManager.getComponentList(PositionComponent.class);
+        var playerstate = ComponentManager.getComponentList(CharacterStateComponent.class);
 
-        ImageView p1 = imagesP1.get(player1state);
-        if(player1state>1){
-            p1.setFitWidth(73);
-        }
+        var position1 = positionComponent.getComponent(player1);
+        if(playerstate.getComponent(player1) != null){
+            ImageView p1 = imagesP1.get(playerstate.getComponent(player1).state);
+            if(playerstate.getComponent(player1).state >1){
+                p1.setFitWidth(73);
+            }
         replace(p1,2,position1);
-
-
-
-        ImageView p2 = imagesP2.get(player2state);
-        if(player2state>1){
-            p2.setFitWidth(68);
         }
-        replace(p2,3,position2);
 
+        var position2 = positionComponent.getComponent(player2);
+        if(playerstate.getComponent(player2) != null){
+            ImageView p2 = imagesP2.get(playerstate.getComponent(player2).state);
+            if(playerstate.getComponent(player2).state>1){
+                p2.setFitWidth(68);
+            }
+        replace(p2,3,position2);
+        }
+
+        /*
+        if(positionComponent1 !=null){
+
+        }
+        if(positionComponent2 !=null){
+
+        }*/
 
         if(Engine.attackList.size() == 1){
 
@@ -135,14 +160,18 @@ public class FrameHandler extends StackPane {
                 }
             }
         }
-        scene.setRoot(Menus.root);
-        primaryStage.setScene(scene);
+
+                scene.setRoot(Menus.root);
+                primaryStage.setScene(scene);
+            }
+        });
+
 
     }
 
     //
     public void replace(ImageView pic, int index, PositionComponent position){
-        pic.setTranslateY(position.value.y * 900);
+        pic.setTranslateY((1 - position.value.y) * 900);
         pic.setTranslateX(position.value.x * 1350);
         Menus.root.getChildren().remove(index);
         Menus.root.getChildren().add(index,pic);

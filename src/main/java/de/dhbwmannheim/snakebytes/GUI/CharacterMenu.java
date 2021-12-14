@@ -1,11 +1,15 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
 //by Kai Schwab
+//   Kirolis Eskondis
 
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
 import de.dhbwmannheim.snakebytes.ECS.Systems.InputSystem;
+import de.dhbwmannheim.snakebytes.EngineLoop;
+import de.dhbwmannheim.snakebytes.JsonHandler;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -27,6 +31,9 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Objects;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
@@ -221,30 +228,41 @@ class SideMenuItem extends StackPane {
         setOnMousePressed(event -> {
             Scene scene = null;
             bg.setFill(Color.DARKGOLDENROD);
-            if (name == "Start") {
+            if (Objects.equals(name, "Start")) {
+                JsonHandler.saveDefaultJson();
+                FrameHandler frameHandler = null;
 
+                try {
                     Engine.setup();
-                FrameHandler framehandler = null;
-                try {
-                    framehandler = new FrameHandler(primaryStage);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                framehandler.update(primaryStage);
-                try {
-                    Engine.run(framehandler, primaryStage);
+                    frameHandler = new FrameHandler(primaryStage, Engine.getKeyPressedCallback());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
+                FrameHandler finalFrameHandler = frameHandler;
+                startRender(finalFrameHandler,primaryStage);
 
+            EngineLoop loop = new EngineLoop();
+            loop.start();
             }
-
         });
 
         setOnMouseReleased(event -> {
             bg.setFill(gradient);
         });
+    }
+
+    public void startRender(FrameHandler frameHandler, Stage primaryStage){
+        new Thread(() -> {
+            while(true){
+                frameHandler.update(primaryStage);
+                try {
+                    Thread.sleep(35);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }
 
