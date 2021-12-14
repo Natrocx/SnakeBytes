@@ -1,5 +1,18 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
+
+import de.dhbwmannheim.snakebytes.ECS.*;
+import de.dhbwmannheim.snakebytes.ECS.Systems.*;
+import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
+import de.dhbwmannheim.snakebytes.Render.FrameHandler;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+
+import java.time.Duration;
+import java.time.Instant;
+/**
+ * Author: @Jonas Lauschke
+ *         @Thu Giang Tran
+ ***/
 
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.*;
@@ -68,12 +81,36 @@ public class Engine {
 
     private static void setupPlatforms() {
         var ground = new Entity();
-        var groundPosition = new PositionComponent(new Vec2<>(0.22, 0.01));
-        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.56, 0.305), BoundingBoxComponent.BoxType.Ground);
+        var groundPosition = new PositionComponent(new Vec2<>(0.0, 0.02));
+        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(1.0, 0.305), BoundingBoxComponent.BoxType.Ground);
+
+        var platformLeft = new Entity();
+        var platformLeftPosition = new PositionComponent(new Vec2<>(0.25, 0.35));
+        var platformLeftBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+
+        var platformRight = new Entity();
+        var platformRightPosition = new PositionComponent(new Vec2<>(0.59, 0.35));
+        var platformRightBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+
+        var platformMiddle = new Entity();
+        var platformMiddlePosition = new PositionComponent(new Vec2<>(0.437, 0.52));
+        var platformMiddleBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
 
         registerEntity(ground);
         ComponentManager.addComponent(ground, groundPosition);
         ComponentManager.addComponent(ground, groundBoundingBox);
+
+        registerEntity(platformLeft);
+        ComponentManager.addComponent(platformLeft, platformLeftPosition);
+        ComponentManager.addComponent(platformLeft,platformLeftBoundingBox);
+
+        registerEntity(platformRight);
+        ComponentManager.addComponent(platformRight, platformRightPosition);
+        ComponentManager.addComponent(platformRight,platformRightBoundingBox);
+
+        registerEntity(platformMiddle);
+        ComponentManager.addComponent(platformMiddle, platformMiddlePosition);
+        ComponentManager.addComponent(platformMiddle,platformMiddleBoundingBox);
     }
 
     private static void setupPlayers() {
