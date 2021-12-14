@@ -198,15 +198,15 @@ class ButtonItem extends StackPane{
             text.setFill(Color.DARKGREY);
         });
         setOnMousePressed(event -> {
-                    bg.setFill(Color.DARKGOLDENROD);
-                    Scene scene = null;
-                    try {
-                        scene = new Scene(Menus.createKeyBindingContent(primaryStage), Color.LIGHTBLUE);
-                        primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                        primaryStage.setMaxWidth(Integer.MAX_VALUE);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+            bg.setFill(Color.DARKGOLDENROD);
+            Scene scene = null;
+            try {
+                scene = new Scene(Menus.createKeyBindingContent(primaryStage), Color.LIGHTBLUE);
+                primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                primaryStage.setMaxWidth(Integer.MAX_VALUE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             Scene finalScene = scene;
             finalScene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
                 System.out.println("Taste gedrückt: " + KeyEvent.getText());
