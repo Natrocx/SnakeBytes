@@ -81,20 +81,20 @@ public class Engine {
 
     private static void setupPlatforms() {
         var ground = new Entity();
-        var groundPosition = new PositionComponent(new Vec2<>(0.0, 0.02));
-        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(1.0, 0.305), BoundingBoxComponent.BoxType.Ground);
+        var groundPosition = new PositionComponent(new Vec2<>(0.21, 0.01));
+        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.58, 0.305), BoundingBoxComponent.BoxType.Ground);
 
         var platformLeft = new Entity();
-        var platformLeftPosition = new PositionComponent(new Vec2<>(0.25, 0.35));
-        var platformLeftBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+        var platformLeftPosition = new PositionComponent(new Vec2<>(0.28, 0.46));
+        var platformLeftBoundingBox = new BoundingBoxComponent(new Vec2<>(0.085, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
 
         var platformRight = new Entity();
-        var platformRightPosition = new PositionComponent(new Vec2<>(0.59, 0.35));
-        var platformRightBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+        var platformRightPosition = new PositionComponent(new Vec2<>(0.65, 0.46));
+        var platformRightBoundingBox = new BoundingBoxComponent(new Vec2<>(0.085, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
 
         var platformMiddle = new Entity();
-        var platformMiddlePosition = new PositionComponent(new Vec2<>(0.437, 0.52));
-        var platformMiddleBoundingBox = new BoundingBoxComponent(new Vec2<>(0.124, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
+        var platformMiddlePosition = new PositionComponent(new Vec2<>(0.47, 0.638));
+        var platformMiddleBoundingBox = new BoundingBoxComponent(new Vec2<>(0.085, 0.033), BoundingBoxComponent.BoxType.HighPlatform);
 
         registerEntity(ground);
         ComponentManager.addComponent(ground, groundPosition);
@@ -120,7 +120,7 @@ public class Engine {
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent1 = new GravityComponent(0.1);
         var positionComponent1 = new PositionComponent(new Vec2<>(0.2222, 0.16));
-        var characterStateComponent1 = new CharacterStateComponent(1,3,5, CharacterMenu.rounds, new boolean[]{false, false},false,false,1,1);
+        var characterStateComponent1 = new CharacterStateComponent(1,0,0, CharacterMenu.rounds, new boolean[]{false, false},false,false,1,1);
 
         registerEntity(player1);
         players[0] = player1;

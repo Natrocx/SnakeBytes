@@ -58,7 +58,7 @@ public class InputSystem extends System {
     ComponentList<BoundingBoxComponent> boundingBox;
     ComponentList<PositionComponent> position;
     List<String> pressedKeys = new ArrayList<>();
-    SoundManager soundManager;
+    SoundManager soundManager = new SoundManager();
 
     public InputSystem() {
         signature = new BitSet();
@@ -72,6 +72,7 @@ public class InputSystem extends System {
         characterState = ComponentManager.getComponentList(CharacterStateComponent.class);
         boundingBox = ComponentManager.getComponentList(BoundingBoxComponent.class);
         position = ComponentManager.getComponentList(PositionComponent.class);
+
 
     }
 
@@ -163,22 +164,143 @@ public class InputSystem extends System {
         pressedKeys.add(code);
     }
 
+    public void translateKeyInput(String temp, Entity entity, double deltaTime, int i) throws Exception {
+
+        MotionComponent motionComponent = motion.getComponent(entity);
+        CharacterStateComponent characterStateComponent = characterState.getComponent(entity);
+        BoundingBoxComponent boundingBoxComponent = boundingBox.getComponent(entity);
+        PositionComponent positionComponent = position.getComponent(entity);
+
+        //reduce attack cooldowns
+        if (characterStateComponent != null) {
+            if(characterStateComponent.attackCooldown > 0){
+                double val = characterStateComponent.attackCooldown;
+                val = val - 0.2;
+                val = val *100;
+                val = Math.round(val);
+                val = val / 100;
+                characterStateComponent.attackCooldown = val;
+            }
+            if(characterStateComponent.specialAttackCooldown > 0){
+                double val = characterStateComponent.specialAttackCooldown;
+                val = val - 0.2;
+                val = val *100;
+                val = Math.round(val);
+                val = val / 100;
+                characterStateComponent.specialAttackCooldown = val;
+            }
+
+
+            if(characterStateComponent.state == 2 || characterStateComponent.state == 4){
+                characterStateComponent.state = 0;
+            }
+            if(characterStateComponent.state == 3 || characterStateComponent.state == 5){
+                characterStateComponent.state = 1;
+            }
+        }
+
+        if (!temp.equals("")) {
+            Double width = boundingBoxComponent.size.x;
+            Double height = boundingBoxComponent.size.y;
+            Vec2<Double> pos = positionComponent.value;
+            //mapping the action which should be executed towards the pressed key
+            switch (temp) {
+                case "right":
+                    motionComponent.velocity.x = 0.05;
+                    characterStateComponent.state = 1;
+                    characterStateComponent.lookingDirection = 1;
+                    characterStateComponent.specialAttacking = false;
+                    characterStateComponent.attacking = false;
+                    break;
+                case "left":
+                    motionComponent.velocity.x = -0.05;
+                    characterStateComponent.state = 0;
+                    characterStateComponent.lookingDirection = 0;
+                    characterStateComponent.specialAttacking = false;
+                    characterStateComponent.attacking = false;
+                    break;
+                case "jump":
+                    //if no double jump is active
+                    if (multiJump(characterStateComponent.jumping) == false) {
+                        motionComponent.velocity.y = 0.15; //jump
+                        characterStateComponent.specialAttacking = false;
+                        characterStateComponent.attacking = false;
+                        soundManager.playJumpSound();
+                        //since the player jumps this has to be saved in the boolean Array jumping[]
+                        if (characterStateComponent.jumping[0] != true) {
+                            characterStateComponent.jumping[0] = true;
+                        } else {
+                            characterStateComponent.jumping[1] = true;
+                        }
+                    }
+                    break;
+                case "attack":
+                    //if there is no attack cooldown -> attack and set attackCooldown
+                    if (characterStateComponent.attackCooldown == 0) {
+                        characterStateComponent.attacking = true;
+                        characterStateComponent.attackCooldown = 1.0;
+                        soundManager.playPunchSound();
+                        if (characterStateComponent.lookingDirection == 0) {
+                            setupAttack(0, 0, pos, width, height);
+                            characterStateComponent.state = 2;
+                        } else {
+                            setupAttack(0, 1, pos, width, height);
+                            characterStateComponent.state = 3;
+                        }
+                    }
+                    break;
+                case "specialAttack":
+                    //if there is no special attack cooldown -> attack and set attackCooldown
+                    if (characterStateComponent.specialAttackCooldown == 0) {
+                        characterStateComponent.specialAttacking = true;
+                        characterStateComponent.specialAttackCooldown = 2.0;
+                        if (characterStateComponent.lookingDirection == 0) {
+                            setupAttack(1, 0, pos, width, height);
+                            characterStateComponent.state = 4;
+                        } else {
+                            setupAttack(1, 1, pos, width, height);
+                            characterStateComponent.state = 5;
+                        }
+
+                        if (i == 0) {
+                            soundManager.playSpAttack1();
+                        } else {
+                            soundManager.playSpAttack2();
+                        }
+                        break;
+/*
+                        //for each player play the specific sound of the special attack
+                        //and set the specific specialAttackCooldown
+                        if (player1KeySettings.containsKey(key)) {
+                            characterStateComponent.specialAttackCooldown = 2.0;
+                            if (characterStateComponent.lookingDirection == 0) {
+                                setupAttack(1, 0, pos, width, height);
+                                characterStateComponent.state = 4;
+                            } else {
+                                setupAttack(1, 1, pos, width, height);
+                                characterStateComponent.state = 5;
+                            }
+                            //soundManager.playSpAttack1();
+                        } else {
+                            characterStateComponent.specialAttackCooldown = 2.5;
+                            if (characterStateComponent.lookingDirection == 0) {
+                                setupAttack(2, 0, pos, width, height);
+                                characterStateComponent.state = 4;
+                            } else {
+                                setupAttack(2, 1, pos, width, height);
+                                characterStateComponent.state = 5;
+                            }
+                            //soundManager.playSpAttack2();
+                        }
+                    }
+                    break;*/
+                    }
+            }
+        }
+    }
+
     @Override
     public void update(double deltaTime) throws Exception {
-
-        for (int i = 0; i < entities.size(); i++) {
-            var entity = entities.get(i);
-
-            MotionComponent motionComponent = motion.getComponent(entity);
-            CharacterStateComponent characterStateComponent = characterState.getComponent(entity);
-            BoundingBoxComponent boundingBoxComponent = boundingBox.getComponent(entity);
-            PositionComponent positionComponent = position.getComponent(entity);
-
-            //reduce attack cooldowns
-            if(characterStateComponent != null) {
-                characterStateComponent.attackCooldown = characterStateComponent.attackCooldown - deltaTime;
-                characterStateComponent.specialAttackCooldown = characterStateComponent.specialAttackCooldown - deltaTime;
-            }
 
             //iterate over all pressed keys, that did not were processed (since pressedKeys only contains not processed keys)
             for (int j = 0; j < pressedKeys.size(); j++) {
@@ -186,98 +308,27 @@ public class InputSystem extends System {
 
                 String temp = "";
                 //if the key has an action for player1 or player2, this action gets saved into String "temp"
-                if (player1KeySettings.containsKey(key))
+                if (player1KeySettings.containsKey(key)){
+                    int i = 0;
+                    var entity = entities.get(i);
                     temp = player1KeySettings.get(key);
-                if (player2KeySettings.containsKey(key))
+                    translateKeyInput(temp,entity, deltaTime, i);
+                }
+
+                if (player2KeySettings.containsKey(key)){
+                    int i = 1;
+                    var entity = entities.get(i);
                     temp = player2KeySettings.get(key);
+                    translateKeyInput(temp,entity, deltaTime, i);
 
                 //if an action should be executed
-                if (!temp.equals("")) {
-                    Double width = boundingBoxComponent.size.x;
-                    Double height = boundingBoxComponent.size.y;
-                    Vec2<Double> pos = positionComponent.value;
-                    //mapping the action which should be executed towards the pressed key
-                    switch (temp) {
-                        case "right":
-                            motionComponent.velocity.x = 0.005;
-                            characterStateComponent.state = 1;
-                            characterStateComponent.lookingDirection = 1;
-                            break;
-                        case "left":
-                            motionComponent.velocity.x = -0.005;
-                            characterStateComponent.state = 0;
-                            characterStateComponent.lookingDirection = 0;
-                            break;
-                        case "jump":
-                            //if no double jump is active
-                            if (multiJump(characterStateComponent.jumping) == false) {
-                                motionComponent.velocity.y = 0.01; //jump
-                                soundManager.playJumpSound();
-                                //since the player jumps this has to be saved in the boolean Array jumping[]
-                                if (characterStateComponent.jumping[0] != true) {
-                                    characterStateComponent.jumping[0] = true;
-                                } else {
-                                    characterStateComponent.jumping[1] = true;
-                                }
-                            }
-                            break;
-                        case "attack":
-                            //if there is no attack cooldown -> attack and set attackCooldown
-                            if (characterStateComponent.attackCooldown == 0) {
-                                characterStateComponent.attacking = true;
-                                characterStateComponent.attackCooldown = 1.0;
-                                soundManager.playPunchSound();
-                                if (characterStateComponent.lookingDirection == 0) {
-                                    setupAttack(0, 0, pos, width, height);
-                                    characterStateComponent.state = 2;
-                                } else {
-                                    setupAttack(0, 1, pos, width, height);
-                                    characterStateComponent.state = 3;
-                                }
-                            }
-                            break;
-                        case "specialAttack":
-                            //if there is no special attack cooldown -> attack and set attackCooldown
-                            if (characterStateComponent.specialAttackCooldown == 0) {
-                                characterStateComponent.specialAttacking = true;
 
-                                //for each player play the specific sound of the special attack
-                                //and set the specific specialAttackCooldown
-                                if (player1KeySettings.containsKey(key)) {
-                                    characterStateComponent.specialAttackCooldown = 2.0;
-                                    if (characterStateComponent.lookingDirection == 0) {
-                                        setupAttack(1, 0, pos, width, height);
-                                        characterStateComponent.state = 4;
-                                    } else {
-                                        setupAttack(1, 1, pos, width, height);
-                                        characterStateComponent.state = 5;
-                                    }
-                                    soundManager.playSpAttack1();
-                                } else {
-                                    characterStateComponent.specialAttackCooldown = 2.5;
-                                    if (characterStateComponent.lookingDirection == 0) {
-                                        setupAttack(2, 0, pos, width, height);
-                                        characterStateComponent.state = 4;
-                                    } else {
-                                        setupAttack(2, 1, pos, width, height);
-                                        characterStateComponent.state = 5;
-                                    }
-                                    soundManager.playSpAttack2();
-                                }
-                            }
-                            break;
                     }
-                }
                 //removes the key
                 pressedKeys.remove(key);
 
             }
 
-            //Prüfung auf Knockback ist denke ich nicht notwendig, denn man kann sich ja auch in der Luft noch bewegen, attackieren, ...:
-//            if(characterStateComponent.knockback.x==0 && characterStateComponent.knockback.y==0){ //if no knockback
-//
-//            }
-        }
     }
 
     @Override
@@ -287,9 +338,9 @@ public class InputSystem extends System {
 
     //if true is returned the player is currently multi-jumping (respectively double jumping)
     private boolean multiJump(boolean[] array) {
-        if (array[1] && array[2]) {
-            return false;
+        if (array[0] && array[1]) {
+            return true;
         }
-        return true;
+        return false;
     }
 }
