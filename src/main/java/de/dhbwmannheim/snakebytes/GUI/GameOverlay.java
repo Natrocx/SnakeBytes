@@ -36,7 +36,7 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 public class GameOverlay extends StackPane {
     int counter = 3;
     static int scP1 = 0;
-    static int scP2 = 1;
+    static int scP2 = 0;
     public GameOverlay(Stage primaryStage) {
         MiniBack back = new MiniBack(primaryStage);
         back.setTranslateX(-80);
