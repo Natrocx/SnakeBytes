@@ -87,7 +87,7 @@ public class InputSystem extends System {
         var attack = new Entity();
         //if attack should go to the right the hitbox of the player should be added
         if (direction == 1) {
-            temp.x = playerPosition.x + boundingBoxX;
+            temp.x = playerPosition.x + boundingBoxX+0.01;
         }
         //add two third of the height of the player
         temp.y = playerPosition.y + (2.0 / 3.0 * boundingBoxY);
@@ -131,10 +131,11 @@ public class InputSystem extends System {
         } else if (attackType == 2) {
             Double hilf = 0.0;
             if (direction == 0) {
-                temp.x = playerPosition.x;
+                temp.x = playerPosition.x-0.03;
                 hilf = -0.4;
                 attackStateIndex = 2;
             } else {
+                temp.x = playerPosition.x+0.03;
                 hilf = 0.4;
                 attackStateIndex = 3;
             }
@@ -255,10 +256,10 @@ public class InputSystem extends System {
                         characterStateComponent.specialAttacking = true;
                         characterStateComponent.specialAttackCooldown = 2.0;
                         if (characterStateComponent.lookingDirection == 0) {
-                            setupAttack(1, 0, pos, width, height);
+                            //setupAttack(1, 0, pos, width, height);
                             characterStateComponent.state = 4;
                         } else {
-                            setupAttack(1, 1, pos, width, height);
+                            //setupAttack(1, 1, pos, width, height);
                             characterStateComponent.state = 5;
                         }
 
