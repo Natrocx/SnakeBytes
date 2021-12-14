@@ -1,8 +1,13 @@
+
 package de.dhbwmannheim.snakebytes.GUI;
 
+//by Kai Schwab
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 public class EndScreen extends VBox {
@@ -30,9 +35,18 @@ class StatsRow extends HBox{
         Text Name= new Text(name);
         Text Stat1 = new Text(statsP1);
         Text Stat2 =new Text(statsP2);
+        Name.setFont(Font.font("Times New Roman", FontWeight.BOLD, 25));
+        Name.setFill(Color.DARKRED);
+        Text Stat1 = new Text(statsP1);
+        Stat1.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
+        Stat1.setFill(Color.DARKRED);
+        Text Stat2 =new Text(statsP2);
+        Stat2.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
+        Stat2.setFill(Color.DARKRED);
 
         getChildren().addAll(Name,Stat1,Stat2);
 
     }
         }
+}
 

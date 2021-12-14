@@ -1,15 +1,18 @@
 package de.dhbwmannheim.snakebytes;
 
 //by Robert Sedlmeier and Eric Stefan
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Hashtable;
+
 import java.util.List;
 
 import org.json.simple.parser.ParseException;
@@ -23,7 +26,9 @@ public class JsonHandler {
     }
 
     //set the String workingDirectory based on the operating systems appdata specific folder and create a folder "SnakeBytes" if needed
+
     private static void setDirectory() {
+
         String OS = (System.getProperty("os.name")).toUpperCase();
         if (OS.contains("WIN"))//Windows
         {
@@ -35,8 +40,13 @@ public class JsonHandler {
             workingDirectory = System.getProperty("user.home");
             workingDirectory += "/.local/share/SnakeBytes";
         }else{//macOS
+
             workingDirectory = System.getProperty("user.home");
             workingDirectory += "/Library/Application Support/SnakeBytes";
+
+            // macOS will refuse to allow access to application support for non-native applications. We will have to use the local directory instead.
+            workingDirectory = ".";
+
         }
         File file = new File(workingDirectory);
         file.mkdirs();
@@ -69,6 +79,13 @@ public class JsonHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if(new File(workingDirectory + "/keySettings.json").exists())
+            return; // nothing left to do
+        File file2 = new File(workingDirectory);
+        file2.mkdirs();
+        File file = new File("src/main/resources/keySettings.json");
+        file.renameTo(new File(workingDirectory+"/keySettings.json"));
     }
 
     //Schreibt die Steuerungseinstellungen in JSON-Datei
@@ -128,10 +145,16 @@ public class JsonHandler {
         JSONObject obj2 = (JSONObject) ((JSONObject) arr.get(help)).get(player);
         for (int i = 0; i < obj2.size(); i++) {
             String temp = obj2.keySet().stream().toList().get(i).toString();
+
             if (keyOfHashMap==KeyOfHashMap.ACTION){
                 //key= action to execute; and value= keyboard key
                 playersettings.put(temp,obj2.get(temp).toString());
             }else if(keyOfHashMap==KeyOfHashMap.KEYBOARD_KEY){
+            if (keyOfHashMap== KeyOfHashMap.ACTION){
+                //key= action to execute; and value= keyboard key
+                playersettings.put(temp,obj2.get(temp).toString());
+            }else if(keyOfHashMap== KeyOfHashMap.KEYBOARD_KEY){
+              
                 //for the InputSystem it seems useful that the keyboard key is the key of the HashMap
                 //key= keyboard key; and value= action to execute
                 playersettings.put(obj2.get(temp).toString(),temp);
@@ -140,5 +163,3 @@ public class JsonHandler {
         return playersettings;
     }
 }
-
-

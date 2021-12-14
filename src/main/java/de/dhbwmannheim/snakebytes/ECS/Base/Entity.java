@@ -11,6 +11,7 @@ public class Entity {
     public Entity() {
         id = numEntities++; // assign a rolling ID and increment
 
+        java.lang.System.out.println("Created Entity: " + id);
         signature = new BitSet(64); // 64 Components should be a reasonable assumption and fits into natively supported data types
     }
 

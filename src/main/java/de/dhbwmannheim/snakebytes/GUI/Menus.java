@@ -4,6 +4,7 @@ import de.dhbwmannheim.snakebytes.JsonHandler;
 
 //Code by Kai Schwab
 
+import de.dhbwmannheim.snakebytes.JsonHandler;
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
@@ -154,7 +155,9 @@ public class Menus extends Application {
     }
     static Parent createEndScreenContent(Stage primaryStage) throws FileNotFoundException {
 
+
         root.getChildren().clear();
+        Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
 

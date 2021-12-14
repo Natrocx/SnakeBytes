@@ -1,6 +1,7 @@
 // Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
+import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.BitSet;
@@ -37,7 +38,7 @@ public class ComponentManager {
     }
 
     public static <T extends Component> void removeComponentCallback(Entity entity, T component) {
-        entity.signature.clear(component.getId());
+        entity.signature.clear(ConversionUtils.indexFromID(component.getId()));
         Engine.unregisterEntity(entity);
     }
 

@@ -3,6 +3,7 @@ package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 /**
@@ -10,7 +11,7 @@ import java.util.function.BiConsumer;
  */
 public class ComponentList<T extends Component> {
 
-    private final Map<Entity, T> components = new HashMap<>();
+    private final Map<Entity, T> components = new ConcurrentHashMap<>();
 
     private BiConsumer<Entity, Component> addComponentCallback;
     private BiConsumer<Entity, Component> removeComponentCallback;
@@ -26,8 +27,10 @@ public class ComponentList<T extends Component> {
     }
 
     public void removeComponent(Entity entity) {
-        removeComponentCallback.accept(entity, components.get(entity));
-        components.remove(entity);
+        if (components.containsKey(entity)) {
+            removeComponentCallback.accept(entity, components.get(entity));
+            components.remove(entity);
+        }
     }
 
     void registerCallbacks(BiConsumer<Entity, Component> addComponentCallback, BiConsumer<Entity, Component> removeComponentCallback) {
