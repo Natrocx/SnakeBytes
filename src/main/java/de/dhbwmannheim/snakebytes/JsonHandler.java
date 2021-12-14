@@ -23,7 +23,7 @@ public class JsonHandler {
     }
 
     //set the String workingDirectory based on the operating systems appdata specific folder and create a folder "SnakeBytes" if needed
-    public static void setDirectory() {
+    private static void setDirectory() {
         String OS = (System.getProperty("os.name")).toUpperCase();
         if (OS.contains("WIN"))//Windows
         {

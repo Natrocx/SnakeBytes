@@ -1,5 +1,7 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
+import de.dhbwmannheim.snakebytes.JsonHandler;
+
 //Code by Kai Schwab
 
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
@@ -14,6 +16,10 @@ import javafx.stage.Stage;
 
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Hashtable;
+
+import org.json.simple.parser.ParseException;
 
 public class Menus extends Application {
 
@@ -29,6 +35,7 @@ public class Menus extends Application {
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
+        JsonHandler.saveDefaultJson();
         primaryStage.setTitle("SNAKE BYTES");
         primaryStage.setResizable(false);
         Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
