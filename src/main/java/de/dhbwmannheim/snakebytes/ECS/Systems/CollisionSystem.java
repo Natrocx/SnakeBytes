@@ -165,12 +165,10 @@ public class CollisionSystem extends System {
 
             // there are no corrections to be made inline so the system will simply emit the corresponding component
             case SpecialAttack:
+                attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(true));
+                break;
             case Attack:
-                java.lang.System.out.println("Player-Attack Collision: " + e1.id + " " + ComponentManager.getComponent(e2, AttackStateComponent.class).emittingEntity);
-                //if (ComponentManager.getComponent(e2, AttackStateComponent.class).emittingEntity != e1.id)
-                attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(new Vec2<>(
-                        x_overlap, y_overlap
-                )));
+                attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(false));
                 break;
 
             case Screen:

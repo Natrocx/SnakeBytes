@@ -5,10 +5,10 @@ import de.dhbwmannheim.snakebytes.ECS.Base.Component;
 
 public class AttackCollisionComponent extends Component {
     public static final int id = 0b10000;
-    public Vec2<Double> overlap;
+    public boolean specialAttack = false;
 
-    public AttackCollisionComponent(Vec2<Double> overlap) {
-        this.overlap = overlap;
+    public AttackCollisionComponent(boolean specialAttack) {
+        this.specialAttack = specialAttack;
     }
 
     @Override
