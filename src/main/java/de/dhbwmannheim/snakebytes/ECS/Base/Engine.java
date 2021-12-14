@@ -17,6 +17,7 @@ public class Engine {
     public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.2222, 0.3167));
     public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.7407, 0.3167));
     private static final List<ISystem> systems = new ArrayList<>();
+    private static final List<ISystem> clearOnReset = new ArrayList<>();
     private static final Entity[] players = new Entity[2];
     public static ArrayList<Entity> attackList = new ArrayList<>();
     private static Victory finish = null;
@@ -44,11 +45,18 @@ public class Engine {
         ComponentManager.registerComponentList(GravityComponent.class);
         ComponentManager.registerComponentList(AttackStateComponent.class);
 
-        registerSystem(new CleanupSystem());
+        var cleanupSystem = new CleanupSystem();
+        clearOnReset.add(cleanupSystem);
+        registerSystem(cleanupSystem);
         registerSystem(new MotionSystem());
         registerSystem(new CollisionSystem());
-        registerSystem(new KnockoutSystem());
-        registerSystem(new AttackSystem());
+        var knockoutSystem = new KnockoutSystem();
+        clearOnReset.add(knockoutSystem);
+        registerSystem(knockoutSystem);
+        var attackSystem = new AttackSystem();
+        clearOnReset.add(attackSystem);
+        registerSystem(attackSystem);
+
         inputSystem = new InputSystem();
         registerSystem(inputSystem);
 
@@ -102,6 +110,7 @@ public class Engine {
         boolean[] doublefalse = {false, false};
         var player1 = new Entity();
         var motionComponent1 = new MotionComponent();
+        motionComponent1.maxTimeToDecay = 0.2;
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent1 = new GravityComponent(0.1);
         var positionComponent1 = new PositionComponent(new Vec2<>(0.2222, 0.16));
@@ -117,6 +126,7 @@ public class Engine {
 
         var player2 = new Entity();
         var motionComponent2 = new MotionComponent();
+        motionComponent2.maxTimeToDecay = 0.2;
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent2 = new GravityComponent(0.1);
         var positionComponent2 = new PositionComponent(new Vec2<>(0.7407, 0.16));
@@ -225,6 +235,22 @@ public class Engine {
         ComponentManager.clearComponents(AttackCollisionComponent.class);
         ComponentManager.clearComponents(ScreenBorderCollisionComponent.class);
         ComponentManager.clearComponents(AttackStateComponent.class);
+
+        for(ISystem system : clearOnReset) {
+            system.clearEntities();
+        }
+
+        for (CharacterStateComponent component : ComponentManager.getComponentList(CharacterStateComponent.class).getAllComponents()) {
+            component.jumping = new boolean[]{false, false};
+            component.attackCooldown = 0;
+            component.specialAttackCooldown = 0;
+            component.attacking = false;
+            component.specialAttacking = false;
+        }
+
+        for (Entity entity : players) {
+            ComponentManager.getComponent(entity, MotionComponent.class).velocity = new Vec2<>(0.0, 0.0);
+        }
     }
 
     /**
