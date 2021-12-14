@@ -240,6 +240,7 @@ public class InputSystem extends System {
                     if (characterStateComponent.attackCooldown == 0) {
                         characterStateComponent.attacking = true;
                         characterStateComponent.attackCooldown = 1.0;
+                        motionComponent.velocity.x = 0.0;
                         soundManager.playPunchSound();
                         if (characterStateComponent.lookingDirection == 0) {
                             setupAttack(0, 0, pos, width, height);
