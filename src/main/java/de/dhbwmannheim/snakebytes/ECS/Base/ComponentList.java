@@ -1,7 +1,7 @@
 // Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
@@ -16,6 +16,13 @@ public class ComponentList<T extends Component> {
     private BiConsumer<Entity, Component> addComponentCallback;
     private BiConsumer<Entity, Component> removeComponentCallback;
 
+    public Collection<T> getAllComponents() {
+        return components.values();
+    }
+
+    public void clear() {
+        components.clear();
+    }
 
     public void insertComponent(Entity entity, T component) {
         components.put(entity, component);

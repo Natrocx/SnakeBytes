@@ -56,7 +56,7 @@ public class AttackSystem extends System {
 
                 //push enemy with new calculated knockback * velocity
                 attackMotion.velocity = new Vec2<>(attackPosition.value.x + 0.1 * playerKnockback.knockback, attackPosition.value.y + 0.05 * playerKnockback.knockback);
-
+                attackMotion.timeToDecay = 2;
 
             } else {
                 //if special attack is registered, then
