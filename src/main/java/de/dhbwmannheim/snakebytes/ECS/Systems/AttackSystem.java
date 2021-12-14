@@ -49,7 +49,7 @@ public class AttackSystem extends System {
             CharacterStateComponent playerKnockback = characterState.getComponent(entity);
 
             //if normal attack is registered, then
-            if (characterState.getComponent(entity).attacking) {
+            if (!attackCollisionComponent.getComponent(entity).specialAttack) {
 
                 //add knockback to player
                 playerKnockback.knockback = +0.5;
@@ -60,20 +60,18 @@ public class AttackSystem extends System {
 
             } else {
                 //if special attack is registered, then
-                if (characterState.getComponent(entity).specialAttacking) {
 
-                    //add knockback to player
-                    playerKnockback.knockback = +0.75;
+                //add knockback to player
+                playerKnockback.knockback = +0.75;
 
-                    //push enemy with new calculated knockback * velocity
-                    attackMotion.velocity = new Vec2<>(attackPosition.value.x + 0.1 * playerKnockback.knockback, attackPosition.value.y + 0.05 * playerKnockback.knockback);
+                //push enemy with new calculated knockback * velocity
+                attackMotion.velocity = new Vec2<>(attackPosition.value.x + 0.1 * playerKnockback.knockback, attackPosition.value.y + 0.05 * playerKnockback.knockback);
 
-                }
             }
-
         }
 
     }
+
 
     @Override
     public BitSet getSignature() {
