@@ -150,6 +150,19 @@ public class JsonHandler {
         }
         return playersettings;
     }
+
+    public static void saveScoreboardDefaultJson() throws IOException, ParseException {
+        setDirectory();
+        File file0 = new File(workingDirectory+"/scoreboard.json");
+        file0.createNewFile();
+
+        try (FileWriter file = new FileWriter(workingDirectory+"/scoreboard.json")) {
+            file.write("[]");
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 

@@ -33,6 +33,14 @@ public class Menus extends Application {
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
         JsonHandler.saveDefaultJson();
+        try {
+            JsonHandler.saveScoreboardDefaultJson();
+            Scoreboard.fillDummyDataInScoreboard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         primaryStage.setTitle("SNAKE BYTES");
         primaryStage.setResizable(false);
         Scene MainMenu = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
@@ -152,6 +160,13 @@ public class Menus extends Application {
         EndScreen endscreen = new EndScreen(primaryStage);
 
         root.getChildren().addAll(endscreen);
+        try {
+            Scoreboard.saveScoreboardToJson();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return root;
     }
