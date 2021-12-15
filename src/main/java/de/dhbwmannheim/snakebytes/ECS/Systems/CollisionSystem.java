@@ -117,7 +117,7 @@ public class CollisionSystem extends System {
         // naively determined position to determine the physically correct position.
         // Always push e1 in the direction which would result in shorter movement
         var x_overlap = e1Pos.value.x > e2Pos.value.x ? e1Pos.value.x - (e2Pos.value.x + e2BB.size.x) : (e1Pos.value.x + e1BB.size.x) - e2Pos.value.x;
-        var y_overlap = e1Pos.value.y > e2Pos.value.y ? e1Pos.value.y - (e2Pos.value.y + e2BB.size.y) : (e1Pos.value.y + e1BB.size.y) - e2Pos.value.y;
+        var y_overlap = e1Pos.value.y > e2Pos.value.y ? (e2Pos.value.y + e2BB.size.y) - e1Pos.value.y : (e1Pos.value.y + e1BB.size.y) - e2Pos.value.y;
 
 
         switch (e2BB.boxType) {
@@ -166,6 +166,7 @@ public class CollisionSystem extends System {
             // there are no corrections to be made inline so the system will simply emit the corresponding component
             case SpecialAttack:
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(true));
+                Engine.destroyAttack(e2);
                 break;
             case Attack:
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(false));
@@ -174,7 +175,6 @@ public class CollisionSystem extends System {
 
             case Screen:
                 screenBorderCollisionComponents.insertComponent(e1, new ScreenBorderCollisionComponent());
-                Engine.destroyAttack(e2);
                 break;
         }
     }

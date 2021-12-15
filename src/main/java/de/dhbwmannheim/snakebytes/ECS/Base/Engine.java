@@ -20,7 +20,7 @@ public class Engine {
     private static final List<ISystem> clearOnReset = new ArrayList<>();
     private static final Entity[] players = new Entity[2];
     public static ArrayList<Entity> attackList = new ArrayList<>();
-    private static Victory finish = null;
+    private static Victory finish = Victory.None;
     private static InputSystem inputSystem;
 
     public static void registerSystem(System sys) {
@@ -273,8 +273,7 @@ public class Engine {
     public static Victory run() throws Exception {
 
         Instant last = Instant.now();
-        // TODO: get cancel condition from input system
-        while (finish == null) {
+        while (finish == Victory.None) {
             Instant now = Instant.now();
             /* Systems will be executed in order of registration - see setup for further information */
             update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
@@ -295,6 +294,7 @@ public class Engine {
     public enum Victory {
         PlayerOne,
         PlayerTwo,
-        Draw
+        Draw,
+        None
     }
 }
