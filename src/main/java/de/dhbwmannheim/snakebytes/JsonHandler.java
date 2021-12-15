@@ -32,8 +32,7 @@ public class JsonHandler {
             workingDirectory = System.getProperty("user.home");
             workingDirectory += "/.local/share/SnakeBytes";
         }else{//macOS
-            workingDirectory = System.getProperty("user.home");
-            workingDirectory += "/Library/Application Support/SnakeBytes";
+            workingDirectory = ".";
         }
         File file = new File(workingDirectory);
         file.mkdirs();

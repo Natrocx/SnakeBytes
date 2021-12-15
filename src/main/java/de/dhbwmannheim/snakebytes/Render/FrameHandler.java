@@ -82,8 +82,6 @@ public class FrameHandler extends StackPane {
         Menus.root.getChildren().add(5,spcAttack2start);
         scene = new Scene(Menus.root);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
-                    java.lang.System.out.println("Taste gedrückt: " + KeyEvent.getText());
-                    System.out.println("oder: " + KeyEvent.getCode().toString());
                     PressKeyWindow.Key = KeyEvent.getCode().toString();
                     if(keyPressCallback != null){
                         keyPressCallback.accept(KeyEvent);

@@ -169,10 +169,12 @@ public class CollisionSystem extends System {
                 break;
             case Attack:
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(false));
+                Engine.destroyAttack(e2);
                 break;
 
             case Screen:
                 screenBorderCollisionComponents.insertComponent(e1, new ScreenBorderCollisionComponent());
+                Engine.destroyAttack(e2);
                 break;
         }
     }

@@ -42,7 +42,8 @@ public class AttackSystem extends System {
     public void update(double deltaTime) throws Exception {
 
 
-        for (Entity entity : entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            var entity = entities.get(i);
 
             MotionComponent attackMotion = motionComponents.getComponent(entity);
             PositionComponent attackPosition = positionComponents.getComponent(entity);
@@ -56,18 +57,20 @@ public class AttackSystem extends System {
 
                 //push enemy with new calculated knockback * velocity
                 attackMotion.velocity = new Vec2<>(attackMotion.velocity.x + (0.05 * playerKnockback.knockback), attackMotion.velocity.y + (0.05 * playerKnockback.knockback));
-                attackMotion.timeToDecay = 2;
+                java.lang.System.out.println(entities.size());
+                attackMotion.timeToDecay = 1;
 
             } else {
                 //if special attack is registered, then
 
                 //add knockback to player
-                playerKnockback.knockback +=0.75;
+                playerKnockback.knockback +=0.075;
 
                 //push enemy with new calculated knockback * velocity
                 attackMotion.velocity = new Vec2<>(attackMotion.velocity.x + 0.1 * playerKnockback.knockback, attackMotion.velocity.y + 0.05 * playerKnockback.knockback);
 
             }
+            attackCollisionComponent.removeComponent(entity);
         }
 
     }
