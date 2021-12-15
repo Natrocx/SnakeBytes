@@ -50,6 +50,12 @@ public class Scoreboard extends VBox {
         JsonHandler.toScoreboardJson(new String[]{currentDate,scorePlayer1,scorePlayer2});
     }
 
+    public static void fillDummyDataInScoreboard() throws IOException, ParseException {
+        JsonHandler.toScoreboardJson(new String[]{"12.12.2021","3","0"});
+        JsonHandler.toScoreboardJson(new String[]{"13.12.2021","0","3"});
+        JsonHandler.toScoreboardJson(new String[]{"14.12.2021","0","0"});
+    }
+
     public Scoreboard(Stage primaryStage) throws IOException, ParseException {
         JSONArray jsonArray;
         jsonArray = JsonHandler.fromScoreboardJson();
@@ -187,6 +193,7 @@ class SB_Item extends HBox {
         sep.setPrefSize(200, 150);
         return sep;
     }
+
 
 
 }

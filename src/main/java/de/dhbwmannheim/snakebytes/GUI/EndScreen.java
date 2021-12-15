@@ -10,6 +10,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+
 public class EndScreen extends VBox {
     public static String winner = "P1";
     public EndScreen(Stage primaryStage){
@@ -20,7 +24,13 @@ public class EndScreen extends VBox {
         StatsRow treffer = new StatsRow("Treffer","1","3");
         StatsRow Tode = new StatsRow("Tode","1","3");
 
-
+        try {
+            Scoreboard.saveScoreboardToJson();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         SideMenuItem weiter = new SideMenuItem("Weiter",primaryStage);//Knopf Funktionen unter CharakterSelect
 
         getChildren().addAll(title,kills,dmg,treffer,Tode,weiter);

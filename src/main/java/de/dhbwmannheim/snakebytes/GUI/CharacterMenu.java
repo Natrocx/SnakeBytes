@@ -28,9 +28,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
@@ -270,8 +272,7 @@ class SideMenuItem extends StackPane {
             setOnMouseReleased(event -> {
                 bg.setFill(gradient);
             });
-        //JsonHandler.toScoreboardJson();
-        }
+    }
 
     public void startRender(FrameHandler frameHandler, Stage primaryStage){
         CharacterMenu.render = true;
