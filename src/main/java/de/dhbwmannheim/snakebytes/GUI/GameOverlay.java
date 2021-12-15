@@ -326,6 +326,7 @@ class  MiniBack extends StackPane {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+            CharacterMenu.render = false;
             primaryStage.setScene(scene);
         });
         r1.setOnMouseEntered(event -> {
