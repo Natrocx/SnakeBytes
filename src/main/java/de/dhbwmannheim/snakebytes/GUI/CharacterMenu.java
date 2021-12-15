@@ -37,12 +37,14 @@ import java.util.Objects;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
+//by Kai Schwab
 
 
 
 public class CharacterMenu extends StackPane {
     public static int rounds = 3;
     public static int time =  300 ;
+    public static boolean render = false;
     public CharacterMenu(Stage primaryStage){
         //title
         Title2 title = new Title2("Choose your Character");
@@ -225,41 +227,64 @@ class SideMenuItem extends StackPane {
             text.setFill(Color.DARKGREY);
         });
         setOnMousePressed(event -> {
-            Scene scene = null;
-            bg.setFill(Color.DARKGOLDENROD);
-            if (Objects.equals(name, "Start")) {
-                JsonHandler.saveDefaultJson();
-                FrameHandler frameHandler = null;
+                    Scene scene = null;
+                    bg.setFill(Color.DARKGOLDENROD);
+                    if (Objects.equals(name, "Start")) {
+                        JsonHandler.saveDefaultJson();
+                        FrameHandler frameHandler = null;
 
-                try {
-                    Engine.setup();
-                    frameHandler = new FrameHandler(primaryStage, Engine.getKeyPressedCallback());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                        try {
+                            Engine.setup();
+                            frameHandler = new FrameHandler(primaryStage, Engine.getKeyPressedCallback());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                FrameHandler finalFrameHandler = frameHandler;
-                startRender(finalFrameHandler,primaryStage);
+                        FrameHandler finalFrameHandler = frameHandler;
+                        startRender(finalFrameHandler, primaryStage);
 
-            EngineLoop loop = new EngineLoop();
-            loop.start();
-            }
-        });
-
-        setOnMouseReleased(event -> {
-            bg.setFill(gradient);
-        });
-    }
+                        EngineLoop loop = new EngineLoop();
+                        loop.start();
+                    }
+                    if (name == "Erklärungen") {
+                        try {
+                            scene = new Scene(Menus.createImpressumContent(primaryStage), Color.LIGHTBLUE);
+                            primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                            primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        primaryStage.setScene(scene);
+                    }
+                    if (name == "Weiter") {
+                        try {
+                            scene = new Scene(Menus.createCharakterContent(primaryStage), Color.LIGHTBLUE);
+                            primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                            primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        primaryStage.setScene(scene);
+                    }
+                });
+            setOnMouseReleased(event -> {
+                bg.setFill(gradient);
+            });
+        //JsonHandler.toScoreboardJson();
+        }
 
     public void startRender(FrameHandler frameHandler, Stage primaryStage){
+        CharacterMenu.render = true;
         new Thread(() -> {
-            while(true){
+            while(CharacterMenu.render){
                 frameHandler.update(primaryStage);
                 try {
                     Thread.sleep(35);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+
             }
         }).start();
     }

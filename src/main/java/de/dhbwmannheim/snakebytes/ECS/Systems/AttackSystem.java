@@ -42,38 +42,39 @@ public class AttackSystem extends System {
     public void update(double deltaTime) throws Exception {
 
 
-        for (Entity entity : entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            var entity = entities.get(i);
 
             MotionComponent attackMotion = motionComponents.getComponent(entity);
             PositionComponent attackPosition = positionComponents.getComponent(entity);
             CharacterStateComponent playerKnockback = characterState.getComponent(entity);
 
             //if normal attack is registered, then
-            if (characterState.getComponent(entity).attacking) {
+            if (!attackCollisionComponent.getComponent(entity).specialAttack) {
 
                 //add knockback to player
-                playerKnockback.knockback = +0.5;
+                playerKnockback.knockback +=0.05;
 
                 //push enemy with new calculated knockback * velocity
-                attackMotion.velocity = new Vec2<>(attackPosition.value.x + 0.1 * playerKnockback.knockback, attackPosition.value.y + 0.05 * playerKnockback.knockback);
-
+                attackMotion.velocity = new Vec2<>(attackMotion.velocity.x + (0.05 * playerKnockback.knockback), attackMotion.velocity.y + (0.05 * playerKnockback.knockback));
+                java.lang.System.out.println(entities.size());
+                attackMotion.timeToDecay = 1;
 
             } else {
                 //if special attack is registered, then
-                if (characterState.getComponent(entity).specialAttacking) {
 
-                    //add knockback to player
-                    playerKnockback.knockback = +0.75;
+                //add knockback to player
+                playerKnockback.knockback +=0.075;
 
-                    //push enemy with new calculated knockback * velocity
-                    attackMotion.velocity = new Vec2<>(attackPosition.value.x + 0.1 * playerKnockback.knockback, attackPosition.value.y + 0.05 * playerKnockback.knockback);
+                //push enemy with new calculated knockback * velocity
+                attackMotion.velocity = new Vec2<>(attackMotion.velocity.x + 0.1 * playerKnockback.knockback, attackMotion.velocity.y + 0.05 * playerKnockback.knockback);
 
-                }
             }
-
+            attackCollisionComponent.removeComponent(entity);
         }
 
     }
+
 
     @Override
     public BitSet getSignature() {

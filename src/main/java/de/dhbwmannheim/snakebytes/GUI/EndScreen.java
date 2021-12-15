@@ -11,11 +11,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 public class EndScreen extends VBox {
-    String winner = "P1";
+    public static String winner = "P1";
     public EndScreen(Stage primaryStage){
         Title2 title = new Title2("The Winner is "+winner);
 
-        StatsRow kills = new StatsRow("Kills","1","3");
+        StatsRow kills = new StatsRow("Kills",String.valueOf(GameOverlay.scP1),String.valueOf(GameOverlay.scP2));
         StatsRow dmg = new StatsRow("dmg","1","3");
         StatsRow treffer = new StatsRow("Treffer","1","3");
         StatsRow Tode = new StatsRow("Tode","1","3");
@@ -27,6 +27,7 @@ public class EndScreen extends VBox {
 
 
     }
+
 
 }
 

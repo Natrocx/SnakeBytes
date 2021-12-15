@@ -116,7 +116,7 @@ public class CollisionSystem extends System {
         // Determine in which direction and how much to correct (if necessary); the values will be added onto the
         // naively determined position to determine the physically correct position.
         // Always push e1 in the direction which would result in shorter movement
-        var x_overlap = e1Pos.value.x > e2Pos.value.x ? (e2Pos.value.x + e2BB.size.x) - e1Pos.value.y : (e1Pos.value.x + e1BB.size.x) - e2Pos.value.x;
+        var x_overlap = e1Pos.value.x > e2Pos.value.x ? e1Pos.value.x - (e2Pos.value.x + e2BB.size.x) : (e1Pos.value.x + e1BB.size.x) - e2Pos.value.x;
         var y_overlap = e1Pos.value.y > e2Pos.value.y ? (e2Pos.value.y + e2BB.size.y) - e1Pos.value.y : (e1Pos.value.y + e1BB.size.y) - e2Pos.value.y;
 
 
@@ -165,12 +165,12 @@ public class CollisionSystem extends System {
 
             // there are no corrections to be made inline so the system will simply emit the corresponding component
             case SpecialAttack:
+                attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(true));
+                Engine.destroyAttack(e2);
+                break;
             case Attack:
-                java.lang.System.out.println("Player-Attack Collision: " + e1.id + " " + ComponentManager.getComponent(e2, AttackStateComponent.class).emittingEntity);
-                //if (ComponentManager.getComponent(e2, AttackStateComponent.class).emittingEntity != e1.id)
-                attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(new Vec2<>(
-                        x_overlap, y_overlap
-                )));
+                attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(false));
+                Engine.destroyAttack(e2);
                 break;
 
             case Screen:

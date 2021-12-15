@@ -6,6 +6,7 @@ import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.ScreenBorderCollisionComponent;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
+import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
 
 import java.util.BitSet;
 import java.util.Iterator;
@@ -33,26 +34,33 @@ public class KnockoutSystem extends System {
     public void update(double deltaTime) {
         Entity[] playersLost = new Entity[2];
         int lossCount = 0;
+        boolean finish = false;
         boolean reset = false;
         //noinspection ForLoopReplaceableByForEach - will result in the JVM complaining
         for (int i = 0; i < entities.size(); i++) {
             var entity = entities.get(i);
-
+            reset = true;
             // get current character state to determine actions taken
             var characterState = characterStateComponentComponents.getComponent(entity);
             if(characterState != null) {
                 characterState.lives--;
-                if (characterState.lives < 0) {
+                if(entity == Engine.getPlayer(0)){
+                    GameOverlay.scP2++;
+                }
+                if(entity == Engine.getPlayer(1)){
+                    GameOverlay.scP1++;
+                }
+                if (characterState.lives == 0) {
+                    finish = true;
                     playersLost[lossCount] = entity;
                     lossCount++;
                 }
             }
 
             screenBorderCollisionComponents.removeComponent(entity);
-            reset = true;
         }
 
-        if (lossCount > 0)
+        if (finish)
             Engine.finish(playersLost);
         else if (reset)
             Engine.reset();
