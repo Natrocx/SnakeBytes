@@ -9,14 +9,22 @@ import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 import de.dhbwmannheim.snakebytes.JsonHandler;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.scene.input.KeyEvent;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Hashtable;
+import java.util.List;
+import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
+import de.dhbwmannheim.snakebytes.ECS.Base.*;
+import de.dhbwmannheim.snakebytes.ECS.BoundingBoxComponent;
+import de.dhbwmannheim.snakebytes.JsonHandler;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Hashtable;
+import java.util.List;
 
 /**
  * Author: @Eric Stefan
@@ -87,7 +95,7 @@ public class InputSystem extends System {
         var attack = new Entity();
         //if attack should go to the right the hitbox of the player should be added
         if (direction == 1) {
-            temp.x = playerPosition.x + boundingBoxX+0.01;
+            temp.x = playerPosition.x + boundingBoxX + 0.01;
         }
         //add two third of the height of the player
         temp.y = playerPosition.y + (2.0 / 3.0 * boundingBoxY);
@@ -99,7 +107,7 @@ public class InputSystem extends System {
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, temp.y));
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.001, 0.01), BoundingBoxComponent.BoxType.Attack);
-            var attackState = new AttackStateComponent(direction, entity.id, 0.25);
+            var attackState = new AttackStateComponent(direction, entity.id, 0.1);
 
             Engine.registerEntity(attack);
             ComponentManager.addComponent(attack, attackPosition);
@@ -132,17 +140,18 @@ public class InputSystem extends System {
         } else if (attackType == 2) {
             Double hilf = 0.0;
             if (direction == 0) {
-                temp.x = playerPosition.x-0.03;
+                temp.x = playerPosition.x - 0.03;
                 hilf = -0.4;
                 attackStateIndex = 2;
             } else {
-                temp.x = playerPosition.x+0.03;
+                temp.x = playerPosition.x + 0.03;
                 hilf = 0.4;
                 attackStateIndex = 3;
             }
             //start position of motion
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, temp.y));
             //defining width and height of the attack hitbox
+            //var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.1), BoundingBoxComponent.BoxType.SpecialAttack);
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.1), BoundingBoxComponent.BoxType.Attack);
 
             var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2));
@@ -175,33 +184,36 @@ public class InputSystem extends System {
 
         //reduce attack cooldowns
         if (characterStateComponent != null) {
-            if(characterStateComponent.attackCooldown > 0){
+            if (characterStateComponent.attackCooldown > 0) {
                 double val = characterStateComponent.attackCooldown;
                 val = val - 0.2;
-                val = val *100;
+                val = val * 100;
                 val = Math.round(val);
                 val = val / 100;
                 characterStateComponent.attackCooldown = val;
             }
-            if(characterStateComponent.specialAttackCooldown > 0){
+            if (characterStateComponent.specialAttackCooldown > 0) {
                 double val = characterStateComponent.specialAttackCooldown;
                 val = val - 0.2;
-                val = val *100;
+                val = val * 100;
                 val = Math.round(val);
                 val = val / 100;
                 characterStateComponent.specialAttackCooldown = val;
             }
 
 
-            if(characterStateComponent.state == 2 || characterStateComponent.state == 4){
-                characterStateComponent.state = 0;
-            }
-            if(characterStateComponent.state == 3 || characterStateComponent.state == 5){
-                characterStateComponent.state = 1;
-            }
+
         }
 
         if (!temp.equals("")) {
+            characterStateComponent.specialAttacking = false;
+            characterStateComponent.attacking = false;
+            if (characterStateComponent.state == 2 || characterStateComponent.state == 4) {
+                characterStateComponent.state = 0;
+            }
+            if (characterStateComponent.state == 3 || characterStateComponent.state == 5) {
+                characterStateComponent.state = 1;
+            }
             Double width = boundingBoxComponent.size.x;
             Double height = boundingBoxComponent.size.y;
             Vec2<Double> pos = positionComponent.value;
@@ -209,24 +221,20 @@ public class InputSystem extends System {
             switch (temp) {
                 case "right":
                     motionComponent.velocity.x = 0.05;
+                    motionComponent.timeToDecay = motionComponent.maxTimeToDecay;
                     characterStateComponent.state = 1;
                     characterStateComponent.lookingDirection = 1;
-                    characterStateComponent.specialAttacking = false;
-                    characterStateComponent.attacking = false;
                     break;
                 case "left":
                     motionComponent.velocity.x = -0.05;
+                    motionComponent.timeToDecay = motionComponent.maxTimeToDecay;
                     characterStateComponent.state = 0;
                     characterStateComponent.lookingDirection = 0;
-                    characterStateComponent.specialAttacking = false;
-                    characterStateComponent.attacking = false;
                     break;
                 case "jump":
                     //if no double jump is active
                     if (multiJump(characterStateComponent.jumping) == false) {
                         motionComponent.velocity.y = 0.15; //jump
-                        characterStateComponent.specialAttacking = false;
-                        characterStateComponent.attacking = false;
                         soundManager.playJumpSound();
                         //since the player jumps this has to be saved in the boolean Array jumping[]
                         if (characterStateComponent.jumping[0] != true) {
@@ -246,6 +254,7 @@ public class InputSystem extends System {
                         if (characterStateComponent.lookingDirection == 0) {
                             setupAttack(0, 0, pos, width, height, entity);
                             characterStateComponent.state = 2;
+
                         } else {
                             setupAttack(0, 1, pos, width, height, entity);
                             characterStateComponent.state = 3;
@@ -305,32 +314,32 @@ public class InputSystem extends System {
     @Override
     public void update(double deltaTime) throws Exception {
 
-            //iterate over all pressed keys, that did not were processed (since pressedKeys only contains not processed keys)
-            for (int j = 0; j < pressedKeys.size(); j++) {
-                var key = pressedKeys.get(j);
+        //iterate over all pressed keys, that did not were processed (since pressedKeys only contains not processed keys)
+        for (int j = 0; j < pressedKeys.size(); j++) {
+            var key = pressedKeys.get(j);
 
-                String temp = "";
-                //if the key has an action for player1 or player2, this action gets saved into String "temp"
-                if (player1KeySettings.containsKey(key)){
-                    int i = 0;
-                    var entity = entities.get(i);
-                    temp = player1KeySettings.get(key);
-                    translateKeyInput(temp,entity, deltaTime, i);
-                }
+            String temp = "";
+            //if the key has an action for player1 or player2, this action gets saved into String "temp"
+            if (player1KeySettings.containsKey(key)) {
+                int i = 0;
+                var entity = entities.get(i);
+                temp = player1KeySettings.get(key);
+                translateKeyInput(temp, entity, deltaTime, i);
+            }
 
-                if (player2KeySettings.containsKey(key)){
-                    int i = 1;
-                    var entity = entities.get(i);
-                    temp = player2KeySettings.get(key);
-                    translateKeyInput(temp,entity, deltaTime, i);
+            if (player2KeySettings.containsKey(key)) {
+                int i = 1;
+                var entity = entities.get(i);
+                temp = player2KeySettings.get(key);
+                translateKeyInput(temp, entity, deltaTime, i);
 
                 //if an action should be executed
 
-                    }
-                //removes the key
-                pressedKeys.remove(key);
-
             }
+            //removes the key
+            pressedKeys.remove(key);
+
+        }
 
     }
 

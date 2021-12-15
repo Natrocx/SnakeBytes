@@ -55,7 +55,7 @@ public class ComponentManager {
     }
 
     public static void clearComponents(Class<? extends Component> clazz) {
-        registerComponentList(clazz);
+        componentLists.get(clazz).clear();
     }
 
     /**

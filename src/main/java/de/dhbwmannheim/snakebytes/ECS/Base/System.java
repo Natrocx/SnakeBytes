@@ -37,4 +37,8 @@ public abstract class System implements ISystem {
             entitiesPresent.remove(e);
         }
     }
+
+    public void clearEntities() {
+        entities.clear();
+    }
 }

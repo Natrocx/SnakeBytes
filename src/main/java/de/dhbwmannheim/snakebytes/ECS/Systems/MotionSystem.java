@@ -10,6 +10,8 @@ import de.dhbwmannheim.snakebytes.ECS.MotionComponent;
 import de.dhbwmannheim.snakebytes.ECS.PositionComponent;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.BitSet;
 
 public class MotionSystem extends System {
@@ -26,7 +28,9 @@ public class MotionSystem extends System {
             var motion = motionComponents.getComponent(entity);
             var gravity = gravityComponents.getComponent(entity); // this may be null as its not included in the signature
 
-            //motion.velocity.x = motion.velocity.x * Math.max(0.2 - deltaTime, 0);
+            motion.timeToDecay -= deltaTime;
+            if(motion.timeToDecay < 0)
+                motion.velocity.x = 0.0;
             motion.velocity.y += deltaTime * (gravity == null ? 0 :  - gravity.value);
 
             position.value.x += deltaTime * motion.velocity.x;

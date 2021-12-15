@@ -14,8 +14,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 //by Kai Schwab
 
@@ -143,6 +145,10 @@ class MenuItem extends StackPane {
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
                     primaryStage.setMaxWidth(Integer.MAX_VALUE);
                 } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 primaryStage.setScene(scene);

@@ -3,23 +3,7 @@ package de.dhbwmannheim.snakebytes.ECS.Base;
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.*;
 import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
-import de.dhbwmannheim.snakebytes.Render.FrameHandler;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
-
-import java.time.Duration;
-import java.time.Instant;
-/**
- * Author: @Jonas Lauschke
- *         @Thu Giang Tran
- ***/
-
-import de.dhbwmannheim.snakebytes.ECS.*;
-import de.dhbwmannheim.snakebytes.ECS.Systems.*;
-import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
-import de.dhbwmannheim.snakebytes.Render.FrameHandler;
-import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -30,12 +14,12 @@ import java.util.function.Consumer;
 
 public class Engine {
 
-    public static ArrayList<Entity> attackList = new ArrayList<>();
-
     public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.2222, 0.3167));
     public static final PositionComponent POSITION_COMPONENT_2 = new PositionComponent(new Vec2<>(0.7407, 0.3167));
     private static final List<ISystem> systems = new ArrayList<>();
+    private static final List<ISystem> clearOnReset = new ArrayList<>();
     private static final Entity[] players = new Entity[2];
+    public static ArrayList<Entity> attackList = new ArrayList<>();
     private static Victory finish = null;
     private static InputSystem inputSystem;
 
@@ -61,11 +45,18 @@ public class Engine {
         ComponentManager.registerComponentList(GravityComponent.class);
         ComponentManager.registerComponentList(AttackStateComponent.class);
 
-        registerSystem(new CleanupSystem());
+        var cleanupSystem = new CleanupSystem();
+        clearOnReset.add(cleanupSystem);
+        registerSystem(cleanupSystem);
         registerSystem(new MotionSystem());
         registerSystem(new CollisionSystem());
-        registerSystem(new KnockoutSystem());
-        registerSystem(new AttackSystem());
+        var knockoutSystem = new KnockoutSystem();
+        clearOnReset.add(knockoutSystem);
+        registerSystem(knockoutSystem);
+        var attackSystem = new AttackSystem();
+        clearOnReset.add(attackSystem);
+        registerSystem(attackSystem);
+
         inputSystem = new InputSystem();
         registerSystem(inputSystem);
 
@@ -75,7 +66,7 @@ public class Engine {
     }
 
     public static Consumer<KeyEvent> getKeyPressedCallback() {
-        if(inputSystem != null) {
+        if (inputSystem != null) {
             return inputSystem::keyPressed;
         }
         return null;
@@ -104,25 +95,26 @@ public class Engine {
 
         registerEntity(platformLeft);
         ComponentManager.addComponent(platformLeft, platformLeftPosition);
-        ComponentManager.addComponent(platformLeft,platformLeftBoundingBox);
+        ComponentManager.addComponent(platformLeft, platformLeftBoundingBox);
 
         registerEntity(platformRight);
         ComponentManager.addComponent(platformRight, platformRightPosition);
-        ComponentManager.addComponent(platformRight,platformRightBoundingBox);
+        ComponentManager.addComponent(platformRight, platformRightBoundingBox);
 
         registerEntity(platformMiddle);
         ComponentManager.addComponent(platformMiddle, platformMiddlePosition);
-        ComponentManager.addComponent(platformMiddle,platformMiddleBoundingBox);
+        ComponentManager.addComponent(platformMiddle, platformMiddleBoundingBox);
     }
 
     private static void setupPlayers() {
-        boolean[] doublefalse = {false,false};
+        boolean[] doublefalse = {false, false};
         var player1 = new Entity();
         var motionComponent1 = new MotionComponent();
+        motionComponent1.maxTimeToDecay = 0.2;
         var boundingBoxComponent1 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent1 = new GravityComponent(0.1);
         var positionComponent1 = new PositionComponent(new Vec2<>(0.2222, 0.16));
-        var characterStateComponent1 = new CharacterStateComponent(1,0,0, CharacterMenu.rounds, new boolean[]{false, false},false,false,1,1);
+        var characterStateComponent1 = new CharacterStateComponent(1, 0, 0, CharacterMenu.rounds, new boolean[]{false, false}, false, false, 1, 1);
 
         registerEntity(player1);
         players[0] = player1;
@@ -130,14 +122,15 @@ public class Engine {
         ComponentManager.addComponent(player1, positionComponent1);
         ComponentManager.addComponent(player1, boundingBoxComponent1);
         ComponentManager.addComponent(player1, gravityComponent1);
-        ComponentManager.addComponent(player1,characterStateComponent1);
+        ComponentManager.addComponent(player1, characterStateComponent1);
 
         var player2 = new Entity();
         var motionComponent2 = new MotionComponent();
+        motionComponent2.maxTimeToDecay = 0.2;
         var boundingBoxComponent2 = new BoundingBoxComponent(new Vec2<>(0.05, 0.1), BoundingBoxComponent.BoxType.Player);
         var gravityComponent2 = new GravityComponent(0.1);
         var positionComponent2 = new PositionComponent(new Vec2<>(0.7407, 0.16));
-        var characterStateComponent2 = new CharacterStateComponent(1,0,5, CharacterMenu.rounds,new boolean[]{false, false},false,false,0,0);
+        var characterStateComponent2 = new CharacterStateComponent(1, 0, 5, CharacterMenu.rounds, new boolean[]{false, false}, false, false, 0, 0);
 
         registerEntity(player2);
         players[1] = player2;
@@ -145,7 +138,7 @@ public class Engine {
         ComponentManager.addComponent(player2, positionComponent2);
         ComponentManager.addComponent(player2, boundingBoxComponent2);
         ComponentManager.addComponent(player2, gravityComponent2);
-        ComponentManager.addComponent(player2,characterStateComponent2);
+        ComponentManager.addComponent(player2, characterStateComponent2);
     }
 
     private static void setupScreenBorders() {
@@ -242,6 +235,22 @@ public class Engine {
         ComponentManager.clearComponents(AttackCollisionComponent.class);
         ComponentManager.clearComponents(ScreenBorderCollisionComponent.class);
         ComponentManager.clearComponents(AttackStateComponent.class);
+
+        for(ISystem system : clearOnReset) {
+            system.clearEntities();
+        }
+
+        for (CharacterStateComponent component : ComponentManager.getComponentList(CharacterStateComponent.class).getAllComponents()) {
+            component.jumping = new boolean[]{false, false};
+            component.attackCooldown = 0;
+            component.specialAttackCooldown = 0;
+            component.attacking = false;
+            component.specialAttacking = false;
+        }
+
+        for (Entity entity : players) {
+            ComponentManager.getComponent(entity, MotionComponent.class).velocity = new Vec2<>(0.0, 0.0);
+        }
     }
 
     /**

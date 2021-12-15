@@ -15,4 +15,6 @@ public interface ISystem {
     void addEntity(Entity e);
 
     void removeEntity(Entity e);
+
+    void clearEntities();
 }

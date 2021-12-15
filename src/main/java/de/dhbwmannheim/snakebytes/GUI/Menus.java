@@ -12,9 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.json.simple.parser.ParseException;
 
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Menus extends Application {
 
@@ -73,7 +75,7 @@ public class Menus extends Application {
     }
 
     //Scoreboard
-    static Parent createScoreboardContent(Stage primaryStage) throws FileNotFoundException {
+    static Parent createScoreboardContent(Stage primaryStage) throws IOException, ParseException {
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
@@ -141,4 +143,17 @@ public class Menus extends Application {
         Menus.root.getChildren().add(1,gov);
 
     }
+    static Parent createEndScreenContent(Stage primaryStage) throws FileNotFoundException {
+
+        Pane root = new Pane();
+
+        root.setPrefSize(1350, 900);
+
+        EndScreen endscreen = new EndScreen(primaryStage);
+
+        root.getChildren().addAll(endscreen);
+
+        return root;
+    }
+
 }

@@ -6,6 +6,7 @@ import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.ScreenBorderCollisionComponent;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
+import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
 
 import java.util.BitSet;
 import java.util.Iterator;
@@ -42,6 +43,12 @@ public class KnockoutSystem extends System {
             var characterState = characterStateComponentComponents.getComponent(entity);
             if(characterState != null) {
                 characterState.lives--;
+                if(entity == Engine.getPlayer(0)){
+                    GameOverlay.scP2++;
+                }
+                if(entity == Engine.getPlayer(1)){
+                    GameOverlay.scP1++;
+                }
                 if (characterState.lives < 0) {
                     playersLost[lossCount] = entity;
                     lossCount++;

@@ -1,20 +1,20 @@
 [
   {
     "player1": {
-      "left": "arrow_left",
-      "right": "arrow_right",
-      "jump": "arrow_up",
-      "attack": "",
-      "specialAttack": ""
+      "left": "A",
+      "right": "D",
+      "jump": "W",
+      "attack": "F",
+      "specialAttack": "C"
     }
   },
   {
     "player2": {
-      "left": "A",
-      "right": "D",
-      "jump": "W",
-      "attack": "",
-      "specialAttack": ""
+      "left": "arrow_left",
+      "right": "arrow_right",
+      "jump": "arrow_up",
+      "attack": "-",
+      "specialAttack": "."
     }
   }
 ]
