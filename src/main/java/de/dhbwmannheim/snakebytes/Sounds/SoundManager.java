@@ -17,11 +17,17 @@ public class SoundManager {
     private MediaPlayer playerPunch;
     private MediaPlayer playerSpAttack1;
     private MediaPlayer playerSpAttack2;
+    private MediaPlayer playerDamage;
+    private MediaPlayer playerKO;
+    private MediaPlayer playerMatchOver;
 
     private Media sound = new Media(new File("src/main/resources/sounds/jump.mp3").toURI().toString());
     private Media sound2 = new Media(new File("src/main/resources/sounds/punch.mp3").toURI().toString());
     private Media sound3 = new Media(new File("src/main/resources/sounds/spAttack1.mp3").toURI().toString());
     private Media sound4 = new Media(new File("src/main/resources/sounds/spAttack2.mp3").toURI().toString());
+    private Media sound5 = new Media(new File("src/main/resources/sounds/damage.mp3").toURI().toString());
+    private Media sound6 = new Media(new File("src/main/resources/sounds/KO.mp3").toURI().toString());
+    private Media sound7 = new Media(new File("src/main/resources/sounds/matchover.wav").toURI().toString());
 
 
     public SoundManager() {
@@ -29,6 +35,10 @@ public class SoundManager {
         this.playerPunch = new MediaPlayer(sound2);
         this.playerSpAttack1 = new MediaPlayer(sound3);
         this.playerSpAttack2 = new MediaPlayer(sound4);
+        this.playerDamage = new MediaPlayer(sound5);
+        this.playerKO = new MediaPlayer(sound6);
+        this.playerMatchOver = new MediaPlayer(sound7);
+
     }
 
     //to test if simultanious attacks are possible
@@ -53,4 +63,18 @@ public class SoundManager {
         playerSpAttack2.play();
     }
 
+    public void playerDamage() throws Exception {
+        playerDamage.stop();
+        playerDamage.play();
+    }
+
+    public void playerKO() throws Exception {
+        playerKO.stop();
+        playerKO.play();
+    }
+
+    public void playerMatchOver() throws Exception {
+        playerMatchOver.stop();
+        playerMatchOver.play();
+    }
 }
