@@ -12,6 +12,12 @@ import java.util.BitSet;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Authors: @Jonas Lauschke
+ *          @Kirolis Eskondis
+ *          @Thu Giang Tran
+ * This class implements the Engine
+ ***/
 public class Engine {
 
     public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.2222, 0.3167));

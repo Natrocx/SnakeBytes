@@ -27,7 +27,8 @@ import java.util.Hashtable;
 import java.util.List;
 
 /**
- * Author: @Eric Stefan
+ * Authors: @Eric Stefan
+ *         @Kirolis Eskondis
  * This class is handling the inputs of all players (respectively the key presses)
  * and pre-filters if an action should be performed and then performs it.
  * Important: The collision management (e.g. if a player can walk) is not part of this System,
@@ -98,7 +99,7 @@ public class InputSystem extends System {
             temp.x = playerPosition.x + boundingBoxX + 0.01;
         }
         //add two third of the height of the player
-        temp.y = playerPosition.y + (2.0 / 3.0 * boundingBoxY);
+        temp.y = playerPosition.y - 0.04;
 
         if (attackType == 0) {
             if (direction == 0) {
@@ -117,7 +118,7 @@ public class InputSystem extends System {
         } else if (attackType == 1) {
             Double helpX = 0.0;
             if (direction == 0) {
-                temp.x = playerPosition.x;
+                temp.x = playerPosition.x -  0.1;
                 helpX = -0.1;
                 attackStateIndex = 0;
             } else if (direction == 1) {
@@ -132,19 +133,23 @@ public class InputSystem extends System {
             var attackState = new AttackStateComponent(attackStateIndex, entity.id);
 
             Engine.registerEntity(attack);
+            java.lang.System.out.println(attackPosition.value.x);
+            java.lang.System.out.println(attackPosition.value.y);
+            java.lang.System.out.println(playerPosition.x);
+            java.lang.System.out.println(playerPosition.y);
             ComponentManager.addComponent(attack, attackPosition);
             ComponentManager.addComponent(attack, attackBoundingBox);
             ComponentManager.addComponent(attack, attackMotion);
             ComponentManager.addComponent(attack, attackState);
+            Engine.attackList.add(attack);
 
         } else if (attackType == 2) {
             Double hilf = 0.0;
             if (direction == 0) {
-                temp.x = playerPosition.x - 0.03;
+                temp.x = playerPosition.x ;
                 hilf = -0.4;
                 attackStateIndex = 2;
             } else {
-                temp.x = playerPosition.x + 0.03;
                 hilf = 0.4;
                 attackStateIndex = 3;
             }
@@ -164,6 +169,7 @@ public class InputSystem extends System {
             ComponentManager.addComponent(attack, attackMotion);
             ComponentManager.addComponent(attack, attackGravity);
             ComponentManager.addComponent(attack, attackState);
+            Engine.attackList.add(attack);
         }
     }
 
