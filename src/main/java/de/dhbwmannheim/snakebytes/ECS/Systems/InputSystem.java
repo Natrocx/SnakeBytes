@@ -146,7 +146,7 @@ public class InputSystem extends System {
         } else if (attackType == 2) {
             Double hilf = 0.0;
             if (direction == 0) {
-                temp.x = playerPosition.x ;
+                temp.x = playerPosition.x - 0.1;
                 hilf = -0.4;
                 attackStateIndex = 2;
             } else {
@@ -273,11 +273,21 @@ public class InputSystem extends System {
                         characterStateComponent.specialAttacking = true;
                         characterStateComponent.specialAttackCooldown = 2.0;
                         if (characterStateComponent.lookingDirection == 0) {
-                            setupAttack(1, 0, pos, width, height, entity);
-                            characterStateComponent.state = 4;
+                            if(entity == entities.get(0)) {
+                                setupAttack(1, 0, pos, width, height, entity);
+                                characterStateComponent.state = 4;
+                            } else {
+                                setupAttack(2, 0, pos, width, height, entity);
+                                characterStateComponent.state = 4;
+                            }
                         } else {
-                            setupAttack(1, 1, pos, width, height, entity);
-                            characterStateComponent.state = 5;
+                            if (entity == entities.get(0)) {
+                                setupAttack(1, 1, pos, width, height, entity);
+                                characterStateComponent.state = 5;
+                            } else {
+                                setupAttack(2, 1, pos, width, height, entity);
+                                characterStateComponent.state = 5;
+                            }
                         }
 
                         if (i == 0) {
