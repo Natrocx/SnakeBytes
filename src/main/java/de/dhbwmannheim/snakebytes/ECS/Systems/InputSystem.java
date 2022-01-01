@@ -119,17 +119,17 @@ public class InputSystem extends System {
             Double helpX = 0.0;
             if (direction == 0) {
                 temp.x = playerPosition.x -  0.1;
-                helpX = -0.1;
+                helpX = -0.2;
                 attackStateIndex = 0;
             } else if (direction == 1) {
-                helpX = 0.1;
+                helpX = 0.2;
                 attackStateIndex = 1;
             }
             //start position of motion
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, temp.y));
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.01), BoundingBoxComponent.BoxType.Attack);
-            var attackMotion = new MotionComponent(new Vec2<>(helpX, 0.0));
+            var attackMotion = new MotionComponent(new Vec2<>(helpX, 0.0),10);
             var attackState = new AttackStateComponent(attackStateIndex, entity.id);
 
             Engine.registerEntity(attack);
@@ -159,7 +159,7 @@ public class InputSystem extends System {
             //var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.1), BoundingBoxComponent.BoxType.SpecialAttack);
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.1), BoundingBoxComponent.BoxType.Attack);
 
-            var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2));
+            var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2), 10);
             var attackGravity = new GravityComponent(1.0);
             var attackState = new AttackStateComponent(attackStateIndex);
 
