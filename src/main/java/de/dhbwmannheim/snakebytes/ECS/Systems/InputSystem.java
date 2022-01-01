@@ -91,6 +91,7 @@ public class InputSystem extends System {
     private static void setupAttack(int attackType, int direction, Vec2<Double> playerPosition, Double boundingBoxX, Double boundingBoxY, Entity entity) {
 
         Vec2<Double> temp = new Vec2<>();
+        Vec2<Double> spcTemp = new Vec2<>();
         int attackStateIndex = 0;
 
         var attack = new Entity();
@@ -99,7 +100,8 @@ public class InputSystem extends System {
             temp.x = playerPosition.x + boundingBoxX + 0.01;
         }
         //add two third of the height of the player
-        temp.y = playerPosition.y - 0.04;
+        temp.y = playerPosition.y + (2.0 / 3.0 * boundingBoxY);
+        spcTemp.y = playerPosition.y - 0.04;
 
         if (attackType == 0) {
             if (direction == 0) {
@@ -126,7 +128,7 @@ public class InputSystem extends System {
                 attackStateIndex = 1;
             }
             //start position of motion
-            var attackPosition = new PositionComponent(new Vec2<>(temp.x, temp.y));
+            var attackPosition = new PositionComponent(new Vec2<>(temp.x, spcTemp.y));
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.01), BoundingBoxComponent.BoxType.Attack);
             var attackMotion = new MotionComponent(new Vec2<>(helpX, 0.0),10);
@@ -154,7 +156,7 @@ public class InputSystem extends System {
                 attackStateIndex = 3;
             }
             //start position of motion
-            var attackPosition = new PositionComponent(new Vec2<>(temp.x, temp.y));
+            var attackPosition = new PositionComponent(new Vec2<>(temp.x, spcTemp.y));
             //defining width and height of the attack hitbox
             //var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.1), BoundingBoxComponent.BoxType.SpecialAttack);
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.1), BoundingBoxComponent.BoxType.Attack);
