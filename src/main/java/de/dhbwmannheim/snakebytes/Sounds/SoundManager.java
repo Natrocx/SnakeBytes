@@ -6,6 +6,7 @@ package de.dhbwmannheim.snakebytes.Sounds;
  * This class implements the background music during a fight
  ***/
 
+import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -33,24 +34,31 @@ public class SoundManager {
 
     //to test if simultanious attacks are possible
     public void playJumpSound() throws Exception {
-
-        playerJump.stop();
-        playerJump.play();
+        if(!GameOverlay.soundMute) {
+            playerJump.stop();
+            playerJump.play();
+        }
     }
 
     public void playPunchSound() throws Exception {
-        playerPunch.stop();
-        playerPunch.play();
+        if(!GameOverlay.soundMute) {
+            playerPunch.stop();
+            playerPunch.play();
+        }
     }
 
     public void playSpAttack1() throws Exception {
-        playerSpAttack1.stop();
-        playerSpAttack1.play();
+        if(!GameOverlay.soundMute) {
+            playerSpAttack1.stop();
+            playerSpAttack1.play();
+        }
     }
 
     public void playSpAttack2() throws Exception {
-        playerSpAttack2.stop();
-        playerSpAttack2.play();
+        if(!GameOverlay.soundMute) {
+            playerSpAttack2.stop();
+            playerSpAttack2.play();
+        }
     }
 
 }
