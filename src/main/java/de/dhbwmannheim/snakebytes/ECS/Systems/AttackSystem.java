@@ -11,10 +11,9 @@ import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
 import java.util.BitSet;
 
 /**
- * Author: @Jonas Lauschke
- *
- * @Kirolis Eskondis
- * @Thu Giang Tran
+ * Authors: @Jonas Lauschke
+ *          @Kirolis Eskondis
+ *          @Thu Giang Tran
  * This class is the System which handles knockback and collision if an attack occurs
  */
 

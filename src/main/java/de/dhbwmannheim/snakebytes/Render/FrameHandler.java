@@ -55,6 +55,8 @@ public class FrameHandler extends StackPane {
     ArrayList<ImageView> spcAttacksP1 = initializeGraphics("attackP1");
     ArrayList<ImageView> spcAttacksP2 = initializeGraphics("attackP2");
 
+    //Constructor creaates the screen which is shown to the user at the start.
+    //Creates ImageViews for Background, Arena, Platforms, Characters, Attacks and puts them into the respective positions
     public FrameHandler (Stage primaryStage, Consumer<KeyEvent> keyPressCallback) throws Exception {
 
         //Images for entities are set in their starting positions
@@ -65,11 +67,11 @@ public class FrameHandler extends StackPane {
         p2start.setTranslateY(615);
         p2start.setTranslateX(1000);
         ImageView spcAttack1start = spcAttacksP1.get(0);
-        spcAttack1start.setTranslateX(5000);
-        spcAttack1start.setTranslateY(5000);
+        spcAttack1start.setTranslateX(100);
+        spcAttack1start.setTranslateY(100);
         ImageView spcAttack2start = spcAttacksP2.get(0);
-        spcAttack2start.setTranslateY(5000);
-        spcAttack2start.setTranslateX(5000);
+        spcAttack2start.setTranslateY(100);
+        spcAttack2start.setTranslateX(100);
 
         //createGameContent builds the Background and GameOverlay
         Menus.createGameContent(primaryStage);
@@ -91,17 +93,32 @@ public class FrameHandler extends StackPane {
     }
 
 
+    //Updates the current View of the Gameplay
     public void update(Stage primaryStage){
+        //This is needed for a JavaFX Thread
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
 
+        //Get Players and their positions, playerstates
         Entity player1 = Engine.getPlayer(0);
         Entity player2 = Engine.getPlayer(1);
         var positionComponent = ComponentManager.getComponentList(PositionComponent.class);
         var playerstate = ComponentManager.getComponentList(CharacterStateComponent.class);
 
         var position1 = positionComponent.getComponent(player1);
+        /*
+        The way playerstates work:
+        0- looking left
+        1- looking right
+        2- normal attack left
+        3 - normal attack right
+        4 - special attack left
+        5 - special attack right
+         */
+        //Gets the needed image for the current state out of the ArrayList.
+        //If it is one of the attack states, the ImageView must be wider because the characters use their arms instead of
+        //them just simply hanging off the side of their bodies
         if(playerstate.getComponent(player1) != null){
             ImageView p1 = imagesP1.get(playerstate.getComponent(player1).state);
             if(playerstate.getComponent(player1).state >1){
@@ -119,15 +136,17 @@ public class FrameHandler extends StackPane {
         replace(p2,3,position2);
         }
 
-        /*
-        if(positionComponent1 !=null){
 
+        //remove special attacks which already collided with another player/screenborder
+        if(Engine.attackList.size() == 0){
+            PositionComponent defaultPos = new PositionComponent(new Vec2(3.0,3.0));
+            ImageView defaultAtk1 = spcAttacksP1.get(0);
+            ImageView defaultAtk2 = spcAttacksP2.get(0);
+            replace(defaultAtk1,4,defaultPos);
+            replace(defaultAtk2,5,defaultPos);
         }
-        if(positionComponent2 !=null){
-
-        }*/
-
-        if(Engine.attackList.size() == 1){
+        //If one special attack is used at a time
+        else if(Engine.attackList.size() == 1){
 
             Entity attackEntity1 = Engine.attackList.get(0);
             var attackstate = ComponentManager.getComponentList(AttackStateComponent.class).getComponent(attackEntity1).state;
@@ -142,7 +161,9 @@ public class FrameHandler extends StackPane {
                     replace(atk1,5,attackpos);
             }
 
-        } else if (Engine.attackList.size() == 2) {
+        }
+        //if two special attacks are used at the same time
+        else if (Engine.attackList.size() == 2) {
 
             for(Entity e: Engine.attackList){
                 var attackstate = ComponentManager.getComponentList(AttackStateComponent.class).getComponent(e).state;
@@ -167,8 +188,14 @@ public class FrameHandler extends StackPane {
 
     }
 
-    //
+    //replaces current Images with new ones at a new position depending on character/attack state
     public void replace(ImageView pic, int index, PositionComponent position){
+        if(position.value.x > 1.0 | position.value.y > 1.0){
+            pic.setTranslateX(5000);
+            pic.setTranslateY(5000);
+            Menus.root.getChildren().remove(index);
+            Menus.root.getChildren().add(index,pic);
+        }
         pic.setTranslateY((1 - position.value.y) * 900);
         pic.setTranslateX(position.value.x * 1350);
         Menus.root.getChildren().remove(index);
@@ -176,11 +203,11 @@ public class FrameHandler extends StackPane {
 
     }
 
-    //returns ArrayList of needed Images that are sized as needed
-    public ArrayList initializeGraphics(String player){
+    //returns ArrayLists of needed Images in the same order as characterstates are numbered
+    public ArrayList initializeGraphics(String listCase){
         ArrayList<ImageView> images = new ArrayList<ImageView>();
 
-        switch (player){
+        switch (listCase){
             case "player1":
                 ImageView p1left = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-left.png").toURI().toString()));
                 ImageView p1right = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-right.png").toURI().toString()));

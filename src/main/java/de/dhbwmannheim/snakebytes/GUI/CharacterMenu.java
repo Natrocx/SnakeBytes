@@ -1,8 +1,5 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-//by Kai Schwab
-//   Kirolis Eskondis
-
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
 import de.dhbwmannheim.snakebytes.ECS.Systems.InputSystem;
@@ -39,9 +36,10 @@ import java.util.Objects;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
-//by Kai Schwab
-
-
+/**
+ * Authors: @Kai Schwab
+ *          @Kirolis Eskondis
+ */
 
 public class CharacterMenu extends StackPane {
     public static int rounds = 3;

@@ -3,6 +3,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
+import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -32,8 +33,8 @@ import java.util.concurrent.TimeUnit;
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 //by Kai Schwab
-
 public class GameOverlay extends StackPane {
+    public static boolean soundMute = false;
     int counter = 3;
     public static int scP1 = 0;
     public static int scP2 = 0;
@@ -411,17 +412,9 @@ class  Sound extends StackPane {
             }
             circle.setFill(Color.YELLOW);
             if(mute==true){
-                try {
-                   // Menus.soundplayer.setVolume(0,0);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                GameOverlay.soundMute = true;
             }else {
-                try {
-                    Menus.mediaplayer.playMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                GameOverlay.soundMute = false;
             }
         });
         circle.setOnMouseReleased(event -> {
@@ -452,17 +445,9 @@ class  Sound extends StackPane {
                 mute=true;
             }
             if(mute==true){
-                try {
-                    Menus.mediaplayer.pauseMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                GameOverlay.soundMute = true;
             }else {
-                try {
-                    Menus.mediaplayer.playMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                GameOverlay.soundMute = false;
             }
         });
         r1.setOnMouseReleased(event -> {
