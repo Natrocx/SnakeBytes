@@ -62,7 +62,7 @@ public class AttackSystem extends System {
                 //if special attack is registered, then
 
                 //add knockback to player
-                playerKnockback.knockback +=0.075;
+                playerKnockback.knockback +=0.1;
 
                 //push enemy with new calculated knockback * velocity
                 //attackMotion.velocity = new Vec2<>(attackMotion.velocity.x + 0.1 * playerKnockback.knockback, attackMotion.velocity.y + 0.05 * playerKnockback.knockback);
