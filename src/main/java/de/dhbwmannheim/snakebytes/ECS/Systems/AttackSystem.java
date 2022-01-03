@@ -1,12 +1,11 @@
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
-import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
-import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
-import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
+import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
+import javafx.geometry.Pos;
 
 import java.util.BitSet;
 
@@ -68,11 +67,25 @@ public class AttackSystem extends System {
                 //attackMotion.velocity = new Vec2<>(attackMotion.velocity.x + 0.1 * playerKnockback.knockback, attackMotion.velocity.y + 0.05 * playerKnockback.knockback);
 
             }
-            if(lookingDirection.lookingDirection == 0){
-                attackMotion.velocity = new Vec2<>(attackMotion.velocity.x + (0.1 * playerKnockback.knockback), attackMotion.velocity.y + (0.05 * playerKnockback.knockback));
+            Entity player2 = null;
+            for(Entity player : Engine.getPlayers()){
+                if(player == entity){
+                    if(player == Engine.getPlayer(0)){
+                        player2 = Engine.getPlayer(1);
+                    } else{
+                        player2 = Engine.getPlayer(0);
+
+                    }
+                }
             }
-            if(lookingDirection.lookingDirection == 1){
-                attackMotion.velocity = new Vec2<>(attackMotion.velocity.x - (0.1 * playerKnockback.knockback), attackMotion.velocity.y + (0.05 * playerKnockback.knockback));
+            if(player2 != null){
+                PositionComponent player2AttackPos = ComponentManager.getComponentList(PositionComponent.class).getComponent(player2);
+                if(player2AttackPos.value.x < attackPosition.value.x){
+                    attackMotion.velocity = new Vec2<>(attackMotion.velocity.x + (0.1 * playerKnockback.knockback), attackMotion.velocity.y + (0.05 * playerKnockback.knockback));
+                }
+                if(player2AttackPos.value.x > attackPosition.value.x){
+                    attackMotion.velocity = new Vec2<>(attackMotion.velocity.x - (0.1 * playerKnockback.knockback), attackMotion.velocity.y + (0.05 * playerKnockback.knockback));
+                }
             }
             java.lang.System.out.println(entities.size());
             attackMotion.timeToDecay = 1;
