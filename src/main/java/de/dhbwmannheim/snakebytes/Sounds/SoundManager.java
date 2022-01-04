@@ -11,6 +11,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
+import java.net.URL;
 
 public class SoundManager {
 
@@ -22,13 +23,14 @@ public class SoundManager {
     private MediaPlayer playerKO;
     private MediaPlayer playerMatchOver;
 
-    private Media sound = new Media(new File("src/main/resources/sounds/jump.mp3").toURI().toString());
-    private Media sound2 = new Media(new File("src/main/resources/sounds/punch.mp3").toURI().toString());
-    private Media sound3 = new Media(new File("src/main/resources/sounds/spAttack1.mp3").toURI().toString());
-    private Media sound4 = new Media(new File("src/main/resources/sounds/spAttack2.mp3").toURI().toString());
-    private Media sound5 = new Media(new File("src/main/resources/sounds/damage.mp3").toURI().toString());
-    private Media sound6 = new Media(new File("src/main/resources/sounds/KO.mp3").toURI().toString());
-    private Media sound7 = new Media(new File("src/main/resources/sounds/matchover.wav").toURI().toString());
+    private Media sound = new Media(getClass().getResource("/sounds/jump.mp3").toString());
+    private Media sound2 = new Media(getClass().getResource("/sounds/punch.mp3").toString());
+    private Media sound3 = new Media(getClass().getResource("/sounds/spAttack1.mp3").toString());
+    private Media sound4 = new Media(getClass().getResource("/sounds/spAttack2.mp3").toString());
+    private Media sound5 = new Media(getClass().getResource("/sounds/damage.mp3").toString());
+    private Media sound6 = new Media(getClass().getResource("/sounds/KO.mp3").toString());
+    private Media sound7 = new Media(getClass().getResource("/sounds/matchover.wav").toString());
+
 
 
     public SoundManager() {

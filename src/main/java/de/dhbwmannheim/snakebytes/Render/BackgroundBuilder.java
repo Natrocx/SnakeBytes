@@ -14,14 +14,14 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class BackgroundBuilder extends StackPane{
+public class                                                                                                                                             BackgroundBuilder extends StackPane{
 
 
 
 
     public BackgroundBuilder(Stage primaryStage) throws FileNotFoundException {
         //set Background image
-        Background bckgrnd = new Background(new BackgroundImage(new Image(new File("src/main/resources/level_assets/background.png").toURI().toString()),
+        Background bckgrnd = new Background(new BackgroundImage(new Image(getClass().getResource("/level_assets/background.png").toString()),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
                 new BackgroundPosition(Side.LEFT, 0, true, Side.BOTTOM, 0, true),
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)));
@@ -30,8 +30,8 @@ public class BackgroundBuilder extends StackPane{
         setBackground(bckgrnd);
 
         //set platform images as well as their positions and size
-        Image floor = new Image(new File("src/main/resources/level_assets/Floor.png").toURI().toString());
-        Image step = new Image(new File("src/main/resources/level_assets/Steps.png").toURI().toString());
+        Image floor = new Image(getClass().getResource("/level_assets/Floor.png").toString());
+        Image step = new Image(getClass().getResource("/level_assets/Steps.png").toString());
 
 
         ImageView floorIMG = new ImageView(floor);

@@ -20,18 +20,24 @@ import java.io.IOException;
 
 public class Menus extends Application {
 
-    public static Pane root = new Pane();
+    public static Pane root;
 
     //by Kai Schwab
-    public static MusicManager mediaplayer = new MusicManager();
-    public static SoundManager soundplayer = new SoundManager();
+    public static MusicManager mediaplayer;
+    public static SoundManager soundplayer;
 
     public static void main(String[] args) {
+        root = new Pane();
+        mediaplayer = new MusicManager();
+        soundplayer = new SoundManager();
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
+        root = new Pane();
+        mediaplayer = new MusicManager();
+        soundplayer = new SoundManager();
         JsonHandler.saveDefaultJson();
         try {
             JsonHandler.saveScoreboardDefaultJson();
