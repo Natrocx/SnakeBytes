@@ -1,13 +1,19 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
+import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 
 import java.util.BitSet;
 
+/**
+ * Authors: @Jonas Lauschke
+ *          @Kirolis Eskondis
+ *          @Thu Giang Tran
+ * This class handles all collisions in the game
+ **/
 
 public class CollisionSystem extends System {
 
@@ -22,6 +28,8 @@ public class CollisionSystem extends System {
     private final ComponentList<AttackCollisionComponent> attackCollisionComponents;
     private final ComponentList<ScreenBorderCollisionComponent> screenBorderCollisionComponents;
     private final ComponentList<CharacterStateComponent> characterStateComponents;
+
+    SoundManager soundManager = new SoundManager();
 
     public CollisionSystem() {
         signature = new BitSet();
@@ -154,6 +162,12 @@ public class CollisionSystem extends System {
                 e2Pos.value.x += 0.5 * x_overlap;
                 //e2Pos.value.y += 0.5 * y_overlap;
 
+                try {
+                    soundManager.playDamage();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 motionComponents.getComponent(e1).velocity.y = 0.0;
                 motionComponents.getComponent(e1).velocity.x = 0.0;
 
@@ -167,14 +181,29 @@ public class CollisionSystem extends System {
             case SpecialAttack:
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(true));
                 Engine.destroyAttack(e2);
+                try {
+                    soundManager.playDamage();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case Attack:
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(false));
                 Engine.destroyAttack(e2);
+                try {
+                    soundManager.playDamage();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case Screen:
                 screenBorderCollisionComponents.insertComponent(e1, new ScreenBorderCollisionComponent());
+                try {
+                    soundManager.playKO();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
