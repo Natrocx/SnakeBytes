@@ -3,6 +3,7 @@ package de.dhbwmannheim.snakebytes.ECS.Base;
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.*;
 import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
+import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.scene.input.KeyEvent;
 
 import java.time.Duration;
@@ -265,6 +266,12 @@ public class Engine {
      * @param playersKnockedOut Array of players that lost in the current tick of the engine
      */
     public static void finish(Entity[] playersKnockedOut) {
+        SoundManager soundManager = new SoundManager();
+        try {
+            soundManager.playMatchOver();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         for (Entity entity : playersKnockedOut) {
             if (entity == players[0] && finish == null) {
                 finish = Victory.PlayerOne;

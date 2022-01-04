@@ -42,7 +42,7 @@ public class SoundManager {
 
     }
 
-    //to test if simultanious attacks are possible
+    //to test if simultaneous attacks are possible
     public void playJumpSound() throws Exception {
         if(!GameOverlay.soundMute) {
             playerJump.stop();
@@ -71,21 +71,21 @@ public class SoundManager {
         }
     }
 
-    public void playerDamage() throws Exception {
+    public void playDamage() throws Exception {
         if(!GameOverlay.soundMute) {
             playerDamage.stop();
             playerDamage.play();
         }
     }
 
-    public void playerKO() throws Exception {
+    public void playKO() throws Exception {
         if(!GameOverlay.soundMute) {
             playerKO.stop();
             playerKO.play();
         }
     }
 
-    public void playerMatchOver() throws Exception {
+    public void playMatchOver() throws Exception {
         if(!GameOverlay.soundMute) {
             playerMatchOver.stop();
             playerMatchOver.play();
