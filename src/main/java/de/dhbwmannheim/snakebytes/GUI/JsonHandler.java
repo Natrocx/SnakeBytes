@@ -1,17 +1,15 @@
-package de.dhbwmannheim.snakebytes.GUI;
+package de.dhbwmannheim.snakebytes;
 
+//by Robert Sedlmeier and Eric Stefan
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.*;
 import java.util.Hashtable;
-import org.json.simple.parser.ParseException;
+import java.util.Objects;
 
-/**
- * Author:  @Eric Stefan
- *          @Robert Sedlmeier
- **/
+import org.json.simple.parser.ParseException;
 
 public class JsonHandler {
 
@@ -43,9 +41,41 @@ public class JsonHandler {
     //save the default keySettings json into the working directory
     public static void saveDefaultJson(){
         setDirectory();
-        File file = new File("src/main/resources/keySettings.json");
-        file.renameTo(new File(workingDirectory+"/keySettings.json"));
-
+        File file = new File(Objects.requireNonNull(JsonHandler.class.getResource("/settings/keySettings.json")).toString());
+        File file2 = new File(workingDirectory+ "/settings/keySettings.json");
+        file.renameTo(new File(workingDirectory+ "/settings/keySettings.json"));
+//        try {
+//            Files.copy(file.toPath(),file2.toPath());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+////        }
+//        JSONParser jsonParser = new JSONParser();
+//        FileReader reader = null;
+//        try {
+//            reader = new FileReader(JsonHandler.class.getResource("/settings/keySettings.json").toString());
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        Object obj = null;
+//        try {
+//            obj = jsonParser.parse(reader);
+//        } catch (IOException | ParseException e) {
+//            e.printStackTrace();
+//        }
+//        JSONArray arr = (JSONArray) obj;
+//        File file0 = new File(workingDirectory+ "/settings/keySettings.json");
+//        file0.getParentFile().mkdirs();
+//        try {
+//            file0.createNewFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try (FileWriter fileWriter = new FileWriter(workingDirectory+ "/settings/keySettings.json")) {
+//            fileWriter.write(arr.toJSONString());
+//            fileWriter.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static JSONArray toScoreboardJson(String[] stringArray) throws IOException, ParseException {
@@ -114,7 +144,7 @@ public class JsonHandler {
         settingsList.add(p1name);
         settingsList.add(p2name);
 
-        try (FileWriter file = new FileWriter(workingDirectory+"/keySettings.json")) {
+        try (FileWriter file = new FileWriter(workingDirectory+ "/settings/keySettings.json")) {
             file.write(settingsList.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -127,7 +157,7 @@ public class JsonHandler {
         Hashtable<String, String> playersettings = new Hashtable<>();
 
         JSONParser jsonParser = new JSONParser();
-        FileReader reader = new FileReader(workingDirectory+"/keySettings.json");
+        FileReader reader = new FileReader(workingDirectory+ "/settings/keySettings.json");
         Object obj = jsonParser.parse(reader);
         JSONArray arr = (JSONArray) obj;
 
