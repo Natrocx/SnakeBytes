@@ -2,19 +2,13 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
-import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
-import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -28,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.lang.System;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
@@ -258,7 +251,7 @@ class  Pause extends StackPane {
         });
         circle.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
-            //Pause();
+            Engine.togglePause();
         });
         circle.setOnMouseReleased(event -> {
             circle.setFill(Color.RED);
@@ -271,7 +264,7 @@ class  Pause extends StackPane {
         });
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
-            //Pause();
+            Engine.togglePause();
         });
         r1.setOnMouseReleased(event -> {
             circle.setFill(Color.RED);
@@ -284,7 +277,7 @@ class  Pause extends StackPane {
         });
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
-            //Pause();
+            Engine.togglePause();
         });
         r2.setOnMouseReleased(event -> {
             circle.setFill(Color.RED);
