@@ -286,8 +286,8 @@ public class Engine {
         }
     }
 
-    public static void setPaused(boolean paused) {
-        Engine.paused = paused;
+    public static void togglePause() {
+        paused = !paused;
     }
 
     public static Victory run() throws Exception {
@@ -296,6 +296,7 @@ public class Engine {
         while (finish == Victory.None) {
             if (paused) {
                 Thread.sleep(16);
+                last = Instant.now();
             } else {
                 Instant now = Instant.now();
                 /* Systems will be executed in order of registration - see setup for further information */
