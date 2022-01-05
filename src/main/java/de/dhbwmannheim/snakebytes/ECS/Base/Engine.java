@@ -30,6 +30,8 @@ public class Engine {
     private static Victory finish = Victory.None;
     public static boolean paused = false;
     private static InputSystem inputSystem;
+    private static SoundManager soundManager = new SoundManager();
+
 
     public static void registerSystem(System sys) {
         systems.add(sys);
@@ -267,12 +269,8 @@ public class Engine {
      * @param playersKnockedOut Array of players that lost in the current tick of the engine
      */
     public static void finish(Entity[] playersKnockedOut) {
-        SoundManager soundManager = new SoundManager();
-        try {
-            soundManager.playMatchOver();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        soundManager.playMatchOver();
+
         for (Entity entity : playersKnockedOut) {
             if (entity == players[0] && finish == Victory.None) {
                 finish = Victory.PlayerOne;

@@ -170,12 +170,9 @@ class  Game_Timer extends StackPane {
                         }
                     }else {
                         Scene scene=null;
+                        Entity[] playerslost = new Entity[2];
                         try {
-                            try {
-                                Menus.mediaplayer.pauseMusic();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            Menus.mediaplayer.pauseMusic();
                             if(GameOverlay.scP1>GameOverlay.scP2){
                                 EndScreen.winner="P1";
                             }

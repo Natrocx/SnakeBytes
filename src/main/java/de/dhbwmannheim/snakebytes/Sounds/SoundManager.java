@@ -9,6 +9,7 @@ package de.dhbwmannheim.snakebytes.Sounds;
 import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.File;
 
