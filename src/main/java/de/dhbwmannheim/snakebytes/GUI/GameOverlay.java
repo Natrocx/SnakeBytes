@@ -165,8 +165,10 @@ class  Game_Timer extends StackPane {
                 Duration.millis(1000),
                 ae -> {
                     if(t>0) {
-                        timer.getChildren().set(0, new Title2("   " + t + " sek" + "   "));
-                        t--;
+                        if(!Engine.paused) {
+                            timer.getChildren().set(0, new Title2("   " + t + " sek" + "   "));
+                            t--;
+                        }
                     }else {
                         Scene scene=null;
                         try {

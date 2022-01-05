@@ -39,8 +39,8 @@ public class SettingsMenu extends StackPane {
 
         SettingsTable settings = new SettingsTable(primaryStage);
         Button b = new Button();
-        b.setText("refresh");
-        b.setTranslateX(925);
+        b.setText("Refresh");
+        b.setTranslateX(750);
         b.setTranslateY(100);
         b.setOnMouseClicked(event->{
             getChildren().clear();
@@ -94,16 +94,16 @@ class SettingsTable extends StackPane {
         }
 
         // Settings Topics
-        SettingsTopic moveSetTitle = new SettingsTopic("A C T I O N S");
-        moveSetTitle.setTranslateX(200);
+        SettingsTopic moveSetTitle = new SettingsTopic("ACTIONS");
+        moveSetTitle.setTranslateX(215);
         moveSetTitle.setTranslateY(220);
 
-        SettingsTopic player1Title = new SettingsTopic("P L A Y E R 1");
-        player1Title.setTranslateX(550);
+        SettingsTopic player1Title = new SettingsTopic("CYBER-KAMMERJAEGER");
+        player1Title.setTranslateX(440);
         player1Title.setTranslateY(220);
 
-        SettingsTopic player2Title = new SettingsTopic("P L A Y E R 2");
-        player2Title.setTranslateX(800);
+        SettingsTopic player2Title = new SettingsTopic("EXMATRIKULATOR");
+        player2Title.setTranslateX(880);
         player2Title.setTranslateY(220);
 
         // Settings Elements
@@ -113,12 +113,12 @@ class SettingsTable extends StackPane {
                 new TextItem("right"),
                 new TextItem("Attack"),
                 new TextItem("Special Attack"));
-        moveSet.setTranslateX(200);
+        moveSet.setTranslateX(100);
         moveSet.setTranslateY(250);
 
         Button saveButton = new Button();
         saveButton.setText("Save");
-        saveButton.setTranslateX(593);
+        saveButton.setTranslateX(620);
         saveButton.setTranslateY(0);
 
 
@@ -165,7 +165,7 @@ class SettingsTable extends StackPane {
                 b3, // right
                 b4, // Attack 1
                 b5); // Attack 2
-        player1Box.setTranslateX(550);
+        player1Box.setTranslateX(450);
         player1Box.setTranslateY(250);
 
         ButtonItem b6 = new ButtonItem(controlsp2.get("jump"), primaryStage, "jump2");
@@ -212,7 +212,7 @@ class SettingsTable extends StackPane {
                 b8, // right
                 b9, // Attack 1
                 b10); // Attack 2
-        player2Box.setTranslateX((800));
+        player2Box.setTranslateX((840));
         System.out.println();
         player2Box.setTranslateY(250);
         createSeperator();

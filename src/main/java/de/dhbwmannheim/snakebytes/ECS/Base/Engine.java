@@ -29,7 +29,7 @@ public class Engine {
     private static final Entity[] players = new Entity[2];
     public static ArrayList<Entity> attackList = new ArrayList<>();
     private static Victory finish = Victory.None;
-    private static boolean paused = false;
+    public static boolean paused = false;
     private static InputSystem inputSystem;
 
     public static void registerSystem(System sys) {
