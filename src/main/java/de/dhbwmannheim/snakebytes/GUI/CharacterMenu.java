@@ -221,17 +221,10 @@ class SideMenuItem extends StackPane {
                     bg.setFill(Color.DARKGOLDENROD);
                     if (Objects.equals(name, "Start")) {
                         JsonHandler.saveDefaultJson();
-                        FrameHandler frameHandler = null;
+                        Engine.setup();
+                        FrameHandler frameHandler = new FrameHandler(primaryStage, Engine.getKeyPressedCallback());
 
-                        try {
-                            Engine.setup();
-                            frameHandler = new FrameHandler(primaryStage, Engine.getKeyPressedCallback());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        FrameHandler finalFrameHandler = frameHandler;
-                        startRender(finalFrameHandler, primaryStage);
+                        startRender(frameHandler, primaryStage);
 
                         EngineLoop loop = new EngineLoop();
                         loop.start();

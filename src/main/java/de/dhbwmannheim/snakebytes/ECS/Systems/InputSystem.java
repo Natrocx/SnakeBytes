@@ -142,7 +142,7 @@ public class InputSystem extends System {
         } else if (attackType == 2) {
             Double hilf = 0.0;
             if (direction == 0) {
-                temp.x = playerPosition.x - 0.1;
+                temp.x = playerPosition.x - 0.12;
                 hilf = -0.4;
                 attackStateIndex = 2;
             } else {
@@ -153,7 +153,7 @@ public class InputSystem extends System {
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, spcTemp.y));
             //defining width and height of the attack hitbox
             //var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.1), BoundingBoxComponent.BoxType.SpecialAttack);
-            var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.1), BoundingBoxComponent.BoxType.SpecialAttack);
+            var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.12, 0.12), BoundingBoxComponent.BoxType.SpecialAttack);
 
             var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2), 10);
             var attackGravity = new GravityComponent(1.0);
@@ -267,7 +267,7 @@ public class InputSystem extends System {
                     //if there is no special attack cooldown -> attack and set attackCooldown
                     if (characterStateComponent.specialAttackCooldown == 0) {
                         characterStateComponent.specialAttacking = true;
-                        characterStateComponent.specialAttackCooldown = 2.0;
+                        characterStateComponent.specialAttackCooldown = 5.0;
                         if (characterStateComponent.lookingDirection == 0) {
                             if(entity == entities.get(0)) {
                                 setupAttack(1, 0, pos, width, height, entity);
@@ -292,32 +292,6 @@ public class InputSystem extends System {
                             soundManager.playSpAttack2();
                         }
                         break;
-/*
-                        //for each player play the specific sound of the special attack
-                        //and set the specific specialAttackCooldown
-                        if (player1KeySettings.containsKey(key)) {
-                            characterStateComponent.specialAttackCooldown = 2.0;
-                            if (characterStateComponent.lookingDirection == 0) {
-                                setupAttack(1, 0, pos, width, height);
-                                characterStateComponent.state = 4;
-                            } else {
-                                setupAttack(1, 1, pos, width, height);
-                                characterStateComponent.state = 5;
-                            }
-                            //soundManager.playSpAttack1();
-                        } else {
-                            characterStateComponent.specialAttackCooldown = 2.5;
-                            if (characterStateComponent.lookingDirection == 0) {
-                                setupAttack(2, 0, pos, width, height);
-                                characterStateComponent.state = 4;
-                            } else {
-                                setupAttack(2, 1, pos, width, height);
-                                characterStateComponent.state = 5;
-                            }
-                            //soundManager.playSpAttack2();
-                        }
-                    }
-                    break;*/
                     }
             }
         }
