@@ -6,6 +6,10 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
 
+/**
+ * Author:  @
+ **/
+
 public class JsonReaderScoreboard {
     public static void run() {
         try {

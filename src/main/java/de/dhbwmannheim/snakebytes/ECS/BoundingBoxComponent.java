@@ -2,7 +2,9 @@ package de.dhbwmannheim.snakebytes.ECS;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.Component;
 
-//      Author: Jonas Lauschke
+/**
+ * Author:  @Jonas Lauschke
+ **/
 
 public class BoundingBoxComponent extends Component {
     public static final int id = 0b1;

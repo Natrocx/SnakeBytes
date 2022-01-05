@@ -11,10 +11,10 @@ import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
 import java.util.BitSet;
 
-/*
+/**
  * Author: @Jonas Lauschke
  * This System processes character movement
- */
+ **/
 
 public class MotionSystem extends System {
 

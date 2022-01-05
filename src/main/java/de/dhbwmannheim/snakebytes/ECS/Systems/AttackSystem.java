@@ -7,12 +7,12 @@ import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
 import java.util.BitSet;
 
-/*
- * Authors: @Jonas Lauschke
- *          @Kirolis Eskondis
- *          @Thu Giang Tran
+/**
+ * Author:  @Jonas Lauschke
+ *           @Kirolis Eskondis
+ *           @Thu Giang Tran
  * This class is the System which handles knockback and collision if an attack occurs
- */
+ **/
 
 public class AttackSystem extends System {
 

@@ -1,13 +1,15 @@
 package de.dhbwmannheim.snakebytes.Render;
 
-/* Author: @Kirolis Eskondis
-  This class builds the arena when match is started
-*/
 import javafx.geometry.Side;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import java.io.File;
+
+/**
+ * Author: @Kirolis Eskondis
+ * This class builds the arena when match is started
+ **/
 
 public class BackgroundBuilder extends StackPane{
 

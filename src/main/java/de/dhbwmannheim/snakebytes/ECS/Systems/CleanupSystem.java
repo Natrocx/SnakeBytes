@@ -9,6 +9,10 @@ import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
 import java.util.BitSet;
 
+/**
+ * Author:  @Jonas Lauschke
+ **/
+
 public class CleanupSystem extends System {
 
     private final ComponentList<AttackStateComponent> attackStateComponents;

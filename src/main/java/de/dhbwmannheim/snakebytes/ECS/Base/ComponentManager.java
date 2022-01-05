@@ -1,4 +1,3 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
@@ -6,6 +5,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.BitSet;
 import java.util.HashMap;
+
+/**
+ * Author:  @Jonas Lauschke
+ **/
 
 public class ComponentManager {
 

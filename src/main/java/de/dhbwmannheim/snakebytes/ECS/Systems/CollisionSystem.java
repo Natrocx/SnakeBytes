@@ -8,12 +8,12 @@ import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 
 import java.util.BitSet;
 
-/*
+/**
  * Authors: @Jonas Lauschke
  *          @Kirolis Eskondis
  *          @Thu Giang Tran
  * This class handles all collisions in the game
- */
+ **/
 
 public class CollisionSystem extends System {
 

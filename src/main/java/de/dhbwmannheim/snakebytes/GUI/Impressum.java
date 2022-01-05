@@ -11,8 +11,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-//by Kai Schwab
-
+/**
+ * Author:  @Kai Schwab
+ **/
 public class Impressum extends VBox {
     public Impressum(Stage primaryStage) {
         //Title

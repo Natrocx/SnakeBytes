@@ -1,7 +1,4 @@
-
 package de.dhbwmannheim.snakebytes.GUI;
-
-//by Kai Schwab
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -13,6 +10,10 @@ import javafx.stage.Stage;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+
+/**
+ * Author:  @Kai Schwab
+ **/
 
 public class EndScreen extends VBox {
     public static String winner = "P1";

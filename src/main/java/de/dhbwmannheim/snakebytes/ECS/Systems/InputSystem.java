@@ -1,5 +1,3 @@
-//code by Eric Stefan, Jonas Lauschke
-
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.*;

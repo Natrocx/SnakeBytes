@@ -1,7 +1,5 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-//by Kai Schwab
-
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
@@ -23,6 +21,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Author:  @Kai Schwab
+ **/
 
 public class Scoreboard extends VBox {
     static ComponentList<CharacterStateComponent> characterStateComponentComponents;

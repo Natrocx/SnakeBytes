@@ -28,11 +28,11 @@ import java.util.Objects;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
-/*
+/**
  * Authors: @Kai Schwab
  *          @Kirolis Eskondis
  * This class builds the character selection menu
- */
+ **/
 
 public class CharacterMenu extends StackPane {
     public static int rounds = 3;

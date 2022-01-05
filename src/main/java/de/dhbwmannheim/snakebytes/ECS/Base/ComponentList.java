@@ -1,4 +1,3 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import java.util.Collection;
@@ -7,8 +6,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 /**
- * A packed/dense List of Components indexed by Entities
- */
+ * Author:  @Jonas Lauschke
+ **/
+
+// A packed/dense List of Components indexed by Entities
+
 public class ComponentList<T extends Component> {
 
     private final Map<Entity, T> components = new ConcurrentHashMap<>();

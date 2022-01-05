@@ -20,7 +20,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 
-//by Kai Schwab
+/**
+ * Author:  @Kai Schwab
+ **/
 
 public class MainMenu extends VBox {
     public MainMenu(Stage primaryStage) {

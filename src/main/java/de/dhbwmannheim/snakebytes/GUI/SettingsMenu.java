@@ -1,7 +1,5 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-//by Kai Schwab, Eric Stefan
-
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,6 +23,11 @@ import java.io.IOException;
 import java.util.Hashtable;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
+
+/**
+ * Author:  @Kai Schwab
+ *          @Eric Stefan
+ **/
 
 public class SettingsMenu extends StackPane {
     public SettingsMenu(Stage primaryStage) {

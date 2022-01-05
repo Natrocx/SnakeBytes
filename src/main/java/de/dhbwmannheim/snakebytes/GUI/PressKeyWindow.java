@@ -1,6 +1,5 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -11,6 +10,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Author:  @
+ **/
 
 public class PressKeyWindow extends VBox {
 

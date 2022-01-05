@@ -2,7 +2,9 @@ package de.dhbwmannheim.snakebytes.ECS;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.Component;
 
-//      Author: Eric Stefan
+/**
+ * Author:  @Eric Stefan
+ **/
 
 public class AttackStateComponent extends Component {
     public static int id = 0b100000000;
