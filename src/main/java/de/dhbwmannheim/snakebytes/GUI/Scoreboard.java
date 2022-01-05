@@ -66,10 +66,10 @@ public class Scoreboard extends VBox {
         //Header
         HeaderS headerS = new HeaderS(primaryStage);
         headerS.setTranslateX(-400);
-        Button buttonNext = new Button("next page");
+        Button buttonNext = new Button("nächste Seite");
         buttonNext.setTranslateX(80);
         buttonNext.setTranslateY(5);
-        Button buttenPrev = new Button("previous page");
+        Button buttenPrev = new Button("vorherige Seite");
         buttenPrev.setTranslateX(80);
         buttenPrev.setTranslateY(10);
 

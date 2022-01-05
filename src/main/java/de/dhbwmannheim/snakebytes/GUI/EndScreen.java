@@ -17,7 +17,7 @@ import java.io.IOException;
 public class EndScreen extends VBox {
     public static String winner = "P1";
     public EndScreen(Stage primaryStage){
-        Title2 title = new Title2("The Winner is "+winner);
+        Title2 title = new Title2("Der Gewinner ist "+winner);
 
         StatsRow kills = new StatsRow("Kills",String.valueOf(GameOverlay.scP1),String.valueOf(GameOverlay.scP2));
         StatsRow dmg = new StatsRow("dmg","1","3");

@@ -40,7 +40,7 @@ public class CharacterMenu extends StackPane {
     public static boolean render = false;
     public CharacterMenu(Stage primaryStage){
         //title
-        Title2 title = new Title2("Choose your Character");
+        Title2 title = new Title2("Wähle deinen Charakter");
         title.setTranslateY(-250);
         title.setTranslateX((1350 / 2) - 340);
         //Side Menu1
@@ -81,7 +81,7 @@ class Title2 extends StackPane {
 class SideMenu1 extends VBox {
     public SideMenu1( Stage primaryStage){
         SideMenuItem left1 = new SideMenuItem("Tunier", primaryStage);
-        SideMenuValueSelect left2 = new SideMenuValueSelect("Points",String.valueOf(CharacterMenu.rounds));
+        SideMenuValueSelect left2 = new SideMenuValueSelect("Punkte",String.valueOf(CharacterMenu.rounds));
         getChildren().addAll(left1,createSeperator(),left2);
 
     }
@@ -174,7 +174,7 @@ class CharakterSelect3 extends HBox {
 class SideMenu2 extends VBox{
     public SideMenu2( Stage primaryStage){
         Back back =new Back(primaryStage);
-        SideMenuValueSelect right1 = new SideMenuValueSelect("Time",String.valueOf(CharacterMenu.time));
+        SideMenuValueSelect right1 = new SideMenuValueSelect("Zeit",String.valueOf(CharacterMenu.time));
         getChildren().addAll(back,createSeperator(),createSeperator(),right1);
 
     }
@@ -313,14 +313,14 @@ class SideMenuValueChanger  extends HBox {
         l.setOnMousePressed(event -> {
             l.setFill(Color.YELLOW);
             int v= 0;
-            if(Objects.equals(name, "Points")){
+            if(Objects.equals(name, "Punkte")){
                 v=CharacterMenu.rounds;
                 if(v>1){
                     CharacterMenu.rounds--;
                     text.setText(String.valueOf(CharacterMenu.rounds));
                 }
             }
-            else if (Objects.equals(name, "Time")){
+            else if (Objects.equals(name, "Zeit")){
                 v=CharacterMenu.time;
                 if(v>10){
                     CharacterMenu.time-=10;
@@ -335,14 +335,14 @@ class SideMenuValueChanger  extends HBox {
         h.setOnMousePressed(event -> {
             h.setFill(Color.YELLOW);
             int v= 0;
-            if(Objects.equals(name, "Points")){
+            if(Objects.equals(name, "Punkte")){
                 v=CharacterMenu.rounds;
                 if(v<99){
                     CharacterMenu.rounds++;
                     text.setText(String.valueOf(CharacterMenu.rounds));
                 }
             }
-            else if (Objects.equals(name, "Time")){
+            else if (Objects.equals(name, "Zeit")){
                 v=CharacterMenu.time;
                 if(v<990){
                     CharacterMenu.time+=10;

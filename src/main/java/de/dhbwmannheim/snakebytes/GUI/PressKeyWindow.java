@@ -16,7 +16,7 @@ public class PressKeyWindow extends VBox {
 
     public static String Key = "";
     public PressKeyWindow (Stage primaryStage) {
-        PressKey title = new PressKey("P R E S S  A  B U T T O N", primaryStage);
+        PressKey title = new PressKey("D R Ü C K  E I N E N  B U T T O N", primaryStage);
         title.setTranslateY(20);
         title.setTranslateX(100);
     }

@@ -35,7 +35,7 @@ public class SettingsMenu extends StackPane {
 
         SettingsTable settings = new SettingsTable(primaryStage);
         Button b = new Button();
-        b.setText("Refresh");
+        b.setText("Aktualisieren");
         b.setTranslateX(750);
         b.setTranslateY(100);
         b.setOnMouseClicked(event->{
@@ -57,7 +57,7 @@ public class SettingsMenu extends StackPane {
 
 class HeaderP extends HBox {
     public HeaderP(Stage primaryStage) {
-        Title2 titleI = new Title2("Settings");
+        Title2 titleI = new Title2("Einstellung");
         titleI.setTranslateX(150);
         titleI.setTranslateY(20);
 
@@ -113,7 +113,7 @@ class SettingsTable extends StackPane {
         moveSet.setTranslateY(250);
 
         Button saveButton = new Button();
-        saveButton.setText("Save");
+        saveButton.setText("Speichern");
         saveButton.setTranslateX(620);
         saveButton.setTranslateY(0);
 
