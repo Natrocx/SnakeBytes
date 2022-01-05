@@ -60,7 +60,7 @@ class Title extends StackPane {
 class MenuBox extends VBox {
     public MenuBox(Stage primaryStage) {
         getChildren().add(createSeperator());
-        MenuItem item1 = new MenuItem("Start Spiel", primaryStage);
+        MenuItem item1 = new MenuItem("Spiel starten", primaryStage);
         MenuItem item2 = new MenuItem("Scoreboard", primaryStage);
         MenuItem item3 = new MenuItem("Einstellungen", primaryStage);
         MenuItem item4 = new MenuItem("Erklärungen", primaryStage);
@@ -111,7 +111,7 @@ class MenuItem extends StackPane {
         setOnMousePressed(event -> {
             bg.setFill(Color.DARKGOLDENROD);
             Scene scene = null;
-            if (Objects.equals(name, "Start Spiel")) {
+            if (Objects.equals(name, "Spiel starten")) {
                 try {
                     scene = new Scene(Menus.createCharakterContent(primaryStage), Color.LIGHTBLUE);
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
