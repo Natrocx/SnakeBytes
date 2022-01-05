@@ -13,13 +13,12 @@ import java.util.BitSet;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
+/*
  * Authors: @Jonas Lauschke
- *
- * @Kirolis Eskondis
- * @Thu Giang Tran
+ *          @Kirolis Eskondis
+ *          @Thu Giang Tran
  * This class implements the Engine
- ***/
+ */
 public class Engine {
 
     public static final PositionComponent POSITION_COMPONENT_1 = new PositionComponent(new Vec2<>(0.2222, 0.3167));
@@ -29,8 +28,10 @@ public class Engine {
     private static final Entity[] players = new Entity[2];
     public static ArrayList<Entity> attackList = new ArrayList<>();
     private static Victory finish = Victory.None;
-    private static boolean paused = false;
+    public static boolean paused = false;
     private static InputSystem inputSystem;
+    private static SoundManager soundManager = new SoundManager();
+
 
     public static void registerSystem(System sys) {
         systems.add(sys);
@@ -116,7 +117,6 @@ public class Engine {
     }
 
     private static void setupPlayers() {
-        boolean[] doublefalse = {false, false};
         var player1 = new Entity();
         var motionComponent1 = new MotionComponent();
         motionComponent1.maxTimeToDecay = 0.2;
@@ -269,12 +269,8 @@ public class Engine {
      * @param playersKnockedOut Array of players that lost in the current tick of the engine
      */
     public static void finish(Entity[] playersKnockedOut) {
-        SoundManager soundManager = new SoundManager();
-        try {
-            soundManager.playMatchOver();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        soundManager.playMatchOver();
+
         for (Entity entity : playersKnockedOut) {
             if (entity == players[0] && finish == Victory.None) {
                 finish = Victory.PlayerOne;

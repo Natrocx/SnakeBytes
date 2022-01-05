@@ -26,9 +26,7 @@ public class EndScreen extends VBox {
 
         try {
             Scoreboard.saveScoreboardToJson();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         SideMenuItem weiter = new SideMenuItem("Weiter",primaryStage);//Knopf Funktionen unter CharakterSelect

@@ -1,4 +1,3 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
@@ -10,9 +9,12 @@ import de.dhbwmannheim.snakebytes.ECS.MotionComponent;
 import de.dhbwmannheim.snakebytes.ECS.PositionComponent;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.BitSet;
+
+/*
+ * Author: @Jonas Lauschke
+ * This System processes character movement
+ */
 
 public class MotionSystem extends System {
 

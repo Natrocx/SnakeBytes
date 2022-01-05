@@ -1,4 +1,3 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
@@ -9,10 +8,10 @@ import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
 
 import java.util.BitSet;
-import java.util.Iterator;
 
 
-/**
+/*
+ * Author: @Jonas Lauschke
  * This System processes ScreenBorderCollisionComponents of players to determine wins and reset the Engine
  */
 public class KnockoutSystem extends System {
