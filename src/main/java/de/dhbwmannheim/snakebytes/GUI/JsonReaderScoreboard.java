@@ -6,7 +6,7 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
 
-public class JasonReaderScoreboard {
+public class JsonReaderScoreboard {
     public static void run() {
         try {
             JSONParser parser = new JSONParser();
@@ -23,6 +23,3 @@ public class JasonReaderScoreboard {
     }
 }
 
-class ScoreboardData {
-
-}

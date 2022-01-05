@@ -23,10 +23,6 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
-
-import de.dhbwmannheim.snakebytes.JsonHandler;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 

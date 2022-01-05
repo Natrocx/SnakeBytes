@@ -8,12 +8,12 @@ import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 
 import java.util.BitSet;
 
-/**
+/*
  * Authors: @Jonas Lauschke
  *          @Kirolis Eskondis
  *          @Thu Giang Tran
  * This class handles all collisions in the game
- **/
+ */
 
 public class CollisionSystem extends System {
 
@@ -91,9 +91,7 @@ public class CollisionSystem extends System {
         switch (e2BB.boxType) {
             case Ground, SpecialAttack, Attack, HighPlatform -> { /* do nothing */ }
             case Player -> playerCollisions(e2, e1, deltaTime); // already implemented in player collisions
-            case Screen -> {
-                Engine.destroyAttack(e1);
-            }
+            case Screen -> Engine.destroyAttack(e1);
         }
 
     }

@@ -16,25 +16,21 @@ public class MusicManager {
 
     //declaration has to be before a methods --> prevent garbage collector to cancel playback
     private MediaPlayer player;
-    private Media sound = new Media(new File("src/main/resources/music/SnakeBytes_GameMusic.mp3").toURI().toString());
 
     public MusicManager() {
+        Media sound = new Media(new File("src/main/resources/music/SnakeBytes_GameMusic.mp3").toURI().toString());
         this.player = new MediaPlayer(sound);
     }
 
-    public void playMusic() throws Exception {
+    public void playMusic(){
 
         //Loop
-        player.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                player.seek(Duration.ZERO);
-            }
-        });
+        player.setOnEndOfMedia(() -> player.seek(Duration.ZERO));
 
         player.play();
     }
 
-    public void pauseMusic() throws Exception {
+    public void pauseMusic(){
 
         player.pause();
     }

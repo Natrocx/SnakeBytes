@@ -6,25 +6,19 @@ import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
-import de.dhbwmannheim.snakebytes.JsonHandler;
+import de.dhbwmannheim.snakebytes.GUI.JsonHandler;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.scene.input.KeyEvent;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Hashtable;
 import java.util.List;
-import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
-import de.dhbwmannheim.snakebytes.ECS.Base.*;
+
 import de.dhbwmannheim.snakebytes.ECS.BoundingBoxComponent;
-import de.dhbwmannheim.snakebytes.JsonHandler;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Hashtable;
-import java.util.List;
 
 /**
  * Authors: @Eric Stefan

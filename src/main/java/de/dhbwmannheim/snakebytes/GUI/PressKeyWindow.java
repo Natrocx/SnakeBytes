@@ -1,7 +1,6 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-import javafx.geometry.Pos;
-import javafx.scene.Group;
+
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -10,12 +9,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
-
-import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 public class PressKeyWindow extends VBox {
 
