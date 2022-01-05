@@ -1,7 +1,10 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import java.util.BitSet;
+
+/**
+ * Author:  @Jonas Lauschke
+ **/
 
 public class Entity {
     private static int numEntities = 0;

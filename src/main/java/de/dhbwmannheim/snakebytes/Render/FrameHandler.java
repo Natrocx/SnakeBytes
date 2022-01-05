@@ -1,7 +1,5 @@
 package de.dhbwmannheim.snakebytes.Render;
 
-
-
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
@@ -21,9 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-/** Author: @Kirolis Eskondis
+/**
+ * Author: @Kirolis Eskondis
  * This class defines the FrameHandler which renders every frame the user sees
- */
+ **/
 
 public class FrameHandler extends StackPane {
 
@@ -39,13 +38,13 @@ public class FrameHandler extends StackPane {
 
     //Constructor creaates the screen which is shown to the user at the start.
     //Creates ImageViews for Background, Arena, Platforms, Characters, Attacks and puts them into the respective positions
-    public FrameHandler (Stage primaryStage, Consumer<KeyEvent> keyPressCallback) {
+    public FrameHandler(Stage primaryStage, Consumer<KeyEvent> keyPressCallback) {
 
         //Images for entities are set in their starting positions
         ImageView p1start = imagesP1.get(1);
         p1start.setTranslateY(615);
         p1start.setTranslateX(300);
-        ImageView p2start= imagesP2.get(0);
+        ImageView p2start = imagesP2.get(0);
         p2start.setTranslateY(615);
         p2start.setTranslateX(1000);
         ImageView spcAttack1start = spcAttacksP1.get(0);
@@ -60,34 +59,34 @@ public class FrameHandler extends StackPane {
 
         //Images are added to frame and scene is rendered
 
-        Menus.root.getChildren().add(2,p1start);
-        Menus.root.getChildren().add(3,p2start);
-        Menus.root.getChildren().add(4,spcAttack1start);
-        Menus.root.getChildren().add(5,spcAttack2start);
+        Menus.root.getChildren().add(2, p1start);
+        Menus.root.getChildren().add(3, p2start);
+        Menus.root.getChildren().add(4, spcAttack1start);
+        Menus.root.getChildren().add(5, spcAttack2start);
         scene = new Scene(Menus.root);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
             System.out.println("pressed key + " + KeyEvent.toString());
-                    PressKeyWindow.Key = KeyEvent.getCode().toString();
-                    if(keyPressCallback != null){
-                        keyPressCallback.accept(KeyEvent);
-                    }
-                });
+            PressKeyWindow.Key = KeyEvent.getCode().toString();
+            if (keyPressCallback != null) {
+                keyPressCallback.accept(KeyEvent);
+            }
+        });
         primaryStage.setScene(scene);
     }
 
 
     //Updates the current View of the Gameplay
-    public void update(Stage primaryStage){
+    public void update(Stage primaryStage) {
         //This is needed for a JavaFX Thread
         Platform.runLater(() -> {
 
-        //Get Players and their positions, playerstates
-        Entity player1 = Engine.getPlayer(0);
-        Entity player2 = Engine.getPlayer(1);
-        var positionComponent = ComponentManager.getComponentList(PositionComponent.class);
-        var playerstate = ComponentManager.getComponentList(CharacterStateComponent.class);
+            //Get Players and their positions, playerstates
+            Entity player1 = Engine.getPlayer(0);
+            Entity player2 = Engine.getPlayer(1);
+            var positionComponent = ComponentManager.getComponentList(PositionComponent.class);
+            var playerstate = ComponentManager.getComponentList(CharacterStateComponent.class);
 
-        var position1 = positionComponent.getComponent(player1);
+            var position1 = positionComponent.getComponent(player1);
         /*
         The way playerstates work:
         0- looking left
@@ -97,60 +96,60 @@ public class FrameHandler extends StackPane {
         4 - special attack left
         5 - special attack right
          */
-        //Gets the needed image for the current state out of the ArrayList.
-        //If it is one of the attack states, the ImageView must be wider because the characters use their arms instead of
-        //them just simply hanging off the side of their bodies
-        if(playerstate.getComponent(player1) != null){
-            ImageView p1 = imagesP1.get(playerstate.getComponent(player1).state);
-            if(playerstate.getComponent(player1).state >1){
-                p1.setFitWidth(73);
+            //Gets the needed image for the current state out of the ArrayList.
+            //If it is one of the attack states, the ImageView must be wider because the characters use their arms instead of
+            //them just simply hanging off the side of their bodies
+            if (playerstate.getComponent(player1) != null) {
+                ImageView p1 = imagesP1.get(playerstate.getComponent(player1).state);
+                if (playerstate.getComponent(player1).state > 1) {
+                    p1.setFitWidth(73);
+                }
+                replace(p1, 2, position1);
             }
-            replace(p1,2,position1);
-        }
 
-        var position2 = positionComponent.getComponent(player2);
-        if(playerstate.getComponent(player2) != null){
-            ImageView p2 = imagesP2.get(playerstate.getComponent(player2).state);
-            if(playerstate.getComponent(player2).state>1){
-                p2.setFitWidth(68);
+            var position2 = positionComponent.getComponent(player2);
+            if (playerstate.getComponent(player2) != null) {
+                ImageView p2 = imagesP2.get(playerstate.getComponent(player2).state);
+                if (playerstate.getComponent(player2).state > 1) {
+                    p2.setFitWidth(68);
+                }
+                replace(p2, 3, position2);
             }
-            replace(p2,3,position2);
-        }
 
-        PositionComponent defaultPos = new PositionComponent(new Vec2(3.0,3.0));
+            PositionComponent defaultPos = new PositionComponent(new Vec2(3.0, 3.0));
 
-        //remove special attacks which already collided with another player/screenborder
-        if(Engine.attackList.size() == 0){
-            ImageView defaultAtk1 = spcAttacksP1.get(0);
-            ImageView defaultAtk2 = spcAttacksP2.get(0);
-            replace(defaultAtk1,4,defaultPos);
-            replace(defaultAtk2,5,defaultPos);
-        }
-        //If one special attack is used at a time
-        else if(Engine.attackList.size() == 1){
-            Entity attackEntity1 = Engine.attackList.get(0);
-            checkIfOver(defaultPos, attackEntity1);
-        }
-        //if two special attacks are used at the same time
-        else if (Engine.attackList.size() == 2) {
-
-            for(Entity e: Engine.attackList){
-                checkIfOver(defaultPos, e);
+            //remove special attacks which already collided with another player/screenborder
+            if (Engine.attackList.size() == 0) {
+                ImageView defaultAtk1 = spcAttacksP1.get(0);
+                ImageView defaultAtk2 = spcAttacksP2.get(0);
+                replace(defaultAtk1, 4, defaultPos);
+                replace(defaultAtk2, 5, defaultPos);
             }
-        }
-        scene.setRoot(Menus.root);
-        primaryStage.setScene(scene);
+            //If one special attack is used at a time
+            else if (Engine.attackList.size() == 1) {
+                Entity attackEntity1 = Engine.attackList.get(0);
+                checkIfOver(defaultPos, attackEntity1);
+            }
+            //if two special attacks are used at the same time
+            else if (Engine.attackList.size() == 2) {
+
+                for (Entity e : Engine.attackList) {
+                    checkIfOver(defaultPos, e);
+                }
+            }
+            scene.setRoot(Menus.root);
+            primaryStage.setScene(scene);
         });
 
     }
 
     //This function is to prevent visual bugs e.g. the special attack being rendered even though it shouldn't
     private void checkIfOver(PositionComponent defaultPos, Entity e) {
-        if(ComponentManager.getComponentList(MotionComponent.class).getComponent(e).timeToDecay == 0){
+        if (ComponentManager.getComponentList(MotionComponent.class).getComponent(e).timeToDecay == 0) {
             ImageView defaultAtk1 = spcAttacksP1.get(0);
             ImageView defaultAtk2 = spcAttacksP2.get(0);
-            replace(defaultAtk1,4,defaultPos);
-            replace(defaultAtk2,5,defaultPos);
+            replace(defaultAtk1, 4, defaultPos);
+            replace(defaultAtk2, 5, defaultPos);
         } else {
             attackEntityRender(e);
         }
@@ -160,37 +159,36 @@ public class FrameHandler extends StackPane {
     private void attackEntityRender(Entity attackEntity1) {
         var attackpos = ComponentManager.getComponentList(PositionComponent.class).getComponent(attackEntity1);
         var characterattack = ComponentManager.getComponentList(AttackStateComponent.class).getComponent(attackEntity1);
-        if(characterattack != null){
+        if (characterattack != null) {
             var attackstate = characterattack.state;
-            if(attackstate < 2) {
+            if (attackstate < 2) {
                 ImageView atk1 = spcAttacksP1.get(attackstate);
-                replace(atk1,4,attackpos);
-            }
-            else if (attackstate > 1) {
+                replace(atk1, 4, attackpos);
+            } else if (attackstate > 1) {
                 ImageView atk1 = spcAttacksP2.get(attackstate - 2);
-                replace(atk1,5,attackpos);
+                replace(atk1, 5, attackpos);
             }
         }
 
     }
 
     //replaces current Images with new ones at a new position depending on character/attack state
-    public void replace(ImageView pic, int index, PositionComponent position){
-        if(position.value.x > 1.0 | position.value.y > 1.0){
+    public void replace(ImageView pic, int index, PositionComponent position) {
+        if (position.value.x > 1.0 | position.value.y > 1.0) {
             pic.setTranslateX(5000);
             pic.setTranslateY(5000);
             Menus.root.getChildren().remove(index);
-            Menus.root.getChildren().add(index,pic);
+            Menus.root.getChildren().add(index, pic);
         }
         pic.setTranslateY((1 - position.value.y) * 900);
         pic.setTranslateX(position.value.x * 1350);
         Menus.root.getChildren().remove(index);
-        Menus.root.getChildren().add(index,pic);
+        Menus.root.getChildren().add(index, pic);
 
     }
 
     //returns ArrayLists of needed Images in the same order as characterstates are numbered
-    public ArrayList initializeGraphics(String listCase){
+    public ArrayList initializeGraphics(String listCase) {
         ArrayList<ImageView> images = new ArrayList<>();
 
         switch (listCase) {
@@ -246,8 +244,7 @@ public class FrameHandler extends StackPane {
         }
 
         return images;
-        }
-
+    }
 
 
 }

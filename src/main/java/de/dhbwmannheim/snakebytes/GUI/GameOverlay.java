@@ -1,6 +1,5 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -25,7 +24,10 @@ import java.util.TimerTask;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
-//by Kai Schwab
+/**
+ * Author:  @Kai Schwab
+ **/
+
 public class GameOverlay extends StackPane {
     public static boolean soundMute = false;
     public static int scP1 = 0;

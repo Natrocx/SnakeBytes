@@ -1,5 +1,8 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.util;
+
+/**
+ * Author:  @Jonas Lauschke
+ **/
 
 public class ConversionUtils {
 
