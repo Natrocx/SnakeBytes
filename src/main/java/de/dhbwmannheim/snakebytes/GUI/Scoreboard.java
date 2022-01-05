@@ -30,11 +30,11 @@ import java.time.format.DateTimeFormatter;
 
 public class Scoreboard extends VBox {
     static ComponentList<CharacterStateComponent> characterStateComponentComponents;
-    static Entity player1 = Engine.getPlayer(0);
-    static Entity player2 = Engine.getPlayer(1);
     static int scoreboardJsonArrayIndex=0;
 
     public static void saveScoreboardToJson() throws IOException, ParseException {
+        var player1 = Engine.getPlayer(0);
+        var player2 = Engine.getPlayer(1);
         characterStateComponentComponents = ComponentManager.getComponentList(CharacterStateComponent .class);
         var characterStatePlayer1 = characterStateComponentComponents.getComponent(player1);
         var characterStatePlayer2 = characterStateComponentComponents.getComponent(player2);

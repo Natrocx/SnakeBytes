@@ -1,0 +1,20 @@
+[
+  {
+    "player1": {
+      "left": "A",
+      "right": "D",
+      "jump": "W",
+      "attack": "F",
+      "specialAttack": "C"
+    }
+  },
+  {
+    "player2": {
+      "left": "LEFT",
+      "right": "RIGHT",
+      "jump": "UP",
+      "attack": "SLASH",
+      "specialAttack": "PERIOD"
+    }
+  }
+]

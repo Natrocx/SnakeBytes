@@ -15,8 +15,9 @@ import java.util.function.Consumer;
 
 /**
  * Authors: @Jonas Lauschke
- *          @Kirolis Eskondis
- *          @Thu Giang Tran
+ *
+ * @Kirolis Eskondis
+ * @Thu Giang Tran
  * This class implements the Engine
  ***/
 public class Engine {
@@ -28,6 +29,7 @@ public class Engine {
     private static final Entity[] players = new Entity[2];
     public static ArrayList<Entity> attackList = new ArrayList<>();
     private static Victory finish = Victory.None;
+    private static boolean paused = false;
     private static InputSystem inputSystem;
 
     public static void registerSystem(System sys) {
@@ -235,15 +237,16 @@ public class Engine {
         ComponentManager.addComponent(players[0], POSITION_COMPONENT_1.copy());
         ComponentManager.addComponent(players[1], POSITION_COMPONENT_2.copy());
 
-        for (Entity entity : attackList) {
-            destroyAttack(entity);
+        //noinspection ForLoopReplaceableByForEach - will cause comodification errors
+        for (int i = 0; i < attackList.size(); i++) {
+            destroyAttack(attackList.get(i));
         }
 
         ComponentManager.clearComponents(AttackCollisionComponent.class);
         ComponentManager.clearComponents(ScreenBorderCollisionComponent.class);
         ComponentManager.clearComponents(AttackStateComponent.class);
 
-        for(ISystem system : clearOnReset) {
+        for (ISystem system : clearOnReset) {
             system.clearEntities();
         }
 
@@ -273,9 +276,9 @@ public class Engine {
             e.printStackTrace();
         }
         for (Entity entity : playersKnockedOut) {
-            if (entity == players[0] && finish == null) {
+            if (entity == players[0] && finish == Victory.None) {
                 finish = Victory.PlayerOne;
-            } else if (entity == players[1] && finish == null) {
+            } else if (entity == players[1] && finish == Victory.None) {
                 finish = Victory.PlayerTwo;
             } else if (entity == players[0] || entity == players[1]) {
                 finish = Victory.Draw;
@@ -283,15 +286,22 @@ public class Engine {
         }
     }
 
+    public static void setPaused(boolean paused) {
+        Engine.paused = paused;
+    }
+
     public static Victory run() throws Exception {
 
         Instant last = Instant.now();
         while (finish == Victory.None) {
-            Instant now = Instant.now();
-            /* Systems will be executed in order of registration - see setup for further information */
-            update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
-            last = now;
-
+            if (paused) {
+                Thread.sleep(16);
+            } else {
+                Instant now = Instant.now();
+                /* Systems will be executed in order of registration - see setup for further information */
+                update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
+                last = now;
+            }
         }
         return finish;
     }
