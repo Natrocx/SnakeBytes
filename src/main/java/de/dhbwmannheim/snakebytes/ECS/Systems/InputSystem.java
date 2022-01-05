@@ -123,7 +123,7 @@ public class InputSystem extends System {
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, spcTemp.y));
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.05), BoundingBoxComponent.BoxType.SpecialAttack);
-            var attackMotion = new MotionComponent(new Vec2<>(helpX, 0.0),10);
+            var attackMotion = new MotionComponent(new Vec2<>(helpX, 0.0),4);
             var attackState = new AttackStateComponent(attackStateIndex, entity.id);
 
             Engine.registerEntity(attack);
@@ -153,7 +153,7 @@ public class InputSystem extends System {
             //var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.1), BoundingBoxComponent.BoxType.SpecialAttack);
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.12, 0.12), BoundingBoxComponent.BoxType.SpecialAttack);
 
-            var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2), 10);
+            var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2), 4);
             var attackGravity = new GravityComponent(1.0);
             var attackState = new AttackStateComponent(attackStateIndex);
 

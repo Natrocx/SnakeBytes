@@ -124,11 +124,7 @@ public class Menus extends Application {
 
         GameOverlay gov = new GameOverlay(primaryStage);
         BackgroundBuilder background = new BackgroundBuilder();
-        try {
-            mediaplayer.playMusic();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mediaplayer.playMusic();
 
         Menus.root.getChildren().add(0,background);
         Menus.root.getChildren().add(1,gov);

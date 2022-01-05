@@ -1,6 +1,7 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
+import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -23,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
+import static de.dhbwmannheim.snakebytes.GUI.Menus.mediaplayer;
 
 /**
  * Author:  @Kai Schwab
@@ -54,10 +56,10 @@ public class GameOverlay extends StackPane {
         CountDown countDown = new CountDown();
         countDown.setTranslateX(550);
         countDown.setTranslateY(300);
-        Schadenanzeige dmgP1 = new Schadenanzeige("P1",300);
+        Schadenanzeige dmgP1 = new Schadenanzeige("P1",100);
         dmgP1.setTranslateX(10);
         dmgP1.setTranslateY(700);
-        Schadenanzeige dmgP2 = new Schadenanzeige("P2",400);
+        Schadenanzeige dmgP2 = new Schadenanzeige("P2",100);
         dmgP2.setTranslateX(1100);
         dmgP2.setTranslateY(700);
 
@@ -82,35 +84,23 @@ public class GameOverlay extends StackPane {
                     score_n.setTranslateX(550);
                     score_n.setTranslateY(-70);
                     getChildren().set(1, score_n);
-                    /*
-                    ComponentList<CharacterStateComponent> characterState = null;
-                    for (Entity entity: Engine.getPlayers()) {
-                        CharacterStateComponent playerKnockback = characterState.getComponent(entity);
-                        double Schaden = playerKnockback.knockback * 100;
-                        if (entity == Engine.getPlayer(1)){
-                            Schadenanzeige dmgP1_n= new Schadenanzeige("P1",Schaden);
-                            dmgP1_n.setTranslateX(10);
-                            dmgP1_n.setTranslateY(700);
-                            getChildren().set(2, dmgP1_n);
+                    var p1Damage = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(Engine.getPlayer(0)).knockback;
+                    var p2Damage = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(Engine.getPlayer(1)).knockback;
 
-                        }else
-                        if (entity == Engine.getPlayer(2)){
-                            Schadenanzeige dmgP2_n= new Schadenanzeige("P2",Schaden);
-                            dmgP2_n.setTranslateX(1100);
-                            dmgP2_n.setTranslateY(700);
-                            getChildren().set(3, dmgP2_n);
-                        }
-                    }
-                     */
+                    Schadenanzeige p1View = new Schadenanzeige("P1",Math.round(p1Damage * 100.0)/100.0);
+                    Schadenanzeige p2View = new Schadenanzeige("P2", Math.round(p2Damage * 100.0)/100.0);
+                    p1View.setTranslateX(10);
+                    p1View.setTranslateY(700);
+                    p2View.setTranslateX(1100);
+                    p2View.setTranslateY(700);
+                    getChildren().set(2,p1View);
+                    getChildren().set(3, p2View);
+
                     if(scP1==CharacterMenu.rounds) {
-                        EndScreen.winner= "P1";
+                        EndScreen.winner= "der Cyber-Kammerjäger";
                         Scene scene=null;
                         try {
-                            try {
-                                Menus.mediaplayer.pauseMusic();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            Menus.mediaplayer.pauseMusic();
                             scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
                             primaryStage.setMaxWidth(Integer.MAX_VALUE);
@@ -120,14 +110,10 @@ public class GameOverlay extends StackPane {
                         primaryStage.setScene(scene);
                     }
                     if(scP2==CharacterMenu.rounds) {
-                        EndScreen.winner= "P2";
+                        EndScreen.winner= "der Exmatrikulator";
                         Scene scene=null;
                         try {
-                            try {
-                                Menus.mediaplayer.pauseMusic();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            Menus.mediaplayer.pauseMusic();
                             scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
                             primaryStage.setMaxWidth(Integer.MAX_VALUE);
@@ -176,10 +162,10 @@ class  Game_Timer extends StackPane {
                         try {
                             Menus.mediaplayer.pauseMusic();
                             if(GameOverlay.scP1>GameOverlay.scP2){
-                                EndScreen.winner="P1";
+                                EndScreen.winner="der Cyber-Kammerjäger";
                             }
                             if(GameOverlay.scP1<GameOverlay.scP2){
-                                EndScreen.winner="P2";
+                                EndScreen.winner="der Exmatrikulator";
                             }
                             scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -248,6 +234,7 @@ class  Pause extends StackPane {
         circle.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
+            toggleMusic();
         });
         circle.setOnMouseReleased(event -> circle.setFill(Color.RED));
         r1.setOnMouseEntered(event -> circle.setFill(Color.RED));
@@ -255,6 +242,7 @@ class  Pause extends StackPane {
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
+            toggleMusic();
         });
         r1.setOnMouseReleased(event -> circle.setFill(Color.RED));
         r2.setOnMouseEntered(event -> circle.setFill(Color.RED));
@@ -262,12 +250,23 @@ class  Pause extends StackPane {
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
+            toggleMusic();
         });
-        r2.setOnMouseReleased(event -> circle.setFill(Color.RED));
+        r2.setOnMouseReleased(event -> {
+                circle.setFill(Color.RED);
+        });
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(circle, r1,r2);
 
+    }
+
+    private void toggleMusic(){
+        if(!Engine.paused){
+            mediaplayer.playMusic();
+        }else{
+            mediaplayer.pauseMusic();
+        }
     }
 }
 //To do music
@@ -286,11 +285,8 @@ class  MiniBack extends StackPane {
         circle.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
-            try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Menus.mediaplayer.pauseMusic();
+
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
                 primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -306,11 +302,8 @@ class  MiniBack extends StackPane {
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
-            try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Menus.mediaplayer.pauseMusic();
+
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
                 primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -324,11 +317,8 @@ class  MiniBack extends StackPane {
         r2.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
-            try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Menus.mediaplayer.pauseMusic();
+
             Scene scene = null;
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
@@ -436,17 +426,9 @@ class  Music extends StackPane {
             mute= !mute;
             circle.setFill(Color.YELLOW);
             if(mute){
-                try {
-                    Menus.mediaplayer.pauseMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Menus.mediaplayer.pauseMusic();
             }else {
-                try {
-                    Menus.mediaplayer.playMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Menus.mediaplayer.playMusic();
             }
         });
         circle.setOnMouseReleased(event -> {
@@ -473,17 +455,9 @@ class  Music extends StackPane {
         r1.setOnMousePressed(event -> {
             mute= !mute;
             if(mute){
-                try {
-                    Menus.mediaplayer.pauseMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Menus.mediaplayer.pauseMusic();
             }else {
-                try {
-                    Menus.mediaplayer.playMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Menus.mediaplayer.playMusic();
             }
         });
         r1.setOnMouseReleased(event -> {
