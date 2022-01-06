@@ -140,7 +140,7 @@ public class InputSystem extends System {
         } else if (attackType == 2) {
             Double hilf = 0.0;
             if (direction == 0) {
-                temp.x = playerPosition.x - 0.12;
+                temp.x = playerPosition.x - 0.075;
                 hilf = -0.4;
                 attackStateIndex = 2;
             } else {
@@ -151,7 +151,7 @@ public class InputSystem extends System {
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, spcTemp.y));
             //defining width and height of the attack hitbox
             //var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.1), BoundingBoxComponent.BoxType.SpecialAttack);
-            var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.12, 0.12), BoundingBoxComponent.BoxType.SpecialAttack);
+            var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.075, 0.075), BoundingBoxComponent.BoxType.SpecialAttack);
 
             var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2), 4);
             var attackGravity = new GravityComponent(1.0);

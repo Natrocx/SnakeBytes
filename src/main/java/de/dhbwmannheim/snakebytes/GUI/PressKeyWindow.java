@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * Author:  @
+ * Author:  @Eric Stefan
  **/
 
 public class PressKeyWindow extends VBox {

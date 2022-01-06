@@ -28,6 +28,7 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.mediaplayer;
 
 /**
  * Author:  @Kai Schwab
+ *          @Kirolis Eskondis
  **/
 
 public class GameOverlay extends StackPane {

@@ -7,8 +7,7 @@ import javafx.util.Duration;
 import java.io.File;
 
 /**
- * Author:  @Kirolis Eskondis
- *          @Thu Giang Tran
+ * Author:  @Thu Giang Tran
  * This class allows the implementation of background music during the fight
  **/
 

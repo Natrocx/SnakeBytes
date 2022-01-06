@@ -3,7 +3,7 @@ package de.dhbwmannheim.snakebytes;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 
 /**
- * Author:  @
+ * Author:  @Kirolis Eskondis
  **/
 
 public class EngineLoop extends Thread {
