@@ -286,6 +286,24 @@ public class Engine {
         }
     }
 
+    /**
+     * Submit finish request to stop the engine on next iteration (without information on winning/losing players)
+     */
+    public static void finish() {
+        var characterStateComponent1 = ComponentManager.getComponent(players[0], CharacterStateComponent.class);
+        var characterStateComponent2 = ComponentManager.getComponent(players[1], CharacterStateComponent.class);
+
+        var win = characterStateComponent1.lives - characterStateComponent2.lives;
+        if (win == 0) {
+            Engine.finish(players);
+        } else if (win > 0) {
+            Engine.finish(new Entity[]{players[0]});
+        } else {
+            Engine.finish(new Entity[]{players[1]});
+        }
+    }
+
+
     public static void togglePause() {
         paused = !paused;
     }
