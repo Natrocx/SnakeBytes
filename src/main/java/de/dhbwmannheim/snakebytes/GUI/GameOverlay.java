@@ -57,11 +57,11 @@ public class GameOverlay extends StackPane {
         CountDown countDown = new CountDown();
         countDown.setTranslateX(550);
         countDown.setTranslateY(300);
-        Schadenanzeige dmgP1 = new Schadenanzeige("P1",100);
+        Schadenanzeige dmgP1 = new Schadenanzeige("P1","100%");
         dmgP1.setTranslateX(10);
         dmgP1.setTranslateY(700);
-        Schadenanzeige dmgP2 = new Schadenanzeige("P2",100);
-        dmgP2.setTranslateX(1100);
+        Schadenanzeige dmgP2 = new Schadenanzeige("P2","100%");
+        dmgP2.setTranslateX(1080);
         dmgP2.setTranslateY(700);
 
 
@@ -88,11 +88,11 @@ public class GameOverlay extends StackPane {
                     var p1Damage = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(Engine.getPlayer(0)).knockback;
                     var p2Damage = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(Engine.getPlayer(1)).knockback;
 
-                    Schadenanzeige p1View = new Schadenanzeige("P1",Math.round(p1Damage * 100.0)/100.0);
-                    Schadenanzeige p2View = new Schadenanzeige("P2", Math.round(p2Damage * 100.0)/100.0);
+                    Schadenanzeige p1View = new Schadenanzeige("P1",String.valueOf(Math.round(p1Damage * 10000.0)/100.0) + "%");
+                    Schadenanzeige p2View = new Schadenanzeige("P2", String.valueOf(Math.round(p2Damage * 10000.0)/100.0) + "%") ;
                     p1View.setTranslateX(10);
                     p1View.setTranslateY(700);
-                    p2View.setTranslateX(1100);
+                    p2View.setTranslateX(1080);
                     p2View.setTranslateY(700);
                     getChildren().set(2,p1View);
                     getChildren().set(3, p2View);
@@ -474,10 +474,10 @@ class  Music extends StackPane {
     }
 }
 class Schadenanzeige extends HBox {
-    public Schadenanzeige(String player,double Schaden){
+    public Schadenanzeige(String player,String Schaden){
 
-        Title2 p1 = new Title2(player+" : ");
-        Title2 dmg = new Title2(String.valueOf(Schaden));
+        Title2 p1 = new Title2(player+": ");
+        Title2 dmg = new Title2(Schaden);
 
 
         getChildren().addAll(p1,dmg);
