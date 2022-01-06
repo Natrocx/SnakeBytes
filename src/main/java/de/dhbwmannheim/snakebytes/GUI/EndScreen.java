@@ -1,10 +1,8 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-import de.dhbwmannheim.snakebytes.ECS.Base.Component;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
-import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -14,10 +12,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
 /**
  * Author:  @Kai Schwab

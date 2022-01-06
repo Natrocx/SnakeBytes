@@ -21,10 +21,8 @@ import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
 import java.lang.System;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.*;
 
@@ -90,8 +88,8 @@ public class GameOverlay extends StackPane {
                     var p1Damage = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(Engine.getPlayer(0)).knockback;
                     var p2Damage = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(Engine.getPlayer(1)).knockback;
 
-                    Schadenanzeige p1View = new Schadenanzeige("P1",String.valueOf(Math.round(p1Damage * 10000.0)/100.0) + "%");
-                    Schadenanzeige p2View = new Schadenanzeige("P2", String.valueOf(Math.round(p2Damage * 10000.0)/100.0) + "%") ;
+                    Schadenanzeige p1View = new Schadenanzeige("P1",Math.round(p1Damage * 10000.0)/100.0 + "%");
+                    Schadenanzeige p2View = new Schadenanzeige("P2", Math.round(p2Damage * 10000.0)/100.0 + "%") ;
                     p1View.setTranslateX(10);
                     p1View.setTranslateY(700);
                     p2View.setTranslateX(1080);
@@ -161,7 +159,6 @@ class  Game_Timer extends StackPane {
                         }
                     }else {
                         Scene scene=null;
-                        Entity[] playerslost = new Entity[2];
                         try {
                             Menus.mediaplayer.pauseMusic();
                             if(GameOverlay.scP1>GameOverlay.scP2){
@@ -285,9 +282,7 @@ class  Pause extends StackPane {
                 }
             }
         });
-        r2.setOnMouseReleased(event -> {
-                circle.setFill(Color.RED);
-        });
+        r2.setOnMouseReleased(event -> circle.setFill(Color.RED));
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(circle, r1,r2);

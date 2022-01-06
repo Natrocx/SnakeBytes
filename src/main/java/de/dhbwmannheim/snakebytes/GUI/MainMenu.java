@@ -31,12 +31,12 @@ public class MainMenu extends VBox {
         //Titel
         Title title = new Title("S N A K E   B Y T E S");
         title.setTranslateY(100);
-        title.setTranslateX((1350 / 2) - 360);
+        title.setTranslateX((1350.0 / 2.0) - 360);
 
         //Menu mit Schaltflaechen
         MenuBox vbox = new MenuBox(primaryStage);
         vbox.setTranslateY(150);
-        vbox.setTranslateX((1350 / 2) - 350);
+        vbox.setTranslateX((1350.0 / 2.0) - 350);
 
         getChildren().addAll(title, vbox);
 
