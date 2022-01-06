@@ -20,6 +20,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
+
 /**
  * Author:  @Kai Schwab
  **/
@@ -107,7 +109,7 @@ class MenuItem extends StackPane {
             text.setFill(Color.DARKGREY);
         });
 
-        //Funktionen bei einbem Knopfdruck auf ein beliebiges Item
+        //Funktionen bei einem Knopfdruck auf ein beliebiges Item
         setOnMousePressed(event -> {
             bg.setFill(Color.DARKGOLDENROD);
             Scene scene = null;
@@ -151,6 +153,17 @@ class MenuItem extends StackPane {
                     e.printStackTrace();
                 }
                 primaryStage.setScene(scene);
+            }
+            if (Objects.equals(name,"Zurück")){
+                try {
+                    scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(scene);
+
             }
 
         });

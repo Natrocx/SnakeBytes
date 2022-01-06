@@ -83,11 +83,12 @@ public class FrameHandler extends StackPane {
         //This is needed for a JavaFX Thread
         Platform.runLater(() -> {
 
-            //Get Players and their positions, playerstates
-            Entity player1 = Engine.getPlayer(0);
-            Entity player2 = Engine.getPlayer(1);
-            var positionComponent = ComponentManager.getComponentList(PositionComponent.class);
-            var playerstate = ComponentManager.getComponentList(CharacterStateComponent.class);
+            if(!Engine.paused) {
+                //Get Players and their positions, playerstates
+                Entity player1 = Engine.getPlayer(0);
+                Entity player2 = Engine.getPlayer(1);
+                var positionComponent = ComponentManager.getComponentList(PositionComponent.class);
+                var playerstate = ComponentManager.getComponentList(CharacterStateComponent.class);
 
             /*
             The way playerstates work:
@@ -102,60 +103,61 @@ public class FrameHandler extends StackPane {
             /* Gets the needed image for the current state out of the ArrayList.
                If it is one of the attack states, the ImageView must be wider because the characters use their arms instead of
                them just simply hanging off the side of their bodies */
-            var position1 = positionComponent.getComponent(player1);
-            var p1PlayerState = playerstate.getComponent(player1);
-            ImageView p1;
-            if (p1PlayerState != null) {
-                if(p1PlayerState.hitState){  //If player is currently being hit, display a different character design image
+                var position1 = positionComponent.getComponent(player1);
+                var p1PlayerState = playerstate.getComponent(player1);
+                ImageView p1;
+                if (p1PlayerState != null) {
+                    if (p1PlayerState.hitState) {  //If player is currently being hit, display a different character design image
                         p1 = imagesP1.get(p1PlayerState.lookingDirection + 6); //if lookingdirection = 0 load picture 6, if lookingdirection = 1, load picture 7
-                }else {
-                    p1 = imagesP1.get(p1PlayerState.state);
-                    if (p1PlayerState.state > 1) {
-                        p1.setFitWidth(73);
+                    } else {
+                        p1 = imagesP1.get(p1PlayerState.state);
+                        if (p1PlayerState.state > 1) {
+                            p1.setFitWidth(73);
+                        }
+                    }
+                    replace(p1, 2, position1);
+                }
+
+                var position2 = positionComponent.getComponent(player2);
+                var p2PlayerState = playerstate.getComponent(player2);
+                ImageView p2;
+                if (p2PlayerState != null) {
+                    if (p2PlayerState.hitState) {
+                        p2 = imagesP2.get(p2PlayerState.lookingDirection + 6);
+                    } else {
+                        p2 = imagesP2.get(p2PlayerState.state);
+                        if (p2PlayerState.state > 1) {
+                            p2.setFitWidth(68);
+                        }
+                    }
+
+                    replace(p2, 3, position2);
+                }
+
+                PositionComponent defaultPos = new PositionComponent(new Vec2(3.0, 3.0));
+
+                //remove special attacks which already collided with another player/screenborder
+                if (Engine.attackList.size() == 0) {
+                    ImageView defaultAtk1 = spcAttacksP1.get(0);
+                    ImageView defaultAtk2 = spcAttacksP2.get(0);
+                    replace(defaultAtk1, 4, defaultPos);
+                    replace(defaultAtk2, 5, defaultPos);
+                }
+                //If one special attack is used at a time
+                else if (Engine.attackList.size() == 1) {
+                    Entity attackEntity1 = Engine.attackList.get(0);
+                    checkIfOver(defaultPos, attackEntity1);
+                }
+                //if two special attacks are used at the same time
+                else if (Engine.attackList.size() == 2) {
+
+                    for (Entity e : Engine.attackList) {
+                        checkIfOver(defaultPos, e);
                     }
                 }
-                replace(p1, 2, position1);
+                scene.setRoot(Menus.root);
+                primaryStage.setScene(scene);
             }
-
-            var position2 = positionComponent.getComponent(player2);
-            var p2PlayerState = playerstate.getComponent(player2);
-            ImageView p2;
-            if (p2PlayerState != null) {
-                if(p2PlayerState.hitState){
-                    p2 = imagesP2.get(p2PlayerState.lookingDirection + 6);
-                }else {
-                     p2 = imagesP2.get(p2PlayerState.state);
-                    if (p2PlayerState.state > 1) {
-                        p2.setFitWidth(68);
-                    }
-                }
-
-                replace(p2, 3, position2);
-            }
-
-            PositionComponent defaultPos = new PositionComponent(new Vec2(3.0, 3.0));
-
-            //remove special attacks which already collided with another player/screenborder
-            if (Engine.attackList.size() == 0) {
-                ImageView defaultAtk1 = spcAttacksP1.get(0);
-                ImageView defaultAtk2 = spcAttacksP2.get(0);
-                replace(defaultAtk1, 4, defaultPos);
-                replace(defaultAtk2, 5, defaultPos);
-            }
-            //If one special attack is used at a time
-            else if (Engine.attackList.size() == 1) {
-                Entity attackEntity1 = Engine.attackList.get(0);
-                checkIfOver(defaultPos, attackEntity1);
-            }
-            //if two special attacks are used at the same time
-            else if (Engine.attackList.size() == 2) {
-
-                for (Entity e : Engine.attackList) {
-                    checkIfOver(defaultPos, e);
-                }
-            }
-            scene.setRoot(Menus.root);
-            primaryStage.setScene(scene);
         });
 
     }

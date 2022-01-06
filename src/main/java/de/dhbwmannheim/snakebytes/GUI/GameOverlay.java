@@ -2,6 +2,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
+import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,11 +21,12 @@ import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
 import java.lang.System;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicReference;
 
-import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
-import static de.dhbwmannheim.snakebytes.GUI.Menus.mediaplayer;
+import static de.dhbwmannheim.snakebytes.GUI.Menus.*;
 
 /**
  * Author:  @Kai Schwab
@@ -45,7 +47,7 @@ public class GameOverlay extends StackPane {
         Sound sound = new Sound();
         sound.setTranslateX(1050);
         sound.setTranslateY(-70);
-        Pause pause = new Pause();
+        Pause pause = new Pause(primaryStage);
         pause.setTranslateX(1180);
         pause.setTranslateY(-70);
         Score score = new Score(scP1,scP2);
@@ -222,7 +224,7 @@ class CountDown extends StackPane{
 
 
 class  Pause extends StackPane {
-    public Pause() {
+    public Pause(Stage primaryStage) {
         final Circle circle = new Circle(10, 20, 20);
         final Rectangle r1 = new Rectangle(5, 25);
         final Rectangle r2 = new Rectangle(5, 25);
@@ -235,7 +237,17 @@ class  Pause extends StackPane {
         circle.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
-            toggleMusic();
+            MusicManager.toggleMusic();
+            if(Engine.paused) {
+                try {
+                    Scene scene = new Scene(Menus.createPauseScreenContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    primaryStage.setScene(scene);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         });
         circle.setOnMouseReleased(event -> circle.setFill(Color.RED));
         r1.setOnMouseEntered(event -> circle.setFill(Color.RED));
@@ -243,7 +255,17 @@ class  Pause extends StackPane {
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
-            toggleMusic();
+            MusicManager.toggleMusic();
+            if(Engine.paused) {
+                try {
+                    Scene scene = new Scene(Menus.createPauseScreenContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    primaryStage.setScene(scene);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         });
         r1.setOnMouseReleased(event -> circle.setFill(Color.RED));
         r2.setOnMouseEntered(event -> circle.setFill(Color.RED));
@@ -251,7 +273,17 @@ class  Pause extends StackPane {
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
-            toggleMusic();
+            MusicManager.toggleMusic();
+            if(Engine.paused) {
+                try {
+                    Scene scene = new Scene(Menus.createPauseScreenContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    primaryStage.setScene(scene);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         });
         r2.setOnMouseReleased(event -> {
                 circle.setFill(Color.RED);
@@ -261,13 +293,39 @@ class  Pause extends StackPane {
         getChildren().addAll(circle, r1,r2);
 
     }
+}
 
-    private void toggleMusic(){
-        if(!Engine.paused){
-            mediaplayer.playMusic();
-        }else{
-            mediaplayer.pauseMusic();
-        }
+class pauseMenu extends StackPane {
+    public pauseMenu(Stage primaryStage) {
+        var title = new Title2("Pause");
+        title.setTranslateX(350);
+        title.setTranslateY(250);
+        MenuItem weiter = new MenuItem("Weiterspielen",primaryStage);//Knopf Funktionen unter CharakterSelect
+        weiter.setTranslateX(350);
+        weiter.setTranslateY(400);
+
+
+        weiter.setOnMousePressed(event -> {
+                    Engine.togglePause();
+                    MusicManager.toggleMusic();
+                });
+
+        /*MenuItem zurueck = new MenuItem("Zurück zum Hauptmenü",primaryStage);//Knopf Funktionen unter CharakterSelect
+        zurueck.setTranslateX(400);
+        zurueck.setTranslateY(600);
+        zurueck.setOnMousePressed(event -> {
+            try {
+                Scene scene = new Scene(createTitleContent(primaryStage));
+                primaryStage.setScene(scene);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            MusicManager.toggleMusic();
+        });*/
+
+
+        getChildren().addAll(title,weiter);
+
     }
 }
 //To do music

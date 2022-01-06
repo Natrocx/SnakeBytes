@@ -149,5 +149,17 @@ public class Menus extends Application {
 
         return root;
     }
+    static Parent createPauseScreenContent(Stage primaryStage) throws FileNotFoundException {
+
+        Pane root = new Pane();
+
+        root.setPrefSize(1350, 900);
+
+        pauseMenu pauseScreen = new pauseMenu(primaryStage);
+        root.getChildren().addAll(pauseScreen);
+
+        return root;
+    }
+
 
 }
