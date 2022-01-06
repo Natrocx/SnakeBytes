@@ -1,7 +1,5 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-//Code by Kai Schwab
-
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.application.Application;
@@ -15,6 +13,10 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+/**
+ * Author:  @Kai Schwab
+ **/
 
 public class Menus extends Application {
 
@@ -124,11 +126,7 @@ public class Menus extends Application {
 
         GameOverlay gov = new GameOverlay(primaryStage);
         BackgroundBuilder background = new BackgroundBuilder();
-        try {
-            mediaplayer.playMusic();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mediaplayer.playMusic();
 
         Menus.root.getChildren().add(0,background);
         Menus.root.getChildren().add(1,gov);

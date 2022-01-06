@@ -7,7 +7,7 @@ import org.json.simple.parser.JSONParser;
 import java.io.FileReader;
 
 /**
- * Author:  @
+ * Author:  @Eric Stefan
  **/
 
 public class JsonReaderScoreboard {

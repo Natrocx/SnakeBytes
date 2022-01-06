@@ -47,9 +47,11 @@ public class FrameHandler extends StackPane {
         ImageView p2start = imagesP2.get(0);
         p2start.setTranslateY(615);
         p2start.setTranslateX(1000);
+
+        //Special attacks are set outside of viewable screen
         ImageView spcAttack1start = spcAttacksP1.get(0);
-        spcAttack1start.setTranslateX(100);
-        spcAttack1start.setTranslateY(100);
+        spcAttack1start.setTranslateX(5000);
+        spcAttack1start.setTranslateY(5000);
         ImageView spcAttack2start = spcAttacksP2.get(0);
         spcAttack2start.setTranslateY(5000);
         spcAttack2start.setTranslateX(5000);
@@ -64,6 +66,7 @@ public class FrameHandler extends StackPane {
         Menus.root.getChildren().add(4, spcAttack1start);
         Menus.root.getChildren().add(5, spcAttack2start);
         scene = new Scene(Menus.root);
+        //Makes it possible for key inputs to be used on the screen and records them
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
             System.out.println("pressed key + " + KeyEvent.toString());
             PressKeyWindow.Key = KeyEvent.getCode().toString();
@@ -75,7 +78,7 @@ public class FrameHandler extends StackPane {
     }
 
 
-    //Updates the current View of the Gameplay
+    //Updates the current View of the Gameplay on Screen
     public void update(Stage primaryStage) {
         //This is needed for a JavaFX Thread
         Platform.runLater(() -> {
@@ -86,33 +89,47 @@ public class FrameHandler extends StackPane {
             var positionComponent = ComponentManager.getComponentList(PositionComponent.class);
             var playerstate = ComponentManager.getComponentList(CharacterStateComponent.class);
 
+            /*
+            The way playerstates work:
+            0- looking left
+            1- looking right
+            2- normal attack left
+            3 - normal attack right
+            4 - special attack left
+            5 - special attack right
+             */
+
+            /* Gets the needed image for the current state out of the ArrayList.
+               If it is one of the attack states, the ImageView must be wider because the characters use their arms instead of
+               them just simply hanging off the side of their bodies */
             var position1 = positionComponent.getComponent(player1);
-        /*
-        The way playerstates work:
-        0- looking left
-        1- looking right
-        2- normal attack left
-        3 - normal attack right
-        4 - special attack left
-        5 - special attack right
-         */
-            //Gets the needed image for the current state out of the ArrayList.
-            //If it is one of the attack states, the ImageView must be wider because the characters use their arms instead of
-            //them just simply hanging off the side of their bodies
-            if (playerstate.getComponent(player1) != null) {
-                ImageView p1 = imagesP1.get(playerstate.getComponent(player1).state);
-                if (playerstate.getComponent(player1).state > 1) {
-                    p1.setFitWidth(73);
+            var p1PlayerState = playerstate.getComponent(player1);
+            ImageView p1;
+            if (p1PlayerState != null) {
+                if(p1PlayerState.hitState){  //If player is currently being hit, display a different character design image
+                        p1 = imagesP1.get(p1PlayerState.lookingDirection + 6); //if lookingdirection = 0 load picture 6, if lookingdirection = 1, load picture 7
+                }else {
+                    p1 = imagesP1.get(p1PlayerState.state);
+                    if (p1PlayerState.state > 1) {
+                        p1.setFitWidth(73);
+                    }
                 }
                 replace(p1, 2, position1);
             }
 
             var position2 = positionComponent.getComponent(player2);
-            if (playerstate.getComponent(player2) != null) {
-                ImageView p2 = imagesP2.get(playerstate.getComponent(player2).state);
-                if (playerstate.getComponent(player2).state > 1) {
-                    p2.setFitWidth(68);
+            var p2PlayerState = playerstate.getComponent(player2);
+            ImageView p2;
+            if (p2PlayerState != null) {
+                if(p2PlayerState.hitState){
+                    p2 = imagesP2.get(p2PlayerState.lookingDirection + 6);
+                }else {
+                     p2 = imagesP2.get(p2PlayerState.state);
+                    if (p2PlayerState.state > 1) {
+                        p2.setFitWidth(68);
+                    }
                 }
+
                 replace(p2, 3, position2);
             }
 
@@ -143,9 +160,10 @@ public class FrameHandler extends StackPane {
 
     }
 
-    //This function is to prevent visual bugs e.g. the special attack being rendered even though it shouldn't
+    //This function is to prevent visual bugs e.g. the special attack being rendered even though it should've already disappeared
     private void checkIfOver(PositionComponent defaultPos, Entity e) {
-        if (ComponentManager.getComponentList(MotionComponent.class).getComponent(e).timeToDecay == 0) {
+        var attackMotion = ComponentManager.getComponentList(MotionComponent.class).getComponent(e);
+        if (attackMotion.timeToDecay == 0 || attackMotion.velocity.x == 0) {
             ImageView defaultAtk1 = spcAttacksP1.get(0);
             ImageView defaultAtk2 = spcAttacksP2.get(0);
             replace(defaultAtk1, 4, defaultPos);
@@ -157,16 +175,17 @@ public class FrameHandler extends StackPane {
 
     //This function renders the attack entity depending on player and direction
     private void attackEntityRender(Entity attackEntity1) {
-        var attackpos = ComponentManager.getComponentList(PositionComponent.class).getComponent(attackEntity1);
-        var characterattack = ComponentManager.getComponentList(AttackStateComponent.class).getComponent(attackEntity1);
-        if (characterattack != null) {
-            var attackstate = characterattack.state;
-            if (attackstate < 2) {
-                ImageView atk1 = spcAttacksP1.get(attackstate);
-                replace(atk1, 4, attackpos);
-            } else if (attackstate > 1) {
-                ImageView atk1 = spcAttacksP2.get(attackstate - 2);
-                replace(atk1, 5, attackpos);
+        var attackPos = ComponentManager.getComponentList(PositionComponent.class).getComponent(attackEntity1);
+        var characterAttack = ComponentManager.getComponentList(AttackStateComponent.class).getComponent(attackEntity1);
+        if (characterAttack != null) {
+            var attackState = characterAttack.state;
+            //differentiates between the special attacks of the different characters: 0-1 -> Cyber-Kammerjaeger, 2-3 -> Exmatrikulator
+            if (attackState < 2) {
+                ImageView atk1 = spcAttacksP1.get(attackState);
+                replace(atk1, 4, attackPos);
+            } else if (attackState > 1) {
+                ImageView atk1 = spcAttacksP2.get(attackState - 2);
+                replace(atk1, 5, attackPos);
             }
         }
 
@@ -199,7 +218,10 @@ public class FrameHandler extends StackPane {
                 ImageView p1atkright = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-atk-right.png").toURI().toString()));
                 ImageView p1spcleft = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-special-left.png").toURI().toString()));
                 ImageView p1spcright = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-special-right.png").toURI().toString()));
-                ImageView[] helpList = new ImageView[]{p1left, p1right, p1atkleft, p1atkright, p1spcleft, p1spcright};
+                ImageView p1dmgleft = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-dmg-left.png").toURI().toString()));
+                ImageView p1dmgright = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-dmg-right.png").toURI().toString()));
+
+                ImageView[] helpList = new ImageView[]{p1left, p1right, p1atkleft, p1atkright, p1spcleft, p1spcright, p1dmgleft, p1dmgright};
                 images.addAll(List.of(helpList));
                 for (ImageView e : images) {
 
@@ -214,7 +236,9 @@ public class FrameHandler extends StackPane {
                 ImageView p2atkright = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-atk-right.png").toURI().toString()));
                 ImageView p2spcleft = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-special-left.png").toURI().toString()));
                 ImageView p2spcright = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-special-right.png").toURI().toString()));
-                ImageView[] anotherhelpList = new ImageView[]{p2left, p2right, p2atkleft, p2atkright, p2spcleft, p2spcright};
+                ImageView p2dmgleft = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-dmg-left.png").toURI().toString()));
+                ImageView p2dmgright = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-dmg-right.png").toURI().toString()));
+                ImageView[] anotherhelpList = new ImageView[]{p2left, p2right, p2atkleft, p2atkright, p2spcleft, p2spcright, p2dmgleft, p2dmgright};
                 images.addAll(List.of(anotherhelpList));
                 for (ImageView e : images) {
                     e.setFitHeight(120);
