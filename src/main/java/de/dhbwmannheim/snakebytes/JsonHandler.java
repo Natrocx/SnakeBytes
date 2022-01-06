@@ -6,6 +6,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.*;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Hashtable;
 import java.util.Objects;
 
@@ -38,46 +42,39 @@ public class JsonHandler {
         file.mkdirs();
     }
 
-    //save the default keySettings json into the working directory
+    //save the default keySettings json into the working directory if it does not exist
     public static void saveDefaultJson(){
         setDirectory();
-        File file = new File(Objects.requireNonNull(JsonHandler.class.getResource("/settings/keySettings.json")).toString());
-        File file2 = new File(workingDirectory+ "/settings/keySettings.json");
-        file.renameTo(new File(workingDirectory+ "/settings/keySettings.json"));
-//        try {
-//            Files.copy(file.toPath(),file2.toPath());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-////        }
-//        JSONParser jsonParser = new JSONParser();
-//        FileReader reader = null;
-//        try {
-//            reader = new FileReader(JsonHandler.class.getResource("/settings/keySettings.json").toString());
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        Object obj = null;
-//        try {
-//            obj = jsonParser.parse(reader);
-//        } catch (IOException | ParseException e) {
-//            e.printStackTrace();
-//        }
-//        JSONArray arr = (JSONArray) obj;
-//        File file0 = new File(workingDirectory+ "/settings/keySettings.json");
-//        file0.getParentFile().mkdirs();
-//        try {
-//            file0.createNewFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        try (FileWriter fileWriter = new FileWriter(workingDirectory+ "/settings/keySettings.json")) {
-//            fileWriter.write(arr.toJSONString());
-//            fileWriter.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        File file0 = new File(workingDirectory+"/keySettings.json");
+        if (!file0.exists()){
+            file0.getParentFile().mkdirs();
+            try {
+                file0.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Hashtable<String, String> p1 = new Hashtable<>();
+            p1.put("left","A");
+            p1.put("attack","F");
+            p1.put("right","D");
+            p1.put("specialAttack","G");
+            p1.put("jump","W");
+            Hashtable<String,String> p2 = new Hashtable<>();
+            p2.put("left","LEFT");
+            p2.put("attack","J");
+            p2.put("right","RIGHT");
+            p2.put("specialAttack","H");
+            p2.put("jump","UP");
+            try {
+                toJson(p1,p2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    //add the String values (date, scoreP1, scoreP2) to the scoreboard.json
     public static JSONArray toScoreboardJson(String[] stringArray) throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();
         FileReader reader = new FileReader(workingDirectory+"/scoreboard.json");
@@ -105,6 +102,7 @@ public class JsonHandler {
         return arr;
     }
 
+    //read the scoreboard.json and return a JSONArray
     public static JSONArray fromScoreboardJson() throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();
         FileReader reader = new FileReader(workingDirectory+"/scoreboard.json");
@@ -114,7 +112,7 @@ public class JsonHandler {
         return arr;
     }
 
-    //Schreibt die Steuerungseinstellungen in JSON-Datei
+    //write the key settings (given by two Hashtables) for controlling the players into the keySettings.json
     public static void toJson(Hashtable<String, String> p1table, Hashtable<String, String> p2table) throws IOException {
 
         JSONObject player1 = new JSONObject();
@@ -122,7 +120,6 @@ public class JsonHandler {
         JSONObject p1name = new JSONObject();
         JSONObject p2name = new JSONObject();
 
-        //Steuerungseinstellungen in JSON-Objekt
         player1.put("left", p1table.get("left"));
         player1.put("right", p1table.get("right"));
         player1.put("jump", p1table.get("jump"));
@@ -135,16 +132,16 @@ public class JsonHandler {
         player2.put("attack", p2table.get("attack"));
         player2.put("specialAttack", p2table.get("specialAttack"));
 
-        //Einstellungen für Zugriff auf Spieler 1 bzw Spieler 2 schachteln
+        //nest the settings for each player
         p1name.put("player1", player1);
         p2name.put("player2", player2);
 
-        //Einstellungen in JSON-Array zum Speichern packen
+        //save into JSONArray
         JSONArray settingsList = new JSONArray();
         settingsList.add(p1name);
         settingsList.add(p2name);
 
-        try (FileWriter file = new FileWriter(workingDirectory+ "/settings/keySettings.json")) {
+        try (FileWriter file = new FileWriter(workingDirectory+ "/keySettings.json")) {
             file.write(settingsList.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -152,12 +149,13 @@ public class JsonHandler {
         }
     }
 
-    //gets the keySettings Json of a player
+    //gets the keySettings.json of a player
+    //thereby the enum KeyOfHashMap is used to change the key, value order given in the Hashtable output
     public static Hashtable<String, String> fromJson(String player, KeyOfHashMap keyOfHashMap) throws IOException, ParseException {
         Hashtable<String, String> playersettings = new Hashtable<>();
 
         JSONParser jsonParser = new JSONParser();
-        FileReader reader = new FileReader(workingDirectory+ "/settings/keySettings.json");
+        FileReader reader = new FileReader(workingDirectory+ "/keySettings.json");
         Object obj = jsonParser.parse(reader);
         JSONArray arr = (JSONArray) obj;
 
@@ -183,6 +181,7 @@ public class JsonHandler {
         return playersettings;
     }
 
+    //save an empty scoreboard.json
     public static void saveScoreboardDefaultJson() throws IOException, ParseException {
         setDirectory();
         File file0 = new File(workingDirectory+"/scoreboard.json");
