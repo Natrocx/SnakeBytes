@@ -86,7 +86,6 @@ public class FrameHandler extends StackPane {
             var positionComponent = ComponentManager.getComponentList(PositionComponent.class);
             var playerstate = ComponentManager.getComponentList(CharacterStateComponent.class);
 
-            var position1 = positionComponent.getComponent(player1);
         /*
         The way playerstates work:
         0- looking left
@@ -99,20 +98,42 @@ public class FrameHandler extends StackPane {
             //Gets the needed image for the current state out of the ArrayList.
             //If it is one of the attack states, the ImageView must be wider because the characters use their arms instead of
             //them just simply hanging off the side of their bodies
-            if (playerstate.getComponent(player1) != null) {
-                ImageView p1 = imagesP1.get(playerstate.getComponent(player1).state);
-                if (playerstate.getComponent(player1).state > 1) {
-                    p1.setFitWidth(73);
+            var position1 = positionComponent.getComponent(player1);
+            var p1PlayerState = playerstate.getComponent(player1);
+            ImageView p1;
+            if (p1PlayerState != null) {
+                if(p1PlayerState.hitState){
+                    if(p1PlayerState.lookingDirection == 0){
+                        p1 = imagesP1.get(6);
+                    } else{
+                        p1 = imagesP1.get(7);
+                    }
+                }else {
+                    p1 = imagesP1.get(playerstate.getComponent(player1).state);
+                    if (playerstate.getComponent(player1).state > 1) {
+                        p1.setFitWidth(73);
+                    }
                 }
                 replace(p1, 2, position1);
             }
 
             var position2 = positionComponent.getComponent(player2);
-            if (playerstate.getComponent(player2) != null) {
-                ImageView p2 = imagesP2.get(playerstate.getComponent(player2).state);
-                if (playerstate.getComponent(player2).state > 1) {
-                    p2.setFitWidth(68);
+            var p2PlayerState = playerstate.getComponent(player2);
+            ImageView p2;
+            if (p2PlayerState != null) {
+                if(p2PlayerState.hitState){
+                    if(p2PlayerState.lookingDirection == 0){
+                         p2 = imagesP2.get(6);
+                    } else {
+                         p2 = imagesP2.get(7);
+                    }
+                }else {
+                     p2 = imagesP2.get(p2PlayerState.state);
+                    if (p2PlayerState.state > 1) {
+                        p2.setFitWidth(68);
+                    }
                 }
+
                 replace(p2, 3, position2);
             }
 
@@ -199,7 +220,10 @@ public class FrameHandler extends StackPane {
                 ImageView p1atkright = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-atk-right.png").toURI().toString()));
                 ImageView p1spcleft = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-special-left.png").toURI().toString()));
                 ImageView p1spcright = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-special-right.png").toURI().toString()));
-                ImageView[] helpList = new ImageView[]{p1left, p1right, p1atkleft, p1atkright, p1spcleft, p1spcright};
+                ImageView p1dmgleft = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-dmg-left.png").toURI().toString()));
+                ImageView p1dmgright = new ImageView(new Image(new File("src/main/resources/char_models/kammerjaeger-dmg-right.png").toURI().toString()));
+
+                ImageView[] helpList = new ImageView[]{p1left, p1right, p1atkleft, p1atkright, p1spcleft, p1spcright, p1dmgleft, p1dmgright};
                 images.addAll(List.of(helpList));
                 for (ImageView e : images) {
 
@@ -214,7 +238,9 @@ public class FrameHandler extends StackPane {
                 ImageView p2atkright = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-atk-right.png").toURI().toString()));
                 ImageView p2spcleft = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-special-left.png").toURI().toString()));
                 ImageView p2spcright = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-special-right.png").toURI().toString()));
-                ImageView[] anotherhelpList = new ImageView[]{p2left, p2right, p2atkleft, p2atkright, p2spcleft, p2spcright};
+                ImageView p2dmgleft = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-dmg-left.png").toURI().toString()));
+                ImageView p2dmgright = new ImageView(new Image(new File("src/main/resources/char_models/exmatrikulator-dmg-right.png").toURI().toString()));
+                ImageView[] anotherhelpList = new ImageView[]{p2left, p2right, p2atkleft, p2atkright, p2spcleft, p2spcright, p2dmgleft, p2dmgright};
                 images.addAll(List.of(anotherhelpList));
                 for (ImageView e : images) {
                     e.setFitHeight(120);

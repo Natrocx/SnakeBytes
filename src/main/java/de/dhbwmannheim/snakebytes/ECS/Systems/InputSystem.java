@@ -182,7 +182,7 @@ public class InputSystem extends System {
         BoundingBoxComponent boundingBoxComponent = boundingBox.getComponent(entity);
         PositionComponent positionComponent = position.getComponent(entity);
 
-        //reduce attack cooldowns
+        //reduce attack cooldowns and reset hitstate
         if (characterStateComponent != null) {
             if (characterStateComponent.attackCooldown > 0) {
                 double val = characterStateComponent.attackCooldown;
@@ -200,8 +200,7 @@ public class InputSystem extends System {
                 val = val / 100;
                 characterStateComponent.specialAttackCooldown = val;
             }
-
-
+            characterStateComponent.hitState = false;
 
         }
 

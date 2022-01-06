@@ -175,18 +175,21 @@ public class CollisionSystem extends System {
             case SpecialAttack:
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(true));
                 Engine.destroyAttack(e2);
+                ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(e1).hitState = true;
                 soundManager.playDamage();
 
                 break;
             case Attack:
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(false));
                 Engine.destroyAttack(e2);
+                ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(e1).hitState = true;
                 soundManager.playDamage();
 
                 break;
 
             case Screen:
                 screenBorderCollisionComponents.insertComponent(e1, new ScreenBorderCollisionComponent());
+                ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(e1).hitState = true;
                 soundManager.playKO();
                 break;
         }

@@ -21,8 +21,9 @@ public class CharacterStateComponent extends Component {
     public boolean specialAttacking;
     public int lookingDirection; //0=left, 1=right
     public int state; //for FrameHandler: 0=left, 1=right, 2=attackLeft, 3=attackRight, 4=specialAttackLeft, 5=specialAttackRight
+    public boolean hitState;
 
-    public CharacterStateComponent(double knockback, double attackCooldown, double specialAttackCooldown, int lives, boolean[] jumping, boolean attacking, boolean specialAttacking, int lookingDirection, int state) {
+    public CharacterStateComponent(double knockback, double attackCooldown, double specialAttackCooldown, int lives, boolean[] jumping, boolean attacking, boolean specialAttacking, int lookingDirection, int state, boolean hitState) {
         this.knockback = knockback;
         this.attackCooldown = attackCooldown;
         this.specialAttackCooldown = specialAttackCooldown;
@@ -32,6 +33,7 @@ public class CharacterStateComponent extends Component {
         this.specialAttacking = specialAttacking;
         this.lookingDirection = lookingDirection;
         this.state = state;
+        this.hitState = hitState;
     }
 
     @Override
