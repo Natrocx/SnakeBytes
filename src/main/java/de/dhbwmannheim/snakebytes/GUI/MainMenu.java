@@ -64,7 +64,7 @@ class MenuBox extends VBox {
         getChildren().add(createSeperator());
         MenuItem item1 = new MenuItem("Spiel starten", primaryStage);
         MenuItem item2 = new MenuItem("Scoreboard", primaryStage);
-        MenuItem item3 = new MenuItem("Einstellungen", primaryStage);
+        MenuItem item3 = new MenuItem("Steuerung", primaryStage);
         MenuItem item4 = new MenuItem("Erklärungen", primaryStage);
 
         getChildren().addAll(item1, createSeperator(), item2, createSeperator(), item3, createSeperator(), item4);
@@ -123,7 +123,7 @@ class MenuItem extends StackPane {
                 }
                 primaryStage.setScene(scene);
             }
-            if (Objects.equals(name, "Einstellungen")) {
+            if (Objects.equals(name, "Steuerung")) {
                 try {
                     scene = new Scene(Menus.createSettingsContent(primaryStage), Color.LIGHTBLUE);
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
