@@ -4,17 +4,15 @@ import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
-import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
-import javafx.geometry.Pos;
 
 import java.util.BitSet;
 
 /**
- * Authors: @Jonas Lauschke
- *          @Kirolis Eskondis
- *          @Thu Giang Tran
+ * Author:  @Jonas Lauschke
+ *           @Kirolis Eskondis
+ *           @Thu Giang Tran
  * This class is the System which handles knockback and collision if an attack occurs
- */
+ **/
 
 public class AttackSystem extends System {
 
@@ -47,7 +45,6 @@ public class AttackSystem extends System {
             MotionComponent attackMotion = motionComponents.getComponent(entity);
             PositionComponent attackPosition = positionComponents.getComponent(entity);
             CharacterStateComponent playerKnockback = characterState.getComponent(entity);
-            CharacterStateComponent lookingDirection = characterState.getComponent(entity);
 
             //if normal attack is registered, then
             if (!attackCollisionComponent.getComponent(entity).specialAttack) {

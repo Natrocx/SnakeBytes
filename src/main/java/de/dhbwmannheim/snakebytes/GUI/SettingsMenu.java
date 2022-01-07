@@ -1,7 +1,5 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-//by Kai Schwab, Eric Stefan
-
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,12 +21,13 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
-
-import de.dhbwmannheim.snakebytes.JsonHandler;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
+
+/**
+ * Author:  @Kai Schwab
+ *          @Eric Stefan
+ **/
 
 public class SettingsMenu extends StackPane {
     public SettingsMenu(Stage primaryStage) {
@@ -39,8 +38,8 @@ public class SettingsMenu extends StackPane {
 
         SettingsTable settings = new SettingsTable(primaryStage);
         Button b = new Button();
-        b.setText("refresh");
-        b.setTranslateX(925);
+        b.setText("Aktualisieren");
+        b.setTranslateX(750);
         b.setTranslateY(100);
         b.setOnMouseClicked(event->{
             getChildren().clear();
@@ -61,7 +60,7 @@ public class SettingsMenu extends StackPane {
 
 class HeaderP extends HBox {
     public HeaderP(Stage primaryStage) {
-        Title2 titleI = new Title2("Settings");
+        Title2 titleI = new Title2("Einstellung");
         titleI.setTranslateX(150);
         titleI.setTranslateY(20);
 
@@ -94,16 +93,16 @@ class SettingsTable extends StackPane {
         }
 
         // Settings Topics
-        SettingsTopic moveSetTitle = new SettingsTopic("A C T I O N S");
-        moveSetTitle.setTranslateX(200);
+        SettingsTopic moveSetTitle = new SettingsTopic("ACTIONS");
+        moveSetTitle.setTranslateX(215);
         moveSetTitle.setTranslateY(220);
 
-        SettingsTopic player1Title = new SettingsTopic("P L A Y E R 1");
-        player1Title.setTranslateX(550);
+        SettingsTopic player1Title = new SettingsTopic("CYBER-KAMMERJAEGER");
+        player1Title.setTranslateX(440);
         player1Title.setTranslateY(220);
 
-        SettingsTopic player2Title = new SettingsTopic("P L A Y E R 2");
-        player2Title.setTranslateX(800);
+        SettingsTopic player2Title = new SettingsTopic("EXMATRIKULATOR");
+        player2Title.setTranslateX(880);
         player2Title.setTranslateY(220);
 
         // Settings Elements
@@ -113,12 +112,12 @@ class SettingsTable extends StackPane {
                 new TextItem("right"),
                 new TextItem("Attack"),
                 new TextItem("Special Attack"));
-        moveSet.setTranslateX(200);
+        moveSet.setTranslateX(100);
         moveSet.setTranslateY(250);
 
         Button saveButton = new Button();
-        saveButton.setText("Save");
-        saveButton.setTranslateX(593);
+        saveButton.setText("Speichern");
+        saveButton.setTranslateX(620);
         saveButton.setTranslateY(0);
 
 
@@ -165,7 +164,7 @@ class SettingsTable extends StackPane {
                 b3, // right
                 b4, // Attack 1
                 b5); // Attack 2
-        player1Box.setTranslateX(550);
+        player1Box.setTranslateX(450);
         player1Box.setTranslateY(250);
 
         ButtonItem b6 = new ButtonItem(controlsp2.get("jump"), primaryStage, "jump2");
@@ -212,7 +211,7 @@ class SettingsTable extends StackPane {
                 b8, // right
                 b9, // Attack 1
                 b10); // Attack 2
-        player2Box.setTranslateX((800));
+        player2Box.setTranslateX((840));
         System.out.println();
         player2Box.setTranslateY(250);
         createSeperator();

@@ -3,9 +3,11 @@
 package de.dhbwmannheim.snakebytes.ECS;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.Component;
+import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
 
 /**
  * Author: @Eric Stefan
+ *         @Kirolis Eskondis
  * This Component contains many important states of a player
  */
 
@@ -21,17 +23,19 @@ public class CharacterStateComponent extends Component {
     public boolean specialAttacking;
     public int lookingDirection; //0=left, 1=right
     public int state; //for FrameHandler: 0=left, 1=right, 2=attackLeft, 3=attackRight, 4=specialAttackLeft, 5=specialAttackRight
+    public boolean hitState;
 
-    public CharacterStateComponent(double knockback, double attackCooldown, double specialAttackCooldown, int lives, boolean[] jumping, boolean attacking, boolean specialAttacking, int lookingDirection, int state) {
-        this.knockback = knockback;
-        this.attackCooldown = attackCooldown;
-        this.specialAttackCooldown = specialAttackCooldown;
-        this.lives = lives;
-        this.jumping = jumping;
-        this.attacking = attacking;
-        this.specialAttacking = specialAttacking;
+    public CharacterStateComponent(int lookingDirection, int state) {
+        this.knockback = 1;
+        this.attackCooldown = 3;
+        this.specialAttackCooldown = 3;
+        this.lives = CharacterMenu.rounds;
+        this.jumping = new boolean[]{false, false};
+        this.attacking = false;
+        this.specialAttacking = false;
         this.lookingDirection = lookingDirection;
         this.state = state;
+        this.hitState = false;
     }
 
     @Override

@@ -1,16 +1,18 @@
 package de.dhbwmannheim.snakebytes.Sounds;
 
-/**
- * Author: @Kirolis Eskondis
- *         @Thu Giang Tran
- * This class implements the background music during a fight
- ***/
-
 import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.File;
+
+/**
+ * Author:  @Kirolis Eskondis
+ *          @Thu Giang Tran
+ * This class allows the implementation of sounds during the fight
+ **/
+
 
 public class SoundManager {
 
@@ -22,16 +24,15 @@ public class SoundManager {
     private MediaPlayer playerKO;
     private MediaPlayer playerMatchOver;
 
-    private Media sound = new Media(new File("src/main/resources/sounds/jump.mp3").toURI().toString());
-    private Media sound2 = new Media(new File("src/main/resources/sounds/punch.mp3").toURI().toString());
-    private Media sound3 = new Media(new File("src/main/resources/sounds/spAttack1.mp3").toURI().toString());
-    private Media sound4 = new Media(new File("src/main/resources/sounds/spAttack2.mp3").toURI().toString());
-    private Media sound5 = new Media(new File("src/main/resources/sounds/damage.mp3").toURI().toString());
-    private Media sound6 = new Media(new File("src/main/resources/sounds/KO.mp3").toURI().toString());
-    private Media sound7 = new Media(new File("src/main/resources/sounds/matchover.wav").toURI().toString());
-
 
     public SoundManager() {
+        Media sound = new Media(new File("src/main/resources/sounds/jump.mp3").toURI().toString());
+        Media sound2 = new Media(new File("src/main/resources/sounds/punch.mp3").toURI().toString());
+        Media sound3 = new Media(new File("src/main/resources/sounds/spAttack1.mp3").toURI().toString());
+        Media sound4 = new Media(new File("src/main/resources/sounds/spAttack2.mp3").toURI().toString());
+        Media sound5 = new Media(new File("src/main/resources/sounds/damage.mp3").toURI().toString());
+        Media sound6 = new Media(new File("src/main/resources/sounds/KO.mp3").toURI().toString());
+        Media sound7 = new Media(new File("src/main/resources/sounds/matchover.wav").toURI().toString());
         this.playerJump = new MediaPlayer(sound);
         this.playerPunch = new MediaPlayer(sound2);
         this.playerSpAttack1 = new MediaPlayer(sound3);
@@ -43,49 +44,49 @@ public class SoundManager {
     }
 
     //to test if simultaneous attacks are possible
-    public void playJumpSound() throws Exception {
+    public void playJumpSound() {
         if(!GameOverlay.soundMute) {
             playerJump.stop();
             playerJump.play();
         }
     }
 
-    public void playPunchSound() throws Exception {
+    public void playPunchSound() {
         if(!GameOverlay.soundMute) {
             playerPunch.stop();
             playerPunch.play();
         }
     }
 
-    public void playSpAttack1() throws Exception {
+    public void playSpAttack1() {
         if(!GameOverlay.soundMute) {
             playerSpAttack1.stop();
             playerSpAttack1.play();
         }
     }
 
-    public void playSpAttack2() throws Exception {
+    public void playSpAttack2() {
         if(!GameOverlay.soundMute) {
             playerSpAttack2.stop();
             playerSpAttack2.play();
         }
     }
 
-    public void playDamage() throws Exception {
+    public void playDamage() {
         if(!GameOverlay.soundMute) {
             playerDamage.stop();
             playerDamage.play();
         }
     }
 
-    public void playKO() throws Exception {
+    public void playKO() {
         if(!GameOverlay.soundMute) {
             playerKO.stop();
             playerKO.play();
         }
     }
 
-    public void playMatchOver() throws Exception {
+    public void playMatchOver() {
         if(!GameOverlay.soundMute) {
             playerMatchOver.stop();
             playerMatchOver.play();

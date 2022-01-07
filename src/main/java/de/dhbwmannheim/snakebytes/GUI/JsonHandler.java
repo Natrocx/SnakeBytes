@@ -1,15 +1,17 @@
-package de.dhbwmannheim.snakebytes;
+package de.dhbwmannheim.snakebytes.GUI;
 
-//by Robert Sedlmeier and Eric Stefan
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.*;
 import java.util.Hashtable;
-import java.util.List;
-
 import org.json.simple.parser.ParseException;
+
+/**
+ * Author:  @Eric Stefan
+ *          @Robert Sedlmeier
+ **/
 
 public class JsonHandler {
 

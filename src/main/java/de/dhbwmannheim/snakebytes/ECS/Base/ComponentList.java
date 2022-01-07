@@ -1,4 +1,3 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import java.util.Collection;
@@ -8,7 +7,11 @@ import java.util.function.BiConsumer;
 
 /**
  * Specialised collection for Components to facilitate the Engines semi-manual memory management
- */
+ *
+ * Author:  @Jonas Lauschke
+ **/
+
+
 public class ComponentList<T extends Component> {
 
     private final Map<Entity, T> components = new ConcurrentHashMap<>();

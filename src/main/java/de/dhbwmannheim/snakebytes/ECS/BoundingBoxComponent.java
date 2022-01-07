@@ -2,7 +2,9 @@ package de.dhbwmannheim.snakebytes.ECS;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.Component;
 
-//      Author: Jonas Lauschke
+/**
+ * Author:  @Jonas Lauschke
+ **/
 
 /**
  * Represents a logical bounding-/hitbox for an Entity (i. e. the size in axis-oriented directions)

@@ -1,12 +1,8 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
-import de.dhbwmannheim.snakebytes.ECS.Systems.CollisionSystem;
-import de.dhbwmannheim.snakebytes.ECS.Systems.InputSystem;
 import de.dhbwmannheim.snakebytes.EngineLoop;
-import de.dhbwmannheim.snakebytes.JsonHandler;
 import de.dhbwmannheim.snakebytes.Render.FrameHandler;
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -25,13 +21,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Objects;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
@@ -39,7 +31,8 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 /**
  * Authors: @Kai Schwab
  *          @Kirolis Eskondis
- */
+ * This class builds the character selection menu
+ **/
 
 public class CharacterMenu extends StackPane {
     public static int rounds = 3;
@@ -47,7 +40,7 @@ public class CharacterMenu extends StackPane {
     public static boolean render = false;
     public CharacterMenu(Stage primaryStage){
         //title
-        Title2 title = new Title2("Choose your Character");
+        Title2 title = new Title2("Wähle deinen Charakter");
         title.setTranslateY(-250);
         title.setTranslateX((1350 / 2) - 340);
         //Side Menu1
@@ -88,7 +81,7 @@ class Title2 extends StackPane {
 class SideMenu1 extends VBox {
     public SideMenu1( Stage primaryStage){
         SideMenuItem left1 = new SideMenuItem("Tunier", primaryStage);
-        SideMenuValueSelect left2 = new SideMenuValueSelect("Points",String.valueOf(CharacterMenu.rounds), primaryStage);
+        SideMenuValueSelect left2 = new SideMenuValueSelect("Punkte",String.valueOf(CharacterMenu.rounds));
         getChildren().addAll(left1,createSeperator(),left2);
 
     }
@@ -181,7 +174,7 @@ class CharakterSelect3 extends HBox {
 class SideMenu2 extends VBox{
     public SideMenu2( Stage primaryStage){
         Back back =new Back(primaryStage);
-        SideMenuValueSelect right1 = new SideMenuValueSelect("Time",String.valueOf(CharacterMenu.time), primaryStage);
+        SideMenuValueSelect right1 = new SideMenuValueSelect("Zeit",String.valueOf(CharacterMenu.time));
         getChildren().addAll(back,createSeperator(),createSeperator(),right1);
 
     }
@@ -196,13 +189,10 @@ class SideMenu2 extends VBox{
 class SideMenuItem extends StackPane {
 
     public SideMenuItem(String name, Stage primaryStage) {
-        LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop[]{
-                new Stop(0, Color.YELLOW),
+        LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop(0, Color.YELLOW),
                 new Stop(0.1, Color.RED),
                 new Stop(0.9, Color.RED),
-                new Stop(1, Color.DARKBLUE)
-
-        });
+                new Stop(1, Color.DARKBLUE));
 
         Rectangle bg = new Rectangle(200, 60);
         bg.setStroke(Color.BLACK);
@@ -231,22 +221,15 @@ class SideMenuItem extends StackPane {
                     bg.setFill(Color.DARKGOLDENROD);
                     if (Objects.equals(name, "Start")) {
                         JsonHandler.saveDefaultJson();
-                        FrameHandler frameHandler = null;
+                        Engine.setup();
+                        FrameHandler frameHandler = new FrameHandler(primaryStage, Engine.getKeyPressedCallback());
 
-                        try {
-                            Engine.setup();
-                            frameHandler = new FrameHandler(primaryStage, Engine.getKeyPressedCallback());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        FrameHandler finalFrameHandler = frameHandler;
-                        startRender(finalFrameHandler, primaryStage);
+                        startRender(frameHandler, primaryStage);
 
                         EngineLoop loop = new EngineLoop();
                         loop.start();
                     }
-                    if (name == "Erklärungen") {
+                    if (Objects.equals(name, "Erklärungen")) {
                         try {
                             scene = new Scene(Menus.createImpressumContent(primaryStage), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -256,7 +239,7 @@ class SideMenuItem extends StackPane {
                         }
                         primaryStage.setScene(scene);
                     }
-                    if (name == "Weiter") {
+                    if (Objects.equals(name, "Weiter")) {
                         try {
                             scene = new Scene(Menus.createCharakterContent(primaryStage), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -267,9 +250,7 @@ class SideMenuItem extends StackPane {
                         primaryStage.setScene(scene);
                     }
                 });
-            setOnMouseReleased(event -> {
-                bg.setFill(gradient);
-            });
+            setOnMouseReleased(event -> bg.setFill(gradient));
     }
 
     public void startRender(FrameHandler frameHandler, Stage primaryStage){
@@ -291,7 +272,7 @@ class SideMenuItem extends StackPane {
 
 class SideMenuValueSelect extends VBox {
 
-    public SideMenuValueSelect(String name, String Value, Stage primaryStage) {
+    public SideMenuValueSelect(String name, String Value) {
         SideMenuTopic topic = new SideMenuTopic(name);
         SideMenuValueChanger value = new SideMenuValueChanger(Value,name);
         getChildren().addAll(topic,value);
@@ -327,23 +308,19 @@ class SideMenuValueChanger  extends HBox {
         Polygon h = new Polygon(0, 0, 0, 30, 27, 15);
         h.setFill(Color.DARKRED);
 
-        l.setOnMouseEntered(event -> {
-            l.setFill(Color.RED);
-        });
-        l.setOnMouseExited(event -> {
-            l.setFill(Color.DARKRED);
-        });
+        l.setOnMouseEntered(event -> l.setFill(Color.RED));
+        l.setOnMouseExited(event -> l.setFill(Color.DARKRED));
         l.setOnMousePressed(event -> {
             l.setFill(Color.YELLOW);
             int v= 0;
-            if(name=="Points"){
+            if(Objects.equals(name, "Punkte")){
                 v=CharacterMenu.rounds;
                 if(v>1){
                     CharacterMenu.rounds--;
                     text.setText(String.valueOf(CharacterMenu.rounds));
                 }
             }
-            else if (name=="Time"){
+            else if (Objects.equals(name, "Zeit")){
                 v=CharacterMenu.time;
                 if(v>10){
                     CharacterMenu.time-=10;
@@ -351,27 +328,21 @@ class SideMenuValueChanger  extends HBox {
                 }
             }
         });
-        l.setOnMouseReleased(event -> {
-            l.setFill(Color.RED);
-        });
+        l.setOnMouseReleased(event -> l.setFill(Color.RED));
 
-        h.setOnMouseEntered(event -> {
-            h.setFill(Color.RED);
-        });
-        h.setOnMouseExited(event -> {
-            h.setFill(Color.DARKRED);
-        });
+        h.setOnMouseEntered(event -> h.setFill(Color.RED));
+        h.setOnMouseExited(event -> h.setFill(Color.DARKRED));
         h.setOnMousePressed(event -> {
             h.setFill(Color.YELLOW);
             int v= 0;
-            if(name=="Points"){
+            if(Objects.equals(name, "Punkte")){
                 v=CharacterMenu.rounds;
                 if(v<99){
                     CharacterMenu.rounds++;
                     text.setText(String.valueOf(CharacterMenu.rounds));
                 }
             }
-            else if (name=="Time"){
+            else if (Objects.equals(name, "Zeit")){
                 v=CharacterMenu.time;
                 if(v<990){
                     CharacterMenu.time+=10;
@@ -379,9 +350,7 @@ class SideMenuValueChanger  extends HBox {
                 }
             }
         });
-        h.setOnMouseReleased(event -> {
-            h.setFill(Color.RED);
-        });
+        h.setOnMouseReleased(event -> h.setFill(Color.RED));
 
 
         setAlignment(Pos.CENTER);
@@ -398,12 +367,8 @@ class  Back extends StackPane {
         r2.setRotate(315);
         circle.setFill(Color.DARKRED);
         circle.setStroke(Color.BLACK);
-        circle.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        circle.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        circle.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        circle.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         circle.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
@@ -416,12 +381,8 @@ class  Back extends StackPane {
             }
             primaryStage.setScene(scene);
         });
-        r1.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        r1.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        r1.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        r1.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
@@ -434,12 +395,8 @@ class  Back extends StackPane {
             }
             primaryStage.setScene(scene);
         });
-        r2.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        r2.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        r2.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        r2.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;

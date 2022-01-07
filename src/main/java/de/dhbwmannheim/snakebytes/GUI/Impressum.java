@@ -11,8 +11,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-//by Kai Schwab
-
+/**
+ * Author:  @Kai Schwab
+ **/
 public class Impressum extends VBox {
     public Impressum(Stage primaryStage) {
         //Title
@@ -27,7 +28,7 @@ public class Impressum extends VBox {
         CText ctex = new CText("Angriff:", "Die Special-Fähigkeit des Kammerjägers stellt einen Pointer dar. Pointer sind ein Markenzeichen von C und sorgen für ein unvergleichlich effektives Speichermanagement. Infolge dessen ist C eine der performantesten Sprachen die es gibt.");
         CText ctex2 = new CText("Geschichte:", "Der Cyber-Kammerjäger ist die Kraft mit der man rechnen muss, wenn man das Semikolon vergisst. Ein antiker Titan, erweckt nur durch den Klang von ineffizient genutztem Systemspeicher. Aus um jene mit seinen geschweiften Klammern und, wie in der Programmiersprache C, unheimlich performanten Methoden zu jagen, die vom rechten Weg abgekommen sind. Der Cyber-Kammerjäger bedient sich dabei den ausgeklügeltsten Methoden und bleibt dabei dem System nahe. Auch bei der Typisierung überlässt der Cyber-Kammerjäger nichts dem Zufallsrad und greift authoritär auf die Hardware zu. Als graue Eminenz, hatte der dem C-Kult angehörige Cyber-Kammerjäger seinen Code beinahe jeder anderen Programmiersprache in Form von Bibliotheken hinzugefügt. Die enorme Hingabe gegenüber C ist eine der größten Stärken des Cyber-Kammerjägers, was ihn zu einem gefährlichen Gegner im Kampf der Programmiersprachen macht.");
 
-        getChildren().addAll(headerI,ws,pytit,pytex,pytex2,ctit,ctex,ctex2);
+        getChildren().addAll(headerI, ws, pytit, pytex, pytex2, ctit, ctex, ctex2);
     }
 }
 
@@ -50,23 +51,23 @@ class HeaderI extends HBox {
 }
 
 //by Robert Sedlmeier
-class PyText extends HBox{
-    public PyText(String title,String text){
+class PyText extends HBox {
+    public PyText(String title, String text) {
 
         PyTitle titleE = new PyTitle(title);
-        PyTextpart textpart =new PyTextpart(text);
+        PyTextpart textpart = new PyTextpart(text);
 
         getChildren().addAll(titleE, textpart);
     }
 }
 
-class CText extends HBox{
-    public CText(String title,String text){
+class CText extends HBox {
+    public CText(String title, String text) {
 
         CTitle titleE = new CTitle(title);
-        CTextpart textpart =new CTextpart(text);
+        CTextpart textpart = new CTextpart(text);
 
-        getChildren().addAll(titleE,textpart);
+        getChildren().addAll(titleE, textpart);
     }
 }
 

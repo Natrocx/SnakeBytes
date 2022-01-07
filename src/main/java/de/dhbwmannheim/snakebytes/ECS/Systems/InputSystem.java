@@ -1,30 +1,22 @@
-//code by Eric Stefan, Jonas Lauschke
-
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
-import de.dhbwmannheim.snakebytes.JsonHandler;
+import de.dhbwmannheim.snakebytes.GUI.JsonHandler;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.scene.input.KeyEvent;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Hashtable;
 import java.util.List;
-import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
-import de.dhbwmannheim.snakebytes.ECS.Base.*;
+
 import de.dhbwmannheim.snakebytes.ECS.BoundingBoxComponent;
-import de.dhbwmannheim.snakebytes.JsonHandler;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Hashtable;
-import java.util.List;
 
 /**
  * Authors: @Eric Stefan
@@ -131,7 +123,7 @@ public class InputSystem extends System {
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, spcTemp.y));
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.05), BoundingBoxComponent.BoxType.SpecialAttack);
-            var attackMotion = new MotionComponent(new Vec2<>(helpX, 0.0),10);
+            var attackMotion = new MotionComponent(new Vec2<>(helpX, 0.0),4);
             var attackState = new AttackStateComponent(attackStateIndex, entity.id);
 
             Engine.registerEntity(attack);
@@ -148,7 +140,7 @@ public class InputSystem extends System {
         } else if (attackType == 2) {
             Double hilf = 0.0;
             if (direction == 0) {
-                temp.x = playerPosition.x - 0.1;
+                temp.x = playerPosition.x - 0.075;
                 hilf = -0.4;
                 attackStateIndex = 2;
             } else {
@@ -159,9 +151,9 @@ public class InputSystem extends System {
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, spcTemp.y));
             //defining width and height of the attack hitbox
             //var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.1), BoundingBoxComponent.BoxType.SpecialAttack);
-            var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.1), BoundingBoxComponent.BoxType.SpecialAttack);
+            var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.075, 0.075), BoundingBoxComponent.BoxType.SpecialAttack);
 
-            var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2), 10);
+            var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2), 4);
             var attackGravity = new GravityComponent(1.0);
             var attackState = new AttackStateComponent(attackStateIndex);
 
@@ -190,7 +182,7 @@ public class InputSystem extends System {
         BoundingBoxComponent boundingBoxComponent = boundingBox.getComponent(entity);
         PositionComponent positionComponent = position.getComponent(entity);
 
-        //reduce attack cooldowns
+        //reduce attack cooldowns and reset hitstate
         if (characterStateComponent != null) {
             if (characterStateComponent.attackCooldown > 0) {
                 double val = characterStateComponent.attackCooldown;
@@ -208,8 +200,7 @@ public class InputSystem extends System {
                 val = val / 100;
                 characterStateComponent.specialAttackCooldown = val;
             }
-
-
+            characterStateComponent.hitState = false;
 
         }
 
@@ -273,7 +264,7 @@ public class InputSystem extends System {
                     //if there is no special attack cooldown -> attack and set attackCooldown
                     if (characterStateComponent.specialAttackCooldown == 0) {
                         characterStateComponent.specialAttacking = true;
-                        characterStateComponent.specialAttackCooldown = 2.0;
+                        characterStateComponent.specialAttackCooldown = 5.0;
                         if (characterStateComponent.lookingDirection == 0) {
                             if(entity == entities.get(0)) {
                                 setupAttack(1, 0, pos, width, height, entity);
@@ -298,32 +289,6 @@ public class InputSystem extends System {
                             soundManager.playSpAttack2();
                         }
                         break;
-/*
-                        //for each player play the specific sound of the special attack
-                        //and set the specific specialAttackCooldown
-                        if (player1KeySettings.containsKey(key)) {
-                            characterStateComponent.specialAttackCooldown = 2.0;
-                            if (characterStateComponent.lookingDirection == 0) {
-                                setupAttack(1, 0, pos, width, height);
-                                characterStateComponent.state = 4;
-                            } else {
-                                setupAttack(1, 1, pos, width, height);
-                                characterStateComponent.state = 5;
-                            }
-                            //soundManager.playSpAttack1();
-                        } else {
-                            characterStateComponent.specialAttackCooldown = 2.5;
-                            if (characterStateComponent.lookingDirection == 0) {
-                                setupAttack(2, 0, pos, width, height);
-                                characterStateComponent.state = 4;
-                            } else {
-                                setupAttack(2, 1, pos, width, height);
-                                characterStateComponent.state = 5;
-                            }
-                            //soundManager.playSpAttack2();
-                        }
-                    }
-                    break;*/
                     }
             }
         }

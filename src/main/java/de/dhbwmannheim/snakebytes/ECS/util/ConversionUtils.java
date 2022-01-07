@@ -1,9 +1,10 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.util;
 
 /**
  * Utility class which provides static helper methods for unit conversion
- */
+ * Author:  @Jonas Lauschke
+ **/
+
 public class ConversionUtils {
 
     /**

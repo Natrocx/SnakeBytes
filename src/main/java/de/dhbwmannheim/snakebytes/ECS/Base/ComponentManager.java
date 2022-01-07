@@ -1,4 +1,3 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
@@ -9,7 +8,10 @@ import java.util.HashMap;
 
 /**
  * Manages Components and their corresponding ComponentLists
- */
+
+ * Author:  @Jonas Lauschke
+ **/
+
 public class ComponentManager {
 
     @SuppressWarnings("rawtypes") // consistent use of generic Type IDs make checks unnecessary

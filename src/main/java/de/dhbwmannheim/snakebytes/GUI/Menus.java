@@ -1,11 +1,7 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-//Code by Kai Schwab
-
-import de.dhbwmannheim.snakebytes.JsonHandler;
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
-import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,13 +14,16 @@ import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Author:  @Kai Schwab
+ **/
+
 public class Menus extends Application {
 
     public static Pane root = new Pane();
 
     //by Kai Schwab
     public static MusicManager mediaplayer = new MusicManager();
-    public static SoundManager soundplayer = new SoundManager();
 
     public static void main(String[] args) {
         launch(args);
@@ -36,9 +35,7 @@ public class Menus extends Application {
         try {
             JsonHandler.saveScoreboardDefaultJson();
             Scoreboard.fillDummyDataInScoreboard();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         primaryStage.setTitle("SNAKE BYTES");
@@ -108,18 +105,6 @@ public class Menus extends Application {
         return root;
     }
 
-    static Parent createKeyBindingContent(Stage primaryStage) throws FileNotFoundException {
-        Pane root = new Pane();
-
-        root.setPrefSize(320, 80);
-
-        PressKeyWindow keyWindow = new PressKeyWindow(primaryStage);
-
-        root.getChildren().addAll(keyWindow);
-
-        return root;
-    }
-
 
     //Impressum/Erklaerungen
     static Parent createImpressumContent(Stage primaryStage) throws FileNotFoundException {
@@ -135,17 +120,13 @@ public class Menus extends Application {
     }
 
     //Game
-    public static void createGameContent(Stage primaryStage) throws FileNotFoundException {
+    public static void createGameContent(Stage primaryStage){
 
         root.setPrefSize(1350, 900);
 
         GameOverlay gov = new GameOverlay(primaryStage);
-        BackgroundBuilder background = new BackgroundBuilder(primaryStage);
-        try {
-            mediaplayer.playMusic();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        BackgroundBuilder background = new BackgroundBuilder();
+        mediaplayer.playMusic();
 
         Menus.root.getChildren().add(0,background);
         Menus.root.getChildren().add(1,gov);
@@ -162,9 +143,7 @@ public class Menus extends Application {
         root.getChildren().addAll(endscreen);
         try {
             Scoreboard.saveScoreboardToJson();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 

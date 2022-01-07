@@ -18,8 +18,11 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 
-//by Kai Schwab
+/**
+ * Author:  @Kai Schwab
+ **/
 
 public class MainMenu extends VBox {
     public MainMenu(Stage primaryStage) {
@@ -57,9 +60,9 @@ class Title extends StackPane {
 class MenuBox extends VBox {
     public MenuBox(Stage primaryStage) {
         getChildren().add(createSeperator());
-        MenuItem item1 = new MenuItem("Start Game", primaryStage);
+        MenuItem item1 = new MenuItem("Spiel starten", primaryStage);
         MenuItem item2 = new MenuItem("Scoreboard", primaryStage);
-        MenuItem item3 = new MenuItem("Settings", primaryStage);
+        MenuItem item3 = new MenuItem("Einstellungen", primaryStage);
         MenuItem item4 = new MenuItem("Erklärungen", primaryStage);
 
         getChildren().addAll(item1, createSeperator(), item2, createSeperator(), item3, createSeperator(), item4);
@@ -108,7 +111,7 @@ class MenuItem extends StackPane {
         setOnMousePressed(event -> {
             bg.setFill(Color.DARKGOLDENROD);
             Scene scene = null;
-            if (name == "Start Game") {
+            if (Objects.equals(name, "Spiel starten")) {
                 try {
                     scene = new Scene(Menus.createCharakterContent(primaryStage), Color.LIGHTBLUE);
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -118,7 +121,7 @@ class MenuItem extends StackPane {
                 }
                 primaryStage.setScene(scene);
             }
-            if (name == "Settings") {
+            if (Objects.equals(name, "Einstellungen")) {
                 try {
                     scene = new Scene(Menus.createSettingsContent(primaryStage), Color.LIGHTBLUE);
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -129,7 +132,7 @@ class MenuItem extends StackPane {
                 primaryStage.setScene(scene);
 
             }
-            if (name == "Erklärungen") {
+            if (Objects.equals(name, "Erklärungen")) {
                 try {
                     scene = new Scene(Menus.createImpressumContent(primaryStage), Color.LIGHTBLUE);
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -139,16 +142,12 @@ class MenuItem extends StackPane {
                 }
                 primaryStage.setScene(scene);
             }
-            if (name == "Scoreboard") {
+            if (Objects.equals(name, "Scoreboard")) {
                 try {
                     scene = new Scene(Menus.createScoreboardContent(primaryStage), Color.LIGHTBLUE);
                     primaryStage.setMaxHeight(Integer.MAX_VALUE);
                     primaryStage.setMaxWidth(Integer.MAX_VALUE);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
+                } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
                 primaryStage.setScene(scene);
@@ -156,9 +155,7 @@ class MenuItem extends StackPane {
 
         });
 
-        setOnMouseReleased(event -> {
-            bg.setFill(gradient);
-        });
+        setOnMouseReleased(event -> bg.setFill(gradient));
     }
 }
 

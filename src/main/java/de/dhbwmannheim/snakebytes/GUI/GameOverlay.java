@@ -1,7 +1,7 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
+import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -24,27 +24,31 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
+import static de.dhbwmannheim.snakebytes.GUI.Menus.mediaplayer;
 
-//by Kai Schwab
+/**
+ * Author:  @Kai Schwab
+ *          @Kirolis Eskondis
+ **/
+
 public class GameOverlay extends StackPane {
     public static boolean soundMute = false;
-    int counter = 3;
     public static int scP1 = 0;
     public static int scP2 = 0;
     public GameOverlay(Stage primaryStage) {
         MiniBack back = new MiniBack(primaryStage);
         back.setTranslateX(-80);
         back.setTranslateY(-70);
-        Music music = new Music(primaryStage);
+        Music music = new Music();
         music.setTranslateX(900);
         music.setTranslateY(-70);
-        Sound sound = new Sound(primaryStage);
+        Sound sound = new Sound();
         sound.setTranslateX(1050);
         sound.setTranslateY(-70);
-        Pause pause = new Pause(primaryStage);
+        Pause pause = new Pause();
         pause.setTranslateX(1180);
         pause.setTranslateY(-70);
-        Score score = new Score(scP1,scP2,primaryStage);
+        Score score = new Score(scP1,scP2);
         score.setTranslateX(550);
         score.setTranslateY(-70);
         Game_Timer timer =new Game_Timer(CharacterMenu.time,primaryStage);
@@ -53,10 +57,10 @@ public class GameOverlay extends StackPane {
         CountDown countDown = new CountDown();
         countDown.setTranslateX(550);
         countDown.setTranslateY(300);
-        Schadenanzeige dmgP1 = new Schadenanzeige("P1",300);
+        Schadenanzeige dmgP1 = new Schadenanzeige("P1",100);
         dmgP1.setTranslateX(10);
         dmgP1.setTranslateY(700);
-        Schadenanzeige dmgP2 = new Schadenanzeige("P2",400);
+        Schadenanzeige dmgP2 = new Schadenanzeige("P2",100);
         dmgP2.setTranslateX(1100);
         dmgP2.setTranslateY(700);
 
@@ -77,39 +81,27 @@ public class GameOverlay extends StackPane {
         Timeline timeline2 = new Timeline(new KeyFrame(
                 Duration.millis(10),
                 ae -> {
-                    Score score_n = new Score(scP1,scP2,primaryStage);
+                    Score score_n = new Score(scP1,scP2);
                     score_n.setTranslateX(550);
                     score_n.setTranslateY(-70);
                     getChildren().set(1, score_n);
-                    /*
-                    ComponentList<CharacterStateComponent> characterState = null;
-                    for (Entity entity: Engine.getPlayers()) {
-                        CharacterStateComponent playerKnockback = characterState.getComponent(entity);
-                        double Schaden = playerKnockback.knockback * 100;
-                        if (entity == Engine.getPlayer(1)){
-                            Schadenanzeige dmgP1_n= new Schadenanzeige("P1",Schaden);
-                            dmgP1_n.setTranslateX(10);
-                            dmgP1_n.setTranslateY(700);
-                            getChildren().set(2, dmgP1_n);
+                    var p1Damage = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(Engine.getPlayer(0)).knockback;
+                    var p2Damage = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(Engine.getPlayer(1)).knockback;
 
-                        }else
-                        if (entity == Engine.getPlayer(2)){
-                            Schadenanzeige dmgP2_n= new Schadenanzeige("P2",Schaden);
-                            dmgP2_n.setTranslateX(1100);
-                            dmgP2_n.setTranslateY(700);
-                            getChildren().set(3, dmgP2_n);
-                        }
-                    }
-                     */
+                    Schadenanzeige p1View = new Schadenanzeige("P1",Math.round(p1Damage * 100.0)/100.0);
+                    Schadenanzeige p2View = new Schadenanzeige("P2", Math.round(p2Damage * 100.0)/100.0);
+                    p1View.setTranslateX(10);
+                    p1View.setTranslateY(700);
+                    p2View.setTranslateX(1100);
+                    p2View.setTranslateY(700);
+                    getChildren().set(2,p1View);
+                    getChildren().set(3, p2View);
+
                     if(scP1==CharacterMenu.rounds) {
-                        EndScreen.winner= "P1";
+                        EndScreen.winner= "der Cyber-Kammerjäger";
                         Scene scene=null;
                         try {
-                            try {
-                                Menus.mediaplayer.pauseMusic();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            Menus.mediaplayer.pauseMusic();
                             scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
                             primaryStage.setMaxWidth(Integer.MAX_VALUE);
@@ -119,14 +111,10 @@ public class GameOverlay extends StackPane {
                         primaryStage.setScene(scene);
                     }
                     if(scP2==CharacterMenu.rounds) {
-                        EndScreen.winner= "P2";
+                        EndScreen.winner= "der Exmatrikulator";
                         Scene scene=null;
                         try {
-                            try {
-                                Menus.mediaplayer.pauseMusic();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            Menus.mediaplayer.pauseMusic();
                             scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
                             primaryStage.setMaxWidth(Integer.MAX_VALUE);
@@ -145,7 +133,7 @@ public class GameOverlay extends StackPane {
 }
 
 class  Score extends StackPane {
-    public Score(int p1, int p2, Stage primaryStage) {
+    public Score(int p1, int p2) {
         Text score = new Text(p1+"   :   "+p2);
         score.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 69));
         score.setFill(Color.DARKRED);
@@ -165,21 +153,20 @@ class  Game_Timer extends StackPane {
                 Duration.millis(1000),
                 ae -> {
                     if(t>0) {
-                        timer.getChildren().set(0, new Title2("   " + t + " sek" + "   "));
-                        t--;
+                        if(!Engine.paused) {
+                            timer.getChildren().set(0, new Title2("   " + t + " sek" + "   "));
+                            t--;
+                        }
                     }else {
                         Scene scene=null;
+                        Entity[] playerslost = new Entity[2];
                         try {
-                            try {
-                                Menus.mediaplayer.pauseMusic();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            Menus.mediaplayer.pauseMusic();
                             if(GameOverlay.scP1>GameOverlay.scP2){
-                                EndScreen.winner="P1";
+                                EndScreen.winner="der Cyber-Kammerjäger";
                             }
                             if(GameOverlay.scP1<GameOverlay.scP2){
-                                EndScreen.winner="P2";
+                                EndScreen.winner="der Exmatrikulator";
                             }
                             scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -238,7 +225,7 @@ class CountDown extends StackPane{
 
 
 class  Pause extends StackPane {
-    public Pause(Stage primaryStage) {
+    public Pause() {
         final Circle circle = new Circle(10, 20, 20);
         final Rectangle r1 = new Rectangle(5, 25);
         final Rectangle r2 = new Rectangle(5, 25);
@@ -246,49 +233,44 @@ class  Pause extends StackPane {
         r2.setTranslateX(5);
         circle.setFill(Color.DARKRED);
         circle.setStroke(Color.BLACK);
-        circle.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        circle.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        circle.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        circle.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         circle.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
+            toggleMusic();
         });
-        circle.setOnMouseReleased(event -> {
-            circle.setFill(Color.RED);
-        });
-        r1.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        r1.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        circle.setOnMouseReleased(event -> circle.setFill(Color.RED));
+        r1.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        r1.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
+            toggleMusic();
         });
-        r1.setOnMouseReleased(event -> {
-            circle.setFill(Color.RED);
-        });
-        r2.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        r2.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        r1.setOnMouseReleased(event -> circle.setFill(Color.RED));
+        r2.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        r2.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
+            toggleMusic();
         });
         r2.setOnMouseReleased(event -> {
-            circle.setFill(Color.RED);
+                circle.setFill(Color.RED);
         });
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(circle, r1,r2);
 
+    }
+
+    private void toggleMusic(){
+        if(!Engine.paused){
+            mediaplayer.playMusic();
+        }else{
+            mediaplayer.pauseMusic();
+        }
     }
 }
 //To do music
@@ -302,20 +284,13 @@ class  MiniBack extends StackPane {
         r2.setRotate(315);
         circle.setFill(Color.DARKRED);
         circle.setStroke(Color.BLACK);
-        circle.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        circle.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        circle.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        circle.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         circle.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
-            try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Menus.mediaplayer.pauseMusic();
+
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
                 primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -326,20 +301,13 @@ class  MiniBack extends StackPane {
             CharacterMenu.render = false;
             primaryStage.setScene(scene);
         });
-        r1.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        r1.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        r1.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        r1.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
-            try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Menus.mediaplayer.pauseMusic();
+
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
                 primaryStage.setMaxHeight(Integer.MAX_VALUE);
@@ -349,19 +317,12 @@ class  MiniBack extends StackPane {
             }
             primaryStage.setScene(scene);
         });
-        r2.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        r2.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        r2.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        r2.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
-            try {
-                Menus.mediaplayer.pauseMusic();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Menus.mediaplayer.pauseMusic();
+
             Scene scene = null;
             try {
                 scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
@@ -380,74 +341,58 @@ class  MiniBack extends StackPane {
 }
 class  Sound extends StackPane {
     boolean mute =false;
-    public Sound(Stage primaryStage) {
+    public Sound() {
         final Circle circle = new Circle(10, 20, 20);
         final Text r1 = new Text("S");
         r1.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
         circle.setFill(Color.DARKGREEN);
         circle.setStroke(Color.BLACK);
         circle.setOnMouseEntered(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.RED);
             }else{
                 circle.setFill(Color.GREEN);
             }
         });
         circle.setOnMouseExited(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.DARKRED);
             }else{
                 circle.setFill(Color.DARKGREEN);
             }
         });
         circle.setOnMousePressed(event -> {
-            if(mute==true){
-                mute=false;
-            }else {
-                mute=true;
-            }
+            mute= !mute;
             circle.setFill(Color.YELLOW);
-            if(mute==true){
-                GameOverlay.soundMute = true;
-            }else {
-                GameOverlay.soundMute = false;
-            }
+            GameOverlay.soundMute = mute;
         });
         circle.setOnMouseReleased(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.RED);
             }else{
                 circle.setFill(Color.GREEN);
             }
         });
         r1.setOnMouseEntered(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.RED);
             }else{
                 circle.setFill(Color.GREEN);
             }
         });
         r1.setOnMouseExited(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.DARKRED);
             }else{
                 circle.setFill(Color.DARKGREEN);
             }
         });
         r1.setOnMousePressed(event -> {
-            if(mute==true){
-                mute=false;
-            }else {
-                mute=true;
-            }
-            if(mute==true){
-                GameOverlay.soundMute = true;
-            }else {
-                GameOverlay.soundMute = false;
-            }
+            mute= !mute;
+            GameOverlay.soundMute = mute;
         });
         r1.setOnMouseReleased(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.RED);
             }else{
                 circle.setFill(Color.GREEN);
@@ -461,90 +406,66 @@ class  Sound extends StackPane {
 
 class  Music extends StackPane {
     boolean mute =false;
-    public Music(Stage primaryStage) {
+    public Music() {
         final Circle circle = new Circle(10, 20, 20);
         final Text r1 = new Text("M");
         r1.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
         circle.setFill(Color.DARKGREEN);
         circle.setStroke(Color.BLACK);
         circle.setOnMouseEntered(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.RED);
             }else{
                 circle.setFill(Color.GREEN);
             }
         });
         circle.setOnMouseExited(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.DARKRED);
             }else{
                 circle.setFill(Color.DARKGREEN);
             }
         });
         circle.setOnMousePressed(event -> {
-            if(mute==true){
-                mute=false;
-            }else {
-                mute=true;
-            }
+            mute= !mute;
             circle.setFill(Color.YELLOW);
-            if(mute==true){
-                try {
-                    Menus.mediaplayer.pauseMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            if(mute){
+                Menus.mediaplayer.pauseMusic();
             }else {
-                try {
-                    Menus.mediaplayer.playMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Menus.mediaplayer.playMusic();
             }
         });
         circle.setOnMouseReleased(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.RED);
             }else{
                 circle.setFill(Color.GREEN);
             }
         });
         r1.setOnMouseEntered(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.RED);
             }else{
                 circle.setFill(Color.GREEN);
             }
         });
         r1.setOnMouseExited(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.DARKRED);
             }else{
                 circle.setFill(Color.DARKGREEN);
             }
         });
         r1.setOnMousePressed(event -> {
-            if(mute==true){
-                mute=false;
+            mute= !mute;
+            if(mute){
+                Menus.mediaplayer.pauseMusic();
             }else {
-                mute=true;
-            }
-            if(mute==true){
-                try {
-                    Menus.mediaplayer.pauseMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                try {
-                    Menus.mediaplayer.playMusic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Menus.mediaplayer.playMusic();
             }
         });
         r1.setOnMouseReleased(event -> {
-            if(mute==true) {
+            if(mute) {
                 circle.setFill(Color.RED);
             }else{
                 circle.setFill(Color.GREEN);

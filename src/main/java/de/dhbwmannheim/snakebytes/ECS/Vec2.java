@@ -1,5 +1,8 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS;
+
+/**
+ * Author:  @Jonas Lauschke
+ **/
 
 public class Vec2<T> {
     public T x;

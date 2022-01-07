@@ -1,4 +1,3 @@
-// Author: Jonas Lauschke
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
@@ -10,13 +9,14 @@ import de.dhbwmannheim.snakebytes.ECS.MotionComponent;
 import de.dhbwmannheim.snakebytes.ECS.PositionComponent;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.BitSet;
 
 /**
  * Naively updates all positions according to motion and gravity components
- */
+ * Author: @Jonas Lauschke
+ **/
+
+
 public class MotionSystem extends System {
 
     private final ComponentList<PositionComponent> positionComponents;

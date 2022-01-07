@@ -2,7 +2,9 @@ package de.dhbwmannheim.snakebytes.ECS;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.Component;
 
-//      Author: Jonas Lauschke
+/**
+ * Author:  @Jonas Lauschke
+ **/
 
 /**
  * Gravity will be applied to the motion of an entity to create a parabola.

@@ -1,16 +1,10 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-//by Kai Schwab
-
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
-import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
-import de.dhbwmannheim.snakebytes.JsonHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -27,6 +21,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Author:  @Kai Schwab
+ **/
 
 public class Scoreboard extends VBox {
     static ComponentList<CharacterStateComponent> characterStateComponentComponents;
@@ -70,10 +67,10 @@ public class Scoreboard extends VBox {
         //Header
         HeaderS headerS = new HeaderS(primaryStage);
         headerS.setTranslateX(-400);
-        Button buttonNext = new Button("next page");
+        Button buttonNext = new Button("nächste Seite");
         buttonNext.setTranslateX(80);
         buttonNext.setTranslateY(5);
-        Button buttenPrev = new Button("previous page");
+        Button buttenPrev = new Button("vorherige Seite");
         buttenPrev.setTranslateX(80);
         buttenPrev.setTranslateY(10);
 
