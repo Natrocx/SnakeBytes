@@ -65,8 +65,6 @@ public class KnockoutSystem extends System {
 
         if (finish){
             Engine.finish(playersLost);
-            //save this game to scoreboard
-            Scoreboard.saveScoreboardToJson();
         }else if (reset)
             Engine.reset();
     }

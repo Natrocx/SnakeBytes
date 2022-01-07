@@ -16,10 +16,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.lang.reflect.Array;
-import java.security.Key;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -31,10 +30,6 @@ public class FrameHandler extends StackPane {
 
 
     private Scene scene;
-    private PositionComponent oldPositionP1;
-    private PositionComponent oldPositionP2;
-    private PositionComponent oldPositionATK1;
-    private PositionComponent oldPositionATK2;
 
 
     //Arraylists of needed images are loaded
@@ -162,9 +157,6 @@ public class FrameHandler extends StackPane {
                         checkIfOver(defaultPos, e);
                     }
                 }
-            }
-        }
-
                 scene.setRoot(Menus.root);
                 primaryStage.setScene(scene);
             }
@@ -222,54 +214,55 @@ public class FrameHandler extends StackPane {
     public ArrayList initializeGraphics(String listCase) {
         ArrayList<ImageView> images = new ArrayList<>();
 
-        switch (listCase){
-            case "player1":
+        switch (listCase) {
+            case "player1" -> {
                 ImageView p1left = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/kammerjaeger-left.png")).toString()));
                 ImageView p1right = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/kammerjaeger-right.png")).toString()));
                 ImageView p1atkleft = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/kammerjaeger-atk-left.png")).toString()));
                 ImageView p1atkright = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/kammerjaeger-atk-right.png")).toString()));
                 ImageView p1spcleft = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/kammerjaeger-special-left.png")).toString()));
                 ImageView p1spcright = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/kammerjaeger-special-right.png")).toString()));
-                ImageView[] helpList = new ImageView[] {p1left, p1right, p1atkleft,p1atkright,p1spcleft,p1spcright};
-                images.addAll(List.of(helpList));
+                ImageView p1dmgleft = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/kammerjaeger-dmg-left.png")).toString()));
+                ImageView p1dmgright = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/kammerjaeger-dmg-right.png")).toString()));
 
-                for(ImageView e: images) {
+                ImageView[] helpList = new ImageView[]{p1left, p1right, p1atkleft, p1atkright, p1spcleft, p1spcright, p1dmgleft, p1dmgright};
+                images.addAll(List.of(helpList));
+                for (ImageView e : images) {
 
                     e.setFitHeight(120);
                     e.setFitWidth(45);
                 }
-                break;
-
-            case "player2":
+            }
+            case "player2" -> {
                 ImageView p2left = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/exmatrikulator-left.png")).toString()));
                 ImageView p2right = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/exmatrikulator-right.png")).toString()));
                 ImageView p2atkleft = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/exmatrikulator-atk-left.png")).toString()));
                 ImageView p2atkright = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/exmatrikulator-atk-right.png")).toString()));
                 ImageView p2spcleft = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/exmatrikulator-special-left.png")).toString()));
                 ImageView p2spcright = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/exmatrikulator-special-right.png")).toString()));
-                ImageView[] anotherhelpList = new ImageView[] {p2left,p2right,p2atkleft,p2atkright,p2spcleft,p2spcright};
+                ImageView p2dmgleft = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/exmatrikulator-dmg-left.png")).toString()));
+                ImageView p2dmgright = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/char_models/exmatrikulator-dmg-right.png")).toString()));
+                ImageView[] anotherhelpList = new ImageView[]{p2left, p2right, p2atkleft, p2atkright, p2spcleft, p2spcright, p2dmgleft, p2dmgright};
                 images.addAll(List.of(anotherhelpList));
                 for (ImageView e : images) {
                     e.setFitHeight(120);
                     e.setFitWidth(55);
                 }
-                break;
-
-            case "attackP1":
+            }
+            case "attackP1" -> {
                 ImageView pointeratkleft = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/level_assets/kammerjaeger-spcleft.png")).toString()));
                 ImageView pointeratkright = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/level_assets/kammerjager-spcright.png")).toString()));
-                ImageView[] helpListAtk1 = new ImageView[]{pointeratkleft,pointeratkright};
+                ImageView[] helpListAtk1 = new ImageView[]{pointeratkleft, pointeratkright};
                 images.addAll(List.of(helpListAtk1));
                 for (ImageView e : images) {
                     e.setFitHeight(25);
                     e.setFitWidth(115);
                 }
-                break;
-
-            case "attackP2":
+            }
+            case "attackP2" -> {
                 ImageView bookleft = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/level_assets/exmatrikulator-spcleft.png")).toString()));
                 ImageView bookright = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/level_assets/exmatrikulator-spcright.png")).toString()));
-                ImageView[] helpListAtk2 = new ImageView[]{bookleft,bookright};
+                ImageView[] helpListAtk2 = new ImageView[]{bookleft, bookright};
                 images.addAll(List.of(helpListAtk2));
                 for (ImageView e : images) {
                     e.setFitHeight(70);

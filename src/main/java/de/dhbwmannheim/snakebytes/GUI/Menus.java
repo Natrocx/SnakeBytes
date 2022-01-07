@@ -2,7 +2,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //Code by Kai Schwab
 
-import de.dhbwmannheim.snakebytes.JsonHandler;
+import de.dhbwmannheim.snakebytes.GUI.JsonHandler;
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
@@ -36,10 +36,10 @@ public class Menus extends Application {
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
-        JsonHandler.saveDefaultJson();
+        //at first save the default scoreboard and keySettings json files
         try {
+            JsonHandler.saveDefaultJson();
             JsonHandler.saveScoreboardDefaultJson();
-            Scoreboard.fillDummyDataInScoreboard();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -146,11 +146,6 @@ public class Menus extends Application {
         EndScreen endscreen = new EndScreen(primaryStage);
 
         root.getChildren().addAll(endscreen);
-        try {
-            Scoreboard.saveScoreboardToJson();
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
 
         return root;
     }

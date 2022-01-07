@@ -35,14 +35,14 @@ public class Impressum extends VBox {
 class HeaderI extends HBox {
     public HeaderI(Stage primaryStage) {
 
-        Title2 titleI = new Title2("Impressum und Erklärungen");
+        Title2 titleI = new Title2("Erklärungen");
 
         titleI.setTranslateX(150);
         titleI.setTranslateY(20);
 
         BackS back = new BackS(primaryStage);
 
-        back.setTranslateX(400);
+        back.setTranslateX(500);
         back.setTranslateY(20);
 
         setAlignment(Pos.TOP_CENTER);
@@ -76,7 +76,7 @@ class PyTitle extends StackPane {
 
         Text text = new Text(name);
 
-        text.setFill(Color.YELLOW);
+        text.setFill(Color.BLUE);
         text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
         text.setWrappingWidth(250);
 
@@ -91,7 +91,7 @@ class CTitle extends StackPane {
 
         Text text = new Text(name);
 
-        text.setFill(Color.BLUE);
+        text.setFill(Color.BLACK);
         text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
         text.setWrappingWidth(250);
 
@@ -106,7 +106,7 @@ class PyTextpart extends StackPane {
 
         Text text = new Text(explenation);
 
-        text.setFill(Color.YELLOW);
+        text.setFill(Color.BLUE);
         text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 20));
         text.setWrappingWidth(900);
 
@@ -121,7 +121,7 @@ class CTextpart extends StackPane {
 
         Text text = new Text(explenation);
 
-        text.setFill(Color.BLUE);
+        text.setFill(Color.BLACK);
         text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 20));
         text.setWrappingWidth(900);
 

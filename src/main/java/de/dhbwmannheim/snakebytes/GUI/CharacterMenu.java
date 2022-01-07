@@ -80,7 +80,7 @@ class Title2 extends StackPane {
 
 class SideMenu1 extends VBox {
     public SideMenu1( Stage primaryStage){
-        SideMenuItem left1 = new SideMenuItem("Tunier", primaryStage);
+        SideMenuItem left1 = new SideMenuItem("Turnier", primaryStage);
         SideMenuValueSelect left2 = new SideMenuValueSelect("Punkte",String.valueOf(CharacterMenu.rounds));
         getChildren().addAll(left1,createSeperator(),left2);
 

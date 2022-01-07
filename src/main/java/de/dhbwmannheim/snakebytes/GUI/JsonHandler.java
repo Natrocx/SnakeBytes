@@ -1,6 +1,5 @@
-package de.dhbwmannheim.snakebytes;
+package de.dhbwmannheim.snakebytes.GUI;
 
-//by Robert Sedlmeier and Eric Stefan
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,6 +13,10 @@ import java.util.Hashtable;
 import java.util.Objects;
 
 import org.json.simple.parser.ParseException;
+/**
+ * Author:  @Robert Sedlmeier
+ *          @Eric Stefan
+ **/
 
 public class JsonHandler {
 
@@ -42,7 +45,7 @@ public class JsonHandler {
         file.mkdirs();
     }
 
-    //save the default keySettings json into the working directory if it does not exist
+    //save the default keySettings as keySettings.json into the working directory if it does not exist
     public static void saveDefaultJson(){
         setDirectory();
         File file0 = new File(workingDirectory+"/keySettings.json");
@@ -88,10 +91,6 @@ public class JsonHandler {
 
         //adding the JsonObject scoreboard at the beginning of JsonArray
         arr.add(0,scoreboard);
-
-        File file0 = new File(workingDirectory+"/scoreboard.json");
-        file0.getParentFile().mkdirs();
-        file0.createNewFile();
 
         try (FileWriter file = new FileWriter(workingDirectory+"/scoreboard.json")) {
             file.write(arr.toJSONString());
@@ -181,17 +180,24 @@ public class JsonHandler {
         return playersettings;
     }
 
-    //save an empty scoreboard.json
+    //save an empty scoreboard.json if it does not exist
     public static void saveScoreboardDefaultJson() throws IOException, ParseException {
         setDirectory();
         File file0 = new File(workingDirectory+"/scoreboard.json");
-        file0.createNewFile();
 
-        try (FileWriter file = new FileWriter(workingDirectory+"/scoreboard.json")) {
-            file.write("[]");
-            file.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!file0.exists()) {
+            file0.getParentFile().mkdirs();
+            try {
+                file0.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try (FileWriter file = new FileWriter(workingDirectory + "/scoreboard.json")) {
+                file.write("[]");
+                file.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
