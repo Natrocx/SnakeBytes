@@ -308,19 +308,6 @@ class pauseMenu extends StackPane {
                     MusicManager.toggleMusic();
                 });
 
-        /*MenuItem zurueck = new MenuItem("Zurück zum Hauptmenü",primaryStage);//Knopf Funktionen unter CharakterSelect
-        zurueck.setTranslateX(400);
-        zurueck.setTranslateY(600);
-        zurueck.setOnMousePressed(event -> {
-            try {
-                Scene scene = new Scene(createTitleContent(primaryStage));
-                primaryStage.setScene(scene);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            MusicManager.toggleMusic();
-        });*/
-
 
         getChildren().addAll(title,weiter);
 
