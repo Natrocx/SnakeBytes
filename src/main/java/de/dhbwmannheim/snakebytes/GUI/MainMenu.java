@@ -154,17 +154,6 @@ class MenuItem extends StackPane {
                 }
                 primaryStage.setScene(scene);
             }
-            if (Objects.equals(name,"Zurück")){
-                try {
-                    scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
-                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                primaryStage.setScene(scene);
-
-            }
 
         });
 
