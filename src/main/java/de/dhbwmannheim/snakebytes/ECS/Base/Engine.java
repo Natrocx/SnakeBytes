@@ -275,6 +275,9 @@ public class Engine {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        CharacterMenu.render = false;
+
         for (Entity entity : playersKnockedOut) {
             if (entity == players[0] && finish == Victory.None) {
                 finish = Victory.PlayerOne;
@@ -292,6 +295,8 @@ public class Engine {
     public static void finish() {
         var characterStateComponent1 = ComponentManager.getComponent(players[0], CharacterStateComponent.class);
         var characterStateComponent2 = ComponentManager.getComponent(players[1], CharacterStateComponent.class);
+
+        CharacterMenu.render = false;
 
         var win = characterStateComponent1.lives - characterStateComponent2.lives;
         if (win == 0) {
