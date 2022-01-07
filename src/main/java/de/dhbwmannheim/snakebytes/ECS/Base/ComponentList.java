@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 /**
- * A packed/dense List of Components indexed by Entities
+ * Specialised collection for Components to facilitate the Engines semi-manual memory management
  */
 public class ComponentList<T extends Component> {
 

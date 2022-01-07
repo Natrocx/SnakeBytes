@@ -14,6 +14,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.BitSet;
 
+/**
+ * Naively updates all positions according to motion and gravity components
+ */
 public class MotionSystem extends System {
 
     private final ComponentList<PositionComponent> positionComponents;

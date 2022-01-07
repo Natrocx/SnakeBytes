@@ -6,6 +6,9 @@ import java.util.BitSet;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Implements the ISystem interface as a convenience class for all Systems that can extend a class
+ */
 public abstract class System implements ISystem {
     protected final List<Entity> entities = new ArrayList<>();
     protected HashSet<Entity> entitiesPresent = new HashSet<>();

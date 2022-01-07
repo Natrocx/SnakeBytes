@@ -3,6 +3,11 @@ package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import java.util.BitSet;
 
+/**
+ * Represents a game object.
+ *
+ * Everything in the game that needs to be able to interact with the game/have data needs to have exactly one Entity
+ */
 public class Entity {
     private static int numEntities = 0;
     public final int id;

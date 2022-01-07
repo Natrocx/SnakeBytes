@@ -4,6 +4,9 @@ import de.dhbwmannheim.snakebytes.ECS.Base.Component;
 
 //      Author: Jonas Lauschke
 
+/**
+ * Represents a logical bounding-/hitbox for an Entity (i. e. the size in axis-oriented directions)
+ */
 public class BoundingBoxComponent extends Component {
     public static final int id = 0b1;
 

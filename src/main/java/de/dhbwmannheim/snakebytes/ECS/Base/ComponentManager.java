@@ -7,6 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.BitSet;
 import java.util.HashMap;
 
+/**
+ * Manages Components and their corresponding ComponentLists
+ */
 public class ComponentManager {
 
     @SuppressWarnings("rawtypes") // consistent use of generic Type IDs make checks unnecessary

@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 
 /**
- * This System processes ScreenBorderCollisionComponents of players to determine wins and reset the Engine
+ * This System processes ScreenBorderCollisionComponents of players to determine wins and resets/finishes the Engine
  */
 public class KnockoutSystem extends System {
 
