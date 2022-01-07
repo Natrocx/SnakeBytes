@@ -178,6 +178,9 @@ class  Game_Timer extends StackPane {
                     }
                 }));
         timeline.setCycleCount(t+1);
+        timeline.setOnFinished((_event) -> {
+            Engine.finish();
+        });
         timeline.play();
 
     }

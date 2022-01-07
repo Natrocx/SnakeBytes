@@ -12,9 +12,10 @@ import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 import java.util.BitSet;
 
 /**
+ * Naively updates all positions according to motion and gravity components
  * Author: @Jonas Lauschke
- * This System processes character movement
  **/
+
 
 public class MotionSystem extends System {
 

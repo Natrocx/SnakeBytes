@@ -7,6 +7,8 @@ import java.util.BitSet;
 import java.util.HashMap;
 
 /**
+ * Manages Components and their corresponding ComponentLists
+
  * Author:  @Jonas Lauschke
  **/
 

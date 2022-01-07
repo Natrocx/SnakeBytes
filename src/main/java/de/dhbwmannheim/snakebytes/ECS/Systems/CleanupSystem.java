@@ -10,8 +10,10 @@ import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 import java.util.BitSet;
 
 /**
+ * This class serves to delete objects (currently only attacks) which decay after a certain time.
  * Author:  @Jonas Lauschke
  **/
+
 
 public class CleanupSystem extends System {
 

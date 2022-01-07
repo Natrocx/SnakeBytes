@@ -14,10 +14,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Author:  @Jonas Lauschke
- *          @Kirolis Eskondis
- *          @Thu Giang Tran
- * This class implements the Engine
+ * Authors: @Jonas Lauschke, @Kirolis Eskondis, @Thu Giang Tran
+ * This class implements the shared parts of the Engine and facilitates System execution
  **/
 
 public class Engine {
@@ -270,7 +268,10 @@ public class Engine {
      * @param playersKnockedOut Array of players that lost in the current tick of the engine
      */
     public static void finish(Entity[] playersKnockedOut) {
+        CharacterMenu.render = false;
+
         soundManager.playMatchOver();
+
 
         for (Entity entity : playersKnockedOut) {
             if (entity == players[0] && finish == Victory.None) {
@@ -282,6 +283,26 @@ public class Engine {
             }
         }
     }
+
+    /**
+     * Submit finish request to stop the engine on next iteration (without information on winning/losing players)
+     */
+    public static void finish() {
+        var characterStateComponent1 = ComponentManager.getComponent(players[0], CharacterStateComponent.class);
+        var characterStateComponent2 = ComponentManager.getComponent(players[1], CharacterStateComponent.class);
+
+        CharacterMenu.render = false;
+
+        var win = characterStateComponent1.lives - characterStateComponent2.lives;
+        if (win == 0) {
+            Engine.finish(players);
+        } else if (win > 0) {
+            Engine.finish(new Entity[]{players[0]});
+        } else {
+            Engine.finish(new Entity[]{players[1]});
+        }
+    }
+
 
     public static void togglePause() {
         paused = !paused;
@@ -296,7 +317,7 @@ public class Engine {
                 last = Instant.now();
             } else {
                 Instant now = Instant.now();
-                /* Systems will be executed in order of registration - see setup for further information */
+                /* Systems will be executed in order of registration - see setup function for further information */
                 update((double) Duration.between(last, now).toNanos() / 1_000_000_000);
                 last = now;
             }

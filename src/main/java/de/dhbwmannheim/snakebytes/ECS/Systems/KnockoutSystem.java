@@ -10,8 +10,9 @@ import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
 import java.util.BitSet;
 
 /**
+ * This System processes ScreenBorderCollisionComponents of players to determine wins and resets/finishes the Engine
+
  * Author: @Jonas Lauschke
- * This System processes ScreenBorderCollisionComponents of players to determine wins and reset the Engine
  **/
 
 public class KnockoutSystem extends System {
