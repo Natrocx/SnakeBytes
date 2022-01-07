@@ -24,6 +24,7 @@ public class CharacterStateComponent extends Component {
     public int lookingDirection; //0=left, 1=right
     public int state; //for FrameHandler: 0=left, 1=right, 2=attackLeft, 3=attackRight, 4=specialAttackLeft, 5=specialAttackRight
     public boolean hitState;
+    public int timesHit;
 
     public CharacterStateComponent(int lookingDirection, int state) {
         this.knockback = 1;
@@ -36,6 +37,7 @@ public class CharacterStateComponent extends Component {
         this.lookingDirection = lookingDirection;
         this.state = state;
         this.hitState = false;
+        this.timesHit = 0;
     }
 
     @Override

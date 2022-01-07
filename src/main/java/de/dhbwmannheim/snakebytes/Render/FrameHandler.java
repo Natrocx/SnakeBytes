@@ -4,6 +4,7 @@ import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
+import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
 import de.dhbwmannheim.snakebytes.GUI.Menus;
 import de.dhbwmannheim.snakebytes.GUI.PressKeyWindow;
 import javafx.application.Platform;
@@ -83,7 +84,7 @@ public class FrameHandler extends StackPane {
         //This is needed for a JavaFX Thread
         Platform.runLater(() -> {
 
-            if(!Engine.paused) {
+            if(!Engine.paused && CharacterMenu.render) {
                 //Get Players and their positions, playerstates
                 Entity player1 = Engine.getPlayer(0);
                 Entity player2 = Engine.getPlayer(1);

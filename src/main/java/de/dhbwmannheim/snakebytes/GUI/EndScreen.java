@@ -22,33 +22,36 @@ public class EndScreen extends VBox {
     public static String winner = "P1";
     public EndScreen(Stage primaryStage){
         Title2 title = new Title2("Der Gewinner ist "+winner);
-        title.setTranslateX(300);
+        title.setTranslateX(200);
         title.setTranslateY(250);
 
+        var player1 = Engine.getPlayer(0);
+        var player2 = Engine.getPlayer(1);
         StatsRow kills = new StatsRow("Punkte",String.valueOf(GameOverlay.scP1),String.valueOf(GameOverlay.scP2));
-       // kills.setTranslateX(450);
         kills.setTranslateY(275);
-        var knockback = ComponentManager.getComponentList(CharacterStateComponent.class);
-        var p1knockback = Math.round(knockback.getComponent(Engine.getPlayer(0)).knockback * 100.0) / 100.0;
-        var p2knockback = Math.round(knockback.getComponent(Engine.getPlayer(1)).knockback * 100.0) / 100.0;
+
+        var characterState = ComponentManager.getComponentList(CharacterStateComponent.class);
+        var p1knockback = Math.round(characterState.getComponent(player1).knockback * 100.0) / 100.0;
+        var p2knockback = Math.round(characterState.getComponent(player2).knockback * 100.0) / 100.0;
         StatsRow dmg = new StatsRow("Schadensmultiplikator",String.valueOf(p1knockback),String.valueOf(p2knockback));
-       // dmg.setTranslateX(285);
         dmg.setTranslateY(300);
-        //StatsRow treffer = new StatsRow("Treffer","1","3");
-        //treffer.setTranslateX(450);
-        //treffer.setTranslateY(325);
+
+        var p1Hits = characterState.getComponent(player1).timesHit;
+        var p2Hits = characterState.getComponent(player2).timesHit;
+        StatsRow treffer = new StatsRow("Getroffen",String.valueOf(p1Hits),String.valueOf(p2Hits));
+        treffer.setTranslateY(325);
+
+        var text = new Title2("Starten Sie das Spiel neu, um nochmal zu spielen!");
+        text.setTranslateX(200);
+        text.setTranslateY(350);
 
         try {
             Scoreboard.saveScoreboardToJson();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-        MenuItem weiter = new MenuItem("Zurück",primaryStage);//Knopf Funktionen unter CharakterSelect
-        weiter.setTranslateX(300);
-        weiter.setTranslateY(350);
 
-        //getChildren().addAll(title,kills,dmg,treffer,weiter);
-        getChildren().addAll(title,kills,dmg,weiter);
+        getChildren().addAll(title,kills,dmg,treffer,text);
 
     }
 
