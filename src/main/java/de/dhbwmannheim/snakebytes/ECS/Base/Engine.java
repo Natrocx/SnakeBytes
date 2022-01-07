@@ -2,6 +2,7 @@ package de.dhbwmannheim.snakebytes.ECS.Base;
 
 import de.dhbwmannheim.snakebytes.ECS.*;
 import de.dhbwmannheim.snakebytes.ECS.Systems.*;
+import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
 import de.dhbwmannheim.snakebytes.Sounds.SoundManager;
 import javafx.scene.input.KeyEvent;
 
@@ -270,6 +271,7 @@ public class Engine {
      */
     public static void finish(Entity[] playersKnockedOut) {
         soundManager.playMatchOver();
+        CharacterMenu.render = false;
 
         for (Entity entity : playersKnockedOut) {
             if (entity == players[0] && finish == Victory.None) {
@@ -281,6 +283,26 @@ public class Engine {
             }
         }
     }
+
+    /**
+     * Submit finish request to stop the engine on next iteration (without information on winning/losing players)
+     */
+    public static void finish() {
+        var characterStateComponent1 = ComponentManager.getComponent(players[0], CharacterStateComponent.class);
+        var characterStateComponent2 = ComponentManager.getComponent(players[1], CharacterStateComponent.class);
+
+        CharacterMenu.render = false;
+
+        var win = characterStateComponent1.lives - characterStateComponent2.lives;
+        if (win == 0) {
+            Engine.finish(players);
+        } else if (win > 0) {
+            Engine.finish(new Entity[]{players[0]});
+        } else {
+            Engine.finish(new Entity[]{players[1]});
+        }
+    }
+
 
     public static void togglePause() {
         paused = !paused;
