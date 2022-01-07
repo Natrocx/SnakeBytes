@@ -80,7 +80,7 @@ class Title2 extends StackPane {
 
 class SideMenu1 extends VBox {
     public SideMenu1( Stage primaryStage){
-        SideMenuItem left1 = new SideMenuItem("Tunier", primaryStage);
+        SideMenuItem left1 = new SideMenuItem("Turnier", primaryStage);
         SideMenuValueSelect left2 = new SideMenuValueSelect("Punkte",String.valueOf(CharacterMenu.rounds));
         getChildren().addAll(left1,createSeperator(),left2);
 
@@ -112,13 +112,13 @@ class CharakterSelect extends VBox {
 
 class CharakterSelect1 extends HBox {
     public CharakterSelect1(){
-        Image cha1 = new Image(new File("src/main/resources/char_models/kammerjaeger.png").toURI().toString());
+        Image cha1 = new Image(getClass().getResource("/char_models/kammerjaeger.png").toString());
         ImageView imgC1 = new ImageView(cha1);
         imgC1.setFitWidth(250);
         imgC1.setFitHeight(500);
         Title2 vs = new Title2("    VS    ");
 
-        Image cha2 = new Image(new File("src/main/resources/char_models/exmatrikulator.png").toURI().toString());
+        Image cha2 = new Image(getClass().getResource("/char_models/exmatrikulator.png").toString());
         ImageView imgC2 = new ImageView(cha2);
         imgC2.setFitWidth(250);
         imgC2.setFitHeight(500);

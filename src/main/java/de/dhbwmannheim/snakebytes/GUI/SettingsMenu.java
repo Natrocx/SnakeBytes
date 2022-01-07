@@ -30,17 +30,23 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
  **/
 
 public class SettingsMenu extends StackPane {
+
     public SettingsMenu(Stage primaryStage) {
         // Title
         HeaderP title = new HeaderP(primaryStage);
         title.setTranslateX(400);
         title.setTranslateY(-100);
 
+        //so that the focus is not set on the input field "tes" automatically, since its prompt text should be visible
+        title.setFocusTraversable(true);
+        title.requestFocus();
+
         SettingsTable settings = new SettingsTable(primaryStage);
         Button b = new Button();
         b.setText("Aktualisieren");
         b.setTranslateX(750);
         b.setTranslateY(100);
+        //if the refresh ("Aktualisieren") button is pressed, reload all values
         b.setOnMouseClicked(event->{
             getChildren().clear();
             SettingsTable settings1 = new SettingsTable(primaryStage);
@@ -48,24 +54,21 @@ public class SettingsMenu extends StackPane {
             settings1.setTranslateY(100);
             getChildren().addAll(title, settings1,b);
         });
-
         settings.setTranslateX(50);
         settings.setTranslateY(100);
-
         setAlignment(Pos.CENTER);
-
         getChildren().addAll(title, settings,b);
     }
 }
 
 class HeaderP extends HBox {
     public HeaderP(Stage primaryStage) {
-        Title2 titleI = new Title2("Einstellung");
+        Title2 titleI = new Title2("Einstellungen");
         titleI.setTranslateX(150);
         titleI.setTranslateY(20);
 
         Back back = new Back(primaryStage);
-        back.setTranslateX(600);
+        back.setTranslateX(480);
         back.setTranslateY(20);
 
         setAlignment(Pos.TOP_CENTER);
@@ -81,19 +84,19 @@ class SettingsTable extends StackPane {
     ButtonItem buttonPressedButton;
     String buttonOfPlayer;
     ButtonItem[] focusedButtonItems;
+    static TextField tes;
 
     public SettingsTable(Stage primaryStage) {
-
+        //load the keySettings of each player in the related Hashtable "controlsp1" or "controlsp2"
         try {
             controlsp1 = JsonHandler.fromJson("player1", JsonHandler.KeyOfHashMap.ACTION);
             controlsp2 = JsonHandler.fromJson("player2", JsonHandler.KeyOfHashMap.ACTION);
         } catch (IOException | org.json.simple.parser.ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         // Settings Topics
-        SettingsTopic moveSetTitle = new SettingsTopic("ACTIONS");
+        SettingsTopic moveSetTitle = new SettingsTopic("AKTIONEN");
         moveSetTitle.setTranslateX(215);
         moveSetTitle.setTranslateY(220);
 
@@ -107,11 +110,11 @@ class SettingsTable extends StackPane {
 
         // Settings Elements
         TextBox moveSet = new TextBox(
-                new TextItem("Up"),
-                new TextItem("left"),
-                new TextItem("right"),
-                new TextItem("Attack"),
-                new TextItem("Special Attack"));
+                new TextItem("Springen"),
+                new TextItem("Links"),
+                new TextItem("Rechts"),
+                new TextItem("Attacke"),
+                new TextItem("Spezial-Attacke"));
         moveSet.setTranslateX(100);
         moveSet.setTranslateY(250);
 
@@ -120,42 +123,28 @@ class SettingsTable extends StackPane {
         saveButton.setTranslateX(620);
         saveButton.setTranslateY(0);
 
-
-
+        //create a ButtonItem for player1 with the related values
         ButtonItem b1 = new ButtonItem(controlsp1.get("jump"), primaryStage, "jump");
         ButtonItem b2 = new ButtonItem(controlsp1.get("left"), primaryStage, "left");
         ButtonItem b3 = new ButtonItem(controlsp1.get("right"), primaryStage, "right");
         ButtonItem b4 =  new ButtonItem(controlsp1.get("attack"), primaryStage, "attack");
         ButtonItem b5 = new ButtonItem(controlsp1.get("specialAttack"), primaryStage, "specialAttack");
+
+        //Event Handler to know which button is clicked
         b1.setOnMousePressed(event->{
-            buttonPressed="jump";
-            buttonPressedButton=b1;
-            buttonOfPlayer="player1";
-            setButtonFocus(b1);
+            setButtonValues("jump","player1",b1);
         });
         b2.setOnMousePressed(event->{
-            buttonPressed="left";
-            buttonPressedButton=b2;
-            buttonOfPlayer="player1";
-            setButtonFocus(b2);
+            setButtonValues("left","player1",b2);
         });
         b3.setOnMousePressed(event->{
-            buttonPressed="right";
-            buttonPressedButton=b3;
-            buttonOfPlayer="player1";
-            setButtonFocus(b3);
+            setButtonValues("right","player1",b3);
         });
         b4.setOnMousePressed(event->{
-            buttonPressed="attack";
-            buttonPressedButton=b4;
-            buttonOfPlayer="player1";
-            setButtonFocus(b4);
+            setButtonValues("attack","player1",b4);
         });
         b5.setOnMousePressed(event->{
-            buttonPressed="specialAttack";
-            buttonPressedButton=b5;
-            buttonOfPlayer="player1";
-            setButtonFocus(b5);
+            setButtonValues("specialAttack","player1",b5);
         });
 
         ButtonBox player1Box = new ButtonBox(
@@ -167,40 +156,27 @@ class SettingsTable extends StackPane {
         player1Box.setTranslateX(450);
         player1Box.setTranslateY(250);
 
+        //equivalent to player1 above
         ButtonItem b6 = new ButtonItem(controlsp2.get("jump"), primaryStage, "jump2");
         ButtonItem b7 = new ButtonItem(controlsp2.get("left"), primaryStage, "left2");
         ButtonItem b8 = new ButtonItem(controlsp2.get("right"), primaryStage, "right2");
         ButtonItem b9 =  new ButtonItem(controlsp2.get("attack"), primaryStage, "attack2");
         ButtonItem b10 = new ButtonItem(controlsp2.get("specialAttack"), primaryStage, "specialAttack2");
+
         b6.setOnMousePressed(event->{
-            buttonPressed="jump";
-            buttonPressedButton=b6;
-            buttonOfPlayer="player2";
-            setButtonFocus(b6);
+            setButtonValues("jump","player2",b6);
         });
         b7.setOnMousePressed(event->{
-            buttonPressed="left";
-            buttonPressedButton=b7;
-            buttonOfPlayer="player2";
-            setButtonFocus(b7);
+            setButtonValues("left","player2",b7);
         });
         b8.setOnMousePressed(event->{
-            buttonPressed="right";
-            buttonPressedButton=b8;
-            buttonOfPlayer="player2";
-            setButtonFocus(b8);
+            setButtonValues("right","player2",b8);
         });
         b9.setOnMousePressed(event->{
-            buttonPressed="attack";
-            buttonPressedButton=b9;
-            buttonOfPlayer="player2";
-            setButtonFocus(b9);
+            setButtonValues("attack","player2",b9);
         });
         b10.setOnMousePressed(event->{
-            buttonPressed="specialAttack";
-            buttonPressedButton=b10;
-            buttonOfPlayer="player2";
-            setButtonFocus(b10);
+            setButtonValues("specialAttack","player2",b10);
         });
 
         focusedButtonItems= new ButtonItem[]{b1, b2,b3,b4,b5,b6,b7,b8,b9,b10};
@@ -212,53 +188,58 @@ class SettingsTable extends StackPane {
                 b9, // Attack 1
                 b10); // Attack 2
         player2Box.setTranslateX((840));
-        System.out.println();
         player2Box.setTranslateY(250);
         createSeperator();
 
-        TextField tes = new TextField();
+        tes = new TextField();
         tes.setTranslateX(450);
+        tes.setMaxWidth(260);
+        tes.setPromptText("Gebe eine Taste ein. (z.B.: 'UP', 'RIGHT', 's', 'A')");
+        //on enter save the string (as uppercase) entered into the input field "tes" into the keySettings.json
         tes.setOnAction(actionEvent->{
-            if (buttonOfPlayer=="player1"){
-                controlsp1.put(buttonPressed,tes.getCharacters().toString());
-            }else if(buttonOfPlayer=="player2"){
-                controlsp2.put(buttonPressed,tes.getCharacters().toString());
-            }
-            try {
-                JsonHandler.toJson(controlsp1,controlsp2);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            tes.setText(null);
-            System.out.println(controlsp1);
-            System.out.println(controlsp2);
+            saveInput();
         });
 
+        //on click save the string (as uppercase) entered into the input field "tes" into the keySettings.json
         saveButton.setOnMouseClicked(event->{
-            if (buttonOfPlayer=="player1"){
-                controlsp1.put(buttonPressed,tes.getCharacters().toString());
-            }else if(buttonOfPlayer=="player2"){
-                controlsp2.put(buttonPressed,tes.getCharacters().toString());
-            }
-            try {
-                JsonHandler.toJson(controlsp1,controlsp2);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            tes.setText(null);
-            System.out.println(controlsp1);
-            System.out.println(controlsp2);
+            saveInput();
         });
 
         getChildren().addAll(moveSetTitle, player1Title, player2Title, moveSet, player1Box, player2Box, tes, saveButton);
 
     }
 
+    //save the string (as uppercase) entered into the input field "tes" into the keySettings.json
+    void saveInput(){
+        if (buttonOfPlayer=="player1"){
+            controlsp1.put(buttonPressed,tes.getCharacters().toString().toUpperCase());
+        }else if(buttonOfPlayer=="player2"){
+            controlsp2.put(buttonPressed,tes.getCharacters().toString().toUpperCase());
+        }
+        try {
+            JsonHandler.toJson(controlsp1,controlsp2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //remove the text inside the input field
+        tes.setText(null);
+    }
+
+    //set the button values (which button is clicked) and focus
+    public void setButtonValues(String btn, String player, ButtonItem buttonItem){
+        buttonPressed=btn;
+        buttonPressedButton=buttonItem;
+        buttonOfPlayer=player;
+        setButtonFocus(buttonItem);
+    }
+
+    //setting the current clicked ButtonItem to focused
     public void setButtonFocus(ButtonItem buttonItem){
         for (ButtonItem button:focusedButtonItems) {
             button.setStyle("");
         }
         buttonItem.setStyle("-fx-background-color: #00ff00");
+        tes.requestFocus();
     }
 
     public static HBox createSeperator() {
@@ -347,20 +328,16 @@ class ButtonItem extends StackPane {
         getChildren().addAll(bg, text);
         setOnMouseEntered(event -> {
             bg.setFill(gradient);
-            System.out.println("Test1");
             text.setFill(Color.WHITE);
-
         });
 
         setOnMouseExited(event -> {
             bg.setFill(Color.DARKRED);
-            System.out.println("Test2");
             text.setFill(Color.DARKGREY);
         });
 
         setOnMousePressed(event -> {
             bg.setFill(Color.DARKGOLDENROD);
-
             primaryStage.setMaxHeight(Integer.MAX_VALUE);
             primaryStage.setMaxWidth(Integer.MAX_VALUE);
         });

@@ -29,12 +29,14 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.*;
 /**
  * Author:  @Kai Schwab
  *          @Kirolis Eskondis
+ *          @Eric Stefan
  **/
 
 public class GameOverlay extends StackPane {
     public static boolean soundMute = false;
     public static int scP1 = 0;
     public static int scP2 = 0;
+    static Timeline timeline2;
     public GameOverlay(Stage primaryStage) {
         MiniBack back = new MiniBack(primaryStage);
         back.setTranslateX(-80);
@@ -78,7 +80,7 @@ public class GameOverlay extends StackPane {
         getChildren().add(8,back);
 
         //Update Schleife
-        Timeline timeline2 = new Timeline(new KeyFrame(
+        KeyFrame keyFrame = new KeyFrame(
                 Duration.millis(10),
                 ae -> {
                     Score score_n = new Score(scP1,scP2);
@@ -109,8 +111,8 @@ public class GameOverlay extends StackPane {
                             e.printStackTrace();
                         }
                         primaryStage.setScene(scene);
-                    }
-                    if(scP2==CharacterMenu.rounds) {
+                        timeline2.stop();
+                    } else if(scP2==CharacterMenu.rounds) {
                         EndScreen.winner= "der Exmatrikulator";
                         Scene scene=null;
                         try {
@@ -122,8 +124,10 @@ public class GameOverlay extends StackPane {
                             e.printStackTrace();
                         }
                         primaryStage.setScene(scene);
+                        timeline2.stop();
                     }
-                }));
+                });
+        timeline2 = new Timeline(keyFrame);
         timeline2.setCycleCount(Animation.INDEFINITE);
         timeline2.play();
 

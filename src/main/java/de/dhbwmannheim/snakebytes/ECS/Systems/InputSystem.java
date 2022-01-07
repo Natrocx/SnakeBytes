@@ -127,10 +127,6 @@ public class InputSystem extends System {
             var attackState = new AttackStateComponent(attackStateIndex, entity.id);
 
             Engine.registerEntity(attack);
-            java.lang.System.out.println(attackPosition.value.x);
-            java.lang.System.out.println(attackPosition.value.y);
-            java.lang.System.out.println(playerPosition.x);
-            java.lang.System.out.println(playerPosition.y);
             ComponentManager.addComponent(attack, attackPosition);
             ComponentManager.addComponent(attack, attackBoundingBox);
             ComponentManager.addComponent(attack, attackMotion);
@@ -149,8 +145,7 @@ public class InputSystem extends System {
             }
             //start position of motion
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, spcTemp.y));
-            //defining width and height of the attack hitbox
-            //var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1,0.1), BoundingBoxComponent.BoxType.SpecialAttack);
+            //defining width and height of the attack hitbo
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.075, 0.075), BoundingBoxComponent.BoxType.SpecialAttack);
 
             var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2), 4);
@@ -167,9 +162,7 @@ public class InputSystem extends System {
         }
     }
 
-
-
-    //saving all recent key presses since the last time the following update() function were executed
+    //saving all pressed key, since the last time the update() function were executed
     public void keyPressed(KeyEvent keyEvent) {
         String code = keyEvent.getCode().toString();
         pressedKeys.add(code);
@@ -309,15 +302,11 @@ public class InputSystem extends System {
                 temp = player1KeySettings.get(key);
                 translateKeyInput(temp, entity, deltaTime, i);
             }
-
             if (player2KeySettings.containsKey(key)) {
                 int i = 1;
                 var entity = entities.get(i);
                 temp = player2KeySettings.get(key);
                 translateKeyInput(temp, entity, deltaTime, i);
-
-                //if an action should be executed
-
             }
             //removes the key
             pressedKeys.remove(key);
