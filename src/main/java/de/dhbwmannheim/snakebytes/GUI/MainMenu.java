@@ -20,6 +20,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 
+import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
+
 /**
  * Author:  @Kai Schwab
  **/
@@ -29,12 +31,12 @@ public class MainMenu extends VBox {
         //Titel
         Title title = new Title("S N A K E   B Y T E S");
         title.setTranslateY(100);
-        title.setTranslateX((1350 / 2) - 360);
+        title.setTranslateX((1350.0 / 2.0) - 360);
 
         //Menu mit Schaltflaechen
         MenuBox vbox = new MenuBox(primaryStage);
         vbox.setTranslateY(150);
-        vbox.setTranslateX((1350 / 2) - 350);
+        vbox.setTranslateX((1350.0 / 2.0) - 350);
 
         getChildren().addAll(title, vbox);
 
@@ -107,7 +109,7 @@ class MenuItem extends StackPane {
             text.setFill(Color.DARKGREY);
         });
 
-        //Funktionen bei einbem Knopfdruck auf ein beliebiges Item
+        //Funktionen bei einem Knopfdruck auf ein beliebiges Item
         setOnMousePressed(event -> {
             bg.setFill(Color.DARKGOLDENROD);
             Scene scene = null;

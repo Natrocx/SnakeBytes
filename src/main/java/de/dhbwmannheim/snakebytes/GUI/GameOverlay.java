@@ -2,6 +2,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
+import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -23,8 +24,7 @@ import java.lang.System;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
-import static de.dhbwmannheim.snakebytes.GUI.Menus.mediaplayer;
+import static de.dhbwmannheim.snakebytes.GUI.Menus.*;
 
 /**
  * Author:  @Kai Schwab
@@ -45,7 +45,7 @@ public class GameOverlay extends StackPane {
         Sound sound = new Sound();
         sound.setTranslateX(1050);
         sound.setTranslateY(-70);
-        Pause pause = new Pause();
+        Pause pause = new Pause(primaryStage);
         pause.setTranslateX(1180);
         pause.setTranslateY(-70);
         Score score = new Score(scP1,scP2);
@@ -57,11 +57,11 @@ public class GameOverlay extends StackPane {
         CountDown countDown = new CountDown();
         countDown.setTranslateX(550);
         countDown.setTranslateY(300);
-        Schadenanzeige dmgP1 = new Schadenanzeige("P1",100);
+        Schadenanzeige dmgP1 = new Schadenanzeige("P1","100%");
         dmgP1.setTranslateX(10);
         dmgP1.setTranslateY(700);
-        Schadenanzeige dmgP2 = new Schadenanzeige("P2",100);
-        dmgP2.setTranslateX(1100);
+        Schadenanzeige dmgP2 = new Schadenanzeige("P2","100%");
+        dmgP2.setTranslateX(1080);
         dmgP2.setTranslateY(700);
 
 
@@ -88,11 +88,11 @@ public class GameOverlay extends StackPane {
                     var p1Damage = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(Engine.getPlayer(0)).knockback;
                     var p2Damage = ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(Engine.getPlayer(1)).knockback;
 
-                    Schadenanzeige p1View = new Schadenanzeige("P1",Math.round(p1Damage * 100.0)/100.0);
-                    Schadenanzeige p2View = new Schadenanzeige("P2", Math.round(p2Damage * 100.0)/100.0);
+                    Schadenanzeige p1View = new Schadenanzeige("P1",Math.round(p1Damage * 10000.0)/100.0 + "%");
+                    Schadenanzeige p2View = new Schadenanzeige("P2", Math.round(p2Damage * 10000.0)/100.0 + "%") ;
                     p1View.setTranslateX(10);
                     p1View.setTranslateY(700);
-                    p2View.setTranslateX(1100);
+                    p2View.setTranslateX(1080);
                     p2View.setTranslateY(700);
                     getChildren().set(2,p1View);
                     getChildren().set(3, p2View);
@@ -159,7 +159,6 @@ class  Game_Timer extends StackPane {
                         }
                     }else {
                         Scene scene=null;
-                        Entity[] playerslost = new Entity[2];
                         try {
                             Menus.mediaplayer.pauseMusic();
                             if(GameOverlay.scP1>GameOverlay.scP2){
@@ -225,7 +224,7 @@ class CountDown extends StackPane{
 
 
 class  Pause extends StackPane {
-    public Pause() {
+    public Pause(Stage primaryStage) {
         final Circle circle = new Circle(10, 20, 20);
         final Rectangle r1 = new Rectangle(5, 25);
         final Rectangle r2 = new Rectangle(5, 25);
@@ -238,7 +237,17 @@ class  Pause extends StackPane {
         circle.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
-            toggleMusic();
+            MusicManager.toggleMusic();
+            if(Engine.paused) {
+                try {
+                    Scene scene = new Scene(Menus.createPauseScreenContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    primaryStage.setScene(scene);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         });
         circle.setOnMouseReleased(event -> circle.setFill(Color.RED));
         r1.setOnMouseEntered(event -> circle.setFill(Color.RED));
@@ -246,7 +255,17 @@ class  Pause extends StackPane {
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
-            toggleMusic();
+            MusicManager.toggleMusic();
+            if(Engine.paused) {
+                try {
+                    Scene scene = new Scene(Menus.createPauseScreenContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    primaryStage.setScene(scene);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         });
         r1.setOnMouseReleased(event -> circle.setFill(Color.RED));
         r2.setOnMouseEntered(event -> circle.setFill(Color.RED));
@@ -254,23 +273,44 @@ class  Pause extends StackPane {
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Engine.togglePause();
-            toggleMusic();
+            MusicManager.toggleMusic();
+            if(Engine.paused) {
+                try {
+                    Scene scene = new Scene(Menus.createPauseScreenContent(primaryStage), Color.LIGHTBLUE);
+                    primaryStage.setMaxHeight(Integer.MAX_VALUE);
+                    primaryStage.setMaxWidth(Integer.MAX_VALUE);
+                    primaryStage.setScene(scene);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         });
-        r2.setOnMouseReleased(event -> {
-                circle.setFill(Color.RED);
-        });
+        r2.setOnMouseReleased(event -> circle.setFill(Color.RED));
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(circle, r1,r2);
 
     }
+}
 
-    private void toggleMusic(){
-        if(!Engine.paused){
-            mediaplayer.playMusic();
-        }else{
-            mediaplayer.pauseMusic();
-        }
+class pauseMenu extends StackPane {
+    public pauseMenu(Stage primaryStage) {
+        var title = new Title2("Pause");
+        title.setTranslateX(350);
+        title.setTranslateY(250);
+        MenuItem weiter = new MenuItem("Weiterspielen",primaryStage);//Knopf Funktionen unter CharakterSelect
+        weiter.setTranslateX(350);
+        weiter.setTranslateY(400);
+
+
+        weiter.setOnMousePressed(event -> {
+                    Engine.togglePause();
+                    MusicManager.toggleMusic();
+                });
+
+
+        getChildren().addAll(title,weiter);
+
     }
 }
 //To do music
@@ -477,10 +517,10 @@ class  Music extends StackPane {
     }
 }
 class Schadenanzeige extends HBox {
-    public Schadenanzeige(String player,double Schaden){
+    public Schadenanzeige(String player,String Schaden){
 
-        Title2 p1 = new Title2(player+" : ");
-        Title2 dmg = new Title2(String.valueOf(Schaden));
+        Title2 p1 = new Title2(player+": ");
+        Title2 dmg = new Title2(Schaden);
 
 
         getChildren().addAll(p1,dmg);

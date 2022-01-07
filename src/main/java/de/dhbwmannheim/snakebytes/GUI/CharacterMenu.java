@@ -42,7 +42,7 @@ public class CharacterMenu extends StackPane {
         //title
         Title2 title = new Title2("Wähle deinen Charakter");
         title.setTranslateY(-250);
-        title.setTranslateX((1350 / 2) - 340);
+        title.setTranslateX((1350.0 / 2.0) - 340);
         //Side Menu1
         SideMenu1 sideMenu1 = new SideMenu1(primaryStage);
 

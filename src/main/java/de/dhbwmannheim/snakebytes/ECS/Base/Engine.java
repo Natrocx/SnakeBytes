@@ -83,8 +83,8 @@ public class Engine {
 
     private static void setupPlatforms() {
         var ground = new Entity();
-        var groundPosition = new PositionComponent(new Vec2<>(0.21, 0.01));
-        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.58, 0.305), BoundingBoxComponent.BoxType.Ground);
+        var groundPosition = new PositionComponent(new Vec2<>(0.225, 0.01));
+        var groundBoundingBox = new BoundingBoxComponent(new Vec2<>(0.565, 0.305), BoundingBoxComponent.BoxType.Ground);
 
         var platformLeft = new Entity();
         var platformLeftPosition = new PositionComponent(new Vec2<>(0.28, 0.46));
@@ -271,6 +271,7 @@ public class Engine {
         CharacterMenu.render = false;
 
         soundManager.playMatchOver();
+        CharacterMenu.render = false;
 
 
         for (Entity entity : playersKnockedOut) {

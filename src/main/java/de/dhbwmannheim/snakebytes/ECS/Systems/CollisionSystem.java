@@ -177,6 +177,7 @@ public class CollisionSystem extends System {
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(true));
                 Engine.destroyAttack(e2);
                 ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(e1).hitState = true;
+                ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(e1).timesHit += 1;
                 soundManager.playDamage();
 
                 break;
@@ -184,6 +185,7 @@ public class CollisionSystem extends System {
                 attackCollisionComponents.insertComponent(e1, new AttackCollisionComponent(false));
                 Engine.destroyAttack(e2);
                 ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(e1).hitState = true;
+                ComponentManager.getComponentList(CharacterStateComponent.class).getComponent(e1).timesHit += 1;
                 soundManager.playDamage();
 
                 break;

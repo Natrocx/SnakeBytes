@@ -1,10 +1,13 @@
 package de.dhbwmannheim.snakebytes.Sounds;
 
+import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
+
+import static de.dhbwmannheim.snakebytes.GUI.Menus.mediaplayer;
 
 /**
  * Author:  @Thu Giang Tran
@@ -32,6 +35,14 @@ public class MusicManager {
     public void pauseMusic(){
 
         player.pause();
+    }
+
+    public static void toggleMusic(){
+        if(!Engine.paused){
+            mediaplayer.playMusic();
+        }else{
+            mediaplayer.pauseMusic();
+        }
     }
 
 }
