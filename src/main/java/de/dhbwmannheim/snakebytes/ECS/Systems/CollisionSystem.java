@@ -12,7 +12,8 @@ import java.util.BitSet;
  * Authors: @Jonas Lauschke
  *          @Kirolis Eskondis
  *          @Thu Giang Tran
- * This class handles all collisions in the game
+ * This class handles all collisions in the game as well as movementcorrection for incorrect naive movement produced by
+ * the MotionSystem
  **/
 
 public class CollisionSystem extends System {

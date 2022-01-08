@@ -1,5 +1,9 @@
+
 package de.dhbwmannheim.snakebytes.GUI;
 
+//by Kai Schwab
+
+import de.dhbwmannheim.snakebytes.GUI.JsonHandler;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
@@ -50,6 +54,7 @@ public class EndScreen extends VBox {
         text.setTranslateX(200);
         text.setTranslateY(500);
 
+        //save the current game result to the scoreboard.json
         try {
             Scoreboard.saveScoreboardToJson();
         } catch (IOException | ParseException e) {
@@ -57,6 +62,8 @@ public class EndScreen extends VBox {
         }
 
         getChildren().addAll(title,kills,dmg,treffer,text);
+
+
 
     }
 

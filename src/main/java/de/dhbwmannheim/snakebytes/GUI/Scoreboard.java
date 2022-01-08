@@ -1,9 +1,5 @@
 package de.dhbwmannheim.snakebytes.GUI;
 
-import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
-import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
-import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
-import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -20,125 +16,98 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 /**
  * Author:  @Kai Schwab
+ *          @Eric Stefan
  **/
 
+
 public class Scoreboard extends VBox {
-    static ComponentList<CharacterStateComponent> characterStateComponentComponents;
-    static int scoreboardJsonArrayIndex=0;
+    static int scoreboardIndex=0;
+    static ArrayList<SB_Item> scoreboardList = new ArrayList<>();
 
+    //this function calls the JsonHandler function for saving the current date and game results into the scoreboard.json
     public static void saveScoreboardToJson() throws IOException, ParseException {
-        var player1 = Engine.getPlayer(0);
-        var player2 = Engine.getPlayer(1);
-        characterStateComponentComponents = ComponentManager.getComponentList(CharacterStateComponent .class);
-        var characterStatePlayer1 = characterStateComponentComponents.getComponent(player1);
-        var characterStatePlayer2 = characterStateComponentComponents.getComponent(player2);
-
-        String scorePlayer1 = String.valueOf(characterStatePlayer1.lives);
-        String scorePlayer2 = String.valueOf(characterStatePlayer2.lives);
-
         String currentDate;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate now = LocalDate.now();
         currentDate=formatter.format(now);
-
-        JsonHandler.toScoreboardJson(new String[]{currentDate,scorePlayer1,scorePlayer2});
-    }
-
-    public static void fillDummyDataInScoreboard() throws IOException, ParseException {
-        JsonHandler.toScoreboardJson(new String[]{"12.12.2021","3","0"});
-        JsonHandler.toScoreboardJson(new String[]{"13.12.2021","0","3"});
-        JsonHandler.toScoreboardJson(new String[]{"14.12.2021","0","0"});
+        JsonHandler.toScoreboardJson(new String[]{currentDate,String.valueOf(GameOverlay.scP1),String.valueOf(GameOverlay.scP2)});
     }
 
     public Scoreboard(Stage primaryStage) throws IOException, ParseException {
         JSONArray jsonArray;
         jsonArray = JsonHandler.fromScoreboardJson();
-
-        JSONObject scoreboard1 = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
-        scoreboardJsonArrayIndex++;
-        JSONObject scoreboard2 = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
-        scoreboardJsonArrayIndex++;
-        JSONObject scoreboard3 = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
-        scoreboardJsonArrayIndex++;
+        scoreboardIndex=0;
+        scoreboardList.clear();
+        //iterate over each JSONObject out of the scoreboard.json and create a SB_Item out of each, whereby all SB_Items are saved into the scoreboardList
+        for (int i=0;i<jsonArray.size();i++) {
+            JSONObject scoreboardElement = (org.json.simple.JSONObject) (jsonArray.get(i));
+            SB_Item item = new SB_Item(scoreboardElement.get("date").toString(), scoreboardElement.get("scoreP1").toString(), scoreboardElement.get("scoreP2").toString());
+            item.setStyle("-fx-border-width: 5px");
+            item.setStyle("-fx-border-color: DARKRED");
+            item.setTranslateX(75);
+            scoreboardList.add(item);
+        }
 
         //Header
         HeaderS headerS = new HeaderS(primaryStage);
         headerS.setTranslateX(-400);
-        Button buttonNext = new Button("nächste Seite");
+        Button buttonNext = new Button("Nächste Seite");
         buttonNext.setTranslateX(80);
         buttonNext.setTranslateY(5);
-        Button buttenPrev = new Button("vorherige Seite");
+        Button buttenPrev = new Button("Vorherige Seite");
         buttenPrev.setTranslateX(80);
         buttenPrev.setTranslateY(10);
 
-
-        //Items
-        SB_Item item1 = new SB_Item(scoreboard1.get("date").toString(), scoreboard1.get("scoreP1").toString(), scoreboard1.get("scoreP2").toString());
-        item1.setStyle("-fx-border-width: 5px");
-        item1.setStyle("-fx-border-color: DARKRED");
-        item1.setTranslateX(75);
-        SB_Item item2 = new SB_Item(scoreboard2.get("date").toString(), scoreboard2.get("scoreP1").toString(), scoreboard2.get("scoreP2").toString());
-        item2.setStyle("-fx-border-width: 5px");
-        item2.setStyle("-fx-border-color: DARKRED");
-        item2.setTranslateX(75);
-        SB_Item item3 = new SB_Item(scoreboard3.get("date").toString(), scoreboard3.get("scoreP1").toString(), scoreboard3.get("scoreP2").toString());
-        item3.setStyle("-fx-border-width: 5px");
-        item3.setStyle("-fx-border-color: DARKRED");
-        item3.setTranslateX(75);
-
+        //since only the next three SB_Items should be shown, the scoreboardIndex is added by three
+        //and all new needed items are loaded
         buttonNext.setOnMouseClicked(mouseEvent -> {
+            if (scoreboardIndex+3<scoreboardList.size()){
+                scoreboardIndex=scoreboardIndex+3;
                 getChildren().clear();
-                JSONObject scoreboard1_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
-                scoreboardJsonArrayIndex++;
-                JSONObject scoreboard2_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
-                scoreboardJsonArrayIndex++;
-                JSONObject scoreboard3_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
-                scoreboardJsonArrayIndex++;
-
-                SB_Item item1_temp = new SB_Item(scoreboard1_temp.get("date").toString(), scoreboard1_temp.get("scoreP1").toString(), scoreboard1_temp.get("scoreP2").toString());
-                item1_temp.setStyle("-fx-border-width: 5px");
-                item1_temp.setStyle("-fx-border-color: DARKRED");
-                item1_temp.setTranslateX(75);
-                SB_Item item2_temp = new SB_Item(scoreboard2_temp.get("date").toString(), scoreboard2_temp.get("scoreP1").toString(), scoreboard2_temp.get("scoreP2").toString());
-                item2_temp.setStyle("-fx-border-width: 5px");
-                item2_temp.setStyle("-fx-border-color: DARKRED");
-                item2_temp.setTranslateX(75);
-                SB_Item item3_temp = new SB_Item(scoreboard3_temp.get("date").toString(), scoreboard3_temp.get("scoreP1").toString(), scoreboard3_temp.get("scoreP2").toString());
-                item3_temp.setStyle("-fx-border-width: 5px");
-                item3_temp.setStyle("-fx-border-color: DARKRED");
-                item3_temp.setTranslateX(75);
-                getChildren().addAll(headerS, createSeperator(), item1_temp, item2_temp, item3_temp, buttonNext, buttenPrev);
-
+                getChildren().addAll(headerS, createSeperator());
+                showScoreboardItems();
+                getChildren().addAll(buttonNext, buttenPrev);
+            }
         });
+        //since only the previous three SB_Items should be shown, the scoreboardIndex is subtracted by three
+        //and all new needed items are loaded
         buttenPrev.setOnMouseClicked(mouseEvent -> {
-            getChildren().clear();
-            JSONObject scoreboard1_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
-            scoreboardJsonArrayIndex--;
-            JSONObject scoreboard2_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
-            scoreboardJsonArrayIndex--;
-            JSONObject scoreboard3_temp = (org.json.simple.JSONObject) (jsonArray.get(scoreboardJsonArrayIndex));
-            scoreboardJsonArrayIndex--;
-
-            SB_Item item1_temp = new SB_Item(scoreboard1_temp.get("date").toString(), scoreboard1_temp.get("scoreP1").toString(), scoreboard1_temp.get("scoreP2").toString());
-            item1_temp.setStyle("-fx-border-width: 5px");
-            item1_temp.setStyle("-fx-border-color: DARKRED");
-            item1_temp.setTranslateX(75);
-            SB_Item item2_temp = new SB_Item(scoreboard2_temp.get("date").toString(), scoreboard2_temp.get("scoreP1").toString(), scoreboard2_temp.get("scoreP2").toString());
-            item2_temp.setStyle("-fx-border-width: 5px");
-            item2_temp.setStyle("-fx-border-color: DARKRED");
-            item2_temp.setTranslateX(75);
-            SB_Item item3_temp = new SB_Item(scoreboard3_temp.get("date").toString(), scoreboard3_temp.get("scoreP1").toString(), scoreboard3_temp.get("scoreP2").toString());
-            item3_temp.setStyle("-fx-border-width: 5px");
-            item3_temp.setStyle("-fx-border-color: DARKRED");
-            item3_temp.setTranslateX(75);
-            getChildren().addAll(headerS, createSeperator(), item1_temp, item2_temp, item3_temp, buttonNext, buttenPrev);
+            if (scoreboardIndex-3>=0){
+                scoreboardIndex=scoreboardIndex-3;
+                getChildren().clear();
+                getChildren().addAll(headerS, createSeperator());
+                showScoreboardItems();
+                getChildren().addAll(buttonNext, buttenPrev);
+            }
         });
 
-        getChildren().addAll(headerS, createSeperator(), item1, item2, item3, buttonNext, buttenPrev);
+        //needed so that the heading stays at its place
+        if (scoreboardIndex==scoreboardList.size()){
+            headerS.setTranslateX(0);
+        }
+        getChildren().addAll(headerS, createSeperator());
+        showScoreboardItems();
+        getChildren().addAll(buttonNext, buttenPrev);
+    }
 
+    //loads 0 until 3 scoreboard items, depending on the amount of items in the scoreboardList
+    private void showScoreboardItems(){
+        if (scoreboardIndex+3<=scoreboardList.size()){
+            getChildren().addAll(scoreboardList.get(scoreboardIndex),scoreboardList.get(scoreboardIndex+1),scoreboardList.get(scoreboardIndex+2));
+        }else if(scoreboardIndex+2<=scoreboardList.size()){
+            getChildren().addAll(scoreboardList.get(scoreboardIndex),scoreboardList.get(scoreboardIndex+1));
+        }else if(scoreboardIndex+1<=scoreboardList.size()){
+            getChildren().addAll(scoreboardList.get(scoreboardIndex));
+        }else{
+            Text text = new Text("Keine Einträge vorhanden.");
+            text.setStyle(" -fx-fill: RED; -fx-font-size: 20pt");
+            text.setTranslateX(500);
+            getChildren().add(text);
+        }
     }
 
     private HBox createSeperator() {
@@ -166,10 +135,10 @@ class HeaderS extends HBox {
 
 class SB_Item extends HBox {
     public SB_Item(String date, String score_P1, String score_P2) {
-        Text p1 = new Text("  Player 1   :");
+        Text p1 = new Text("  Cyber-Kammerjäger   :");
         p1.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
         p1.setFill(Color.DARKRED);
-        Text p2 = new Text(":   Player 2  ");
+        Text p2 = new Text(":   Der Exmatrikulator  ");
         p2.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 25));
         p2.setFill(Color.DARKRED);
         Text s_p1 = new Text(score_P1);
@@ -187,7 +156,7 @@ class SB_Item extends HBox {
 
     private HBox createSeperator() {
         HBox sep = new HBox();
-        sep.setPrefSize(200, 150);
+        sep.setPrefSize(140, 150);
         return sep;
     }
 

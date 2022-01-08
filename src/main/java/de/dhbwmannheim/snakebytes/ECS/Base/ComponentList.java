@@ -6,10 +6,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 /**
+ * Specialised collection for Components to facilitate the Engines semi-manual memory management
+ *
  * Author:  @Jonas Lauschke
  **/
 
-// A packed/dense List of Components indexed by Entities
 
 public class ComponentList<T extends Component> {
 

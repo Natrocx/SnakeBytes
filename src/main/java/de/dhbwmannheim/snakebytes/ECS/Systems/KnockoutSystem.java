@@ -6,12 +6,16 @@ import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
 import de.dhbwmannheim.snakebytes.ECS.ScreenBorderCollisionComponent;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
+import de.dhbwmannheim.snakebytes.GUI.Scoreboard;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.util.BitSet;
 
 /**
+ * This System processes ScreenBorderCollisionComponents of players to determine wins and resets/finishes the Engine
+
  * Author: @Jonas Lauschke
- * This System processes ScreenBorderCollisionComponents of players to determine wins and reset the Engine
  **/
 
 public class KnockoutSystem extends System {
@@ -30,7 +34,7 @@ public class KnockoutSystem extends System {
     }
 
     @Override
-    public void update(double deltaTime) {
+    public void update(double deltaTime) throws IOException, ParseException {
         Entity[] playersLost = new Entity[2];
         int lossCount = 0;
         boolean finish = false;
@@ -59,9 +63,9 @@ public class KnockoutSystem extends System {
             screenBorderCollisionComponents.removeComponent(entity);
         }
 
-        if (finish)
+        if (finish){
             Engine.finish(playersLost);
-        else if (reset)
+        }else if (reset)
             Engine.reset();
     }
 
