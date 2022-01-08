@@ -137,13 +137,13 @@ public class Menus extends Application {
         Menus.root.getChildren().add(1,gov);
 
     }
-    static Parent createEndScreenContent(Stage primaryStage) throws FileNotFoundException {
+    static Parent createEndScreenContent() throws FileNotFoundException {
 
         Pane root = new Pane();
 
         root.setPrefSize(1350, 900);
 
-        EndScreen endscreen = new EndScreen(primaryStage);
+        EndScreen endscreen = new EndScreen();
 
         root.getChildren().addAll(endscreen);
 

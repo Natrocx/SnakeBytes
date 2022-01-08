@@ -20,8 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 
-import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
-
 /**
  * Author:  @Kai Schwab
  **/

@@ -312,7 +312,7 @@ class SideMenuValueChanger  extends HBox {
         l.setOnMouseExited(event -> l.setFill(Color.DARKRED));
         l.setOnMousePressed(event -> {
             l.setFill(Color.YELLOW);
-            int v= 0;
+            int v;
             if(Objects.equals(name, "Punkte")){
                 v=CharacterMenu.rounds;
                 if(v>1){
@@ -334,7 +334,7 @@ class SideMenuValueChanger  extends HBox {
         h.setOnMouseExited(event -> h.setFill(Color.DARKRED));
         h.setOnMousePressed(event -> {
             h.setFill(Color.YELLOW);
-            int v= 0;
+            int v;
             if(Objects.equals(name, "Punkte")){
                 v=CharacterMenu.rounds;
                 if(v<99){

@@ -24,8 +24,6 @@ import java.lang.System;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static de.dhbwmannheim.snakebytes.GUI.Menus.*;
-
 /**
  * Author:  @Kai Schwab
  *          @Kirolis Eskondis
@@ -38,9 +36,6 @@ public class GameOverlay extends StackPane {
     public static int scP2 = 0;
     static Timeline timeline2;
     public GameOverlay(Stage primaryStage) {
-        MiniBack back = new MiniBack(primaryStage);
-        back.setTranslateX(-80);
-        back.setTranslateY(-70);
         Music music = new Music();
         music.setTranslateX(900);
         music.setTranslateY(-70);
@@ -77,7 +72,6 @@ public class GameOverlay extends StackPane {
         getChildren().add(5,music);
         getChildren().add(6,sound);
         getChildren().add(7,pause);
-        getChildren().add(8,back);
 
         //Update Schleife
         KeyFrame keyFrame = new KeyFrame(
@@ -104,7 +98,7 @@ public class GameOverlay extends StackPane {
                         Scene scene=null;
                         try {
                             Menus.mediaplayer.pauseMusic();
-                            scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
+                            scene = new Scene(Menus.createEndScreenContent(), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
                             primaryStage.setMaxWidth(Integer.MAX_VALUE);
                         } catch (FileNotFoundException e) {
@@ -117,7 +111,7 @@ public class GameOverlay extends StackPane {
                         Scene scene=null;
                         try {
                             Menus.mediaplayer.pauseMusic();
-                            scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
+                            scene = new Scene(Menus.createEndScreenContent(), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
                             primaryStage.setMaxWidth(Integer.MAX_VALUE);
                         } catch (FileNotFoundException e) {
@@ -171,7 +165,7 @@ class  Game_Timer extends StackPane {
                             if(GameOverlay.scP1<GameOverlay.scP2){
                                 EndScreen.winner="der Exmatrikulator";
                             }
-                            scene = new Scene(Menus.createEndScreenContent(primaryStage), Color.LIGHTBLUE);
+                            scene = new Scene(Menus.createEndScreenContent(), Color.LIGHTBLUE);
                             primaryStage.setMaxHeight(Integer.MAX_VALUE);
                             primaryStage.setMaxWidth(Integer.MAX_VALUE);
                         } catch (FileNotFoundException e) {
@@ -181,9 +175,7 @@ class  Game_Timer extends StackPane {
                     }
                 }));
         timeline.setCycleCount(t+1);
-        timeline.setOnFinished((_event) -> {
-            Engine.finish();
-        });
+        timeline.setOnFinished((_event) -> Engine.finish());
         timeline.play();
 
     }
@@ -317,72 +309,7 @@ class pauseMenu extends StackPane {
 
     }
 }
-//To do music
-//Todo Music Stop beim backen
-class  MiniBack extends StackPane {
-    public MiniBack(Stage primaryStage) {
-        final Circle circle = new Circle(10, 20, 20);
-        final Rectangle r1 = new Rectangle(5, 25);
-        final Rectangle r2 = new Rectangle(5, 25);
-        r1.setRotate(45);
-        r2.setRotate(315);
-        circle.setFill(Color.DARKRED);
-        circle.setStroke(Color.BLACK);
-        circle.setOnMouseEntered(event -> circle.setFill(Color.RED));
-        circle.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
-        circle.setOnMousePressed(event -> {
-            circle.setFill(Color.YELLOW);
-            Scene scene = null;
-            Menus.mediaplayer.pauseMusic();
 
-            try {
-                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
-                primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            CharacterMenu.render = false;
-            primaryStage.setScene(scene);
-        });
-        r1.setOnMouseEntered(event -> circle.setFill(Color.RED));
-        r1.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
-        r1.setOnMousePressed(event -> {
-            circle.setFill(Color.YELLOW);
-            Scene scene = null;
-            Menus.mediaplayer.pauseMusic();
-
-            try {
-                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
-                primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            primaryStage.setScene(scene);
-        });
-        r2.setOnMouseEntered(event -> circle.setFill(Color.RED));
-        r2.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
-        r2.setOnMousePressed(event -> {
-            circle.setFill(Color.YELLOW);
-            Menus.mediaplayer.pauseMusic();
-
-            Scene scene = null;
-            try {
-                scene = new Scene(createTitleContent(primaryStage), Color.LIGHTBLUE);
-                primaryStage.setMaxHeight(Integer.MAX_VALUE);
-                primaryStage.setMaxWidth(Integer.MAX_VALUE);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            primaryStage.setScene(scene);
-        });
-
-        setAlignment(Pos.CENTER);
-        getChildren().addAll(circle, r1,r2);
-
-    }
-}
 class  Sound extends StackPane {
     boolean mute =false;
     public Sound() {

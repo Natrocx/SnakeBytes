@@ -7,7 +7,6 @@ import de.dhbwmannheim.snakebytes.GUI.JsonHandler;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -26,7 +25,7 @@ import java.io.IOException;
 public class EndScreen extends VBox {
     public static String winner = "Nobody" +
             "";
-    public EndScreen(Stage primaryStage){
+    public EndScreen(){
         Title2 title = new Title2("Der Gewinner ist "+winner);
         title.setTranslateX(200);
         title.setTranslateY(100);
