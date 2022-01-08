@@ -3,10 +3,8 @@ package de.dhbwmannheim.snakebytes.Sounds;
 import de.dhbwmannheim.snakebytes.GUI.GameOverlay;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 
-import java.io.File;
-import java.net.URL;
+import java.util.Objects;
 
 /**
  * Author:  @Kirolis Eskondis
@@ -17,31 +15,29 @@ import java.net.URL;
 
 public class SoundManager {
 
-    private MediaPlayer playerJump;
-    private MediaPlayer playerPunch;
-    private MediaPlayer playerSpAttack1;
-    private MediaPlayer playerSpAttack2;
-    private MediaPlayer playerDamage;
-    private MediaPlayer playerKO;
-    private MediaPlayer playerMatchOver;
-
-    private Media sound = new Media(getClass().getResource("/sounds/jump.mp3").toString());
-    private Media sound2 = new Media(getClass().getResource("/sounds/punch.mp3").toString());
-    private Media sound3 = new Media(getClass().getResource("/sounds/spAttack1.mp3").toString());
-    private Media sound4 = new Media(getClass().getResource("/sounds/spAttack2.mp3").toString());
-    private Media sound5 = new Media(getClass().getResource("/sounds/damage.mp3").toString());
-    private Media sound6 = new Media(getClass().getResource("/sounds/KO.mp3").toString());
-    private Media sound7 = new Media(getClass().getResource("/sounds/matchover.wav").toString());
-
+    private final MediaPlayer playerJump;
+    private final MediaPlayer playerPunch;
+    private final MediaPlayer playerSpAttack1;
+    private final MediaPlayer playerSpAttack2;
+    private final MediaPlayer playerDamage;
+    private final MediaPlayer playerKO;
+    private final MediaPlayer playerMatchOver;
 
 
     public SoundManager() {
+        Media sound = new Media(Objects.requireNonNull(getClass().getResource("/sounds/jump.mp3")).toString());
         this.playerJump = new MediaPlayer(sound);
+        Media sound2 = new Media(Objects.requireNonNull(getClass().getResource("/sounds/punch.mp3")).toString());
         this.playerPunch = new MediaPlayer(sound2);
+        Media sound3 = new Media(Objects.requireNonNull(getClass().getResource("/sounds/spAttack1.mp3")).toString());
         this.playerSpAttack1 = new MediaPlayer(sound3);
+        Media sound4 = new Media(Objects.requireNonNull(getClass().getResource("/sounds/spAttack2.mp3")).toString());
         this.playerSpAttack2 = new MediaPlayer(sound4);
+        Media sound5 = new Media(Objects.requireNonNull(getClass().getResource("/sounds/damage.mp3")).toString());
         this.playerDamage = new MediaPlayer(sound5);
+        Media sound6 = new Media(Objects.requireNonNull(getClass().getResource("/sounds/KO.mp3")).toString());
         this.playerKO = new MediaPlayer(sound6);
+        Media sound7 = new Media(Objects.requireNonNull(getClass().getResource("/sounds/matchover.wav")).toString());
         this.playerMatchOver = new MediaPlayer(sound7);
 
     }

@@ -5,12 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.*;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Hashtable;
-import java.util.Objects;
 
 import org.json.simple.parser.ParseException;
 /**

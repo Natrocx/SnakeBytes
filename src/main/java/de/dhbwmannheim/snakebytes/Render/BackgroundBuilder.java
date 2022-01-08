@@ -4,7 +4,8 @@ import javafx.geometry.Side;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import java.io.File;
+
+import java.util.Objects;
 
 /**
  * Author: @Kirolis Eskondis
@@ -18,7 +19,7 @@ public class                                                                    
 
     public BackgroundBuilder() {
         //set Background image
-        Background bckgrnd = new Background(new BackgroundImage(new Image(getClass().getResource("/level_assets/background.png").toString()),
+        Background bckgrnd = new Background(new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResource("/level_assets/background.png")).toString()),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
                 new BackgroundPosition(Side.LEFT, 0, true, Side.BOTTOM, 0, true),
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)));
@@ -27,8 +28,8 @@ public class                                                                    
         setBackground(bckgrnd);
 
         //set platform images as well as their positions and size
-        Image floor = new Image(getClass().getResource("/level_assets/Floor.png").toString());
-        Image step = new Image(getClass().getResource("/level_assets/Steps.png").toString());
+        Image floor = new Image(Objects.requireNonNull(getClass().getResource("/level_assets/Floor.png")).toString());
+        Image step = new Image(Objects.requireNonNull(getClass().getResource("/level_assets/Steps.png")).toString());
 
 
         ImageView floorIMG = new ImageView(floor);

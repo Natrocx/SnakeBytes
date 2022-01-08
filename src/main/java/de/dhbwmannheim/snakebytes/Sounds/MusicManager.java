@@ -12,8 +12,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.net.URL;
+
+import java.util.Objects;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.mediaplayer;
 
@@ -27,11 +27,10 @@ import static de.dhbwmannheim.snakebytes.GUI.Menus.mediaplayer;
 public class MusicManager {
 
     //declaration has to be before a methods --> prevent garbage collector to cancel playback
-    private MediaPlayer player;
-    private Media sound;
+    private final MediaPlayer player;
 
     public MusicManager() {
-        Media sound = new Media(getClass().getResource("/music/SnakeBytes_GameMusic.mp3").toString());
+        Media sound = new Media(Objects.requireNonNull(getClass().getResource("/music/SnakeBytes_GameMusic.mp3")).toString());
         this.player = new MediaPlayer(sound);
     }
 

@@ -3,7 +3,6 @@ package de.dhbwmannheim.snakebytes.GUI;
 
 //by Kai Schwab
 
-import de.dhbwmannheim.snakebytes.GUI.JsonHandler;
 import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
 import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.CharacterStateComponent;
@@ -13,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
