@@ -69,7 +69,7 @@ public class FrameHandler extends StackPane {
         scene = new Scene(Menus.root);
         //Makes it possible for key inputs to be used on the screen and records them
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
-            System.out.println("pressed key + " + KeyEvent.toString());
+            //System.out.println("pressed key + " + KeyEvent.toString());
             PressKeyWindow.Key = KeyEvent.getCode().toString();
             if (keyPressCallback != null) {
                 keyPressCallback.accept(KeyEvent);
