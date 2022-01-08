@@ -6,7 +6,6 @@ import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
 import de.dhbwmannheim.snakebytes.ECS.Base.Entity;
 import de.dhbwmannheim.snakebytes.GUI.CharacterMenu;
 import de.dhbwmannheim.snakebytes.GUI.Menus;
-import de.dhbwmannheim.snakebytes.GUI.PressKeyWindow;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -70,7 +69,6 @@ public class FrameHandler extends StackPane {
         //Makes it possible for key inputs to be used on the screen and records them
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent) -> {
             //System.out.println("pressed key + " + KeyEvent.toString());
-            PressKeyWindow.Key = KeyEvent.getCode().toString();
             if (keyPressCallback != null) {
                 keyPressCallback.accept(KeyEvent);
             }

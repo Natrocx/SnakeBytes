@@ -47,7 +47,7 @@ public class SettingsMenu extends StackPane {
         b.setText("Aktualisieren");
         b.setTranslateX(750);
         b.setTranslateY(100);
-        //if the refresh ("Aktualisieren") button is pressed, reload all values
+        //if the refresh ("Aktualisieren") button is pressed, reload all cildren respectively values
         b.setOnMouseClicked(event->{
             getChildren().clear();
             SettingsTable settings1 = new SettingsTable(primaryStage);
@@ -124,7 +124,7 @@ class SettingsTable extends StackPane {
         saveButton.setTranslateX(620);
         saveButton.setTranslateY(0);
 
-        //create a ButtonItem for player1 with the related values
+        //create ButtonItems for player1 with the related values
         ButtonItem b1 = new ButtonItem(controlsp1.get("jump"), primaryStage);
         ButtonItem b2 = new ButtonItem(controlsp1.get("left"), primaryStage);
         ButtonItem b3 = new ButtonItem(controlsp1.get("right"), primaryStage);
@@ -198,11 +198,11 @@ class SettingsTable extends StackPane {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //remove the text inside the input field
+        //after saving, remove the text inside the input field
         tes.setText(null);
     }
 
-    //set the button values (which button is clicked) and focus
+    //set the button values (which button is clicked) and set focus
     public void setButtonValues(String btn, String player, ButtonItem buttonItem){
         buttonPressed=btn;
         buttonPressedButton=buttonItem;
