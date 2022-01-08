@@ -37,9 +37,7 @@ public class InputSystem extends System {
     static {
         try {
             player1KeySettings = new Hashtable<>(JsonHandler.fromJson("player1", JsonHandler.KeyOfHashMap.KEYBOARD_KEY));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
@@ -47,9 +45,7 @@ public class InputSystem extends System {
     static {
         try {
             player2KeySettings = new Hashtable<>(JsonHandler.fromJson("player2", JsonHandler.KeyOfHashMap.KEYBOARD_KEY));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
@@ -110,11 +106,10 @@ public class InputSystem extends System {
             ComponentManager.addComponent(attack, attackState);
 
         } else if (attackType == 1) {
-            Double helpX = 0.0;
+            double helpX = 0.0;
             if (direction == 0) {
                 temp.x = playerPosition.x -  0.1;
                 helpX = -0.2;
-                attackStateIndex = 0;
             } else if (direction == 1) {
                 helpX = 0.2;
                 attackStateIndex = 1;
@@ -134,7 +129,7 @@ public class InputSystem extends System {
             Engine.attackList.add(attack);
 
         } else if (attackType == 2) {
-            Double hilf = 0.0;
+            double hilf;
             if (direction == 0) {
                 temp.x = playerPosition.x - 0.075;
                 hilf = -0.4;
@@ -168,7 +163,7 @@ public class InputSystem extends System {
         pressedKeys.add(code);
     }
 
-    public void translateKeyInput(String temp, Entity entity, double deltaTime, int i) throws Exception {
+    public void translateKeyInput(String temp, Entity entity, double deltaTime, int i) {
 
         MotionComponent motionComponent = motion.getComponent(entity);
         CharacterStateComponent characterStateComponent = characterState.getComponent(entity);
@@ -198,6 +193,7 @@ public class InputSystem extends System {
         }
 
         if (!temp.equals("")) {
+            assert characterStateComponent != null;
             characterStateComponent.specialAttacking = false;
             characterStateComponent.attacking = false;
             if (characterStateComponent.state == 2 || characterStateComponent.state == 4) {
@@ -225,11 +221,11 @@ public class InputSystem extends System {
                     break;
                 case "jump":
                     //if no double jump is active
-                    if (multiJump(characterStateComponent.jumping) == false) {
+                    if (!multiJump(characterStateComponent.jumping)) {
                         motionComponent.velocity.y = 0.15; //jump
                         soundManager.playJumpSound();
                         //since the player jumps this has to be saved in the boolean Array jumping[]
-                        if (characterStateComponent.jumping[0] != true) {
+                        if (!characterStateComponent.jumping[0]) {
                             characterStateComponent.jumping[0] = true;
                         } else {
                             characterStateComponent.jumping[1] = true;
@@ -243,6 +239,7 @@ public class InputSystem extends System {
                         characterStateComponent.attackCooldown = 1.0;
                         motionComponent.velocity.x = 0.0;
                         soundManager.playPunchSound();
+                        //Attack in direction the character is looking
                         if (characterStateComponent.lookingDirection == 0) {
                             setupAttack(0, 0, pos, width, height, entity);
                             characterStateComponent.state = 2;
@@ -258,22 +255,24 @@ public class InputSystem extends System {
                     if (characterStateComponent.specialAttackCooldown == 0) {
                         characterStateComponent.specialAttacking = true;
                         characterStateComponent.specialAttackCooldown = 5.0;
+                        //if character looking to the left, setup attacks flying to the left depending on which character uses attack
                         if (characterStateComponent.lookingDirection == 0) {
                             if(entity == entities.get(0)) {
                                 setupAttack(1, 0, pos, width, height, entity);
-                                characterStateComponent.state = 4;
                             } else {
                                 setupAttack(2, 0, pos, width, height, entity);
-                                characterStateComponent.state = 4;
                             }
+                            //spc attack looking left Image
+                            characterStateComponent.state = 4;
                         } else {
+                            //If character looking to the right
                             if (entity == entities.get(0)) {
                                 setupAttack(1, 1, pos, width, height, entity);
-                                characterStateComponent.state = 5;
                             } else {
                                 setupAttack(2, 1, pos, width, height, entity);
-                                characterStateComponent.state = 5;
                             }
+                            //spc Attack looking right Image
+                            characterStateComponent.state = 5;
                         }
 
                         if (i == 0) {
@@ -294,7 +293,7 @@ public class InputSystem extends System {
         for (int j = 0; j < pressedKeys.size(); j++) {
             var key = pressedKeys.get(j);
 
-            String temp = "";
+            String temp;
             //if the key has an action for player1 or player2, this action gets saved into String "temp"
             if (player1KeySettings.containsKey(key)) {
                 int i = 0;
@@ -322,9 +321,6 @@ public class InputSystem extends System {
 
     //if true is returned the player is currently multi-jumping (respectively double jumping)
     private boolean multiJump(boolean[] array) {
-        if (array[0] && array[1]) {
-            return true;
-        }
-        return false;
+        return array[0] && array[1];
     }
 }

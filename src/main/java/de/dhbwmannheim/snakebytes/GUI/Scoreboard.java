@@ -43,8 +43,8 @@ public class Scoreboard extends VBox {
         scoreboardIndex=0;
         scoreboardList.clear();
         //iterate over each JSONObject out of the scoreboard.json and create a SB_Item out of each, whereby all SB_Items are saved into the scoreboardList
-        for (int i=0;i<jsonArray.size();i++) {
-            JSONObject scoreboardElement = (org.json.simple.JSONObject) (jsonArray.get(i));
+        for (Object o : jsonArray) {
+            JSONObject scoreboardElement = (JSONObject) o;
             SB_Item item = new SB_Item(scoreboardElement.get("date").toString(), scoreboardElement.get("scoreP1").toString(), scoreboardElement.get("scoreP2").toString());
             item.setStyle("-fx-border-width: 5px");
             item.setStyle("-fx-border-color: DARKRED");

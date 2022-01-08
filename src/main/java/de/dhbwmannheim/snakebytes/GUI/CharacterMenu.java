@@ -22,7 +22,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Objects;
 
@@ -112,13 +111,13 @@ class CharakterSelect extends VBox {
 
 class CharakterSelect1 extends HBox {
     public CharakterSelect1(){
-        Image cha1 = new Image(getClass().getResource("/char_models/kammerjaeger.png").toString());
+        Image cha1 = new Image(Objects.requireNonNull(getClass().getResource("/char_models/kammerjaeger.png")).toString());
         ImageView imgC1 = new ImageView(cha1);
         imgC1.setFitWidth(250);
         imgC1.setFitHeight(500);
         Title2 vs = new Title2("    VS    ");
 
-        Image cha2 = new Image(getClass().getResource("/char_models/exmatrikulator.png").toString());
+        Image cha2 = new Image(Objects.requireNonNull(getClass().getResource("/char_models/exmatrikulator.png")).toString());
         ImageView imgC2 = new ImageView(cha2);
         imgC2.setFitWidth(250);
         imgC2.setFitHeight(500);
@@ -312,7 +311,7 @@ class SideMenuValueChanger  extends HBox {
         l.setOnMouseExited(event -> l.setFill(Color.DARKRED));
         l.setOnMousePressed(event -> {
             l.setFill(Color.YELLOW);
-            int v= 0;
+            int v;
             if(Objects.equals(name, "Punkte")){
                 v=CharacterMenu.rounds;
                 if(v>1){
@@ -334,7 +333,7 @@ class SideMenuValueChanger  extends HBox {
         h.setOnMouseExited(event -> h.setFill(Color.DARKRED));
         h.setOnMousePressed(event -> {
             h.setFill(Color.YELLOW);
-            int v= 0;
+            int v;
             if(Objects.equals(name, "Punkte")){
                 v=CharacterMenu.rounds;
                 if(v<99){

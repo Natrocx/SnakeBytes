@@ -1,9 +1,7 @@
 package de.dhbwmannheim.snakebytes.ECS.Systems;
 
 import de.dhbwmannheim.snakebytes.ECS.AttackStateComponent;
-import de.dhbwmannheim.snakebytes.ECS.Base.ComponentList;
-import de.dhbwmannheim.snakebytes.ECS.Base.ComponentManager;
-import de.dhbwmannheim.snakebytes.ECS.Base.Engine;
+import de.dhbwmannheim.snakebytes.ECS.Base.*;
 import de.dhbwmannheim.snakebytes.ECS.Base.System;
 import de.dhbwmannheim.snakebytes.ECS.util.ConversionUtils;
 
@@ -20,9 +18,7 @@ public class CleanupSystem extends System {
     private final ComponentList<AttackStateComponent> attackStateComponents;
     @Override
     public void update(double deltaTime) throws Exception {
-        for (int i = 0; i < entities.size(); i++ ) {
-            var entity = entities.get(i);
-
+        for (Entity entity : entities) {
             var attackStateComponent = attackStateComponents.getComponent(entity);
             attackStateComponent.TTL -= deltaTime;
             if (attackStateComponent.TTL < 0) {

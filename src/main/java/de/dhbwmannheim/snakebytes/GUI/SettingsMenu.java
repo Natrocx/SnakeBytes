@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.Objects;
 
 import static de.dhbwmannheim.snakebytes.GUI.Menus.createTitleContent;
 
@@ -124,28 +125,18 @@ class SettingsTable extends StackPane {
         saveButton.setTranslateY(0);
 
         //create a ButtonItem for player1 with the related values
-        ButtonItem b1 = new ButtonItem(controlsp1.get("jump"), primaryStage, "jump");
-        ButtonItem b2 = new ButtonItem(controlsp1.get("left"), primaryStage, "left");
-        ButtonItem b3 = new ButtonItem(controlsp1.get("right"), primaryStage, "right");
-        ButtonItem b4 =  new ButtonItem(controlsp1.get("attack"), primaryStage, "attack");
-        ButtonItem b5 = new ButtonItem(controlsp1.get("specialAttack"), primaryStage, "specialAttack");
+        ButtonItem b1 = new ButtonItem(controlsp1.get("jump"), primaryStage);
+        ButtonItem b2 = new ButtonItem(controlsp1.get("left"), primaryStage);
+        ButtonItem b3 = new ButtonItem(controlsp1.get("right"), primaryStage);
+        ButtonItem b4 =  new ButtonItem(controlsp1.get("attack"), primaryStage);
+        ButtonItem b5 = new ButtonItem(controlsp1.get("specialAttack"), primaryStage);
 
         //Event Handler to know which button is clicked
-        b1.setOnMousePressed(event->{
-            setButtonValues("jump","player1",b1);
-        });
-        b2.setOnMousePressed(event->{
-            setButtonValues("left","player1",b2);
-        });
-        b3.setOnMousePressed(event->{
-            setButtonValues("right","player1",b3);
-        });
-        b4.setOnMousePressed(event->{
-            setButtonValues("attack","player1",b4);
-        });
-        b5.setOnMousePressed(event->{
-            setButtonValues("specialAttack","player1",b5);
-        });
+        b1.setOnMousePressed(event-> setButtonValues("jump","player1",b1));
+        b2.setOnMousePressed(event-> setButtonValues("left","player1",b2));
+        b3.setOnMousePressed(event-> setButtonValues("right","player1",b3));
+        b4.setOnMousePressed(event-> setButtonValues("attack","player1",b4));
+        b5.setOnMousePressed(event-> setButtonValues("specialAttack","player1",b5));
 
         ButtonBox player1Box = new ButtonBox(
                 b1, // up
@@ -157,27 +148,17 @@ class SettingsTable extends StackPane {
         player1Box.setTranslateY(250);
 
         //equivalent to player1 above
-        ButtonItem b6 = new ButtonItem(controlsp2.get("jump"), primaryStage, "jump2");
-        ButtonItem b7 = new ButtonItem(controlsp2.get("left"), primaryStage, "left2");
-        ButtonItem b8 = new ButtonItem(controlsp2.get("right"), primaryStage, "right2");
-        ButtonItem b9 =  new ButtonItem(controlsp2.get("attack"), primaryStage, "attack2");
-        ButtonItem b10 = new ButtonItem(controlsp2.get("specialAttack"), primaryStage, "specialAttack2");
+        ButtonItem b6 = new ButtonItem(controlsp2.get("jump"), primaryStage);
+        ButtonItem b7 = new ButtonItem(controlsp2.get("left"), primaryStage);
+        ButtonItem b8 = new ButtonItem(controlsp2.get("right"), primaryStage);
+        ButtonItem b9 =  new ButtonItem(controlsp2.get("attack"), primaryStage);
+        ButtonItem b10 = new ButtonItem(controlsp2.get("specialAttack"), primaryStage);
 
-        b6.setOnMousePressed(event->{
-            setButtonValues("jump","player2",b6);
-        });
-        b7.setOnMousePressed(event->{
-            setButtonValues("left","player2",b7);
-        });
-        b8.setOnMousePressed(event->{
-            setButtonValues("right","player2",b8);
-        });
-        b9.setOnMousePressed(event->{
-            setButtonValues("attack","player2",b9);
-        });
-        b10.setOnMousePressed(event->{
-            setButtonValues("specialAttack","player2",b10);
-        });
+        b6.setOnMousePressed(event-> setButtonValues("jump","player2",b6));
+        b7.setOnMousePressed(event-> setButtonValues("left","player2",b7));
+        b8.setOnMousePressed(event-> setButtonValues("right","player2",b8));
+        b9.setOnMousePressed(event-> setButtonValues("attack","player2",b9));
+        b10.setOnMousePressed(event-> setButtonValues("specialAttack","player2",b10));
 
         focusedButtonItems= new ButtonItem[]{b1, b2,b3,b4,b5,b6,b7,b8,b9,b10};
 
@@ -196,14 +177,10 @@ class SettingsTable extends StackPane {
         tes.setMaxWidth(260);
         tes.setPromptText("Gebe eine Taste ein. (z.B.: 'UP', 'RIGHT', 's', 'A')");
         //on enter save the string (as uppercase) entered into the input field "tes" into the keySettings.json
-        tes.setOnAction(actionEvent->{
-            saveInput();
-        });
+        tes.setOnAction(actionEvent-> saveInput());
 
         //on click save the string (as uppercase) entered into the input field "tes" into the keySettings.json
-        saveButton.setOnMouseClicked(event->{
-            saveInput();
-        });
+        saveButton.setOnMouseClicked(event-> saveInput());
 
         getChildren().addAll(moveSetTitle, player1Title, player2Title, moveSet, player1Box, player2Box, tes, saveButton);
 
@@ -211,9 +188,9 @@ class SettingsTable extends StackPane {
 
     //save the string (as uppercase) entered into the input field "tes" into the keySettings.json
     void saveInput(){
-        if (buttonOfPlayer=="player1"){
+        if (Objects.equals(buttonOfPlayer, "player1")){
             controlsp1.put(buttonPressed,tes.getCharacters().toString().toUpperCase());
-        }else if(buttonOfPlayer=="player2"){
+        }else if(Objects.equals(buttonOfPlayer, "player2")){
             controlsp2.put(buttonPressed,tes.getCharacters().toString().toUpperCase());
         }
         try {
@@ -278,9 +255,6 @@ class TextBox extends VBox {
 
 class TextItem extends StackPane {
     public TextItem(String name) {
-        LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop[] {
-
-        });
 
         Rectangle bg = new Rectangle(200, 50);
         bg.setFill(Color.DARKRED);
@@ -308,13 +282,11 @@ class ButtonBox extends VBox {
 
 class ButtonItem extends StackPane {
 
-    public ButtonItem(String name, Stage primaryStage, String id) {
-        LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop[] {
-                new Stop(0, Color.YELLOW),
+    public ButtonItem(String name, Stage primaryStage) {
+        LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop(0, Color.YELLOW),
                 new Stop(0.1, Color.RED),
                 new Stop(0.9, Color.RED),
-                new Stop(1, Color.DARKBLUE)
-        });
+                new Stop(1, Color.DARKBLUE));
 
         Rectangle bg = new Rectangle(200, 50);
         bg.setFill(Color.DARKRED);
@@ -342,9 +314,7 @@ class ButtonItem extends StackPane {
             primaryStage.setMaxWidth(Integer.MAX_VALUE);
         });
 
-        setOnMouseReleased(event -> {
-            bg.setFill(gradient);
-        });
+        setOnMouseReleased(event -> bg.setFill(gradient));
     }
 }
 
@@ -357,12 +327,8 @@ class BackS extends StackPane {
         r2.setRotate(315);
         circle.setFill(Color.DARKRED);
         circle.setStroke(Color.BLACK);
-        circle.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        circle.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        circle.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        circle.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         circle.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
@@ -376,12 +342,8 @@ class BackS extends StackPane {
             }
             primaryStage.setScene(scene);
         });
-        r1.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        r1.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        r1.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        r1.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         r1.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
@@ -395,12 +357,8 @@ class BackS extends StackPane {
             }
             primaryStage.setScene(scene);
         });
-        r2.setOnMouseEntered(event -> {
-            circle.setFill(Color.RED);
-        });
-        r2.setOnMouseExited(event -> {
-            circle.setFill(Color.DARKRED);
-        });
+        r2.setOnMouseEntered(event -> circle.setFill(Color.RED));
+        r2.setOnMouseExited(event -> circle.setFill(Color.DARKRED));
         r2.setOnMousePressed(event -> {
             circle.setFill(Color.YELLOW);
             Scene scene = null;
