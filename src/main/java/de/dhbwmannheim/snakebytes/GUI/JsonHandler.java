@@ -73,7 +73,7 @@ public class JsonHandler {
     }
 
     //add the String values (date, scoreP1, scoreP2) to the scoreboard.json
-    public static JSONArray toScoreboardJson(String[] stringArray) throws IOException, ParseException {
+    public static void toScoreboardJson(String[] stringArray) throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();
         FileReader reader = new FileReader(workingDirectory+"/scoreboard.json");
         Object obj = jsonParser.parse(reader);
@@ -93,7 +93,6 @@ public class JsonHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return arr;
     }
 
     //read the scoreboard.json and return a JSONArray

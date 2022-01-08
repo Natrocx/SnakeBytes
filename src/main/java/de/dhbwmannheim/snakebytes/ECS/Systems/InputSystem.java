@@ -162,7 +162,7 @@ public class InputSystem extends System {
     }
 
     //translate the key value "temp" for its player entity to an action
-    public void translateKeyInput(String temp, Entity entity, double deltaTime, int i) {
+    public void translateKeyInput(String temp, Entity entity, int i) {
 
         MotionComponent motionComponent = motion.getComponent(entity);
         CharacterStateComponent characterStateComponent = characterState.getComponent(entity);
@@ -196,8 +196,8 @@ public class InputSystem extends System {
             characterStateComponent.specialAttacking = false;
             characterStateComponent.attacking = false;
 
-            Double width = boundingBoxComponent.size.x;
-            Double height = boundingBoxComponent.size.y;
+            double width = boundingBoxComponent.size.x;
+            double height = boundingBoxComponent.size.y;
             Vec2<Double> pos = positionComponent.value;
 
             //if the character attacked in a direction in his former move, he now just looks into this direction
@@ -304,13 +304,13 @@ public class InputSystem extends System {
                 int i = 0;
                 var entity = entities.get(i);
                 temp = player1KeySettings.get(key);
-                translateKeyInput(temp, entity, deltaTime, i);
+                translateKeyInput(temp, entity, i);
             }
             if (player2KeySettings.containsKey(key)) {
                 int i = 1;
                 var entity = entities.get(i);
                 temp = player2KeySettings.get(key);
-                translateKeyInput(temp, entity, deltaTime, i);
+                translateKeyInput(temp, entity, i);
             }
             //removes the key
             pressedKeys.remove(key);
