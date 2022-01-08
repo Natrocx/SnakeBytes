@@ -18,7 +18,9 @@ public class CleanupSystem extends System {
     private final ComponentList<AttackStateComponent> attackStateComponents;
     @Override
     public void update(double deltaTime) throws Exception {
-        for (Entity entity : entities) {
+        for (int i = 0; i < entities.size(); i++ ) {
+            var entity = entities.get(i);
+
             var attackStateComponent = attackStateComponents.getComponent(entity);
             attackStateComponent.TTL -= deltaTime;
             if (attackStateComponent.TTL < 0) {
