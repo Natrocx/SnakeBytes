@@ -5,6 +5,7 @@ package de.dhbwmannheim.snakebytes.GUI;
 import de.dhbwmannheim.snakebytes.Render.BackgroundBuilder;
 import de.dhbwmannheim.snakebytes.Sounds.MusicManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
@@ -53,6 +54,12 @@ public class Menus extends Application {
 
         primaryStage.setScene(MainMenu);
         primaryStage.show();
+
+        //so that the process is finished sufficiently
+        primaryStage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
     //Main Menu
