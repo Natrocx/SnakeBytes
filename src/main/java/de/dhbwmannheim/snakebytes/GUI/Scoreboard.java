@@ -85,7 +85,7 @@ public class Scoreboard extends VBox {
             }
         });
 
-        //needed so that the heading stays at its place
+        //needed so that the heading stays at its place when there are no scoreboard items
         if (scoreboardIndex==scoreboardList.size()){
             headerS.setTranslateX(0);
         }
@@ -94,7 +94,7 @@ public class Scoreboard extends VBox {
         getChildren().addAll(buttonNext, buttenPrev);
     }
 
-    //loads 0 until 3 scoreboard items, depending on the amount of items in the scoreboardList
+    //loads 0 until 3 scoreboard items, depending on the amount of items in the scoreboardList after the scoreboardIndex-item
     private void showScoreboardItems(){
         if (scoreboardIndex+3<=scoreboardList.size()){
             getChildren().addAll(scoreboardList.get(scoreboardIndex),scoreboardList.get(scoreboardIndex+1),scoreboardList.get(scoreboardIndex+2));

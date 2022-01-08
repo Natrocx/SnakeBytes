@@ -51,7 +51,7 @@ public class EndScreen extends VBox {
         text.setTranslateX(200);
         text.setTranslateY(500);
 
-        //save the current game result to the scoreboard.json
+        //add the current game result to the scoreboard.json
         try {
             Scoreboard.saveScoreboardToJson();
         } catch (IOException | ParseException e) {

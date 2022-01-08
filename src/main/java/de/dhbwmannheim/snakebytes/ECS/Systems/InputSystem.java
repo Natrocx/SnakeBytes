@@ -29,11 +29,10 @@ import java.io.IOException;
 
 public class InputSystem extends System {
 
-    //Saving the KeySettings of player 1 into a HashTable, so that: <keyboard key as String, connected action as String>
     static Hashtable<String, String> player1KeySettings;
-    //Saving the KeySettings of player 2 into a HashTable, so that: <keyboard key as String, connected action as String>
     static Hashtable<String, String> player2KeySettings;
 
+    //Saving the KeySettings of player 1 into a HashTable, so that: <keyboard key as String, connected action as String>
     static {
         try {
             player1KeySettings = new Hashtable<>(JsonHandler.fromJson("player1", JsonHandler.KeyOfHashMap.KEYBOARD_KEY));
@@ -41,7 +40,7 @@ public class InputSystem extends System {
             e.printStackTrace();
         }
     }
-
+    //Saving the KeySettings of player 2 into a HashTable, so that: <keyboard key as String, connected action as String>
     static {
         try {
             player2KeySettings = new Hashtable<>(JsonHandler.fromJson("player2", JsonHandler.KeyOfHashMap.KEYBOARD_KEY));
@@ -73,9 +72,11 @@ public class InputSystem extends System {
 
     }
 
-    //create Attack Entitys
-    //param attackType (0->normal, 1->special attack 1, 2->special attack 2)
-    //to remember: the coordinate system begins from the bottom left, as well as each position in PositionComponent
+    //create attack entitys and register them in the Engine
+    //attackType parameter: (0->normal attack, 1->special attack player1, 2->special attack player12)
+    //direction parameter: (0 -> left, 1 -> right) as the standing direction of the player
+    //to remember: the coordinate system begins from the bottom left, as well as each position in PositionComponent,
+    //so that the start point of an attack entity when looking to the right have to be added by the hitbox width of the player
     private static void setupAttack(int attackType, int direction, Vec2<Double> playerPosition, Double boundingBoxX, Double boundingBoxY, Entity entity) {
 
         Vec2<Double> temp = new Vec2<>();
@@ -114,7 +115,6 @@ public class InputSystem extends System {
                 helpX = 0.2;
                 attackStateIndex = 1;
             }
-            //start position of motion
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, spcTemp.y));
             //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.1, 0.05), BoundingBoxComponent.BoxType.SpecialAttack);
@@ -138,11 +138,9 @@ public class InputSystem extends System {
                 hilf = 0.4;
                 attackStateIndex = 3;
             }
-            //start position of motion
             var attackPosition = new PositionComponent(new Vec2<>(temp.x, spcTemp.y));
-            //defining width and height of the attack hitbo
+            //defining width and height of the attack hitbox
             var attackBoundingBox = new BoundingBoxComponent(new Vec2<>(0.075, 0.075), BoundingBoxComponent.BoxType.SpecialAttack);
-
             var attackMotion = new MotionComponent(new Vec2<>(hilf, 0.2), 4);
             var attackGravity = new GravityComponent(1.0);
             var attackState = new AttackStateComponent(attackStateIndex);
@@ -157,12 +155,13 @@ public class InputSystem extends System {
         }
     }
 
-    //saving all pressed key, since the last time the update() function were executed
+    //saving all pressed keys, since the last time the update() function were executed
     public void keyPressed(KeyEvent keyEvent) {
         String code = keyEvent.getCode().toString();
         pressedKeys.add(code);
     }
 
+    //translate the key value "temp" for its player entity to an action
     public void translateKeyInput(String temp, Entity entity, double deltaTime, int i) {
 
         MotionComponent motionComponent = motion.getComponent(entity);
@@ -170,7 +169,7 @@ public class InputSystem extends System {
         BoundingBoxComponent boundingBoxComponent = boundingBox.getComponent(entity);
         PositionComponent positionComponent = position.getComponent(entity);
 
-        //reduce attack cooldowns and reset hitstate
+        //reduce attack and special attack cooldowns and reset hit-state
         if (characterStateComponent != null) {
             if (characterStateComponent.attackCooldown > 0) {
                 double val = characterStateComponent.attackCooldown;
@@ -189,23 +188,26 @@ public class InputSystem extends System {
                 characterStateComponent.specialAttackCooldown = val;
             }
             characterStateComponent.hitState = false;
-
         }
 
+        //(to remember: state values: 0=left, 1=right, 2=attackLeft, 3=attackRight, 4=specialAttackLeft, 5=specialAttackRight)
         if (!temp.equals("")) {
             assert characterStateComponent != null;
             characterStateComponent.specialAttacking = false;
             characterStateComponent.attacking = false;
-            if (characterStateComponent.state == 2 || characterStateComponent.state == 4) {
-                characterStateComponent.state = 0;
-            }
-            if (characterStateComponent.state == 3 || characterStateComponent.state == 5) {
-                characterStateComponent.state = 1;
-            }
+
             Double width = boundingBoxComponent.size.x;
             Double height = boundingBoxComponent.size.y;
             Vec2<Double> pos = positionComponent.value;
-            //mapping the action which should be executed towards the pressed key
+
+            //if the character attacked in a direction in his former move, he now just looks into this direction
+            if (characterStateComponent.state == 2 || characterStateComponent.state == 4) {
+                characterStateComponent.state = 0;
+            }else if (characterStateComponent.state == 3 || characterStateComponent.state == 5) {
+                characterStateComponent.state = 1;
+            }
+
+            //mapping the action which should be executed towards the pressed key and change component values where needed
             switch (temp) {
                 case "right":
                     motionComponent.velocity.x = 0.05;
@@ -233,7 +235,7 @@ public class InputSystem extends System {
                     }
                     break;
                 case "attack":
-                    //if there is no attack cooldown -> attack and set attackCooldown
+                    //if there is no attack cooldown -> attack and set "attackCooldown"
                     if (characterStateComponent.attackCooldown == 0) {
                         characterStateComponent.attacking = true;
                         characterStateComponent.attackCooldown = 1.0;
@@ -251,7 +253,7 @@ public class InputSystem extends System {
                     }
                     break;
                 case "specialAttack":
-                    //if there is no special attack cooldown -> attack and set attackCooldown
+                    //if there is no special attack cooldown -> attack and set "specialAttackCooldown"
                     if (characterStateComponent.specialAttackCooldown == 0) {
                         characterStateComponent.specialAttacking = true;
                         characterStateComponent.specialAttackCooldown = 5.0;
@@ -275,6 +277,7 @@ public class InputSystem extends System {
                             characterStateComponent.state = 5;
                         }
 
+                        //play the specific special attack sound of the player
                         if (i == 0) {
                             soundManager.playSpAttack1();
                         } else {
@@ -292,9 +295,11 @@ public class InputSystem extends System {
         //iterate over all pressed keys, that did not were processed (since pressedKeys only contains not processed keys)
         for (int j = 0; j < pressedKeys.size(); j++) {
             var key = pressedKeys.get(j);
-
             String temp;
-            //if the key has an action for player1 or player2, this action gets saved into String "temp"
+
+            //if the key has an action for player1 or player2, this action gets saved into the String "temp"
+            //and the related player entity of the pressed key (player1 entity (with index 0) or the player2 entity (with index 1))
+            //is saved in Entity "entity" and "translateKeyInput()" is called to process the action related to the key-press
             if (player1KeySettings.containsKey(key)) {
                 int i = 0;
                 var entity = entities.get(i);
@@ -319,7 +324,7 @@ public class InputSystem extends System {
         return signature;
     }
 
-    //if true is returned the player is currently multi-jumping (respectively double jumping)
+    //true is returned, when the player is currently multi-jumping (respectively double jumping)
     private boolean multiJump(boolean[] array) {
         return array[0] && array[1];
     }
