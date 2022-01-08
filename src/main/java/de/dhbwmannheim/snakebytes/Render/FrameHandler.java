@@ -166,13 +166,15 @@ public class FrameHandler extends StackPane {
     //This function is to prevent visual bugs e.g. the special attack being rendered even though it should've already disappeared
     private void checkIfOver(PositionComponent defaultPos, Entity e) {
         var attackMotion = ComponentManager.getComponentList(MotionComponent.class).getComponent(e);
-        if (attackMotion.timeToDecay == 0 || attackMotion.velocity.x == 0) {
-            ImageView defaultAtk1 = spcAttacksP1.get(0);
-            ImageView defaultAtk2 = spcAttacksP2.get(0);
-            replace(defaultAtk1, 4, defaultPos);
-            replace(defaultAtk2, 5, defaultPos);
-        } else {
-            attackEntityRender(e);
+        if(attackMotion != null) {
+            if (attackMotion.timeToDecay == 0 || attackMotion.velocity.x == 0) {
+                ImageView defaultAtk1 = spcAttacksP1.get(0);
+                ImageView defaultAtk2 = spcAttacksP2.get(0);
+                replace(defaultAtk1, 4, defaultPos);
+                replace(defaultAtk2, 5, defaultPos);
+            } else {
+                attackEntityRender(e);
+            }
         }
     }
 
